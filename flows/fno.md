@@ -384,6 +384,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 #### L3 gaps (Commodities & Strategies)
 
 - Card action footer spacing: the unfilled footer sits 12 under the body (the body's padding) with no prop to change it; the Expiring cards want 16, so `Commodities.module.css` adds 4 on top of the footer (`.expiryCard`).
+- Card action footer hover: L3 greys only the tap body on hover, so details and buttons read as two parts; the Expiring cards grey the whole card (`.expiryCard` in `Commodities.module.css`).
 - No-shadow clickable cards: L3 gives every clickable Card / card ListCell elevation-soft with no prop to turn it off; F&O wants all its cards flat (border only), so every F&O screen carries `flatCards.module.css` (Screen className), which keeps only the 1px border.
 - Commodity artwork (L3/Image/Commodities/… in Figma) isn't in the code package — exported PNGs live in `commodities/assets`; Copper / Aluminium / Zinc missing.
 - Outlined Buy / Sell buttons (Quick Trade): L3 Button has filled Buy / Sell only; the flow tints Secondary with the up / down tokens.
@@ -2320,6 +2321,13 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
 /* The action footer sits 16 under the details, like the card's other parts (L3's footer gives 12: the body's bottom
    padding; local 4 on top — L3 gap, Card has no footer spacing prop). */
 .expiryCard[data-footer] > :last-child { padding-top: var(--l3-spacing-04); }
+/* Hover greys the whole card (details + buttons), not only the tap body as L3's footer card does — L3 gap. */
+@media (hover: hover) {
+  .expiryCard[data-footer][data-interactive]:hover {
+    background-image: linear-gradient(var(--l3-state-layer-dark-hover), var(--l3-state-layer-dark-hover));
+  }
+  .expiryCard[data-footer][data-interactive] > :first-child:hover { background-image: none; }
+}
 .expiryActionIcon { display: inline-flex; width: var(--l3-size-20); height: var(--l3-size-20); }
 ```
 
