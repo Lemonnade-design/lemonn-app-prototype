@@ -249,8 +249,9 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 
 #### Commodities (fno-08 … 14)
 
-- Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left).
+- Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left). On scroll the tabs stick right under the top bar (`position: sticky` in the page — they sit mid-page under the overview, so not in the Actionbar's bottom slot); a tab switch while scrolled lines the new content up under them.
 - **Shortcuts** Gold · Silver · Crude Oil · Natural Gas (artwork, name, day change in up / down colour) → Gold Summary (fno-12).
+- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts whose options expire this week (`expiringThisWeek` in `commodities/data.ts`), snapping to the 16 inset. Each card: an “OPT Expiry Today / Tomorrow / <weekday>” Tag (secondary, discover) on its top edge; the symbol (GOLDM) over “Fut | 3 Dec 26”; on the right Strong Uptrend / Downtrend, “Since 3:25 PM ⓘ” and a double arrow in up / down colour; a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) left, Margin Per Lot right. Grey footer (`footerFilled`): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the commodity's asset page (fno-12). The commodity art is hidden (`SHOW_ART = false`, kept).
 - **Chart**: same as Equity, the instrument selector reads “Gold ⇕” and opens the contract picker (fno-10). Picking a contract renames the chart and closes the sheet.
 - **Contract picker** (`ContractPickerSheet`): header “Choose options contract”, underline tabs Equity (8) / Commodities (7) in its bottom slot; on Commodities, pill chips All / Gold / Silver / Crude Oil / Natural Gas / Copper / Aluminium / Zinc filter the groups. Rows: ListCell Small with artwork, name, price + change, a “Lowest Margin” discover Tag where it applies, Radio. The selected row is highlighted (ListCell `selected`).
 - **Watchlist** — same as Equity.
@@ -382,6 +383,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 #### L3 gaps (Commodities & Strategies)
 
+- No-shadow clickable cards: L3 gives every clickable Card / card ListCell elevation-soft with no prop to turn it off; F&O wants all its cards flat (border only), so every F&O screen carries `flatCards.module.css` (Screen className), which keeps only the 1px border.
 - Commodity artwork (L3/Image/Commodities/… in Figma) isn't in the code package — exported PNGs live in `commodities/assets`; Copper / Aluminium / Zinc missing.
 - Outlined Buy / Sell buttons (Quick Trade): L3 Button has filled Buy / Sell only; the flow tints Secondary with the up / down tokens.
 - Payoff sketch on strategy cards: no L3 mini payoff chart; drawn as a small SVG on L3 tokens.
@@ -389,6 +391,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 ### Changelog
 
+- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: expiry tag, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page; art hidden). Product tabs stick under the top bar on scroll. All F&O cards lose their shadow (border only).
 - 2026-11-16 — Breakeven sheet Version 2 (default): heading What is breakeven price? + a description, the charges table, info lines hidden; Version 1 (the first sheet) kept behind the new F&O setting "Breakeven sheet".
 - 2026-11-16 — The three breakeven screens are named “Break Even · …” in the screen list (fno-35, fno-36, fno-37), so a search for break even finds them; the sheet's heading stays How breakeven works.
 - 2026-11-16 — How breakeven works: a charges table under the example (bought at, order charges incl. GST, breakeven price in bold, one line each, on a grey card); the charges row opens the breakdown. GST now counts in the example: order charges ≈₹0.26, B/E ₹100.30 (was ≈₹0.24 / ₹100.25).
@@ -2300,6 +2303,27 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
 /* ILLIQUID tag on a card: its own tap target (explains illiquid) inside the card's button. */
 .tagTap { position: relative; display: inline-flex; cursor: pointer; }
 .tagTap::before { content: ''; position: absolute; inset: calc(-1 * var(--l3-spacing-12)) calc(-1 * var(--l3-spacing-04)); }
+
+/* Expiring This Week: a sideways rail of contract cards, each with its expiry tag sitting on the card's top edge.
+   The rail runs to the screen edges (cards snap to the 16 inset); the top padding makes room for the tag. */
+.expiryRail { display: flex; gap: var(--l3-spacing-12); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--l3-spacing-16); margin-inline: calc(-1 * var(--l3-spacing-16)); padding: var(--l3-spacing-12) var(--l3-spacing-16) var(--l3-spacing-04); scrollbar-width: none; }
+.expiryRail::-webkit-scrollbar { display: none; }
+.expiryItem { position: relative; flex: none; width: calc(100% - var(--l3-spacing-32)); scroll-snap-align: start; }
+.expiryItem:only-child { width: 100%; }
+.expiryTag { position: absolute; z-index: 1; top: 0; left: var(--l3-spacing-16); transform: translateY(-50%); pointer-events: none; }
+.expiryArt { display: block; width: var(--l3-size-32); height: var(--l3-size-32); object-fit: contain; }
+.expiryLogo { display: inline-flex; flex: none; align-items: center; justify-content: center; width: var(--l3-size-48); height: var(--l3-size-48); border-radius: var(--l3-radius-full); background: var(--l3-surface-secondary); }
+.expirySymbol { font: var(--l3-text-heading-16); white-space: nowrap; }
+.expiryTrendUp, .expiryTrendDown { font: var(--l3-text-heading-14); white-space: nowrap; }
+.expiryTrendUp { color: var(--l3-content-accent-indicator-up-default); }
+.expiryTrendDown { color: var(--l3-content-accent-indicator-down-default); }
+.expiryTrendIcon { display: inline-flex; }
+.expiryTrendIcon[data-trend='up'] { color: var(--l3-content-accent-indicator-up-default); }
+.expiryTrendIcon[data-trend='down'] { color: var(--l3-content-accent-indicator-down-default); }
+.expiryRule { height: 1px; background: var(--l3-border-light); }
+.expiryLabel { font: var(--l3-text-description-12); color: var(--l3-content-secondary); white-space: nowrap; }
+.expiryValue { font: var(--l3-text-heading-14); white-space: nowrap; }
+.expiryActionIcon { display: inline-flex; width: var(--l3-size-20); height: var(--l3-size-20); }
 ```
 
 ### `src/flows/fno/commodities/components/CommoditiesFeed.tsx`
@@ -2314,6 +2338,7 @@ import { t } from '../../copy'
 import { smartFutures, type Commodity } from '../data'
 import { CommodityHeatmap } from './CommodityHeatmap'
 import { CommodityShortcuts } from './CommodityShortcuts'
+import { ExpiringThisWeek } from './ExpiringThisWeek'
 import { PopularCommodities } from './PopularCommodities'
 import parts from '../../components/HomeParts.module.css'
 
@@ -2335,6 +2360,7 @@ type Props = {
 export function CommoditiesFeed({ instrument, lists, onCommodity, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper }: Props) {
   return <Stack gap="32" className={parts.feed}>
     <CommodityShortcuts onOpen={onCommodity} />
+    <ExpiringThisWeek onCommodity={onCommodity} onContract={onContract} onScalper={onScalper} />
     <TradingChart instrument={instrument} onInstrument={onPicker} onChoose={onChoose} onDestination={onDestination} onChain={onChain} onScalper={onScalper} />
     <div className={parts.divider} />
     <div data-fno="watchlists"><Watchlists lists={lists} onAdd={onAddWatchlist} onOpen={onDestination} /></div>
@@ -2390,6 +2416,91 @@ export function CommodityShortcuts({ onOpen }: { onOpen: (commodity: Commodity) 
       <span className={[styles.change, commodity.change < 0 ? parts.down : parts.up].join(' ')}>{commodity.change > 0 ? '+' : ''}{commodity.change.toFixed(2)}%</span>
     </Stack>
   </Stack>)}</div>
+}
+```
+
+### `src/flows/fno/commodities/components/ExpiringThisWeek.tsx`
+
+```tsx
+import { Button } from '@l3/components/Button'
+import { Card } from '@l3/components/Card'
+import { Icon } from '@l3/components/Icon'
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { PriceChange } from '@l3/components/PriceChange'
+import { SectionHeader } from '@l3/components/SectionHeader'
+import { Stack } from '@l3/components/Stack'
+import { Tag } from '@l3/components/Tag'
+import { msInfo, msKeyboardDoubleArrowDown, msKeyboardDoubleArrowUp } from '@l3/icons/material'
+import { inr } from '../../../../shared/data/format'
+import type { Contract } from '../../data'
+import { t } from '../../copy'
+import { commodities, expiringThisWeek, type Commodity, type ExpiringContract } from '../data'
+import scalper from '../../assets/scalppro.svg'
+import parts from '../../components/HomeParts.module.css'
+import styles from './Commodities.module.css'
+
+/** The commodity art on the left of each card — hidden for now (kept, not deleted). */
+const SHOW_ART = false
+
+/** The tag's day: Today, Tomorrow, then the weekday ("Thu"). */
+function expiryDay(days: number) {
+  if (days === 0) return t('expiring.today')
+  if (days === 1) return t('expiring.tomorrow')
+  const date = new Date()
+  date.setDate(date.getDate() + days)
+  return date.toLocaleDateString('en-IN', { weekday: 'short' })
+}
+
+/** The card as a contract, for the contract sheet (Buy). */
+const asContract = (c: ExpiringContract): Contract => ({ id: c.id, name: `${c.symbol} ${c.option}`, description: c.description, price: c.premium, change: c.premiumChange, volume: 0, side: c.option.includes(' PE') ? 'put' : 'call' })
+
+/**
+ * Expiring This Week — the Commodities tab's section between the commodity shortcuts and the chart: a sideways rail
+ * of contracts whose options expire this week. Each card: the expiry tag on its top edge, the commodity with its
+ * future's expiry, the trend since when it started, the ATM option's premium (left) and the margin per lot
+ * (right), each a label over its value, then
+ * ScalpPro and Buy in a grey footer. A tap on the card opens the commodity's asset page.
+ */
+export function ExpiringThisWeek({ onCommodity, onContract, onScalper }: { onCommodity: (commodity: Commodity) => void; onContract: (contract: Contract) => void; onScalper: () => void }) {
+  return <section className={parts.contractSection} aria-label={t('expiring.title')}>
+    <SectionHeader title={t('expiring.title')} />
+    <div className={styles.expiryRail}>
+      {expiringThisWeek.map((c) => <div key={c.id} className={styles.expiryItem}>
+        <Tag className={styles.expiryTag} variant="secondary" color="discover" size="sm">{t('expiring.tag', { day: expiryDay(c.expiresInDays) })}</Tag>
+        <Card
+          onClick={() => onCommodity(commodities.find((x) => x.id === c.commodity)!)}
+          aria-label={`${c.symbol} ${c.option}`}
+          footerFilled
+          footer={<>
+            <Button variant="secondary" size="md" fullWidth iconLeft={<span className={styles.expiryActionIcon}><MaskIcon src={scalper} /></span>} onClick={onScalper}>{t('chart.scalper')}</Button>
+            <Button variant="primary" size="md" fullWidth onClick={() => onContract(asContract(c))}>{t('expiring.buy')}</Button>
+          </>}
+        >
+          <Stack gap="16">
+            <Stack direction="horizontal" gap="12" align="center">
+              {SHOW_ART && <span className={styles.expiryLogo}><img className={styles.expiryArt} src={c.image} alt="" /></span>}
+              <Stack gap="04" className={parts.grow}>
+                <p className={styles.expirySymbol}>{c.symbol}</p>
+                <p className={parts.description}>{c.description}</p>
+              </Stack>
+              <Stack direction="horizontal" gap="04" align="center">
+                <Stack gap="04" align="end">
+                  <span className={c.trend === 'up' ? styles.expiryTrendUp : styles.expiryTrendDown}>{t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')}</span>
+                  <Stack direction="horizontal" gap="04" align="center"><span className={parts.caption}>{t('expiring.since', { time: c.since })}</span><Icon icon={msInfo} size={12} label={t('expiring.sinceInfo')} /></Stack>
+                </Stack>
+                <span className={styles.expiryTrendIcon} data-trend={c.trend}><Icon icon={c.trend === 'up' ? msKeyboardDoubleArrowUp : msKeyboardDoubleArrowDown} size={20} /></span>
+              </Stack>
+            </Stack>
+            <div className={styles.expiryRule} />
+            <Stack direction="horizontal" gap="12" justify="between">
+              <Stack gap="04"><span className={styles.expiryLabel}>{c.option}</span><Stack direction="horizontal" gap="08" align="center"><span className={styles.expiryValue}>{inr(c.premium)}</span><PriceChange value={c.premiumChange} unit="percent" size="md" /></Stack></Stack>
+              <Stack gap="04" align="end"><span className={styles.expiryLabel}>{t('expiring.margin')}</span><span className={styles.expiryValue}>{inr(c.margin)}</span></Stack>
+            </Stack>
+          </Stack>
+        </Card>
+      </div>)}
+    </div>
+  </section>
 }
 ```
 
@@ -2599,6 +2710,22 @@ export const assetCandles = assetCloses.map((close, i) => {
   const open = i ? assetCloses[i - 1] : close + 120
   return { open, close, high: Math.max(open, close) + 90 + (i % 3) * 40, low: Math.min(open, close) - 80 - (i % 4) * 30, volume: 20 + ((i * 37) % 60) }
 })
+
+/**
+ * Expiring This Week (F&O home → Commodities, between the shortcuts and the chart): commodity contracts whose options
+ * expire this week, soonest first. `expiresInDays` is from today (0 = today) and names the tag; `option` is the ATM
+ * call shown on the card with its premium and change; `margin` is the margin per lot (₹).
+ */
+export type ExpiringContract = {
+  id: string; symbol: string; /** The Commodity it belongs to (its asset page). */ commodity: Commodity['id']; image: string; change: number; description: string; expiresInDays: number
+  trend: 'up' | 'down'; since: string; option: string; premium: number; premiumChange: number; margin: number
+}
+export const expiringThisWeek: ExpiringContract[] = [
+  { id: 'exp-goldm', symbol: 'GOLDM', commodity: 'gold', image: gold, change: 1.24, description: 'Fut | 3 Dec 26', expiresInDays: 0, trend: 'up', since: '3:25 PM', option: '132000 CE ATM', premium: 118, premiumChange: 14.56, margin: 1180 },
+  { id: 'exp-silverm', symbol: 'SILVERM', commodity: 'silver', image: silver, change: -0.86, description: 'Fut | 27 Feb 27', expiresInDays: 1, trend: 'down', since: '1:10 PM', option: '158000 PE ATM', premium: 642.5, premiumChange: 8.2, margin: 3212.5 },
+  { id: 'exp-crudeoilm', symbol: 'CRUDEOILM', commodity: 'crude', image: crudeOil, change: 2.31, description: 'Fut | 18 Dec 26', expiresInDays: 2, trend: 'up', since: '11:40 AM', option: '5400 CE ATM', premium: 96.4, premiumChange: 21.03, margin: 964 },
+  { id: 'exp-naturalgas', symbol: 'NATURALGAS', commodity: 'gas', image: naturalGas, change: -1.48, description: 'Fut | 24 Dec 26', expiresInDays: 3, trend: 'down', since: '10:05 AM', option: '320 PE ATM', premium: 12.85, premiumChange: 6.74, margin: 16062.5 },
+]
 ```
 
 ### `src/flows/fno/commodities/screens/AssetPage.module.css`
@@ -2713,6 +2840,7 @@ import { assetCandles, type AssetPage as Asset } from '../data'
 import scalppro from '../../assets/scalppro.svg'
 import styles from './AssetPage.module.css'
 import { TopBarAction } from '../../../../shared/ui/TopBarAction'
+import flat from '../../flatCards.module.css'
 
 type Props = { asset: Asset; onBack: () => void; onChain: () => void; /** ScalpPro (Scalper) — disabled for an illiquid contract. */ onScalper: () => void; /** Buy / Sell open the commodity order pad. */ onOrder: (side: 'buy' | 'sell') => void }
 
@@ -2765,7 +2893,7 @@ export function AssetPage({ asset, onBack, onChain, onScalper, onOrder }: Props)
       : <><Button variant="buy" onClick={() => onOrder('buy')}>{t('asset.buy')}</Button><Button variant="sell" onClick={() => onOrder('sell')}>{t('asset.sell')}</Button></>}
   </ButtonGroup>
 
-  return <Screen
+  return <Screen className={flat.flatCards}
     top={<Actionbar className={styles.bar} elevated={scrolled} onBack={onBack} backLabel={t('asset.back')} actions={<TopBarAction icon={saved ? msStarFill : msStar} label={t('asset.watchlist')} pressed={saved} onClick={() => setSaved(!saved)} />} />}
     bottom={dock}
     sheet={explain ? <IlliquidSheet contract={`${asset.name} ${asset.contract}`} onClose={() => setExplain(false)} /> : detail ? <DetailSheet title={detail} onClose={() => setDetail(null)} /> : undefined}>
@@ -2880,6 +3008,7 @@ import { t } from '../../copy'
 import { expiryMonths, goldLots, lotFutures, lotOptions, type LotOption, type LotSort } from '../data'
 import parts from '../../components/HomeParts.module.css'
 import styles from '../components/Commodities.module.css'
+import flat from '../../flatCards.module.css'
 
 type Modal = { kind: 'detail'; title: string; contract?: Contract } | { kind: 'contract'; contract: Contract & { illiquid?: boolean } } | { kind: 'illiquid'; contract: string } | { kind: 'choice'; title: string; values: string[]; value: string; onPick: (v: string) => void }
 
@@ -2916,7 +3045,7 @@ export function LotSummary({ sort: initialSort = 'price', initialSheet, onBack, 
   const options = lotOptions.filter((o) => filter === t('filter.puts') ? o.side === 'put' : true)
   const lotName = goldLots.find((l) => l.id === lot)!.name
   const sheet = modal?.kind === 'illiquid' ? <IlliquidSheet contract={modal.contract} onClose={close} /> : modal?.kind === 'contract' ? <ContractSheet contract={modal.contract} onClose={close} onIlliquid={() => setModal({ kind: 'illiquid', contract: modal.contract.name })} onAsset={() => { close(); onAsset(!!modal.contract.illiquid) }} onBuy={() => { close(); onOrder('buy') }} onSell={() => { close(); onOrder('sell') }} /> : modal?.kind === 'detail' ? <DetailSheet title={modal.title} contract={modal.contract} onClose={close} /> : modal?.kind === 'choice' ? <ChoiceSheet {...modal} onClose={close} /> : undefined
-  return <Screen sheet={sheet} top={<Actionbar title={t('lot.title', { name: goldLots[0].name })} onBack={onBack} backLabel={t('lot.back')}
+  return <Screen className={flat.flatCards} sheet={sheet} top={<Actionbar title={t('lot.title', { name: goldLots[0].name })} onBack={onBack} backLabel={t('lot.back')}
     bottom={<Tabs aria-label={t('lot.lots')} value={lot} onChange={setLot} width="hug" items={goldLots.map((l) => ({ value: l.id, label: l.name, iconLeft: <img className={styles.tabArt} src={l.image} alt="" /> }))} />} />}>
     <Stack gap="32" className={styles.lotBody}>
       <section className={parts.contractSection} aria-label={t('lot.futures')}>
@@ -4329,6 +4458,9 @@ export function Heatmap({ onOpen, onViewAll }: { onOpen: (name: string) => void;
 .productTabs.productTabs [role='tab'][aria-selected='true'] { --tab-border: var(--l3-border-accent-success-default); --tab-surface: var(--l3-surface-default); background-image: linear-gradient(180deg, var(--l3-surface-accent-success-light) 3%, var(--l3-surface-default)); }
 
 /* A product tab switch: only the content under the tabs slides in, from the chosen tab's side. */
+/* The product tabs stay put under the top bar once the page scrolls past them (they sit mid-page, so not in the
+   Actionbar's bottom slot). */
+.stickyTabs { position: sticky; top: 0; z-index: 2; }
 .productContent { overflow-x: clip; }
 .productContent[data-slide='from-end'] > * { animation: fno-in-from-end var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both; }
 .productContent[data-slide='from-start'] > * { animation: fno-in-from-start var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both; }
@@ -5579,7 +5711,17 @@ function addMinutes(start: string, add: number) {
   "settings.executions": "Buy/Sell executions",
   "settings.sync": "Sync Charts",
   "settings.cancel": "Cancel",
-  "settings.apply": "Apply"
+  "settings.apply": "Apply",
+  "expiring.title": "Expiring This Week",
+  "expiring.tag": "OPT Expiry {day}",
+  "expiring.today": "Today",
+  "expiring.tomorrow": "Tomorrow",
+  "expiring.up": "Strong Uptrend",
+  "expiring.down": "Strong Downtrend",
+  "expiring.since": "Since {time}",
+  "expiring.sinceInfo": "About the trend",
+  "expiring.margin": "Margin Per Lot",
+  "expiring.buy": "Buy"
 }
 ```
 
@@ -5799,6 +5941,19 @@ export type ChartSettings = {
   syncCharts: boolean
 }
 export const defaultChartSettings: ChartSettings = { chartType: 'candles', stopLoss: 'market', breakevenLine: true, executions: true, syncCharts: false }
+```
+
+### `src/flows/fno/flatCards.module.css`
+
+```css
+/*
+ * F&O: no shadow on any card. L3 gives clickable cards (Card, card ListCells) elevation-soft; in this flow they keep
+ * only their 1px border. Put on every F&O screen's root (Screen className), so its sheets are covered too. Repeated
+ * class: above L3's own (selected) card rules.
+ */
+.flatCards.flatCards [data-interactive][data-padding] { box-shadow: var(--card-border); }
+.flatCards.flatCards [data-interactive][data-variant='card'] { box-shadow: inset 0 0 0 1px var(--l3-border-light); } /* 1px hairline */
+.flatCards.flatCards [data-interactive][data-variant='card'][data-selected] { box-shadow: inset 0 0 0 1px var(--l3-border-dark); } /* 1px hairline */
 ```
 
 ### `src/flows/fno/index.tsx`
@@ -6158,6 +6313,7 @@ import { chainFor, expiries, ranges, underlyings, type Action, type Metric, type
 import { OrderDock, type Selection } from '../components/OrderDock'
 import { IlliquidSheet } from '../../sheets/IlliquidSheet'
 import styles from './OptionChain.module.css'
+import flat from '../../flatCards.module.css'
 
 type Modal = { kind: 'choice'; title: string; values: string[]; value: string; onPick: (v: string) => void } | { kind: 'detail'; title: string } | { kind: 'illiquid'; contract: string; quote: OptionQuote }
 
@@ -6287,7 +6443,7 @@ export function OptionChain({ initialSelection, initialIlliquid, onBack, onAsset
     </div>
   </div>
 
-  return <Screen top={top} sheet={sheet}
+  return <Screen className={flat.flatCards} top={top} sheet={sheet}
     bottom={selection ? <OrderDock key={`${selection.strike}-${selection.side}`} selection={selection} lotSize={underlying.lotSize} onContract={onAsset} onOptions={() => setModal({ kind: 'detail', title: `${t('chain.orderOptions')} · ${t('chain.tpsl')}` })} onPlace={(action: Action) => { setPlaced(t('chain.placed', { action: t(action === 'buy' ? 'chain.buy' : 'chain.sell'), contract: t('chain.contract', { strike: selection.strike.toLocaleString('en-IN'), side: t(`chain.${selection.side}`) }) })); setSelection(null) }} /> : undefined}
     toast={placed ? <Aerobar floating type="success" heading={placed} onDismiss={() => setPlaced(null)} /> : undefined}>
     <div className={styles.chain} data-chain role="list" aria-label={t('chain.title')}>
@@ -6435,6 +6591,7 @@ import { IlliquidSheet } from '../../sheets/IlliquidSheet'
 import { t } from '../../copy'
 import { funds, intradayCloseTime, orderContract, sellMargin, validities, type OrderProduct, type OrderSide, type OrderType } from '../data'
 import styles from './OrderPad.module.css'
+import flat from '../../flatCards.module.css'
 
 type Props = {
   side: OrderSide
@@ -6498,7 +6655,7 @@ export function OrderPad({ side, product: initialProduct = 'delivery', type: ini
     </div>
   </div>
 
-  return <Screen top={top} bottom={dock} sheet={sheet}
+  return <Screen className={flat.flatCards} top={top} bottom={dock} sheet={sheet}
     toast={placed ? <Aerobar floating type="success" heading={t('order.placed', { side: t(buy ? 'order.buy' : 'order.sell'), name: c.name, contract: c.contract })} onDismiss={() => setPlaced(false)} /> : undefined}>
     <Stack gap="16" className={styles.body}>
       <Stack direction="horizontal" align="center" justify="between">
@@ -6551,6 +6708,7 @@ import equity from '../assets/equity.svg'
 import commodities from '../assets/commodities.svg'
 import strategies from '../assets/strategies.svg'
 import styles from '../components/HomeParts.module.css'
+import flat from '../flatCards.module.css'
 
 export type HomePart = 'top' | 'watchlists' | 'options' | 'heatmap' | 'futures'
 /** The product tab: Equity (fno-01…04), Commodities (fno-08…11), Strategies (fno-15, 16). */
@@ -6591,7 +6749,7 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
     if (body && target) body.scrollTo({ top: body.scrollTop + target.getBoundingClientRect().top - body.getBoundingClientRect().top, behavior: 'smooth' })
   }
   // A product tab switch slides only the content under the tabs, toward the chosen tab's side. If the page was
-  // scrolled past the tabs, it stops with the tabs at the top so the new content starts in view.
+  // scrolled past the tabs (they stick under the top bar), it stops with the new content's start right under them.
   const order: Product[] = ['equity', 'commodities', 'strategies']
   const shownProduct = useRef(product)
   const [slide, setSlide] = useState<'from-end' | 'from-start' | null>(null)
@@ -6602,8 +6760,10 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
   useLayoutEffect(() => {
     const body = root.current?.parentElement
     const tabs = root.current?.querySelector('[data-fno="tabs"]')
-    if (!slide || !body || !tabs) return
-    const offset = tabs.getBoundingClientRect().top - body.getBoundingClientRect().top
+    const content = root.current?.querySelector('[data-fno="content"]')
+    if (!slide || !body || !tabs || !content) return
+    // The tabs stick under the top bar, so measure the new content against their bottom edge.
+    const offset = content.getBoundingClientRect().top - tabs.getBoundingClientRect().bottom
     if (offset < 0) body.scrollTop += offset
   }, [product])
   useEffect(() => { if (picker) setModal({ kind: 'picker', segment: picker }) }, [picker])
@@ -6613,11 +6773,11 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
     if (body && target && scrollTo !== 'top') body.scrollTop += target.getBoundingClientRect().top - body.getBoundingClientRect().top
   }, [scrollTo])
   const sheet = modal?.kind === 'detail' ? <DetailSheet title={modal.title} contract={modal.contract} onClose={close} /> : modal?.kind === 'choice' ? <ChoiceSheet {...modal} onClose={close} /> : modal?.kind === 'picker' ? <ContractPickerSheet segment={modal.segment} value={instrument} onPick={setInstrument} onClose={close} /> : modal?.kind === 'create' ? <CreateWatchlistSheet onClose={close} onCreate={(name) => { setLists((ls) => [...ls, { id: `custom-${ls.length}`, name, count: 0 }]); close(); setCreated(true) }} /> : undefined
-  return <Screen top={<Header scrolled={scrolled} initials={user.name.split(' ').map((name) => name[0]).join('')} onSearch={onSearch} onProfile={onProfile} onWallet={onWallet} onDash={onDash} />} bottom={<FnoNav onHome={onHome} onDestination={open} onChain={onChain} onScalper={onScalper} />} sheet={sheet} toast={created ? <Aerobar floating type="success" heading={t('watchlists.created')} onDismiss={() => setCreated(false)} /> : undefined}>
+  return <Screen className={flat.flatCards} top={<Header scrolled={scrolled} initials={user.name.split(' ').map((name) => name[0]).join('')} onSearch={onSearch} onProfile={onProfile} onWallet={onWallet} onDash={onDash} />} bottom={<FnoNav onHome={onHome} onDestination={open} onChain={onChain} onScalper={onScalper} />} sheet={sheet} toast={created ? <Aerobar floating type="success" heading={t('watchlists.created')} onDismiss={() => setCreated(false)} /> : undefined}>
     <Stack ref={root}>
       <div data-fno="top"><Overview onDestination={open} /></div>
-      <div data-fno="tabs"><Tabs aria-label="F&O products" appearance="ribbon" size="md" className={styles.productTabs} value={product} onChange={(v) => onProduct(v)} items={[{ value: 'equity', label: t('equity'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={equity} /></span> }, { value: 'commodities', label: t('commodities'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={commodities} /></span> }, { value: 'strategies', label: t('strategies'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={strategies} /></span> }]} /></div>
-      <div key={product} className={styles.productContent} data-slide={slide ?? undefined}>
+      <div data-fno="tabs" className={styles.stickyTabs}><Tabs aria-label="F&O products" appearance="ribbon" size="md" className={styles.productTabs} value={product} onChange={(v) => onProduct(v)} items={[{ value: 'equity', label: t('equity'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={equity} /></span> }, { value: 'commodities', label: t('commodities'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={commodities} /></span> }, { value: 'strategies', label: t('strategies'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={strategies} /></span> }]} /></div>
+      <div key={product} data-fno="content" className={styles.productContent} data-slide={slide ?? undefined}>
       {product === 'equity' && <Stack gap="32" className={styles.feed}>
         <Shortcuts onWatchlist={() => scroll('watchlists')} onDestination={open} />
         {onUsStocks && <UsBanner onOpen={onUsStocks} />}
@@ -6993,6 +7153,7 @@ import { breakevenPrice, defaultChartSettings, OPTION_TICK, SCALPER_TP_SL_GAP, s
 import { BreakevenSheet } from '../sheets/BreakevenSheet'
 import { ChartToolsSheet, type ToolsSection } from '../sheets/ChartToolsSheet'
 import styles from './Scalper.module.css'
+import flat from '../flatCards.module.css'
 
 type ScalperProps = {
   onBack: () => void
@@ -7072,7 +7233,7 @@ export function Scalper({ onBack, createdIndicator, openIndicators, initialIndic
 
   return (
     <Screen
-      className={styles.screen}
+      className={`${styles.screen} ${flat.flatCards}`}
       top={
         <div className={styles.top}>
           <div className={styles.header}>
