@@ -1,10 +1,10 @@
 # Flow: Profile & settings (`profile`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Your account, app settings (biometric, dark mode, accessibility), help, and logout.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/profile · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/profile.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/profile · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/profile.json
 
 ## Screens
 
@@ -23,7 +23,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/profile · mach
 > The spec for this flow. A developer should be able to build it on any platform (Flutter, iOS, web) from this file,
 > the screens in this folder and the live app — without reading the rest of the repo.
 
-- **Prototype:** https://kirtanyak-pe.github.io/lemonn-app-prototype/#/profile · one screen: `#/profile-01`
+- **Prototype:** https://lemonnade-design.github.io/lemonn-app-prototype/#/profile · one screen: `#/profile-01`
 - **Source:** screenshots of the live app's Profile and Settings pages (dark theme, shared 2026-10-22) and the PM's
   Accessibility proposal (frames 9, 5a, 5b, 7a, 7b). No Figma yet. Redesigned in L3.
 - **Status:** ✅ · last updated 2026-10-22

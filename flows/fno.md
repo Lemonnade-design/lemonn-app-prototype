@@ -1,10 +1,10 @@
 # Flow: F&O (`fno`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Equity F&O home: P&L, indices, chart metrics, watchlists, Smart Options, Futures Heatmap and Smart Futures.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/fno · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/fno.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/fno · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/fno.json
 
 ## Screens
 
@@ -51,7 +51,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/fno · machine-
 ## Spec (README.md)
 
 
-> **ILLIQUID contracts** span this flow and others — read [`docs/ILLIQUID.md`](https://kirtanyak-pe.github.io/lemonn-app-prototype/ILLIQUID.md) (rule, data flag, UI patterns, every place) before building any of it.
+> **ILLIQUID contracts** span this flow and others — read [`docs/ILLIQUID.md`](https://lemonnade-design.github.io/lemonn-app-prototype/ILLIQUID.md) (rule, data flag, UI patterns, every place) before building any of it.
 
 The F&O tab, implemented with Lemonnade V3 components from Figma [F&O Home → Equity](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11569-41100) and the [F&O Home section](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63073) (Commodities, asset selection, lot selection, Strategies — drawn in the old D2 system, rebuilt in L3 with the same look).
 

@@ -1,10 +1,10 @@
 # Flow: Search (`search`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Search stocks, F&O contracts, mutual funds and IPOs; Smart Options & Futures lists; add to watchlist.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/search · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/search.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/search · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/search.json
 
 ## Screens
 
@@ -42,14 +42,14 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/search · machi
 ## Spec (README.md)
 
 
-> **ILLIQUID contracts** span this flow and others — read [`docs/ILLIQUID.md`](https://kirtanyak-pe.github.io/lemonn-app-prototype/ILLIQUID.md) (rule, data flag, UI patterns, every place) before building any of it.
+> **ILLIQUID contracts** span this flow and others — read [`docs/ILLIQUID.md`](https://lemonnade-design.github.io/lemonn-app-prototype/ILLIQUID.md) (rule, data flag, UI patterns, every place) before building any of it.
 
 F&O home entry points (2026-10-26): `search-25` opens F&O search, `search-26` opens the existing combined Smart Options & Futures index list, and `search-27` opens its stock list. Back returns to `fno-01` for these entry points.
 
 > The spec for this flow. A developer should be able to build it on any platform (Flutter, iOS, web) from this file,
 > the Figma links and the screens in this folder — without reading the rest of the repo.
 
-- **Prototype:** https://kirtanyak-pe.github.io/lemonn-app-prototype/#/search · one screen: `#/search-01`
+- **Prototype:** https://lemonnade-design.github.io/lemonn-app-prototype/#/search · one screen: `#/search-01`
 - **Figma:** [Search → 🌙 Dark](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-12950) (dev
   handoff file) — **final layouts** in the old D2 system. This flow keeps every layout as it is and swaps the parts for
   L3 components, tokens and text styles. Figma frames are dark; the code works in every L3 theme.

@@ -1,10 +1,10 @@
 # Flow: Stocks (`stocks`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 The Stocks tab — the home after login: indices, holdings, products, movers, watchlists, ideas.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/stocks · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/stocks.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/stocks · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/stocks.json
 
 ## Screens
 
@@ -33,7 +33,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/stocks · machi
 > The spec for this flow. A developer should be able to build it on any platform (Flutter, iOS, web) from this file,
 > the screens in this folder and the live app — without reading the rest of the repo.
 
-- **Prototype:** https://kirtanyak-pe.github.io/lemonn-app-prototype/#/stocks · one screen: `#/stocks-01`
+- **Prototype:** https://lemonnade-design.github.io/lemonn-app-prototype/#/stocks · one screen: `#/stocks-01`
 - **Source:** screenshots of the live app's Stocks tab (dark theme), shared 2026-10-17 — there's no Figma for it yet.
   Rebuilt in L3.
 - **Status:** 🟨 Home done (re-matched to the live app over ADB, 2026-10-22); stock page done (from the live app over ADB, 2026-11-02); search is its own flow (`search`), opened from the top bar (lists come next) · 2026-11-02

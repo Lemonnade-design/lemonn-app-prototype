@@ -1,10 +1,10 @@
 # Flow: Login (`login`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Welcome, mobile number + OTP, fingerprint, PIN and email — where the app starts.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/login · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/login.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/login · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/login.json
 
 ## Screens
 
@@ -26,7 +26,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/login · machin
 > The spec for this flow. A developer should be able to build it on any platform (Flutter, iOS, web) from this file,
 > the Figma links and the screens in this folder — without reading the rest of the repo.
 
-- **Prototype:** https://kirtanyak-pe.github.io/lemonn-app-prototype/#/login · one screen: `#/login-01`
+- **Prototype:** https://lemonnade-design.github.io/lemonn-app-prototype/#/login · one screen: `#/login-01`
 - **Figma:** [User flow – auth, account setup](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=2103-86)
   (screenshots of the live app, old design system — this flow redesigns them in L3)
 - **Status:** ✅ · last updated 2026-10-16

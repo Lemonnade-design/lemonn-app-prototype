@@ -1,10 +1,10 @@
 # Flow: DASH Ai · Trading rules (`dash`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Describe a trading habit; DASH builds it into a rule, backtests it, saves it. Your active rules, on / off, delete.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/dash · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/dash.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/dash · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/dash.json
 
 ## Screens
 
@@ -47,7 +47,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/dash · machine
 > **Building it? Go through [CHECKLIST.md](CHECKLIST.md) line by line** — the small details (background, motion,
 > shapes) that are easy to miss.
 
-- **Prototype:** https://kirtanyak-pe.github.io/lemonn-app-prototype/#/dash · one screen: `#/dash-03`
+- **Prototype:** https://lemonnade-design.github.io/lemonn-app-prototype/#/dash · one screen: `#/dash-03`
 - **Figma:** [DASH AI - main flow](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11491-7726) (F&O dev
   handoff file) — an **old design without library components or styles**. Rebuilt with L3 components and tokens, plus
   DASH's **own chat style** (orb, glow background, chat input, chips, rule card), which is different from the rest of

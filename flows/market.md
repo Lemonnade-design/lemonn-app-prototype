@@ -1,10 +1,10 @@
 # Flow: Market (`market`)
 
-> One self-contained file for converting this flow to another platform. Read https://kirtanyak-pe.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://kirtanyak-pe.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 The Market tab — stock lists (all, gainers, losers, under ₹100 / ₹500) and Filters.
 
-Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/market · machine-readable: https://kirtanyak-pe.github.io/lemonn-app-prototype/flows/market.json
+Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/market · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/market.json
 
 ## Screens
 
@@ -25,7 +25,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/market · machi
 > The spec for this flow. A developer should be able to build it on any platform (Flutter, iOS, web) from this file,
 > the screens in this folder and the live app — without reading the rest of the repo.
 
-- **Prototype:** https://kirtanyak-pe.github.io/lemonn-app-prototype/#/market · one screen: `#/market-01`
+- **Prototype:** https://lemonnade-design.github.io/lemonn-app-prototype/#/market · one screen: `#/market-01`
 - **Source:** screenshots of the live app's Market tab and its filters (dark theme), shared 2026-10-17 — no Figma yet.
   Rebuilt in L3; the filter sheet is redesigned.
 - **Status:** 🟨 lists + filters done · 2026-10-17
