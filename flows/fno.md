@@ -15,28 +15,28 @@ Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/fno · mach
 | `fno-02` | Home · watchlists & Smart Options | [11569:41100](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11569-41100) | — | The same long screen, scrolled to watchlists. |
 | `fno-03` | Home · Futures Heatmap | [11569:41100](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11569-41100) | — |  |
 | `fno-04` | Home · Smart Futures | [11569:41100](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11569-41100) | — |  |
-| `fno-05` | Scalper | — | `fno-01`, `dash-20` | From ScalpPro on F&O home or the Scalper bottom-nav tab. The chart-tools sheet groups personal DASH AI indicators separately from Lemon indicators. |
-| `fno-06` | Scalper · DASH indicator | — | `fno-01`, `dash-20` | From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list. |
-| `fno-07` | Scalper · indicator applied | — | `fno-01`, `dash-20` | With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles. |
-| `fno-35` | Break Even · position + breakeven line | [11756:78739](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11756-78739) | `fno-01`, `dash-20` | Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large. |
-| `fno-36` | Break Even · How breakeven works (sheet) | [11783:5569](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11783-5569) | `fno-01`, `dash-20` | Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx. |
-| `fno-37` | Break Even · chart settings (breakeven line) | [11754:69563](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11754-69563) | `fno-01`, `dash-20` | The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here. |
+| `fno-05` | Scalper | — | `dash-20` | From ScalpPro on F&O home, the Expiring cards, the Expiry calendar or the Scalper bottom-nav tab — always a new page in from the right; back returns to the page it was opened from. The chart-tools sheet groups personal DASH AI indicators separately from Lemon indicators. |
+| `fno-06` | Scalper · DASH indicator | — | `dash-20` | From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list. |
+| `fno-07` | Scalper · indicator applied | — | `dash-20` | With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles. |
+| `fno-35` | Break Even · position + breakeven line | [11756:78739](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11756-78739) | `dash-20` | Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large. |
+| `fno-36` | Break Even · How breakeven works (sheet) | [11783:5569](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11783-5569) | `dash-20` | Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx. |
+| `fno-37` | Break Even · chart settings (breakeven line) | [11754:69563](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11754-69563) | `dash-20` | The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here. |
 | `fno-08` | Commodities home | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The Commodities product tab. Gold / Silver / Crude Oil / Natural Gas shortcuts open the Lot summary (Gold Summary). The chart’s instrument selector (“Gold”) opens the contract picker. Popular commodities: Options ⇕ Futures switch; Futures Heatmap: Bullion / Energy / Metals. |
 | `fno-09` | Commodities · heatmap & Smart Futures | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The same long screen, scrolled to the Futures Heatmap. |
 | `fno-10` | Contract picker · Commodities | [6754:65111](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65111) | — | From the chart’s “Gold ⇕”. Equity / Commodities tabs in the sheet header’s bottom slot, commodity chips (All, Gold, Silver …) under them; contracts grouped by commodity as radio rows (Gold Mini tagged “Lowest Margin”). Picking one updates the chart and closes the sheet. |
 | `fno-11` | Contract picker · Equity | [6754:65054](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65054) | — | The same sheet on its Equity tab: the 8 index contracts. |
-| `fno-38` | Expiry calendar (View all) | — | `fno-08`, `fno-21`, `fno-05` | From View all on Expiring This Week (fno-08). Options / Futures (flat tabs, sticky). Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today ringed), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet). |
+| `fno-38` | Commodity calendar (View all) | — | `fno-08`, `fno-21`, `fno-17` | From View all on Expiring This Week (fno-08). All / Options / Futures / Events (flat tabs with icons, sticky; All merges them by day). Options rows: option chain (→ fno-17, back returns here) + ScalpPro; futures: ScalpPro only; events: no buttons. Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today inverted (surface-inverted)), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet). |
 | `fno-12` | Gold Summary · by price | [6754:65113](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65113) | `fno-08`, `fno-17` | From a commodity shortcut on fno-08. Gold lot tabs (Gold, Gold Mini, Gold Guinea, Gold Ten, Gold Petal) in the Actionbar’s bottom slot; Futures (View all) and Options (View option chain, expiry month, category pills, Filter, sort). The sort opens a sheet: By Price · By Volume · Margin per lot. |
 | `fno-13` | Gold Summary · by volume | [6754:65288](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65288) | `fno-08`, `fno-17` | Sorted by volume: each option shows its traded volume, no change. |
 | `fno-14` | Gold Summary · margin per lot | [6754:65444](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65444) | `fno-08`, `fno-17` | Sorted by margin per lot: each option shows the margin for one lot, no change. |
 | `fno-15` | Strategies · Equity | [6754:64178](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-64178) | — | The Strategies product tab with Equity selected in the pill group: shortcuts, Zing Trades, Smart Invest, Pre-build Strategies (Nifty 50 ⇕, Bullish / Bearish / Neutral / Volatile), Quick Trade. Card footer buttons stay Small (32) as in Figma. |
 | `fno-16` | Strategies · Commodities | [6754:64607](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-64607) | — | The same tab with Commodities selected: commodity Smart Invest baskets, GOLD as the underlying. |
-| `fno-17` | Option chain | [11630:16785](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11630-16785) | `fno-01`, `fno-21` | From Option chain on the F&O chart (any product tab) or the Option Chain bottom-nav tab; Back → F&O home. Opens scrolled to the spot pill. BankNifty ▾ and Expiry ▾ open sheets; Σ shows delta instead of the day change; the basket and Zing tile open the explanatory sheet. Column heads: Call / Put metric (LTP, OI, OI Chg, IV) and the strike range (All, ±5, ±10). Tap a price to Buy, tap it again to Sell, a third time to clear. |
-| `fno-18` | Option chain · Buy selected | [11630:16184](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11630-16184) | `fno-01`, `fno-21` | A put price tapped once: B badge, green wash, the order dock with the contract, Balance / Req, quantity in lots and Buy (brand). Buy places a sample order (toast) and clears the selection. |
-| `fno-19` | Option chain · Sell selected | [11695:26269](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11695-26269) | `fno-01`, `fno-21` | The same put tapped again: S badge, red wash, Sell (secondary) in the dock; Req becomes the margin per lot. |
-| `fno-20` | Option chain · illiquid contract | — | `fno-01`, `fno-21` | Illiquid contracts (deep in-the-money calls, far out-of-the-money puts) carry a block icon beside the price, like Groww. Unlike Groww, a tap never selects them: a tooltip opens just above — “ILLIQUID contract” / “Can’t be traded” ⓘ; tapping away closes it, ⓘ opens a sheet with why it’s blocked, its traded lots and buy–sell gap, and a tip. Opens on the 25,700 put with the tooltip up. |
-| `fno-21` | Asset page · Gold MINI | [6754:61613](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-61613) | `fno-17`, `fno-05` | A commodity contract page. Entry (one of several): the contract name in the option chain order dock (“25,400 Put ›”). Back returns where it came from; Option chain → fno-17; Buy / Sell open the sample sheet. Equity contracts get their own (similar) page later. |
-| `fno-22` | Asset page · illiquid | [6754:61613](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-61613) | `fno-17`, `fno-05` | Product rule (commodities only): an illiquid contract’s page shows the ILLIQUID tag next to its name and Buy / Sell greyed out, with “Trading is not allowed as this contract is illiquid” above them — whatever screen it was opened from. |
+| `fno-17` | Option chain | [11630:16785](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11630-16785) | `fno-21` | From Option chain on the F&O chart (any product tab), the Expiry calendar’s option-chain button or the Option Chain bottom-nav tab; Back → the page it was opened from (F&O home when opened directly). Opens scrolled to the spot pill. BankNifty ▾ and Expiry ▾ open sheets; Σ shows delta instead of the day change; the basket and Zing tile open the explanatory sheet. Column heads: Call / Put metric (LTP, OI, OI Chg, IV) and the strike range (All, ±5, ±10). Tap a price to Buy, tap it again to Sell, a third time to clear. |
+| `fno-18` | Option chain · Buy selected | [11630:16184](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11630-16184) | `fno-21` | A put price tapped once: B badge, green wash, the order dock with the contract, Balance / Req, quantity in lots and Buy (brand). Buy places a sample order (toast) and clears the selection. |
+| `fno-19` | Option chain · Sell selected | [11695:26269](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11695-26269) | `fno-21` | The same put tapped again: S badge, red wash, Sell (secondary) in the dock; Req becomes the margin per lot. |
+| `fno-20` | Option chain · illiquid contract | — | `fno-21` | Illiquid contracts (deep in-the-money calls, far out-of-the-money puts) carry a block icon beside the price, like Groww. Unlike Groww, a tap never selects them: a tooltip opens just above — “ILLIQUID contract” / “Can’t be traded” ⓘ; tapping away closes it, ⓘ opens a sheet with why it’s blocked, its traded lots and buy–sell gap, and a tip. Opens on the 25,700 put with the tooltip up. |
+| `fno-21` | Asset page · Gold MINI | [6754:61613](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-61613) | `fno-17` | A commodity contract page. Entry (one of several): the contract name in the option chain order dock (“25,400 Put ›”). Back returns where it came from; Option chain → fno-17; Buy / Sell open the sample sheet. Equity contracts get their own (similar) page later. |
+| `fno-22` | Asset page · illiquid | [6754:61613](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-61613) | `fno-17` | Product rule (commodities only): an illiquid contract’s page shows the ILLIQUID tag next to its name and Buy / Sell greyed out, with “Trading is not allowed as this contract is illiquid” above them — whatever screen it was opened from. |
 | `fno-23` | Gold Summary · Buy / Sell sheet | — | `fno-08`, `fno-17` | Tapping any futures or option card opens the Buy / Sell sheet (live app, 2026-10-29): name › (asset page fno-21) · price, expiry · change, Buy (brand) / Sell (secondary). |
 | `fno-24` | Gold Summary · illiquid sheet | — | `fno-08`, `fno-17` | Product rule (commodities): an illiquid contract carries the ILLIQUID tag on its card (edge case — illiquid contracts shouldn’t be listed, but the state is built) and in the sheet; Buy / Sell are greyed out with “Trading is not allowed as this contract is illiquid”. Only the name › (asset page fno-22) or tapping outside works. |
 | `fno-25` | Order pad · Buy · Market | [8671:18433](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=8671-18433) | — | Commodity option chain order pad (other order pads differ a little). From Buy on the commodity asset page or the Gold Summary Buy / Sell sheet. Delivery / Intraday tabs, Market / Limit / SL pills, Quantity (⇕ lots) in steps of one lot, Set TPSL, Avail. · Req, Buy. Placing shows a sample toast; no order is sent. |
@@ -95,7 +95,7 @@ The F&O tab, implemented with Lemonnade V3 components from Figma [F&O Home → E
 | fno-25 … 28 | Order pad · Buy (Market, Limit, SL, Intraday) | 8671:18433 |
 | fno-29 … 31 | Order pad · Sell (Market, SL, Intraday) | 8671:18433 |
 | fno-32, 33 | Order pad · ILLIQUID edge case (Buy, Sell) | 8671:18433 + product rule |
-| fno-38 | Expiry calendar — View all on Expiring This Week: expiry days with their contracts | — (user's reference, 2026-11-17) |
+| fno-38 | Commodity calendar — View all on Expiring This Week: expiry days with their contracts | — (user's reference, 2026-11-17) |
 
 ### Structure
 
@@ -253,7 +253,14 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 
 - Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left). On scroll the tabs stick right under the top bar (`position: sticky` in the page — they sit mid-page under the overview, so not in the Actionbar's bottom slot); a tab switch while scrolled lines the new content up under them. Once stuck, the tab row takes the scrolled top bar's colour (surface/primary, not the active tab's gradient); the active tab stays as it is.
 - **Shortcuts** Gold · Silver · Crude Oil · Natural Gas (artwork, name, day change in up / down colour) → Gold Summary (fno-12).
-- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts expiring soon (`expiringThisWeek` in `commodities/data.ts`), in two variants (`kind`): **option** and **future** (one GOLDM future sits second, for testing), snapping to the 16 inset. Each card: the symbol (GOLDM) over the expiry as plain description text (12) — option “OPT Expiry Today / Tomorrow / <weekday>”, future “FUT Expiry 3 Dec” (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM” (description 12 here, 10 in the chart), double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) — or LTP (₹ + change) for a future — left, Margin Per Lot right. Action footer (no fill, 16 under the details like the other parts): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The commodity art is hidden (`SHOW_ART = false`, kept). Prototype setting “Expiring card buttons” (Commodities, toggle, default Shown) hides the whole button footer; on a phone (app mode) a floating “BTN ON / BTN OFF” switch on the Commodities home (fno-08 … 10) flips it in one tap.
+- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts expiring soon (`expiringThisWeek` in `commodities/data.ts`), in three variants (`kind`): **option**, **future** (one GOLDM future sits second, for testing) and **event** (third), snapping to the 16 inset. Each card: the symbol (GOLDM) over the expiry as plain description text (12) — option “OPT Expiry Today / Tomorrow / <weekday>”, future “FUT Expiry 3 Dec” (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM” (description 12 here, 10 in the chart), double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) — or LTP (₹ + change) for a future — left, Margin Per Lot right. Action footer (no fill, 16 under the details like the other parts): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The trend read-out (the whole top right — label, since, the i, the arrow; hit area grown 12 around it) → the **trend info sheet** (`TrendInfoSheet`, live app reference 2026-11-17): no header; the trend on the left (arrow first, text left-aligned) and the symbol with its day change on the right over a hairline, Dash's two bullets on what's behind the trend (`trendNotes` in `commodities/data.ts`), a grey disclaimer (warning icon, “Disclaimer:”), a dashed rule, “Analyzed by Dash” with the Dash orb (24), then Okay (Large). The event card's Bullish read-out has the i too and opens the same sheet. The read-out is a `role="button"` span, not a button, because the card body is already a button; its tap doesn't open the card. The commodity art is hidden (`SHOW_ART = false`, kept). Prototype setting “Expiring card buttons” (Commodities, toggle, default Shown) hides the whole button footer; on a phone (app mode) a floating “BTN ON / BTN OFF” switch on the Commodities home (fno-08 … 10) flips it in one tap.
+- **Expiring This Week, Version 2** (`ExpiringCalendar`; prototype setting “Expiring This Week”, Commodities, Version 1 = the card rail above, default): the same section as a short calendar. The calendar's first 3 entries (`expiryPreview(3)` in `commodities/data.ts`) on their days, drawn like the calendar page (`CalendarDay`, shared with fno-38): the grey date block left (today not marked, not sticky here), one card per day, so it's three rows on one day or spread over two or three days. Within a day events come first (they're timed) and stay short (name over time, then the asset cards; the readings are on the calendar page). Contract rows as on fno-38: kind under the name, option chain (options) → fno-17 and ScalpPro → fno-05, row → asset page fno-21. View all → the Commodity calendar (fno-38).
+- **Expiring This Week, Version 3** (`ExpiringCalendarCard`): Version 2's three entries in **one card**. Each day is a band: the date (weekday over the number, every date the same weight) as the card's grey left column, attached edge to edge and as tall as that day's rows, the rows beside it. Hairlines between days (across the date column too) and between a day's rows. Rows behave as in Version 2; View all → fno-38.
+- **Calendar days** (prototype setting, Commodities; Versions 2 and 3): which week the short calendar shows, to see how the days split — **3 today** (the real calendar, default), **2 today · 1 tomorrow**, **1 a day** (three days). Sample weeks in `expiryPreviewSamples` (`commodities/data.ts`): the first two days hold only option / future contracts and an event (EIA crude oil) comes on the third day only — so it shows in **1 a day**; the other two fill the 3 rows before it. The calendar page keeps the real calendar. The cap stays 3 entries.
+  - **Event card** (third; data from the user's reference card, its layout kept to the option card's): a market event
+    on the contract's commodity today. NATGASMINI over “NG storage · Today 9:00 PM”; the trend read-out says the outlook
+    (“Bullish” over “Smaller build”, up arrow, no info icon); hairline; then the ATM option (305 CE ATM ₹7.40 +4.20%) and Margin Per Lot (₹1,850), and
+    the same ScalpPro / Buy footer. The same report sits today on the Commodity calendar's Events tab (fno-38).
 - **Chart**: same as Equity, the instrument selector reads “Gold ⇕” and opens the contract picker (fno-10). Picking a contract renames the chart and closes the sheet.
 - **Contract picker** (`ContractPickerSheet`): header “Choose options contract”, underline tabs Equity (8) / Commodities (7) in its bottom slot; on Commodities, pill chips All / Gold / Silver / Crude Oil / Natural Gas / Copper / Aluminium / Zinc filter the groups. Rows: ListCell Small with artwork, name, price + change, a “Lowest Margin” discover Tag where it applies, Radio. The selected row is highlighted (ListCell `selected`).
 - **Watchlist** — same as Equity.
@@ -262,20 +269,32 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 - **Smart Futures**: the Equity section with commodity contracts.
 - **Gold Summary** (`LotSummary`): Actionbar back (→ fno-08) + “Gold Summary”; lot tabs with artwork (Gold, Gold Mini, Gold Guinea, Gold Ten, Gold Petal) in the bottom slot, scrolling sideways. Futures (View all) — two future cards. Options (View option chain → the F&O options list) — expiry month pill (October ⌄ → month sheet), divider, Top traded / Most active / OI gainers / Top gainers, Filter, sort. Sort opens a sheet: **By Price** (price + change), **By Volume** (traded volume only), **Margin per lot** (₹ per lot only) — fno-12 / 13 / 14 open on each. Filter Puts shows the empty state (the sample has calls only).
 
-#### Expiry calendar (fno-38)
+#### Commodity calendar (fno-38)
 
 - **Entry:** View all on Expiring This Week (fno-08). Back → Commodities home. Layout after the user's reference
   (an Expiry Calendar screenshot, 2026-11-17): only names and simple buttons, no prices.
-- **Options / Futures:** flat L3 Tabs (underline) in the Actionbar's bottom slot (sticky); each has its own days.
+- **Tabs:** All · Options · Futures · Events — flat L3 Tabs (underline) with a 16 icon each (apps, candlestick chart,
+  trending up, event), in the Actionbar's bottom slot (sticky). All (default) merges the three by day — options, then
+  futures, then events — and says under each name which it is ("Options", "Futures", "Event").
+- **Events:** for now only the US EIA weekly reports that move MCX energy — crude oil inventories (Wed 9:00 PM IST)
+  and natural gas storage (Thu 9:00 PM IST). There is no event page, so the row shows everything upfront — the fields every
+  economic calendar carries (Investing.com, Zerodha's markets calendar, broker commodity dailies):
+  - top: event icon (Avatar 24), the event's name (up to two lines, then ellipsis), under it the release time in IST ("9:00 PM"); no buttons, no country, no impact tag;
+  - Previous / Forecast / Actual in a 3-column Grid (caption secondary over label 14); Actual reads "Due" until it's
+    out. Left out for an event with no number;
+  - what it moves: one small clickable L3 Card per asset (6 / 8 padding, radius 8, as wide as its name, in one row
+    that scrolls sideways): "Bullish" / "Bearish" (label 10, up / down colour) over the asset name (description 12, secondary); tap → that asset's page
+    (fno-21). An event can move several assets in different directions (crude inventories: Bearish Crude Oil, Crude Oil
+    Mini; Bullish Gold). Data `moves: {name, trend}[]`. No buttons on an event row, no line on how it moves prices.
+  The details line up with the name (indented past the icon). The row itself isn't tappable.
 - **Days** (`ExpiryTimeline`, data `expiryCalendar`) run from today under a month section header (L3 SectionHeader, content-primary:
   "Nov 2026"; repeated when the month turns), 24 apart. Left (48 wide): one date block (surface-secondary,
   radius 12, padding 08 / 04) with the weekday (description 12, secondary) over the date (label 16); today adds a
   border-dark ring. Right: one static card
   (flat) with that day's contracts — one day can hold several, split by hairlines.
-- **Row** (tappable → asset page fno-21; hover and press turn the row surface-secondary, clipped to the card's corners; 12 from every side of the card, content centred vertically): the commodity's icon (L3 Avatar 24, circle, without its 1px edge — the commodity art from `assets/`; Zinc, Copper,
-  Aluminium and Lead have no art yet, so their Avatar shows the chemical symbol as initials: ZN, CU, AL, PB), 12 gap, then the contract's name (label 14) (· exchange only where it's ambiguous, e.g.
-  "Natural Gas · NSE") and two icon-only Tertiary Small buttons, flat (`raised="none"`, no shadow): ScalpPro (→ Scalper fno-05) and open contract
-  (link icon → asset page fno-21). Small, not Large: they sit inside a list row, like the reference.
+- **Contract row** (tappable → asset page fno-21; hover and press turn the row surface-secondary, clipped to the card's corners; 12 from every side of the card, content centred vertically): the commodity's icon (L3 Avatar 24, circle, without its 1px edge — the commodity art from `assets/`; Zinc, Copper,
+  Aluminium and Lead have no art yet, so their Avatar shows the chemical symbol as initials: ZN, CU, AL, PB), 12 gap, then the contract's name (label 14) and icon-only Tertiary Small buttons, flat (`raised="none"`, no shadow). Options: option chain (link icon → option chain
+  fno-17, its back returns here) on the left, ScalpPro (→ Scalper fno-05) on the right. Futures: ScalpPro only (no option chain). Small, not Large: they sit inside a list row, like the reference.
 - **Sticky while scrolling:** each month's section header sticks at the top of the page (surface-default behind it)
   until the next month's pushes it out; each day's date block sticks 08 under it for as long as that day's card is in
   view (a day with several contracts keeps its date until its last row has scrolled past). Section-level stickiness in
@@ -418,6 +437,9 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 ### Changelog
 
+- 2026-11-17 — Expiring This Week: events card third in the rail (EIA natural gas storage today on NATGASMINI: outlook, ATM option, margin — like the other cards; the readings stay on the calendar); the calendar's gas report moved to today with the same readings.
+- 2026-11-17 — Event rows: country (US), impact tag and the how-it-moves line removed; no buttons; "Moves …" is now one small card per asset (Bullish / Bearish over the name, radius 8, scrolling row, tap → asset page); an event can move several assets.
+- 2026-11-17 — Expiry calendar: All · Options · Futures · Events tabs with icons (All default); Events = the EIA crude and natural gas reports with time (IST) · country, impact, previous / forecast / actual, how it moves prices and what it moves; futures rows have ScalpPro only; option chain (→ option chain page fno-17) left, ScalpPro right; Option chain's back now returns to the page it was opened from. ScalpPro anywhere in F&O now opens the Scalper as a new page (in from the right) and its back returns to the page it was opened from.
 - 2026-11-17 — Commodities: View all on Expiring This Week opens a new Expiry calendar (fno-38): Options / Futures tabs, expiry days (weekday + grey date pill) each with one card of contract names (several per day), each row with the commodity's icon (Avatar 24), its name, and ScalpPro and open-contract icon buttons.
 - 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: symbol over its option expiry day, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page fno-21; art hidden). Product tabs stick under the top bar on scroll (their row then takes the top bar's colour). The trend read-out is one shared component (`TrendBadge`) in the chart header and the Expiring cards. Expiring cards: option and future variants (a GOLDM future second for testing); the expiry as plain text under the symbol (no Tag); trend “Since” at 12 (the chart keeps 10) with the info (eye) icon after it, content-secondary; buttons without the grey strip, the card's three parts 16 apart; card → asset page fno-21; “Expiring card buttons” setting hides the button footer. All F&O cards lose their shadow (border only).
 - 2026-11-16 — Breakeven sheet Version 2 (default): heading What is breakeven price? + a description, the charges table, info lines hidden; Version 1 (the first sheet) kept behind the new F&O setting "Breakeven sheet".
@@ -459,6 +481,11 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - 2026-10-26 — Grouped the chart-tools list into Your indicators and Lemon indicators; linked DASH AI's View indicator
   action to the saved custom indicator in the open sheet.
 - 2026-11-17 — Header: 48 tall (`--app-topbar-height`, like every navbar tab's Actionbar), and the wallet is the shared round `TopBarAction`.
+- 2026-11-17 — Expiring cards: the trend read-out (Strong Uptrend / Downtrend, and the event card's Bullish, which gets the i) is one tap target over the whole top right and opens the new trend info sheet (trend + symbol and change, Dash's bullets, disclaimer, Analyzed by Dash, Okay).
+- 2026-11-17 — Expiring This Week Version 2 (setting “Expiring This Week”): a short calendar of the first 3 entries on their days, events first; View all → fno-38. The calendar day (date block + card) is one shared part, `CalendarDay`, for fno-38 and the home.
+- 2026-11-17 — Expiring This Week Version 3: the short calendar in one card, dates as its attached grey left column (`ExpiringCalendarCard`; `CalendarDate` / `CalendarEntry` split out of `CalendarDay`).
+- 2026-11-17 — Prototype setting “Calendar days” for Expiring This Week v2 / v3: 3 today · 2 today + 1 tomorrow · 1 a day.
+- 2026-11-17 — Calendar today: on the calendar page (fno-38) today's date block is inverted (surface-inverted, content-inverted text) instead of ringed; the home's short calendar no longer marks today.
 
 
 ## Source — this flow
@@ -2302,6 +2329,132 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
 �)_+���+M;`�oV�t�+�x��<Pw��������G'-���2u�٤�*�����ȍF<��P�)�؜ȗ�:��?�ȇ/��L��3���i9��mx�h�*�Jq&�U���Pʍ���M��vVM�Y��N�������OzP��j"�� �HS�5o:�    IEND�B`�
 ```
 
+### `src/flows/fno/commodities/components/CalendarDay.tsx`
+
+```tsx
+import { Avatar } from '@l3/components/Avatar'
+import { Button } from '@l3/components/Button'
+import { Card } from '@l3/components/Card'
+import { Grid } from '@l3/components/Grid'
+import { Icon } from '@l3/components/Icon'
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { Stack } from '@l3/components/Stack'
+import { msEvent, msLink } from '@l3/icons/material'
+import { t } from '../../copy'
+import type { ExpiryDay, ExpiryEntry } from '../data'
+import scalper from '../../assets/scalppro.svg'
+import styles from './Commodities.module.css'
+
+/** The day `inDays` from today. */
+export function dayFrom(inDays: number) {
+  const date = new Date()
+  date.setDate(date.getDate() + inDays)
+  return date
+}
+
+/**
+ * One day of the Commodity calendar: on the left the grey date block (weekday over the date, today ringed), on the
+ * right one card with that day's entries split by hairlines. Used by the calendar page (fno-38) and the home's
+ * Expiring This Week, version 2.
+ * - A contract row: art, name (and its kind when `showKind`), option chain (options only) and ScalpPro icon buttons;
+ *   the row opens the asset page.
+ * - An event row: event icon, name (two lines), time; no buttons. Under it one small card per asset it moves
+ *   (Bullish / Bearish over the asset, tap → asset page); with `eventDetails` also previous / forecast / actual above
+ *   (the calendar page — the home keeps events to one line). No country, impact tag or why line. Not tappable.
+ * `sticky` keeps the date block under the calendar page's month header while the day is in view.
+ */
+export function CalendarDay({ day, showKind, eventDetails = true, sticky = true, onAsset, onOptionChain, onScalper }: {
+  day: ExpiryDay
+  showKind: boolean
+  eventDetails?: boolean
+  sticky?: boolean
+  onAsset: () => void
+  onOptionChain: () => void
+  onScalper: () => void
+}) {
+  return <Stack direction="horizontal" gap="12" align="start">
+    <CalendarDate inDays={day.inDays} className={styles.calendarDate} sticky={sticky} />
+    <Card padding="none" className={styles.calendarCard}>
+      {day.entries.map((c) => <CalendarEntry key={c.id} entry={c} showKind={showKind} eventDetails={eventDetails} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
+    </Card>
+  </Stack>
+}
+
+/** The date block: weekday over the date (today inverted on the calendar page — dark fill, light text — not marked on the home). The page / v2 draw it as a grey block; v3 as the card's left column. */
+export function CalendarDate({ inDays, className, sticky = false }: { inDays: number; className: string; sticky?: boolean }) {
+  const date = dayFrom(inDays)
+  return <Stack gap="00" align="center" className={className} data-static={!sticky || undefined} data-today={inDays === 0 || undefined}>
+    <span className={styles.calendarWeekday}>{date.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
+    <span className={styles.calendarDay}>{date.getDate()}</span>
+  </Stack>
+}
+
+/** One calendar row — a contract (art, name, kind, option chain + ScalpPro, tap → asset page) or an event (see CalendarDay). */
+export function CalendarEntry({ entry: c, showKind, eventDetails = true, onAsset, onOptionChain, onScalper }: {
+  entry: ExpiryEntry
+  showKind: boolean
+  eventDetails?: boolean
+  onAsset: () => void
+  onOptionChain: () => void
+  onScalper: () => void
+}) {
+    if (c.event) {
+      // An event: everything upfront — there's no event page, so the row isn't tappable and has no buttons; each asset it moves is.
+      const e = c.event
+      const stats = ([['previous', e.previous], ['forecast', e.forecast], ['actual', e.actual]] as const)
+      return <Stack gap="08" className={styles.calendarRow}>
+        <Stack direction="horizontal" gap="12" align="center">
+          <Avatar icon={<Icon icon={msEvent} size={14} />} size={24} className={styles.calendarAvatar} />
+          <Stack gap="00" className={styles.calendarText}>
+            <p className={styles.calendarName} data-wrap>{c.name}</p>
+            <span className={styles.calendarExchange}>
+              {[showKind ? t('expiryAll.kind.event') : null, e.time].filter(Boolean).join(' · ')}
+            </span>
+          </Stack>
+        </Stack>
+        <Stack gap="08" className={styles.calendarEventBody}>
+          {eventDetails && e.previous && <Grid columns={3} gap="08">
+            {stats.map(([key, value]) => <Stack key={key} gap="00">
+              <span className={styles.calendarExchange}>{t(`expiryAll.${key}`)}</span>
+              <span className={styles.calendarStat}>{value ?? t('expiryAll.due')}</span>
+            </Stack>)}
+          </Grid>}
+          {/* What it moves, one small card per asset: Bullish / Bearish (up / down colour) over the asset; tap → its asset page.
+              Each as wide as its name, in one row that scrolls sideways when they don't fit. */}
+          <Stack direction="horizontal" gap="08" className={styles.calendarMoves}>
+            {e.moves.map((m) => <Card key={m.name} onClick={onAsset} className={styles.calendarMove}
+              aria-label={t(m.trend === 'up' ? 'expiryAll.bullishFor' : 'expiryAll.bearishFor', { name: m.name })}>
+              <Stack gap="00">
+                <span className={styles.calendarMoveTrend} data-trend={m.trend}>{t(m.trend === 'up' ? 'expiryAll.bullish' : 'expiryAll.bearish')}</span>
+                <span className={styles.calendarMoveName}>{m.name}</span>
+              </Stack>
+            </Card>)}
+          </Stack>
+        </Stack>
+      </Stack>
+    }
+    return <Stack direction="horizontal" gap="12" align="center" className={styles.calendarRow}
+      data-tappable onClick={onAsset}>
+      <Avatar src={c.image} initials={c.initials} size={24} className={styles.calendarAvatar} />
+      <Stack gap="00" className={styles.calendarText}>
+        <p className={styles.calendarName}>{c.name}</p>
+        {/* When kinds are mixed, say which each row is. */}
+        {showKind && <span className={styles.calendarExchange}>{t(`expiryAll.kind.${c.kind}`)}</span>}
+      </Stack>
+      {/* Option chain: options only — futures have no chain. */}
+      <RowActions name={c.name} chain={c.kind === 'option'} onOptionChain={onOptionChain} onScalper={onScalper} />
+    </Stack>
+}
+
+/** The row's two icon buttons: option chain (when `chain`) and ScalpPro. They stop the tap so the row doesn't open too. */
+function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; chain: boolean; onOptionChain: () => void; onScalper: () => void }) {
+  return <Stack direction="horizontal" gap="08" align="center">
+    {chain && <Button variant="tertiary" size="sm" raised="none" aria-label={t('expiryAll.chain', { name })} iconLeft={<Icon icon={msLink} size={16} />} onClick={(ev) => { ev.stopPropagation(); onOptionChain() }} />}
+    <Button variant="tertiary" size="sm" raised="none" aria-label={t('expiryAll.scalper', { name })} iconLeft={<span className={styles.calendarIcon}><MaskIcon src={scalper} /></span>} onClick={(ev) => { ev.stopPropagation(); onScalper() }} />
+  </Stack>
+}
+```
+
 ### `src/flows/fno/commodities/components/Commodities.module.css`
 
 ```css
@@ -2369,7 +2522,12 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
   box-sizing: border-box; flex: none; width: var(--l3-spacing-48); padding: var(--l3-spacing-08) var(--l3-spacing-04);
   border-radius: var(--l3-radius-12); background: var(--l3-surface-secondary);
 }
-.calendarDate[data-today] { box-shadow: inset 0 0 0 1px var(--l3-border-dark); } /* 1px hairline */
+.calendarDate[data-static] { position: static; } /* the home's Expiring This Week v2: no month header to stick under */
+/* Today on the calendar page: the date block inverted (dark fill, light text). The home's short calendar (data-static)
+   doesn't mark today. */
+.calendarDate[data-today]:not([data-static]) { background: var(--l3-surface-inverted); }
+.calendarDate[data-today]:not([data-static]) .calendarWeekday,
+.calendarDate[data-today]:not([data-static]) .calendarDay { color: var(--l3-content-inverted); }
 .calendarWeekday { font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
 .calendarDay { font: var(--l3-text-label-16); color: var(--l3-content-primary); }
 .calendarCard.calendarCard { flex: 1; min-width: 0; gap: 0; } /* rows touch: L3 Card's 08 row gap would open a strip between them — the hairline is the only split */
@@ -2378,16 +2536,45 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
 .calendarCard.calendarCard { position: relative; }
 .calendarCard::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--l3-border-light); pointer-events: none; } /* 1px: Figma stroke weight */
 .calendarCard > * + * { box-shadow: inset 0 1px 0 var(--l3-border-light); } /* 1px hairline between rows */
-.calendarRow { padding: var(--l3-spacing-12); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; } /* the same 12 from every side of the card */
+.calendarRow { padding: var(--l3-spacing-12); }
+.calendarRow[data-tappable] { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; } /* the same 12 from every side of the card */
 /* Each contract row is the tap target: hover and press turn it surface-secondary (the card clips it to its corners). */
-.calendarRow:active { background: var(--l3-surface-secondary); }
-@media (hover: hover) { .calendarRow:hover { background: var(--l3-surface-secondary); } }
+.calendarRow[data-tappable]:active { background: var(--l3-surface-secondary); }
+@media (hover: hover) { .calendarRow[data-tappable]:hover { background: var(--l3-surface-secondary); } }
+.calendarText { flex: 1; min-width: 0; }
 .calendarName { flex: 1; min-width: 0; margin: 0; font: var(--l3-text-label-14); color: var(--l3-content-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* An event's name is long ("EIA crude oil inventories"): it wraps to two lines, then ellipsis. */
+.calendarName[data-wrap] { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.calendarStat { font: var(--l3-text-label-14); color: var(--l3-content-primary); }
+.calendarWhy { margin: 0; font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
+/* An event's details line up with its name: past the 24 icon and the 12 gap. */
+/* An event's asset cards: one row that scrolls sideways (no scrollbar), each card as wide as its name — Bullish /
+   Bearish (label 10, up / down) over the asset, 6 / 8 padding, radius 8 (smaller than L3 Card's, per design). */
+.calendarMoves { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.calendarMoves::-webkit-scrollbar { display: none; }
+.calendarMove { flex: none; width: auto; padding: var(--l3-spacing-06) var(--l3-spacing-08); border-radius: var(--l3-radius-08); text-align: start; }
+.calendarMoveTrend { font: var(--l3-text-label-10); }
+.calendarMoveTrend[data-trend='up'] { color: var(--l3-content-accent-indicator-up-default); }
+.calendarMoveTrend[data-trend='down'] { color: var(--l3-content-accent-indicator-down-default); }
+.calendarMoveName { font: var(--l3-text-description-12); color: var(--l3-content-secondary); white-space: nowrap; }
+.calendarEventBody { padding-inline-start: calc(var(--l3-size-24) + var(--l3-spacing-12)); }
 .calendarExchange { font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
 .calendarIcon { display: inline-flex; width: var(--l3-size-16); height: var(--l3-size-16); }
 
 /* Commodity icon without L3 Avatar's 1px edge (the art has its own shape). L3 gap: Avatar has no borderless option. */
 .calendarAvatar::after { box-shadow: none; }
+/* Expiring This Week, version 2 (home): the first days of the calendar, 12 between days. */
+.expiryCalendarPreview { display: flex; flex-direction: column; gap: var(--l3-spacing-12); }
+/* Expiring This Week, version 3 (home): the same days in ONE card. Each day is a band: the date as the card's grey
+   left column (full height of the day, attached edge to edge), the day's rows beside it; hairlines between days
+   (full width, across the date column too) and between rows (rows only). Every date has the same weight (no today marker). */
+.calendarJoined.calendarJoined { position: relative; gap: 0; overflow: hidden; }
+.calendarJoined::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--l3-border-light); pointer-events: none; } /* 1px card edge over the fills */
+.calendarJoinedDay { display: flex; align-items: stretch; }
+.calendarJoinedDay + .calendarJoinedDay { border-top: 1px solid var(--l3-border-light); } /* 1px between days: a border, so it also crosses the grey date column */
+.calendarJoinedDate.calendarJoinedDate { flex: none; box-sizing: border-box; width: var(--l3-spacing-48); justify-content: center; padding: var(--l3-spacing-08) var(--l3-spacing-04); background: var(--l3-surface-secondary); }
+.calendarJoinedRows { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.calendarJoinedRows > * + * { box-shadow: inset 0 1px 0 var(--l3-border-light); } /* 1px between rows of a day */
 ```
 
 ### `src/flows/fno/commodities/components/CommoditiesFeed.tsx`
@@ -2399,10 +2586,13 @@ import { Watchlists } from '../../components/Discovery'
 import { TradingChart } from '../../components/TradingChart'
 import type { Contract, Watchlist } from '../../data'
 import { t } from '../../copy'
-import { smartFutures, type Commodity } from '../data'
+import { smartFutures, type Commodity, type ExpiringContract } from '../data'
 import { CommodityHeatmap } from './CommodityHeatmap'
 import { CommodityShortcuts } from './CommodityShortcuts'
+import { ExpiringCalendar } from './ExpiringCalendar'
+import { ExpiringCalendarCard } from './ExpiringCalendarCard'
 import { ExpiringThisWeek } from './ExpiringThisWeek'
+import { useFlowOption } from '../../../../shared/prototype'
 import { PopularCommodities } from './PopularCommodities'
 import parts from '../../components/HomeParts.module.css'
 
@@ -2421,13 +2611,22 @@ type Props = {
   onScalper: () => void
   /** Expiring This Week's View all → the Upcoming expiries timeline. */
   onExpiries: () => void
+  /** An Expiring card's trend read-out → the trend info sheet. */
+  onTrendInfo: (contract: ExpiringContract) => void
 }
 
 /** The Commodities tab of F&O home (Figma 6754:63637), under the shared header, P&L, indices and product tabs. */
-export function CommoditiesFeed({ instrument, lists, onCommodity, onAsset, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper, onExpiries }: Props) {
+export function CommoditiesFeed({ instrument, lists, onCommodity, onAsset, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper, onExpiries, onTrendInfo }: Props) {
+  // Prototype setting “Expiring This Week”: Version 1 = the card rail, Version 2 = the short calendar,
+  // Version 3 = that calendar in one card (dates attached as its left column).
+  const expiringVersion = useFlowOption('fno', 'expiringVersion', 'v1')
   return <Stack gap="32" className={parts.feed}>
     <CommodityShortcuts onOpen={onCommodity} />
-    <ExpiringThisWeek onAsset={onAsset} onContract={onContract} onScalper={onScalper} onViewAll={onExpiries} />
+    {expiringVersion === 'v3'
+      ? <ExpiringCalendarCard onAsset={onAsset} onOptionChain={onChain} onScalper={onScalper} onViewAll={onExpiries} />
+      : expiringVersion === 'v2'
+      ? <ExpiringCalendar onAsset={onAsset} onOptionChain={onChain} onScalper={onScalper} onViewAll={onExpiries} />
+      : <ExpiringThisWeek onAsset={onAsset} onContract={onContract} onScalper={onScalper} onViewAll={onExpiries} onTrendInfo={onTrendInfo} />}
     <TradingChart instrument={instrument} onInstrument={onPicker} onChoose={onChoose} onDestination={onDestination} onChain={onChain} onScalper={onScalper} />
     <div className={parts.divider} />
     <div data-fno="watchlists"><Watchlists lists={lists} onAdd={onAddWatchlist} onOpen={onDestination} /></div>
@@ -2486,6 +2685,71 @@ export function CommodityShortcuts({ onOpen }: { onOpen: (commodity: Commodity) 
 }
 ```
 
+### `src/flows/fno/commodities/components/ExpiringCalendar.tsx`
+
+```tsx
+import { SectionHeader } from '@l3/components/SectionHeader'
+import { t } from '../../copy'
+import { useFlowOption } from '../../../../shared/prototype'
+import { expiryPreview, expiryPreviewSamples, type ExpiryPreviewSample } from '../data'
+import { CalendarDay } from './CalendarDay'
+import parts from '../../components/HomeParts.module.css'
+import styles from './Commodities.module.css'
+
+/**
+ * Expiring This Week, version 2 — the Commodities home section as a short calendar instead of the card rail: the
+ * calendar's first 3 entries (`expiryPreview`), on their days (the grey date block on the left, one card per day), so
+ * it's three rows on one day or spread over two or three days. Events first within a day and on one line (time ·
+ * country, impact); contracts as on the calendar page (option chain + ScalpPro, row → asset page). View all → the
+ * Commodity calendar (fno-38) with everything. Prototype setting "Expiring This Week" picks Version 1 (cards) or 2.
+ */
+export function ExpiringCalendar({ onAsset, onOptionChain, onScalper, onViewAll }: { onAsset: () => void; onOptionChain: () => void; onScalper: () => void; onViewAll: () => void }) {
+  // Prototype setting “Calendar days”: which week to show (the real calendar, 2 today + 1 tomorrow, or 1 a day).
+  const sample = useFlowOption('fno', 'expiringDays', 'calendar') as ExpiryPreviewSample
+  return <section className={parts.contractSection} aria-label={t('expiring.title')}>
+    <SectionHeader title={t('expiring.title')} action={{ type: 'view-all', label: t('viewAll'), onClick: onViewAll }} />
+    <div className={styles.expiryCalendarPreview}>
+      {expiryPreview(3, expiryPreviewSamples[sample] ?? expiryPreviewSamples.calendar).map((day) => <CalendarDay key={day.inDays} day={day} showKind sticky={false} eventDetails={false} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
+    </div>
+  </section>
+}
+```
+
+### `src/flows/fno/commodities/components/ExpiringCalendarCard.tsx`
+
+```tsx
+import { Card } from '@l3/components/Card'
+import { SectionHeader } from '@l3/components/SectionHeader'
+import { t } from '../../copy'
+import { useFlowOption } from '../../../../shared/prototype'
+import { expiryPreview, expiryPreviewSamples, type ExpiryPreviewSample } from '../data'
+import { CalendarDate, CalendarEntry } from './CalendarDay'
+import parts from '../../components/HomeParts.module.css'
+import styles from './Commodities.module.css'
+
+/**
+ * Expiring This Week, version 3 — the version 2 short calendar (the calendar's first 3 entries on their days, events
+ * first and on one line) in ONE card: each day is a band with the date as the card's grey left column, attached edge
+ * to edge and as tall as the day's rows, and the rows beside it; hairlines between days and between rows. Rows act as
+ * on the calendar page (option chain + ScalpPro, row → asset page). View all → the Commodity calendar (fno-38).
+ */
+export function ExpiringCalendarCard({ onAsset, onOptionChain, onScalper, onViewAll }: { onAsset: () => void; onOptionChain: () => void; onScalper: () => void; onViewAll: () => void }) {
+  // Prototype setting “Calendar days”: which week to show (the real calendar, 2 today + 1 tomorrow, or 1 a day).
+  const sample = useFlowOption('fno', 'expiringDays', 'calendar') as ExpiryPreviewSample
+  return <section className={parts.contractSection} aria-label={t('expiring.title')}>
+    <SectionHeader title={t('expiring.title')} action={{ type: 'view-all', label: t('viewAll'), onClick: onViewAll }} />
+    <Card padding="none" className={styles.calendarJoined}>
+      {expiryPreview(3, expiryPreviewSamples[sample] ?? expiryPreviewSamples.calendar).map((day) => <div key={day.inDays} className={styles.calendarJoinedDay}>
+        <CalendarDate inDays={day.inDays} className={styles.calendarJoinedDate} />
+        <div className={styles.calendarJoinedRows}>
+          {day.entries.map((c) => <CalendarEntry key={c.id} entry={c} showKind eventDetails={false} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
+        </div>
+      </div>)}
+    </Card>
+  </section>
+}
+```
+
 ### `src/flows/fno/commodities/components/ExpiringThisWeek.tsx`
 
 ```tsx
@@ -2502,6 +2766,7 @@ import { t } from '../../copy'
 import { expiringThisWeek, type ExpiringContract } from '../data'
 import scalper from '../../assets/scalppro.svg'
 import { TrendBadge } from '../../components/TrendBadge'
+import { trendLabel, trendSince } from '../sheets/TrendInfoSheet'
 import parts from '../../components/HomeParts.module.css'
 import styles from './Commodities.module.css'
 
@@ -2518,13 +2783,16 @@ function expiryDay(days: number) {
 }
 
 /** The card as a contract, for the contract sheet (Buy). */
-const asContract = (c: ExpiringContract): Contract => c.kind === 'option'
+const asContract = (c: ExpiringContract): Contract => c.kind !== 'future'
   ? { id: c.id, name: `${c.symbol} ${c.option}`, description: c.description, price: c.price, change: c.priceChange, volume: 0, side: c.option.includes(' PE') ? 'put' : 'call' }
   : { id: c.id, name: c.symbol, description: c.description, price: c.price, change: c.priceChange, volume: 0 }
 
 /** The card's variant: the expiry line under the symbol and the left column's label (the option, or LTP for a future). */
-const expiryLine = (c: ExpiringContract) => c.kind === 'option' ? t('expiring.tag', { day: expiryDay(c.expiresInDays) }) : t('expiring.futTag', { date: c.expiryDate })
-const priceLabel = (c: ExpiringContract) => c.kind === 'option' ? c.option : t('expiring.ltp')
+const expiryLine = (c: ExpiringContract) =>
+  c.kind === 'option' ? t('expiring.tag', { day: expiryDay(c.expiresInDays) })
+  : c.kind === 'event' ? t('expiring.eventTag', { event: c.event, day: expiryDay(c.eventInDays), time: c.eventTime })
+  : t('expiring.futTag', { date: c.expiryDate })
+const priceLabel = (c: ExpiringContract) => c.kind === 'future' ? t('expiring.ltp') : c.option
 
 /**
  * Expiring This Week — the Commodities tab's section between the commodity shortcuts and the chart: a sideways rail
@@ -2532,9 +2800,9 @@ const priceLabel = (c: ExpiringContract) => c.kind === 'option' ? c.option : t('
  * "OPT Expiry Today" / "FUT Expiry 3 Dec"), the trend since when it started, the option's premium or the future's LTP
  * (left) and the margin per lot
  * (right), each a label over its value, then
- * View all opens the Upcoming expiries timeline (fno-38). ScalpPro and Buy in the card's action footer (no fill); the three parts sit 16 apart. A tap on the card opens the contract's asset page.
+ * View all opens the Upcoming expiries timeline (fno-38). The trend read-out (top right, with its i) opens the trend info sheet. ScalpPro and Buy in the card's action footer (no fill); the three parts sit 16 apart. A tap on the card opens the contract's asset page.
  */
-export function ExpiringThisWeek({ onAsset, onContract, onScalper, onViewAll }: { onAsset: () => void; onContract: (contract: Contract) => void; onScalper: () => void; /** View all → the Upcoming expiries timeline (fno-38). */ onViewAll: () => void }) {
+export function ExpiringThisWeek({ onAsset, onContract, onScalper, onViewAll, onTrendInfo }: { onAsset: () => void; onContract: (contract: Contract) => void; onScalper: () => void; /** The trend read-out (Strong Uptrend / Bullish …, the whole top right) → the trend info sheet. */ onTrendInfo: (contract: ExpiringContract) => void; /** View all → the Upcoming expiries timeline (fno-38). */ onViewAll: () => void }) {
   // Prototype setting “Expiring card buttons”: off hides the whole ScalpPro + Buy footer.
   const showButtons = useFlowOption('fno', 'expiringButtons', 'on') === 'on'
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
@@ -2557,7 +2825,7 @@ export function ExpiringThisWeek({ onAsset, onContract, onScalper, onViewAll }: 
                 <p className={styles.expirySymbol}>{c.symbol}</p>
                 <p className={parts.description}>{expiryLine(c)}</p>
               </Stack>
-              <TrendBadge trend={c.trend} label={t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')} since={t('expiring.since', { time: c.since })} largeSince info={t('expiring.sinceInfo')} />
+              <TrendBadge trend={c.trend} label={trendLabel(c)} since={trendSince(c)} largeSince info={t('expiring.sinceInfo')} onInfo={() => onTrendInfo(c)} />
             </Stack>
             <div className={styles.expiryRule} />
             <Stack direction="horizontal" gap="12" justify="between">
@@ -2787,39 +3055,77 @@ export const assetCandles = assetCloses.map((close, i) => {
  * - `future`: the future's last traded price (LTP); the expiry line is "FUT Expiry <expiryDate>" ("3 Dec").
  * `price` / `priceChange` are the option's premium or the future's LTP with the day change (%); `margin` is the margin
  * per lot (₹); `trend` / `since` feed the trend read-out.
+ * - `event`: a market event on the contract's commodity today (the EIA natural gas storage report): the line under the
+ *   symbol is the event and its time ("NG storage · Today 9:00 PM"), the trend read-out is the outlook ("Bullish" over
+ *   "Smaller build"), then the ATM option like an
+ *   `option` card (the readings are on the calendar's Events tab). Data from the user's reference card (2026-11-17).
  */
 type ExpiringBase = {
   id: string; symbol: string; /** The Commodity it belongs to. */ commodity: Commodity['id']; image: string; description: string
   trend: 'up' | 'down'; since: string; price: number; priceChange: number; margin: number
+  /** What's behind the trend, in two short lines — the trend info sheet's bullets (Dash's read-out). */
+  trendNotes: string[]
 }
 export type ExpiringContract =
   | (ExpiringBase & { kind: 'option'; option: string; expiresInDays: number })
   | (ExpiringBase & { kind: 'future'; expiryDate: string })
+  | (ExpiringBase & {
+      kind: 'event'; option: string
+      /** The event's short name and when it's out (IST). */
+      event: string; eventInDays: number; eventTime: string
+      /** The outlook ahead of it ("Bullish") and why, in a few words ("Smaller build"). */
+      outlook: string; reason: string
+    })
 export const expiringThisWeek: ExpiringContract[] = [
-  { kind: 'option', id: 'exp-goldm', symbol: 'GOLDM', commodity: 'gold', image: gold, description: 'Fut | 3 Dec 26', expiresInDays: 0, trend: 'up', since: '3:25 PM', option: '132000 CE ATM', price: 118, priceChange: 14.56, margin: 1180 },
+  { kind: 'option', id: 'exp-goldm', symbol: 'GOLDM', commodity: 'gold', image: gold, description: 'Fut | 3 Dec 26', expiresInDays: 0, trend: 'up', since: '3:25 PM', option: '132000 CE ATM', price: 118, priceChange: 14.56, margin: 1180, trendNotes: ['EMA(9) on the 15m candles has stayed above EMA(21) since 3:25 PM, and every dip has been bought', 'Momentum is with buyers. Trailing a stop under the last swing low works better than chasing'] },
   // Second for testing the futures variant (sample from the live card, 2026-11-17).
-  { kind: 'future', id: 'exp-goldm-fut', symbol: 'GOLDM', commodity: 'gold', image: gold, description: 'Fut | 3 Dec 26', expiryDate: '3 Dec', trend: 'up', since: '2:40 PM', price: 132640, priceChange: 1.24, margin: 14020 },
-  { kind: 'option', id: 'exp-silverm', symbol: 'SILVERM', commodity: 'silver', image: silver, description: 'Fut | 27 Feb 27', expiresInDays: 1, trend: 'down', since: '1:10 PM', option: '158000 PE ATM', price: 642.5, priceChange: 8.2, margin: 3212.5 },
-  { kind: 'option', id: 'exp-crudeoilm', symbol: 'CRUDEOILM', commodity: 'crude', image: crudeOil, description: 'Fut | 18 Dec 26', expiresInDays: 2, trend: 'up', since: '11:40 AM', option: '5400 CE ATM', price: 96.4, priceChange: 21.03, margin: 964 },
-  { kind: 'option', id: 'exp-naturalgas', symbol: 'NATURALGAS', commodity: 'gas', image: naturalGas, description: 'Fut | 24 Dec 26', expiresInDays: 3, trend: 'down', since: '10:05 AM', option: '320 PE ATM', price: 12.85, priceChange: 6.74, margin: 16062.5 },
+  { kind: 'future', id: 'exp-goldm-fut', symbol: 'GOLDM', commodity: 'gold', image: gold, description: 'Fut | 3 Dec 26', expiryDate: '3 Dec', trend: 'up', since: '2:40 PM', price: 132640, priceChange: 1.24, margin: 14020, trendNotes: ['Price has held above EMA(9) on the 15m candles since 2:40 PM, with higher lows each hour', 'The trend is steady rather than stretched. Entries on pullbacks to the average carry less risk'] },
+  // Third: the events card (data from the user's reference, 2026-11-17).
+  { kind: 'event', id: 'exp-natgasmini-event', symbol: 'NATGASMINI', commodity: 'gas', image: naturalGas, description: 'Fut | 24 Nov 26', event: 'NG storage', eventInDays: 0, eventTime: '9:00 PM', trend: 'up', since: '', outlook: 'Bullish', reason: 'Smaller build', option: '305 CE ATM', price: 7.4, priceChange: 4.2, margin: 1850, trendNotes: ['EIA storage is expected at +38 Bcf tonight against +56 Bcf last week, a smaller build than usual', 'A smaller build means tighter supply. Prices can move sharply in the minutes after the 9:00 PM release'] },
+  { kind: 'option', id: 'exp-silverm', symbol: 'SILVERM', commodity: 'silver', image: silver, description: 'Fut | 27 Feb 27', expiresInDays: 1, trend: 'down', since: '1:10 PM', option: '158000 PE ATM', price: 642.5, priceChange: 8.2, margin: 3212.5, trendNotes: ['EMA(9) on the 15m candles crossed below EMA(21) at 1:10 PM, and lower highs keep forming', 'Sellers are in control. Bounces into the moving averages have been sold so far'] },
+  { kind: 'option', id: 'exp-crudeoilm', symbol: 'CRUDEOILM', commodity: 'crude', image: crudeOil, description: 'Fut | 18 Dec 26', expiresInDays: 2, trend: 'up', since: '11:40 AM', option: '5400 CE ATM', price: 96.4, priceChange: 21.03, margin: 964, trendNotes: ['EMA(9) on the 15m candles turned up at 11:40 AM and price has stayed above it since', 'Buyers are stepping in on every dip. A close back under the average would weaken the trend'] },
+  { kind: 'option', id: 'exp-naturalgas', symbol: 'NATURALGAS', commodity: 'gas', image: naturalGas, description: 'Fut | 24 Dec 26', expiresInDays: 3, trend: 'down', since: '10:05 AM', option: '320 PE ATM', price: 12.85, priceChange: 6.74, margin: 16062.5, trendNotes: ['Price slipped under EMA(9) on the 15m candles at 10:05 AM and has not reclaimed it', 'Each rally is fading below the average. Selective entries beat chasing the move lower'] },
 ]
 
 /**
- * Expiry calendar (fno-38, View all on Expiring This Week): the days commodity contracts expire, each day holding
- * every contract that expires on it (one day can have several). Just the contract's name — no prices; its row has
- * ScalpPro and open-contract buttons. `inDays` = days from today (0 = today), so the dates always lead from today.
+ * Expiry calendar (fno-38, View all on Expiring This Week): the days commodity contracts expire, plus the market events
+ * that move them. Each day holds everything on it (one day can have several). Just the name — no prices. Options rows
+ * have ScalpPro and option-chain buttons, futures rows only ScalpPro, events none. `inDays` = days from today
+ * (0 = today), so the dates always lead from today. The All tab merges the three by day.
  */
+export type ExpiryKind = 'option' | 'future' | 'event'
 export type ExpiryEntry = {
   id: string
+  kind: ExpiryKind
   name: string
-  /** "MCX" / "NSE", shown only where the name alone is ambiguous. */
-  exchange?: string
+  /** Events: everything shows on the card (there's no event page). */
+  event?: ExpiryEvent
   /** The commodity's art, shown as a 24 avatar before the name. Base metals have no art yet: `initials` instead. */
   image?: string
   /** Chemical symbol for metals without art (Zn, Cu, Al, Pb). */
   initials?: string
 }
-export type ExpiryDay = { inDays: number; contracts: ExpiryEntry[] }
+/**
+ * A market event that moves commodity prices — the fields every economic calendar shows (Investing.com, Zerodha
+ * Markets calendar, broker commodity dailies): when (IST), where, how much it usually moves prices, the last reading,
+ * what's expected and, once out, what came in. Plus which MCX commodities it moves and one line on how.
+ */
+export type ExpiryEvent = {
+  /** Release time in IST ("9:00 PM"). */
+  time: string
+  /** Who releases it: "US", "China", "OPEC+". */
+  country: string
+  impact: 'high' | 'medium' | 'low'
+  /** The last reading, the consensus forecast and (once released) the actual, with units. None for meetings with no number (OPEC+). */
+  previous?: string
+  forecast?: string
+  actual?: string
+  /** The MCX commodities it moves and which way it's expected to push each: up = "Bullish for …", down = "Bearish for …". */
+  moves: { name: string; trend: 'up' | 'down' }[]
+  /** How it usually moves them, in one line. */
+  why: string
+}
+export type ExpiryDay = { inDays: number; entries: ExpiryEntry[] }
 const expiryArt: Record<string, Pick<ExpiryEntry, 'image' | 'initials'>> = {
   'Gold': { image: gold }, 'Gold Mini': { image: goldMini }, 'Gold Guinea': { image: goldGuinea }, 'Gold Petal': { image: goldPetal },
   'Silver': { image: silver }, 'Silver Mini': { image: silver }, 'Silver Micro': { image: silver },
@@ -2827,26 +3133,81 @@ const expiryArt: Record<string, Pick<ExpiryEntry, 'image' | 'initials'>> = {
   'Natural Gas': { image: naturalGas }, 'Natural Gas Mini': { image: naturalGas },
   'Zinc': { initials: 'Zn' }, 'Copper': { initials: 'Cu' }, 'Aluminium': { initials: 'Al' }, 'Lead': { initials: 'Pb' },
 }
-const entries = (prefix: string, names: (string | [string, string])[]): ExpiryEntry[] =>
-  names.map((n) => {
-    const [name, exchange] = typeof n === 'string' ? [n, undefined] : n
-    return { id: `${prefix}-${name}${exchange ? `-${exchange}` : ''}`, name, exchange, ...expiryArt[name] }
-  })
-export const expiryCalendar: Record<'option' | 'future', ExpiryDay[]> = {
+const contracts = (kind: 'option' | 'future', names: string[]): ExpiryEntry[] =>
+  names.map((name) => ({ id: `${kind}-${name}`, kind, name, ...expiryArt[name] }))
+const event = (name: string, details: ExpiryEvent): ExpiryEntry => ({ id: `event-${name}`, kind: 'event', name, event: details })
+export const expiryCalendar: Record<ExpiryKind, ExpiryDay[]> = {
   option: [
-    { inDays: 0, contracts: entries('o0', ['Gold Mini', 'Crude Oil Mini', 'Crude Oil']) },
-    { inDays: 1, contracts: entries('o1', [['Natural Gas', 'NSE']]) },
-    { inDays: 2, contracts: entries('o2', ['Silver Mini']) },
-    { inDays: 3, contracts: entries('o3', ['Natural Gas', 'Natural Gas Mini']) },
-    { inDays: 6, contracts: entries('o6', ['Zinc', 'Copper', 'Aluminium', 'Lead']) },
-    { inDays: 10, contracts: entries('o10', ['Silver', 'Silver Micro']) },
-    { inDays: 16, contracts: entries('o16', ['Gold', 'Gold Guinea', 'Gold Petal']) },
+    { inDays: 0, entries: contracts('option', ['Gold Mini', 'Crude Oil Mini', 'Crude Oil']) },
+    { inDays: 1, entries: contracts('option', ['Natural Gas']) },
+    { inDays: 2, entries: contracts('option', ['Silver Mini']) },
+    { inDays: 3, entries: contracts('option', ['Natural Gas', 'Natural Gas Mini']) },
+    { inDays: 6, entries: contracts('option', ['Zinc', 'Copper', 'Aluminium', 'Lead']) },
+    { inDays: 10, entries: contracts('option', ['Silver', 'Silver Micro']) },
+    { inDays: 16, entries: contracts('option', ['Gold', 'Gold Guinea', 'Gold Petal']) },
   ],
   future: [
-    { inDays: 2, contracts: entries('f2', ['Natural Gas', 'Natural Gas Mini']) },
-    { inDays: 9, contracts: entries('f9', ['Crude Oil', 'Crude Oil Mini']) },
-    { inDays: 13, contracts: entries('f13', ['Zinc', 'Copper', 'Aluminium']) },
-    { inDays: 16, contracts: entries('f16', ['Gold', 'Gold Mini', 'Silver', 'Silver Mini']) },
+    { inDays: 2, entries: contracts('future', ['Natural Gas', 'Natural Gas Mini']) },
+    { inDays: 9, entries: contracts('future', ['Crude Oil', 'Crude Oil Mini']) },
+    { inDays: 13, entries: contracts('future', ['Zinc', 'Copper', 'Aluminium']) },
+    { inDays: 16, entries: contracts('future', ['Gold', 'Gold Mini', 'Silver', 'Silver Mini']) },
+  ],
+  // For now only the two EIA weekly reports (sample readings, not live). Times are IST in winter (US standard time):
+  // natural gas storage today, crude tomorrow, both 9:00 PM.
+  event: [
+    { inDays: 0, entries: [event('EIA natural gas storage', { time: '9:00 PM', country: 'US', impact: 'high', previous: '+56 Bcf', forecast: '+38 Bcf', moves: [{ name: 'Natural Gas', trend: 'up' }, { name: 'Natural Gas Mini', trend: 'up' }], why: 'A smaller injection than expected usually lifts natural gas.' })] },
+    { inDays: 1, entries: [event('EIA crude oil inventories', { time: '9:00 PM', country: 'US', impact: 'high', previous: '−3.4M bbl', forecast: '−1.8M bbl', moves: [{ name: 'Crude Oil', trend: 'down' }, { name: 'Crude Oil Mini', trend: 'down' }, { name: 'Gold', trend: 'up' }], why: 'Falling stocks usually lift crude; a surprise build pulls it down.' })] },
+  ],
+}
+/** All tab: every kind on each day — options, then futures, then events. */
+export const expiryCalendarAll: ExpiryDay[] = (() => {
+  const byDay = new Map<number, ExpiryEntry[]>()
+  for (const kind of ['option', 'future', 'event'] as const)
+    for (const day of expiryCalendar[kind]) byDay.set(day.inDays, [...(byDay.get(day.inDays) ?? []), ...day.entries])
+  return [...byDay].sort((a, b) => a[0] - b[0]).map(([inDays, entries]) => ({ inDays, entries }))
+})()
+
+/**
+ * Expiring This Week, version 2 (home): the calendar's first `count` entries (3), keeping them on their days — three on
+ * one day, or spread over two or three days. Events come first within a day: they're timed, so they matter most today.
+ * Everything else is on the calendar page (View all).
+ */
+export function expiryPreview(count = 3, source: ExpiryDay[] = expiryCalendarAll): ExpiryDay[] {
+  const days: ExpiryDay[] = []
+  let left = count
+  for (const day of source) {
+    if (left === 0) break
+    const ordered = [...day.entries].sort((a, b) => Number(b.kind === 'event') - Number(a.kind === 'event'))
+    const entries = ordered.slice(0, left)
+    days.push({ inDays: day.inDays, entries })
+    left -= entries.length
+  }
+  return days
+}
+
+/**
+ * Prototype: how the home's short calendar (Expiring This Week v2 / v3) looks when the week splits differently — the
+ * setting “Calendar days”. Sample weeks: the first two days hold only option / future contracts, an event comes on the
+ * third day only. `calendar` = 3 today (all contracts); `split` = 2 today + 1 tomorrow; `spread` = 1 a day, so the
+ * third row is the event. The calendar page (fno-38) keeps the real calendar.
+ */
+export type ExpiryPreviewSample = 'calendar' | 'split' | 'spread'
+const crudeStock = expiryCalendar.event[1].entries[0]
+export const expiryPreviewSamples: Record<ExpiryPreviewSample, ExpiryDay[]> = {
+  calendar: [
+    { inDays: 0, entries: [...contracts('option', ['Gold Mini', 'Crude Oil Mini']), ...contracts('future', ['Natural Gas'])] },
+    { inDays: 1, entries: contracts('option', ['Natural Gas']) },
+    { inDays: 2, entries: [crudeStock] },
+  ],
+  split: [
+    { inDays: 0, entries: [...contracts('option', ['Gold Mini']), ...contracts('future', ['Crude Oil Mini'])] },
+    { inDays: 1, entries: [...contracts('option', ['Natural Gas']), ...contracts('future', ['Natural Gas Mini'])] },
+    { inDays: 2, entries: [crudeStock] },
+  ],
+  spread: [
+    { inDays: 0, entries: contracts('option', ['Gold Mini']) },
+    { inDays: 1, entries: contracts('future', ['Natural Gas Mini']) },
+    { inDays: 2, entries: [crudeStock] },
   ],
 }
 ```
@@ -3110,43 +3471,36 @@ export function AssetPage({ asset, onBack, onChain, onScalper, onOrder }: Props)
 ```tsx
 import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { Actionbar } from '@l3/components/Actionbar'
-import { Avatar } from '@l3/components/Avatar'
-import { Button } from '@l3/components/Button'
-import { Card } from '@l3/components/Card'
 import { Icon } from '@l3/components/Icon'
-import { MaskIcon } from '@l3/components/MaskIcon'
 import { SectionHeader } from '@l3/components/SectionHeader'
 import { Stack } from '@l3/components/Stack'
 import { Tabs } from '@l3/components/Tabs'
-import { msLink } from '@l3/icons/material'
+import { msApps, msCandlestickChart, msEvent, msTrendingUp } from '@l3/icons/material'
 import { Screen } from '../../../../shared/ui/Screen'
 import { t } from '../../copy'
-import { expiryCalendar } from '../data'
-import scalper from '../../assets/scalppro.svg'
+import { expiryCalendar, expiryCalendarAll, type ExpiryKind } from '../data'
+import { CalendarDay, dayFrom } from '../components/CalendarDay'
 import styles from '../components/Commodities.module.css'
 import flat from '../../flatCards.module.css'
 
-type Kind = 'option' | 'future'
+type Tab = 'all' | ExpiryKind
+const TABS: Tab[] = ['all', 'option', 'future', 'event']
+const TAB_ICONS: Record<Tab, string> = { all: msApps, option: msCandlestickChart, future: msTrendingUp, event: msEvent }
 
-/** The day `inDays` from today. */
-function dayFrom(inDays: number) {
-  const date = new Date()
-  date.setDate(date.getDate() + inDays)
-  return date
-}
 const monthOf = (date: Date) => date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })
 
 /**
- * fno-38 · Expiry calendar — View all on Expiring This Week (Commodities). Options / Futures (flat tabs, sticky, in the
+ * fno-38 · Expiry calendar — View all on Expiring This Week (Commodities). All / Options / Futures / Events (flat tabs with icons, sticky, in the
  * Actionbar's bottom slot). The days run from today under a month section header (L3 SectionHeader, content-primary: "Nov 2026", repeated when the month turns):
- * on the left one grey block (surface-secondary) holding the weekday over the date (today ringed), on the right one card with that day's contracts — one day can hold
+ * on the left one grey block (surface-secondary) holding the weekday over the date (today inverted on the calendar page — dark fill, light text — not marked on the home), on the right one card with that day's contracts — one day can hold
  * several, split by hairlines. Scrolling, the month header sticks at the top until the next month's pushes it out, and
- * each day's date block sticks under it for as long as that day's card is in view. A row is only the contract's name (· exchange where it's ambiguous) with two flat (no shadow) icon
- * buttons, centred vertically, the row 12 in from every side: ScalpPro (→ Scalper) and open contract (→ asset page). Cards are flat (border, no shadow).
+ * each day's date block sticks under it for as long as that day's card is in view. A row is only the contract's name with two flat (no shadow) icon
+ * buttons, centred vertically, the row 12 in from every side: options get option chain (→ option chain page) then ScalpPro (→ Scalper);
+ * futures ScalpPro only; events show everything upfront (time IST, previous / forecast / actual, one card per asset it moves: Bullish / Bearish → asset page), no buttons. All tags each row with its kind. Cards are flat (border, no shadow).
  */
-export function ExpiryTimeline({ onBack, onAsset, onScalper }: { onBack: () => void; onAsset: () => void; onScalper: () => void }) {
-  const [kind, setKind] = useState<Kind>('option')
-  const days = expiryCalendar[kind]
+export function ExpiryTimeline({ onBack, onAsset, onOptionChain, onScalper }: { onBack: () => void; onAsset: () => void; onOptionChain: () => void; onScalper: () => void }) {
+  const [tab, setTab] = useState<Tab>('all')
+  const days = tab === 'all' ? expiryCalendarAll : expiryCalendar[tab]
   // The days grouped by month ("Nov 2026", "Dec 2026"), in order.
   const months: { month: string; days: typeof days }[] = []
   for (const day of days) {
@@ -3157,35 +3511,16 @@ export function ExpiryTimeline({ onBack, onAsset, onScalper }: { onBack: () => v
   // The sticky date blocks stop just under the sticky month header: measure its height once it's drawn.
   const headRef = useRef<HTMLDivElement>(null)
   const [headHeight, setHeadHeight] = useState(0)
-  useLayoutEffect(() => { setHeadHeight(headRef.current?.offsetHeight ?? 0) }, [kind])
+  useLayoutEffect(() => { setHeadHeight(headRef.current?.offsetHeight ?? 0) }, [tab])
   return <Screen className={flat.flatCards} top={<Actionbar title={t('expiryAll.title')} onBack={onBack} backLabel={t('lot.back')}
-    bottom={<Tabs aria-label={t('expiryAll.filter')} value={kind} onChange={(v) => setKind(v as Kind)}
-      items={[{ value: 'option', label: t('expiryAll.options') }, { value: 'future', label: t('expiryAll.futures') }]} />} />}>
+    bottom={<Tabs aria-label={t('expiryAll.filter')} value={tab} onChange={(v) => setTab(v as Tab)}
+      items={TABS.map((value) => ({ value, label: t(`expiryAll.tab.${value}`), iconLeft: <Icon icon={TAB_ICONS[value]} size={16} /> }))} />} />}>
     <div className={styles.calendar} style={{ '--calendar-head': `${headHeight}px` } as CSSProperties}>
       {months.map((m, mi) => <section key={m.month} className={styles.calendarMonth} aria-label={m.month}>
         {/* Sticky: the month stays at the top until the next month's header pushes it out. */}
         <div ref={mi === 0 ? headRef : undefined} className={styles.calendarMonthHead}><SectionHeader title={m.month} /></div>
         <Stack gap="24">
-          {m.days.map((day) => {
-            const date = dayFrom(day.inDays)
-            return <Stack key={day.inDays} direction="horizontal" gap="12" align="start">
-              {/* Sticky under the month header, for as long as this day's card is in view. */}
-              <Stack gap="00" align="center" className={styles.calendarDate} data-today={day.inDays === 0 || undefined}>
-                <span className={styles.calendarWeekday}>{date.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
-                <span className={styles.calendarDay}>{date.getDate()}</span>
-              </Stack>
-              <Card padding="none" className={styles.calendarCard}>
-                {day.contracts.map((c) => <Stack key={c.id} direction="horizontal" gap="12" align="center" className={styles.calendarRow} onClick={onAsset}>
-                  <Avatar src={c.image} initials={c.initials} size={24} className={styles.calendarAvatar} />
-                  <p className={styles.calendarName}>{c.name}{c.exchange && <span className={styles.calendarExchange}> · {c.exchange}</span>}</p>
-                  <Stack direction="horizontal" gap="08" align="center">
-                    <Button variant="tertiary" size="sm" raised="none" aria-label={t('expiryAll.scalper', { name: c.name })} iconLeft={<span className={styles.calendarIcon}><MaskIcon src={scalper} /></span>} onClick={(e) => { e.stopPropagation(); onScalper() }} />
-                    <Button variant="tertiary" size="sm" raised="none" aria-label={t('expiryAll.open', { name: c.name })} iconLeft={<Icon icon={msLink} size={16} />} onClick={(e) => { e.stopPropagation(); onAsset() }} />
-                  </Stack>
-                </Stack>)}
-              </Card>
-            </Stack>
-          })}
+          {m.days.map((day) => <CalendarDay key={day.inDays} day={day} showKind={tab === 'all'} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
         </Stack>
       </section>)}
     </div>
@@ -3395,6 +3730,81 @@ export function ContractSheet({ contract, onAsset, onIlliquid, onBuy, onSell, on
       </div>
     </div>
   </Sheet>
+}
+```
+
+### `src/flows/fno/commodities/sheets/TrendInfoSheet.module.css`
+
+```css
+/* Trend info sheet (live app reference, 2026-11-17) on L3 tokens. */
+/* The trend row: a hairline under it, 16 to the bullets (the Stack's gap). */
+.summary { padding-bottom: var(--l3-spacing-16); border-bottom: 1px solid var(--l3-border-light); }
+.symbol { font: var(--l3-text-heading-16); color: var(--l3-content-primary); white-space: nowrap; }
+.notes { display: flex; flex-direction: column; gap: var(--l3-spacing-12); margin: 0; padding-left: var(--l3-spacing-20); font: var(--l3-text-description-14); color: var(--l3-content-primary); }
+/* The disclaimer: a grey note (surface-secondary, radius 12), warning icon + title over the line. */
+.disclaimer { padding: var(--l3-spacing-12) var(--l3-spacing-16); border-radius: var(--l3-radius-12); background: var(--l3-surface-secondary); }
+.disclaimerTitle { font: var(--l3-text-label-12); color: var(--l3-content-primary); }
+.disclaimerText { margin: 0; font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
+/* "Analyzed by Dash": a dashed rule above, the Dash orb at 24 next to the line. */
+.byDash { padding-top: var(--l3-spacing-16); border-top: 1px dashed var(--l3-border-light); font: var(--l3-text-label-14); color: var(--l3-content-secondary); }
+.byDash [data-size] { --orb-box: var(--l3-size-24); }
+```
+
+### `src/flows/fno/commodities/sheets/TrendInfoSheet.tsx`
+
+```tsx
+import { Button } from '@l3/components/Button'
+import { ButtonGroup } from '@l3/components/ButtonGroup'
+import { Icon } from '@l3/components/Icon'
+import { PriceChange } from '@l3/components/PriceChange'
+import { Stack } from '@l3/components/Stack'
+import { msWarning } from '@l3/icons/material'
+import { Sheet } from '../../../../shared/ui/Sheet'
+import { DashOrb } from '../../../../shared/ui/dash/DashOrb'
+import { t } from '../../copy'
+import { TrendBadge } from '../../components/TrendBadge'
+import type { ExpiringContract } from '../data'
+import styles from './TrendInfoSheet.module.css'
+
+/** The trend read-out's label and second line, as on the card: the outlook for an event card, else Strong Up / Downtrend. */
+export const trendLabel = (c: ExpiringContract) => c.kind === 'event' ? c.outlook : t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')
+export const trendSince = (c: ExpiringContract) => c.kind === 'event' ? c.reason : t('expiring.since', { time: c.since })
+
+/**
+ * Why this trend — from the trend read-out on an Expiring This Week card (Strong Uptrend / Downtrend, or an event's
+ * Bullish). Live app reference (phone screenshot, 2026-11-17): the trend (arrow, then label over since, left-aligned) on the left and the
+ * contract with its day change on the right, a hairline, Dash's two bullets on what's behind it, the grey disclaimer,
+ * a dashed rule, "Analyzed by Dash", then Okay. No sheet header: the trend row is the top (the dialog is named by
+ * aria-label). Opens through the shared Sheet, so it stays inside the screen (the phone frame on desktop).
+ */
+export function TrendInfoSheet({ contract, onClose }: { contract: ExpiringContract; onClose: () => void }) {
+  const label = trendLabel(contract)
+  return (
+    <Sheet
+      onClose={onClose}
+      label={t('trendInfo.label', { trend: label, symbol: contract.symbol })}
+      footer={<ButtonGroup aria-label={t('trendInfo.label', { trend: label, symbol: contract.symbol })}><Button size="lg" onClick={onClose}>{t('trendInfo.okay')}</Button></ButtonGroup>}
+    >
+      <Stack gap="16">
+        <Stack direction="horizontal" gap="12" align="center" justify="between" className={styles.summary}>
+          <TrendBadge trend={contract.trend} label={label} since={trendSince(contract)} largeSince iconStart />
+          <Stack gap="04" align="end">
+            <span className={styles.symbol}>{contract.symbol}</span>
+            <PriceChange value={contract.priceChange} unit="percent" size="md" />
+          </Stack>
+        </Stack>
+        <ul className={styles.notes}>{contract.trendNotes.map((note) => <li key={note}>{note}</li>)}</ul>
+        <Stack gap="08" className={styles.disclaimer}>
+          <Stack direction="horizontal" gap="04" align="center" className={styles.disclaimerTitle}><Icon icon={msWarning} size={16} /><span>{t('trendInfo.disclaimerTitle')}</span></Stack>
+          <p className={styles.disclaimerText}>{t('trendInfo.disclaimer')}</p>
+        </Stack>
+        <Stack direction="horizontal" gap="08" align="center" justify="center" className={styles.byDash}>
+          <DashOrb size="sm" halo={false} />
+          <span>{t('trendInfo.byDash')}</span>
+        </Stack>
+      </Stack>
+    </Sheet>
+  )
 }
 ```
 
@@ -4683,6 +5093,11 @@ export function Heatmap({ onOpen, onViewAll }: { onOpen: (name: string) => void;
 @keyframes fno-in-from-end { from { transform: translateX(100%); } to { transform: none; } }
 @keyframes fno-in-from-start { from { transform: translateX(-100%); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .productContent > * { animation: none !important; } }
+/* The trend read-out as one tap target (opens the trend info sheet): label, since, i and arrow, with the hit area
+   grown 12 around it (top right of the Expiring card) so it's easy to hit. */
+.trendButton { position: relative; display: inline-flex; align-items: center; gap: var(--l3-spacing-04); cursor: pointer; border-radius: var(--l3-radius-08); }
+.trendButton::before { content: ''; position: absolute; inset: calc(-1 * var(--l3-spacing-12)); }
+.trendButton:focus-visible { outline: var(--l3-spacing-02) solid var(--l3-border-dark); outline-offset: var(--l3-spacing-04); }
 ```
 
 ### `src/flows/fno/components/Overview.tsx`
@@ -5396,6 +5811,7 @@ function clock(start: string, add: number) {
 ### `src/flows/fno/components/TrendBadge.tsx`
 
 ```tsx
+import type { KeyboardEvent, MouseEvent } from 'react'
 import { Icon } from '@l3/components/Icon'
 import { MaskIcon } from '@l3/components/MaskIcon'
 import { Stack } from '@l3/components/Stack'
@@ -5406,16 +5822,39 @@ import styles from './HomeParts.module.css'
 /**
  * The trend read-out: "Strong Uptrend / Downtrend" in up / down colour over "Since <time>" (caption 10 in the chart; `largeSince` = description 12, the Expiring cards), with the double
  * arrow on the right. One component for the chart's header and the Expiring This Week cards, so they stay identical.
- * The up arrow is the down artwork turned over. `info` (the Expiring cards) adds the info (eye) icon after "Since", in
- * content-secondary like the line.
+ * The up arrow is the down artwork turned over. `info` (the Expiring cards) adds the info (i) icon after "Since", in
+ * content-secondary like the line. With `onInfo` the whole read-out (label, since, i, arrow) is one tap target that
+ * opens the trend info sheet — it sits inside a tappable card, so the tap stops there and doesn't open the card too.
  */
-export function TrendBadge({ trend, label, since, largeSince = false, info }: { trend: 'up' | 'down'; label: string; since: string; largeSince?: boolean; /** Label of the info icon after "Since"; none = no icon. */ info?: string }) {
-  return <Stack direction="horizontal" gap="04" align="center">
-    <Stack gap="04" align="end"><span className={trend === 'up' ? styles.up : styles.down}>{label}</span>{info
-      ? <Stack direction="horizontal" gap="04" align="center" className={largeSince ? styles.description : styles.caption}><span>{since}</span><Icon icon={msInfo} size={12} label={info} /></Stack>
-      : <span className={largeSince ? styles.description : styles.caption}>{since}</span>}</Stack>
-    <span className={styles.trendIcon} data-trend={trend}><MaskIcon src={downtrend} /></span>
-  </Stack>
+export function TrendBadge({ trend, label, since, largeSince = false, info, onInfo, iconStart = false }: {
+  trend: 'up' | 'down'; label: string; since: string; largeSince?: boolean
+  /** The arrow on the left and the text left-aligned (the trend info sheet's top row); default arrow right, text right-aligned. */
+  iconStart?: boolean
+  /** Label of the info icon after "Since"; none = no icon. */
+  info?: string
+  /** Opens the trend info sheet; makes the whole read-out tappable. */
+  onInfo?: () => void
+}) {
+  const sinceClass = largeSince ? styles.description : styles.caption
+  const arrow = <span className={styles.trendIcon} data-trend={trend}><MaskIcon src={downtrend} /></span>
+  const content = <>
+    {iconStart && arrow}
+    <Stack gap="04" align={iconStart ? 'start' : 'end'}><span className={trend === 'up' ? styles.up : styles.down}>{label}</span>{info
+      ? <Stack direction="horizontal" gap="04" align="center" className={sinceClass}><span>{since}</span><Icon icon={msInfo} size={12} /></Stack>
+      : <span className={sinceClass}>{since}</span>}</Stack>
+    {!iconStart && arrow}
+  </>
+  if (!onInfo) return <Stack direction="horizontal" gap={iconStart ? '08' : '04'} align="center">{content}</Stack>
+  // A span with the button role: the card's body is already a <button>, and a button can't hold another one.
+  const open = (event: MouseEvent | KeyboardEvent) => { event.stopPropagation(); event.preventDefault(); onInfo() }
+  return <span
+    role="button"
+    tabIndex={0}
+    aria-label={`${label}, ${since}. ${info ?? ''}`}
+    className={styles.trendButton}
+    onClick={open}
+    onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') open(event) }}
+  >{content}</span>
 }
 ```
 
@@ -5966,12 +6405,34 @@ function addMinutes(start: string, add: number) {
   "expiring.sinceInfo": "About the trend",
   "expiring.margin": "Margin Per Lot",
   "expiring.buy": "Buy",
-  "expiryAll.title": "Expiry Calendar",
+  "expiring.eventTag": "{event} · {day} {time}",
+  "trendInfo.label": "{trend} on {symbol}",
+  "trendInfo.disclaimerTitle": "Disclaimer:",
+  "trendInfo.disclaimer": "Dash AI provides descriptive market data visualisation only and does not issue trading signals or investment advice.",
+  "trendInfo.byDash": "Analyzed by Dash",
+  "trendInfo.okay": "Okay",
+  "expiryAll.title": "Commodity Calendar",
   "expiryAll.filter": "Contract type",
-  "expiryAll.options": "Options",
-  "expiryAll.futures": "Futures",
+  "expiryAll.tab.all": "All",
+  "expiryAll.tab.option": "Options",
+  "expiryAll.tab.future": "Futures",
+  "expiryAll.tab.event": "Events",
+  "expiryAll.kind.option": "Options",
+  "expiryAll.kind.future": "Futures",
+  "expiryAll.kind.event": "Event",
+  "expiryAll.impact.high": "High impact",
+  "expiryAll.impact.medium": "Medium impact",
+  "expiryAll.impact.low": "Low impact",
+  "expiryAll.previous": "Previous",
+  "expiryAll.forecast": "Forecast",
+  "expiryAll.actual": "Actual",
+  "expiryAll.due": "Due",
+  "expiryAll.bullish": "Bullish",
+  "expiryAll.bearish": "Bearish",
+  "expiryAll.bullishFor": "Bullish for {name}",
+  "expiryAll.bearishFor": "Bearish for {name}",
   "expiryAll.scalper": "Open {name} in ScalpPro",
-  "expiryAll.open": "Open {name}"
+  "expiryAll.chain": "Open the {name} option chain"
 }
 ```
 
@@ -6221,17 +6682,23 @@ import type { Segment } from './strategies/data'
 import { scalperPosition } from './data'
 import { Scalper } from './screens/Scalper'
 import { SplashScreen } from '../../shared/ui/Splash'
+import { markMove } from '../../shared/prototype'
 
 /**
  * Each product tab is its own screen, all in group 'home': one page in different states, so a tab switch keeps the
  * header and the product tabs in place and only the content under the tabs slides (Home animates it).
  */
+/**
+ * ScalpPro (home cards, Expiry calendar …) always opens the Scalper as a new page, in from the right — even from screens
+ * listed after it, which app order alone would read as back. Its back returns to that page (`backOr`).
+ */
+const openScalper = (go: Go) => { markMove('fno-05', 'forward'); go('fno-05') }
 /** Back to wherever the asset page was opened from (option chain, Gold Summary, Search…); `fallback` when opened directly. */
 const backOr = (go: Go, fallback: string) => { if (window.history.length > 1) window.history.back(); else go(fallback) }
 
 const tabScreen = (product: Product, segment?: Segment) => product === 'equity' ? 'fno-01' : product === 'commodities' ? 'fno-08' : segment === 'commodities' ? 'fno-16' : 'fno-15'
 type HomeOptions = { scrollTo?: HomePart; product?: Product; segment?: Segment; picker?: 'equity' | 'commodities' }
-const home = (go: Go, scrollTo?: HomePart, options: HomeOptions = {}) => <Home scrollTo={scrollTo} product={options.product} segment={options.segment} picker={options.picker} onProduct={(product, segment) => go(tabScreen(product, segment))} onCommodity={() => go('fno-12')} onAsset={() => go('fno-21')} onExpiries={() => go('fno-38')} onHome={() => go('stocks-01')} onSearch={() => go('search-25')} onProfile={() => go('profile-01')} onWallet={() => go('deposit-01')} onDash={() => go('dash-02')} onUsStocks={() => go('stocks-09')} onOptions={() => go('search-26')} onFutures={() => go('search-27')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} />
+const home = (go: Go, scrollTo?: HomePart, options: HomeOptions = {}) => <Home scrollTo={scrollTo} product={options.product} segment={options.segment} picker={options.picker} onProduct={(product, segment) => go(tabScreen(product, segment))} onCommodity={() => go('fno-12')} onAsset={() => go('fno-21')} onExpiries={() => go('fno-38')} onHome={() => go('stocks-01')} onSearch={() => go('search-25')} onProfile={() => go('profile-01')} onWallet={() => go('deposit-01')} onDash={() => go('dash-02')} onUsStocks={() => go('stocks-09')} onOptions={() => go('search-26')} onFutures={() => go('search-27')} onChain={() => go('fno-17')} onScalper={() => openScalper(go)} />
 
 export const fno: Flow = {
   id: 'fno', title: 'F&O',
@@ -6241,6 +6708,12 @@ export const fno: Flow = {
     // The breakeven sheet (fno-36): Version 2 (default) = What is breakeven price? + a description + the charges table,
     // no info lines; Version 1 = the sheet as it first shipped (How breakeven works, two info lines, no table).
     { id: 'breakevenSheet', group: 'Scalper', label: 'Breakeven sheet', values: [{ value: 'v1', label: 'Version 1' }, { value: 'v2', label: 'Version 2' }], default: 'v2', floatOn: ['fno-36'] },
+    // Expiring This Week (Commodities, fno-08): Version 1 = the sideways card rail; Version 2 = a short calendar (the
+    // calendar's first 3 entries on their days, View all → fno-38); Version 3 = that calendar in one card.
+    { id: 'expiringVersion', group: 'Commodities', label: 'Expiring This Week', values: [{ value: 'v1', label: 'Version 1' }, { value: 'v2', label: 'Version 2' }, { value: 'v3', label: 'Version 3' }], default: 'v1', floatOn: ['fno-08', 'fno-09', 'fno-10'] },
+    // Expiring This Week v2 / v3: which sample week the short calendar shows, to see how the days split — 3 today,
+    // 2 today + 1 tomorrow, or 1 a day. Contracts only on the first two days; the event comes on day 3.
+    { id: 'expiringDays', group: 'Commodities', label: 'Calendar days', values: [{ value: 'calendar', label: '3 today' }, { value: 'split', label: '2 today · 1 tomorrow' }, { value: 'spread', label: '1 a day' }], default: 'calendar', floatOn: ['fno-08', 'fno-09', 'fno-10'] },
     // Expiring This Week (Commodities, fno-08): show or hide the cards' ScalpPro + Buy footer (the whole grey strip).
     { id: 'expiringButtons', group: 'Commodities', label: 'Expiring card buttons', picker: 'toggle', values: [{ value: 'off', label: 'Hidden' }, { value: 'on', label: 'Shown' }], default: 'on', floatOn: ['fno-08', 'fno-09', 'fno-10'],
       // Phone app mode: a floating one-tap switch on the Commodities home, so it flips without opening the settings sheet.
@@ -6260,28 +6733,28 @@ export const fno: Flow = {
     { id: 'fno-02', section: 'home', group: 'home', name: 'Home · watchlists & Smart Options', figma: '11569:41100', tab: true, note: 'The same long screen, scrolled to watchlists.', render: (go) => home(go, 'watchlists') },
     { id: 'fno-03', section: 'home', group: 'home', name: 'Home · Futures Heatmap', figma: '11569:41100', tab: true, render: (go) => home(go, 'heatmap') },
     { id: 'fno-04', section: 'home', group: 'home', name: 'Home · Smart Futures', figma: '11569:41100', tab: true, render: (go) => home(go, 'futures') },
-    { id: 'fno-05', section: 'scalper', name: 'Scalper', figma: '', note: 'From ScalpPro on F&O home or the Scalper bottom-nav tab. The chart-tools sheet groups personal DASH AI indicators separately from Lemon indicators.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} /> },
-    { id: 'fno-06', section: 'scalper', group: 'scalper', name: 'Scalper · DASH indicator', figma: '', note: 'From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list.', render: (go) => <Scalper onBack={() => go('fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
-    { id: 'fno-07', section: 'scalper', group: 'scalper', name: 'Scalper · indicator applied', figma: '', note: 'With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles.', render: (go) => <Scalper onBack={() => go('fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" openIndicators={false} initialIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
-    { id: 'fno-35', section: 'scalper', group: 'scalper', name: 'Break Even · position + breakeven line', figma: '11756:78739', badge: 'new', note: 'Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} /> },
-    { id: 'fno-36', section: 'scalper', group: 'scalper', name: 'Break Even · How breakeven works (sheet)', figma: '11783:5569', badge: 'new', note: 'Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="breakeven" /> },
-    { id: 'fno-37', section: 'scalper', group: 'scalper', name: 'Break Even · chart settings (breakeven line)', figma: '11754:69563', badge: 'new', note: 'The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="settings" openIndicators={false} /> },
+    { id: 'fno-05', section: 'scalper', name: 'Scalper', figma: '', note: 'From ScalpPro on F&O home, the Expiring cards, the Expiry calendar or the Scalper bottom-nav tab — always a new page in from the right; back returns to the page it was opened from. The chart-tools sheet groups personal DASH AI indicators separately from Lemon indicators.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} /> },
+    { id: 'fno-06', section: 'scalper', group: 'scalper', name: 'Scalper · DASH indicator', figma: '', note: 'From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
+    { id: 'fno-07', section: 'scalper', group: 'scalper', name: 'Scalper · indicator applied', figma: '', note: 'With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" openIndicators={false} initialIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
+    { id: 'fno-35', section: 'scalper', group: 'scalper', name: 'Break Even · position + breakeven line', figma: '11756:78739', badge: 'new', note: 'Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} /> },
+    { id: 'fno-36', section: 'scalper', group: 'scalper', name: 'Break Even · How breakeven works (sheet)', figma: '11783:5569', badge: 'new', note: 'Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="breakeven" /> },
+    { id: 'fno-37', section: 'scalper', group: 'scalper', name: 'Break Even · chart settings (breakeven line)', figma: '11754:69563', badge: 'new', note: 'The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="settings" openIndicators={false} /> },
     { id: 'fno-08', section: 'home', group: 'home', name: 'Commodities home', figma: '6754:63637', tab: true, note: 'The Commodities product tab. Gold / Silver / Crude Oil / Natural Gas shortcuts open the Lot summary (Gold Summary). The chart’s instrument selector (“Gold”) opens the contract picker. Popular commodities: Options ⇕ Futures switch; Futures Heatmap: Bullion / Energy / Metals.', render: (go) => home(go, undefined, { product: 'commodities' }) },
     { id: 'fno-09', section: 'home', group: 'home', name: 'Commodities · heatmap & Smart Futures', figma: '6754:63637', tab: true, note: 'The same long screen, scrolled to the Futures Heatmap.', render: (go) => home(go, 'heatmap', { product: 'commodities' }) },
     { id: 'fno-10', section: 'home', group: 'home', name: 'Contract picker · Commodities', figma: '6754:65111', tab: true, note: 'From the chart’s “Gold ⇕”. Equity / Commodities tabs in the sheet header’s bottom slot, commodity chips (All, Gold, Silver …) under them; contracts grouped by commodity as radio rows (Gold Mini tagged “Lowest Margin”). Picking one updates the chart and closes the sheet.', render: (go) => home(go, undefined, { product: 'commodities', picker: 'commodities' }) },
     { id: 'fno-11', section: 'home', group: 'home', name: 'Contract picker · Equity', figma: '6754:65054', tab: true, note: 'The same sheet on its Equity tab: the 8 index contracts.', render: (go) => home(go, undefined, { product: 'commodities', picker: 'equity' }) },
-    { id: 'fno-38', section: 'home', name: 'Expiry calendar (View all)', figma: '', badge: 'new', note: 'From View all on Expiring This Week (fno-08). Options / Futures (flat tabs, sticky). Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today ringed), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet).', render: (go) => <ExpiryTimeline onBack={() => go('fno-08')} onAsset={() => go('fno-21')} onScalper={() => go('fno-05')} /> },
+    { id: 'fno-38', section: 'home', name: 'Commodity calendar (View all)', figma: '', badge: 'new', note: 'From View all on Expiring This Week (fno-08). All / Options / Futures / Events (flat tabs with icons, sticky; All merges them by day). Options rows: option chain (→ fno-17, back returns here) + ScalpPro; futures: ScalpPro only; events: no buttons. Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today inverted (surface-inverted)), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet).', render: (go) => <ExpiryTimeline onBack={() => go('fno-08')} onAsset={() => go('fno-21')} onOptionChain={() => { markMove('fno-17', 'forward'); go('fno-17') }} onScalper={() => openScalper(go)} /> },
     { id: 'fno-12', section: 'asset', group: 'lot', name: 'Gold Summary · by price', figma: '6754:65113', note: 'From a commodity shortcut on fno-08. Gold lot tabs (Gold, Gold Mini, Gold Guinea, Gold Ten, Gold Petal) in the Actionbar’s bottom slot; Futures (View all) and Options (View option chain, expiry month, category pills, Filter, sort). The sort opens a sheet: By Price · By Volume · Margin per lot.', render: (go) => <LotSummary onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-13', section: 'asset', group: 'lot', name: 'Gold Summary · by volume', figma: '6754:65288', note: 'Sorted by volume: each option shows its traded volume, no change.', render: (go) => <LotSummary sort="volume" onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-14', section: 'asset', group: 'lot', name: 'Gold Summary · margin per lot', figma: '6754:65444', note: 'Sorted by margin per lot: each option shows the margin for one lot, no change.', render: (go) => <LotSummary sort="margin" onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-15', section: 'home', group: 'home', name: 'Strategies · Equity', figma: '6754:64178', tab: true, note: 'The Strategies product tab with Equity selected in the pill group: shortcuts, Zing Trades, Smart Invest, Pre-build Strategies (Nifty 50 ⇕, Bullish / Bearish / Neutral / Volatile), Quick Trade. Card footer buttons stay Small (32) as in Figma.', render: (go) => home(go, undefined, { product: 'strategies', segment: 'equity' }) },
     { id: 'fno-16', section: 'home', group: 'home', name: 'Strategies · Commodities', figma: '6754:64607', tab: true, note: 'The same tab with Commodities selected: commodity Smart Invest baskets, GOLD as the underlying.', render: (go) => home(go, undefined, { product: 'strategies', segment: 'commodities' }) },
-    { id: 'fno-17', section: 'chain', group: 'chain', name: 'Option chain', figma: '11630:16785', note: 'From Option chain on the F&O chart (any product tab) or the Option Chain bottom-nav tab; Back → F&O home. Opens scrolled to the spot pill. BankNifty ▾ and Expiry ▾ open sheets; Σ shows delta instead of the day change; the basket and Zing tile open the explanatory sheet. Column heads: Call / Put metric (LTP, OI, OI Chg, IV) and the strike range (All, ±5, ±10). Tap a price to Buy, tap it again to Sell, a third time to clear.', render: (go) => <OptionChain onBack={() => go('fno-01')} onAsset={() => go('fno-21')} /> },
-    { id: 'fno-18', section: 'chain', group: 'chain', name: 'Option chain · Buy selected', figma: '11630:16184', note: 'A put price tapped once: B badge, green wash, the order dock with the contract, Balance / Req, quantity in lots and Buy (brand). Buy places a sample order (toast) and clears the selection.', render: (go) => <OptionChain initialSelection={{ strike: 25400, side: 'put', action: 'buy', ltp: 160.54 }} onBack={() => go('fno-01')} onAsset={() => go('fno-21')} /> },
-    { id: 'fno-19', section: 'chain', group: 'chain', name: 'Option chain · Sell selected', figma: '11695:26269', note: 'The same put tapped again: S badge, red wash, Sell (secondary) in the dock; Req becomes the margin per lot.', render: (go) => <OptionChain initialSelection={{ strike: 25400, side: 'put', action: 'sell', ltp: 160.54 }} onBack={() => go('fno-01')} onAsset={() => go('fno-21')} /> },
-    { id: 'fno-20', section: 'chain', group: 'chain', name: 'Option chain · illiquid contract', figma: '', note: 'Illiquid contracts (deep in-the-money calls, far out-of-the-money puts) carry a block icon beside the price, like Groww. Unlike Groww, a tap never selects them: a tooltip opens just above — “ILLIQUID contract” / “Can’t be traded” ⓘ; tapping away closes it, ⓘ opens a sheet with why it’s blocked, its traded lots and buy–sell gap, and a tip. Opens on the 25,700 put with the tooltip up.', render: (go) => <OptionChain initialIlliquid={{ strike: 25700, side: 'put' }} onBack={() => go('fno-01')} onAsset={() => go('fno-21')} /> },
-    { id: 'fno-21', section: 'asset', group: 'asset', name: 'Asset page · Gold MINI', figma: '6754:61613', note: 'A commodity contract page. Entry (one of several): the contract name in the option chain order dock (“25,400 Put ›”). Back returns where it came from; Option chain → fno-17; Buy / Sell open the sample sheet. Equity contracts get their own (similar) page later.', render: (go) => <AssetPage asset={goldMiniAsset} onBack={() => backOr(go, 'fno-18')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
-    { id: 'fno-22', section: 'asset', group: 'asset', name: 'Asset page · illiquid', figma: '6754:61613', note: 'Product rule (commodities only): an illiquid contract’s page shows the ILLIQUID tag next to its name and Buy / Sell greyed out, with “Trading is not allowed as this contract is illiquid” above them — whatever screen it was opened from.', render: (go) => <AssetPage asset={illiquidAsset} onBack={() => backOr(go, 'fno-17')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
+    { id: 'fno-17', section: 'chain', group: 'chain', name: 'Option chain', figma: '11630:16785', note: 'From Option chain on the F&O chart (any product tab), the Expiry calendar’s option-chain button or the Option Chain bottom-nav tab; Back → the page it was opened from (F&O home when opened directly). Opens scrolled to the spot pill. BankNifty ▾ and Expiry ▾ open sheets; Σ shows delta instead of the day change; the basket and Zing tile open the explanatory sheet. Column heads: Call / Put metric (LTP, OI, OI Chg, IV) and the strike range (All, ±5, ±10). Tap a price to Buy, tap it again to Sell, a third time to clear.', render: (go) => <OptionChain onBack={() => backOr(go, 'fno-01')} onAsset={() => go('fno-21')} /> },
+    { id: 'fno-18', section: 'chain', group: 'chain', name: 'Option chain · Buy selected', figma: '11630:16184', note: 'A put price tapped once: B badge, green wash, the order dock with the contract, Balance / Req, quantity in lots and Buy (brand). Buy places a sample order (toast) and clears the selection.', render: (go) => <OptionChain initialSelection={{ strike: 25400, side: 'put', action: 'buy', ltp: 160.54 }} onBack={() => backOr(go, 'fno-01')} onAsset={() => go('fno-21')} /> },
+    { id: 'fno-19', section: 'chain', group: 'chain', name: 'Option chain · Sell selected', figma: '11695:26269', note: 'The same put tapped again: S badge, red wash, Sell (secondary) in the dock; Req becomes the margin per lot.', render: (go) => <OptionChain initialSelection={{ strike: 25400, side: 'put', action: 'sell', ltp: 160.54 }} onBack={() => backOr(go, 'fno-01')} onAsset={() => go('fno-21')} /> },
+    { id: 'fno-20', section: 'chain', group: 'chain', name: 'Option chain · illiquid contract', figma: '', note: 'Illiquid contracts (deep in-the-money calls, far out-of-the-money puts) carry a block icon beside the price, like Groww. Unlike Groww, a tap never selects them: a tooltip opens just above — “ILLIQUID contract” / “Can’t be traded” ⓘ; tapping away closes it, ⓘ opens a sheet with why it’s blocked, its traded lots and buy–sell gap, and a tip. Opens on the 25,700 put with the tooltip up.', render: (go) => <OptionChain initialIlliquid={{ strike: 25700, side: 'put' }} onBack={() => backOr(go, 'fno-01')} onAsset={() => go('fno-21')} /> },
+    { id: 'fno-21', section: 'asset', group: 'asset', name: 'Asset page · Gold MINI', figma: '6754:61613', note: 'A commodity contract page. Entry (one of several): the contract name in the option chain order dock (“25,400 Put ›”). Back returns where it came from; Option chain → fno-17; Buy / Sell open the sample sheet. Equity contracts get their own (similar) page later.', render: (go) => <AssetPage asset={goldMiniAsset} onBack={() => backOr(go, 'fno-18')} onChain={() => go('fno-17')} onScalper={() => openScalper(go)} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
+    { id: 'fno-22', section: 'asset', group: 'asset', name: 'Asset page · illiquid', figma: '6754:61613', note: 'Product rule (commodities only): an illiquid contract’s page shows the ILLIQUID tag next to its name and Buy / Sell greyed out, with “Trading is not allowed as this contract is illiquid” above them — whatever screen it was opened from.', render: (go) => <AssetPage asset={illiquidAsset} onBack={() => backOr(go, 'fno-17')} onChain={() => go('fno-17')} onScalper={() => openScalper(go)} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-23', section: 'asset', group: 'lot', name: 'Gold Summary · Buy / Sell sheet', figma: '', note: 'Tapping any futures or option card opens the Buy / Sell sheet (live app, 2026-10-29): name › (asset page fno-21) · price, expiry · change, Buy (brand) / Sell (secondary).', render: (go) => <LotSummary initialSheet="lo-0" onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-24', section: 'asset', group: 'lot', name: 'Gold Summary · illiquid sheet', figma: '', note: 'Product rule (commodities): an illiquid contract carries the ILLIQUID tag on its card (edge case — illiquid contracts shouldn’t be listed, but the state is built) and in the sheet; Buy / Sell are greyed out with “Trading is not allowed as this contract is illiquid”. Only the name › (asset page fno-22) or tapping outside works.', render: (go) => <LotSummary initialSheet="lo-5" onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-25', section: 'order', group: 'order', name: 'Order pad · Buy · Market', figma: '8671:18433', note: 'Commodity option chain order pad (other order pads differ a little). From Buy on the commodity asset page or the Gold Summary Buy / Sell sheet. Delivery / Intraday tabs, Market / Limit / SL pills, Quantity (⇕ lots) in steps of one lot, Set TPSL, Avail. · Req, Buy. Placing shows a sample toast; no order is sent.', render: (go) => <OrderPad side="buy" onBack={() => backOr(go, 'fno-21')} /> },
@@ -6955,7 +7428,8 @@ import { TradingChart } from '../components/TradingChart'
 import { ChoiceSheet, CreateWatchlistSheet, DetailSheet } from '../sheets/HomeSheets'
 import { CommoditiesFeed } from '../commodities/components/CommoditiesFeed'
 import { ContractPickerSheet } from '../commodities/sheets/ContractPickerSheet'
-import type { Commodity } from '../commodities/data'
+import type { Commodity, ExpiringContract } from '../commodities/data'
+import { TrendInfoSheet } from '../commodities/sheets/TrendInfoSheet'
 import { StrategiesFeed } from '../strategies/components/StrategiesFeed'
 import type { Segment } from '../strategies/data'
 import { watchlists, type Contract } from '../data'
@@ -6982,7 +7456,7 @@ type Props = {
   /** Expiring This Week's View all → the Upcoming expiries timeline (fno-38). */
   onExpiries: () => void
   scrollTo?: HomePart; onHome: () => void; onSearch: () => void; onProfile: () => void; onWallet: () => void; onDash: () => void; onUsStocks?: () => void; onOptions: () => void; onFutures: () => void; onChain: () => void; onScalper: () => void }
-type Modal = { kind: 'detail'; title: string; contract?: Contract } | { kind: 'create' } | { kind: 'choice'; title: string; values: string[]; value: string; onPick: (v: string) => void } | { kind: 'picker'; segment: 'equity' | 'commodities' }
+type Modal = { kind: 'detail'; title: string; contract?: Contract } | { kind: 'create' } | { kind: 'choice'; title: string; values: string[]; value: string; onPick: (v: string) => void } | { kind: 'picker'; segment: 'equity' | 'commodities' } | { kind: 'trend'; contract: ExpiringContract }
 
 /** fno-01 … 04 · one scrollable Equity home, with board frames for the lower sections. */
 export function Home({ product = 'equity', segment = 'equity', picker, onProduct, onCommodity, onAsset, onExpiries, scrollTo = 'top', onHome, onSearch, onProfile, onWallet, onDash, onUsStocks, onOptions, onFutures, onChain, onScalper }: Props) {
@@ -7038,7 +7512,7 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
     const target = root.current?.querySelector(`[data-fno="${scrollTo}"]`)
     if (body && target && scrollTo !== 'top') body.scrollTop += target.getBoundingClientRect().top - body.getBoundingClientRect().top
   }, [scrollTo])
-  const sheet = modal?.kind === 'detail' ? <DetailSheet title={modal.title} contract={modal.contract} onClose={close} /> : modal?.kind === 'choice' ? <ChoiceSheet {...modal} onClose={close} /> : modal?.kind === 'picker' ? <ContractPickerSheet segment={modal.segment} value={instrument} onPick={setInstrument} onClose={close} /> : modal?.kind === 'create' ? <CreateWatchlistSheet onClose={close} onCreate={(name) => { setLists((ls) => [...ls, { id: `custom-${ls.length}`, name, count: 0 }]); close(); setCreated(true) }} /> : undefined
+  const sheet = modal?.kind === 'detail' ? <DetailSheet title={modal.title} contract={modal.contract} onClose={close} /> : modal?.kind === 'choice' ? <ChoiceSheet {...modal} onClose={close} /> : modal?.kind === 'picker' ? <ContractPickerSheet segment={modal.segment} value={instrument} onPick={setInstrument} onClose={close} /> : modal?.kind === 'trend' ? <TrendInfoSheet contract={modal.contract} onClose={close} /> : modal?.kind === 'create' ? <CreateWatchlistSheet onClose={close} onCreate={(name) => { setLists((ls) => [...ls, { id: `custom-${ls.length}`, name, count: 0 }]); close(); setCreated(true) }} /> : undefined
   return <Screen className={flat.flatCards} top={<Header scrolled={scrolled} initials={user.name.split(' ').map((name) => name[0]).join('')} onSearch={onSearch} onProfile={onProfile} onWallet={onWallet} onDash={onDash} />} bottom={<FnoNav onHome={onHome} onDestination={open} onChain={onChain} onScalper={onScalper} />} sheet={sheet} toast={created ? <Aerobar floating type="success" heading={t('watchlists.created')} onDismiss={() => setCreated(false)} /> : undefined}>
     <Stack ref={root}>
       <div data-fno="top"><Overview onDestination={open} /></div>
@@ -7054,7 +7528,7 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
         <div data-fno="heatmap"><Heatmap onOpen={open} onViewAll={() => open(t('heatmap.title'))} /></div>
         <div data-fno="futures"><ContractSection kind="futures" onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onViewAll={onFutures} /></div>
       </Stack>}
-      {product === 'commodities' && <CommoditiesFeed instrument={instrument} lists={lists} onCommodity={onCommodity} onAsset={onAsset} onPicker={() => setModal({ kind: 'picker', segment: 'commodities' })} onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onDestination={open} onAddWatchlist={() => setModal({ kind: 'create' })} onChain={onChain} onScalper={onScalper} onExpiries={onExpiries} />}
+      {product === 'commodities' && <CommoditiesFeed instrument={instrument} lists={lists} onCommodity={onCommodity} onAsset={onAsset} onPicker={() => setModal({ kind: 'picker', segment: 'commodities' })} onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onDestination={open} onAddWatchlist={() => setModal({ kind: 'create' })} onChain={onChain} onScalper={onScalper} onExpiries={onExpiries} onTrendInfo={(contract) => setModal({ kind: 'trend', contract })} />}
       {product === 'strategies' && <StrategiesFeed segment={segment} onSegment={(next) => onProduct('strategies', next)} onChoose={choose} onDestination={open} onWatchlist={() => open(t('shortcut.watchlist'))} />}
       </div>
     </Stack>
