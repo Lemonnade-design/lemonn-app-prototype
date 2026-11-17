@@ -25,6 +25,7 @@ Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/fno · mach
 | `fno-09` | Commodities · heatmap & Smart Futures | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The same long screen, scrolled to the Futures Heatmap. |
 | `fno-10` | Contract picker · Commodities | [6754:65111](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65111) | — | From the chart’s “Gold ⇕”. Equity / Commodities tabs in the sheet header’s bottom slot, commodity chips (All, Gold, Silver …) under them; contracts grouped by commodity as radio rows (Gold Mini tagged “Lowest Margin”). Picking one updates the chart and closes the sheet. |
 | `fno-11` | Contract picker · Equity | [6754:65054](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65054) | — | The same sheet on its Equity tab: the 8 index contracts. |
+| `fno-38` | Expiry calendar (View all) | — | `fno-08`, `fno-21`, `fno-05` | From View all on Expiring This Week (fno-08). Options / Futures (flat tabs, sticky). Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today ringed), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet). |
 | `fno-12` | Gold Summary · by price | [6754:65113](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65113) | `fno-08`, `fno-17` | From a commodity shortcut on fno-08. Gold lot tabs (Gold, Gold Mini, Gold Guinea, Gold Ten, Gold Petal) in the Actionbar’s bottom slot; Futures (View all) and Options (View option chain, expiry month, category pills, Filter, sort). The sort opens a sheet: By Price · By Volume · Margin per lot. |
 | `fno-13` | Gold Summary · by volume | [6754:65288](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65288) | `fno-08`, `fno-17` | Sorted by volume: each option shows its traded volume, no change. |
 | `fno-14` | Gold Summary · margin per lot | [6754:65444](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65444) | `fno-08`, `fno-17` | Sorted by margin per lot: each option shows the margin for one lot, no change. |
@@ -94,6 +95,7 @@ The F&O tab, implemented with Lemonnade V3 components from Figma [F&O Home → E
 | fno-25 … 28 | Order pad · Buy (Market, Limit, SL, Intraday) | 8671:18433 |
 | fno-29 … 31 | Order pad · Sell (Market, SL, Intraday) | 8671:18433 |
 | fno-32, 33 | Order pad · ILLIQUID edge case (Buy, Sell) | 8671:18433 + product rule |
+| fno-38 | Expiry calendar — View all on Expiring This Week: expiry days with their contracts | — (user's reference, 2026-11-17) |
 
 ### Structure
 
@@ -260,6 +262,26 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 - **Smart Futures**: the Equity section with commodity contracts.
 - **Gold Summary** (`LotSummary`): Actionbar back (→ fno-08) + “Gold Summary”; lot tabs with artwork (Gold, Gold Mini, Gold Guinea, Gold Ten, Gold Petal) in the bottom slot, scrolling sideways. Futures (View all) — two future cards. Options (View option chain → the F&O options list) — expiry month pill (October ⌄ → month sheet), divider, Top traded / Most active / OI gainers / Top gainers, Filter, sort. Sort opens a sheet: **By Price** (price + change), **By Volume** (traded volume only), **Margin per lot** (₹ per lot only) — fno-12 / 13 / 14 open on each. Filter Puts shows the empty state (the sample has calls only).
 
+#### Expiry calendar (fno-38)
+
+- **Entry:** View all on Expiring This Week (fno-08). Back → Commodities home. Layout after the user's reference
+  (an Expiry Calendar screenshot, 2026-11-17): only names and simple buttons, no prices.
+- **Options / Futures:** flat L3 Tabs (underline) in the Actionbar's bottom slot (sticky); each has its own days.
+- **Days** (`ExpiryTimeline`, data `expiryCalendar`) run from today under a month section header (L3 SectionHeader, content-primary:
+  "Nov 2026"; repeated when the month turns), 24 apart. Left (48 wide): one date block (surface-secondary,
+  radius 12, padding 08 / 04) with the weekday (description 12, secondary) over the date (label 16); today adds a
+  border-dark ring. Right: one static card
+  (flat) with that day's contracts — one day can hold several, split by hairlines.
+- **Row** (tappable → asset page fno-21; hover and press turn the row surface-secondary, clipped to the card's corners; 12 from every side of the card, content centred vertically): the commodity's icon (L3 Avatar 24, circle, without its 1px edge — the commodity art from `assets/`; Zinc, Copper,
+  Aluminium and Lead have no art yet, so their Avatar shows the chemical symbol as initials: ZN, CU, AL, PB), 12 gap, then the contract's name (label 14) (· exchange only where it's ambiguous, e.g.
+  "Natural Gas · NSE") and two icon-only Tertiary Small buttons, flat (`raised="none"`, no shadow): ScalpPro (→ Scalper fno-05) and open contract
+  (link icon → asset page fno-21). Small, not Large: they sit inside a list row, like the reference.
+- **Sticky while scrolling:** each month's section header sticks at the top of the page (surface-default behind it)
+  until the next month's pushes it out; each day's date block sticks 08 under it for as long as that day's card is in
+  view (a day with several contracts keeps its date until its last row has scrolled past). Section-level stickiness in
+  the page itself, not the Actionbar's bottom slot: it changes as you scroll, unlike the tabs.
+- **Data:** `inDays` from today, so the dates always lead from today.
+
 #### Strategies (fno-15, 16)
 
 - Shortcuts (as Equity), then a full-width **pill group Equity / Commodities** (fno-15 / fno-16).
@@ -383,6 +405,9 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 #### L3 gaps (Commodities & Strategies)
 
+- Avatar has no borderless option: fno-38 hides its 1px edge locally (`.calendarAvatar`).
+- Commodity art: no images for the base metals (Zinc, Copper, Aluminium, Lead); fno-38 shows L3 Avatar initials until art exists.
+- Expiry calendar: L3 has no calendar / date-grouped list (Steps is a progress list). fno-38 draws its own date column (weekday + date in one grey block) and the hairlines between a day's rows with L3 tokens (`.calendar*` in `Commodities.module.css`).
 - Card action footer spacing: the unfilled footer sits 12 under the body (the body's padding) with no prop to change it; the Expiring cards want 16, so `Commodities.module.css` adds 4 on top of the footer (`.expiryCard`).
 - Card action footer hover: L3 greys only the tap body on hover, so details and buttons read as two parts; the Expiring cards grey the whole card (`.expiryCard` in `Commodities.module.css`).
 - No-shadow clickable cards: L3 gives every clickable Card / card ListCell elevation-soft with no prop to turn it off; F&O wants all its cards flat (border only), so every F&O screen carries `flatCards.module.css` (Screen className), which keeps only the 1px border.
@@ -393,7 +418,8 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 ### Changelog
 
-- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: symbol over its option expiry day, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page fno-21; art hidden). Product tabs stick under the top bar on scroll (their row then takes the top bar's colour). The trend read-out is one shared component (`TrendBadge`) in the chart header and the Expiring cards. Expiring cards: option and future variants (a GOLDM future second for testing); the expiry as plain text under the symbol (no Tag); trend “Since” at 12 (the chart keeps 10); buttons without the grey strip, the card's three parts 16 apart; card → asset page fno-21; “Expiring card buttons” setting hides the button footer. All F&O cards lose their shadow (border only).
+- 2026-11-17 — Commodities: View all on Expiring This Week opens a new Expiry calendar (fno-38): Options / Futures tabs, expiry days (weekday + grey date pill) each with one card of contract names (several per day), each row with the commodity's icon (Avatar 24), its name, and ScalpPro and open-contract icon buttons.
+- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: symbol over its option expiry day, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page fno-21; art hidden). Product tabs stick under the top bar on scroll (their row then takes the top bar's colour). The trend read-out is one shared component (`TrendBadge`) in the chart header and the Expiring cards. Expiring cards: option and future variants (a GOLDM future second for testing); the expiry as plain text under the symbol (no Tag); trend “Since” at 12 (the chart keeps 10) with the info (eye) icon after it, content-secondary; buttons without the grey strip, the card's three parts 16 apart; card → asset page fno-21; “Expiring card buttons” setting hides the button footer. All F&O cards lose their shadow (border only).
 - 2026-11-16 — Breakeven sheet Version 2 (default): heading What is breakeven price? + a description, the charges table, info lines hidden; Version 1 (the first sheet) kept behind the new F&O setting "Breakeven sheet".
 - 2026-11-16 — The three breakeven screens are named “Break Even · …” in the screen list (fno-35, fno-36, fno-37), so a search for break even finds them; the sheet's heading stays How breakeven works.
 - 2026-11-16 — How breakeven works: a charges table under the example (bought at, order charges incl. GST, breakeven price in bold, one line each, on a grey card); the charges row opens the breakdown. GST now counts in the example: order charges ≈₹0.26, B/E ₹100.30 (was ≈₹0.24 / ₹100.25).
@@ -2329,6 +2355,39 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
   .expiryCard[data-footer][data-interactive] > :first-child:hover { background-image: none; }
 }
 .expiryActionIcon { display: inline-flex; width: var(--l3-size-20); height: var(--l3-size-20); }
+
+/* ---- Expiry calendar (fno-38) -----------------------------------------------------------------------------------
+ * L3 has no calendar / timeline list (Steps is a progress list) — L3 gap. Left (48): one surface-secondary date block,
+ * the weekday over the date (today adds a border-dark ring); beside it one static card per day, its rows split by
+ * hairlines, each row 12 from every side with its content centred. */
+.calendar { display: flex; flex-direction: column; gap: var(--l3-spacing-16); padding: var(--l3-spacing-16) var(--l3-spacing-16) 0; }
+/* Sticky month header: covers what scrolls under it (screen background), 08 above and below the title. */
+.calendarMonthHead { position: sticky; top: 0; z-index: 1; padding-block: var(--l3-spacing-08); background: var(--l3-surface-default); }
+.calendarMonth { display: flex; flex-direction: column; gap: var(--l3-spacing-08); }
+.calendarDate {
+  position: sticky; top: calc(var(--calendar-head) + var(--l3-spacing-08)); /* under the month header, while its day is in view */
+  box-sizing: border-box; flex: none; width: var(--l3-spacing-48); padding: var(--l3-spacing-08) var(--l3-spacing-04);
+  border-radius: var(--l3-radius-12); background: var(--l3-surface-secondary);
+}
+.calendarDate[data-today] { box-shadow: inset 0 0 0 1px var(--l3-border-dark); } /* 1px hairline */
+.calendarWeekday { font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
+.calendarDay { font: var(--l3-text-label-16); color: var(--l3-content-primary); }
+.calendarCard.calendarCard { flex: 1; min-width: 0; gap: 0; } /* rows touch: L3 Card's 08 row gap would open a strip between them — the hairline is the only split */
+/* L3 Card draws its border as an inset shadow, which a row's hover / press fill would paint over: redraw the same
+   border on top of the rows so it stays visible. */
+.calendarCard.calendarCard { position: relative; }
+.calendarCard::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--l3-border-light); pointer-events: none; } /* 1px: Figma stroke weight */
+.calendarCard > * + * { box-shadow: inset 0 1px 0 var(--l3-border-light); } /* 1px hairline between rows */
+.calendarRow { padding: var(--l3-spacing-12); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; } /* the same 12 from every side of the card */
+/* Each contract row is the tap target: hover and press turn it surface-secondary (the card clips it to its corners). */
+.calendarRow:active { background: var(--l3-surface-secondary); }
+@media (hover: hover) { .calendarRow:hover { background: var(--l3-surface-secondary); } }
+.calendarName { flex: 1; min-width: 0; margin: 0; font: var(--l3-text-label-14); color: var(--l3-content-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.calendarExchange { font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
+.calendarIcon { display: inline-flex; width: var(--l3-size-16); height: var(--l3-size-16); }
+
+/* Commodity icon without L3 Avatar's 1px edge (the art has its own shape). L3 gap: Avatar has no borderless option. */
+.calendarAvatar::after { box-shadow: none; }
 ```
 
 ### `src/flows/fno/commodities/components/CommoditiesFeed.tsx`
@@ -2360,13 +2419,15 @@ type Props = {
   onAddWatchlist: () => void
   onChain: () => void
   onScalper: () => void
+  /** Expiring This Week's View all → the Upcoming expiries timeline. */
+  onExpiries: () => void
 }
 
 /** The Commodities tab of F&O home (Figma 6754:63637), under the shared header, P&L, indices and product tabs. */
-export function CommoditiesFeed({ instrument, lists, onCommodity, onAsset, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper }: Props) {
+export function CommoditiesFeed({ instrument, lists, onCommodity, onAsset, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper, onExpiries }: Props) {
   return <Stack gap="32" className={parts.feed}>
     <CommodityShortcuts onOpen={onCommodity} />
-    <ExpiringThisWeek onAsset={onAsset} onContract={onContract} onScalper={onScalper} />
+    <ExpiringThisWeek onAsset={onAsset} onContract={onContract} onScalper={onScalper} onViewAll={onExpiries} />
     <TradingChart instrument={instrument} onInstrument={onPicker} onChoose={onChoose} onDestination={onDestination} onChain={onChain} onScalper={onScalper} />
     <div className={parts.divider} />
     <div data-fno="watchlists"><Watchlists lists={lists} onAdd={onAddWatchlist} onOpen={onDestination} /></div>
@@ -2471,13 +2532,13 @@ const priceLabel = (c: ExpiringContract) => c.kind === 'option' ? c.option : t('
  * "OPT Expiry Today" / "FUT Expiry 3 Dec"), the trend since when it started, the option's premium or the future's LTP
  * (left) and the margin per lot
  * (right), each a label over its value, then
- * ScalpPro and Buy in the card's action footer (no fill); the three parts sit 16 apart. A tap on the card opens the contract's asset page.
+ * View all opens the Upcoming expiries timeline (fno-38). ScalpPro and Buy in the card's action footer (no fill); the three parts sit 16 apart. A tap on the card opens the contract's asset page.
  */
-export function ExpiringThisWeek({ onAsset, onContract, onScalper }: { onAsset: () => void; onContract: (contract: Contract) => void; onScalper: () => void }) {
+export function ExpiringThisWeek({ onAsset, onContract, onScalper, onViewAll }: { onAsset: () => void; onContract: (contract: Contract) => void; onScalper: () => void; /** View all → the Upcoming expiries timeline (fno-38). */ onViewAll: () => void }) {
   // Prototype setting “Expiring card buttons”: off hides the whole ScalpPro + Buy footer.
   const showButtons = useFlowOption('fno', 'expiringButtons', 'on') === 'on'
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
-    <SectionHeader title={t('expiring.title')} />
+    <SectionHeader title={t('expiring.title')} action={{ type: 'view-all', label: t('viewAll'), onClick: onViewAll }} />
     <div className={styles.expiryRail}>
       {expiringThisWeek.map((c) => <div key={c.id} className={styles.expiryItem}>
         <Card
@@ -2496,7 +2557,7 @@ export function ExpiringThisWeek({ onAsset, onContract, onScalper }: { onAsset: 
                 <p className={styles.expirySymbol}>{c.symbol}</p>
                 <p className={parts.description}>{expiryLine(c)}</p>
               </Stack>
-              <TrendBadge trend={c.trend} label={t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')} since={t('expiring.since', { time: c.since })} largeSince />
+              <TrendBadge trend={c.trend} label={t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')} since={t('expiring.since', { time: c.since })} largeSince info={t('expiring.sinceInfo')} />
             </Stack>
             <div className={styles.expiryRule} />
             <Stack direction="horizontal" gap="12" justify="between">
@@ -2742,6 +2803,52 @@ export const expiringThisWeek: ExpiringContract[] = [
   { kind: 'option', id: 'exp-crudeoilm', symbol: 'CRUDEOILM', commodity: 'crude', image: crudeOil, description: 'Fut | 18 Dec 26', expiresInDays: 2, trend: 'up', since: '11:40 AM', option: '5400 CE ATM', price: 96.4, priceChange: 21.03, margin: 964 },
   { kind: 'option', id: 'exp-naturalgas', symbol: 'NATURALGAS', commodity: 'gas', image: naturalGas, description: 'Fut | 24 Dec 26', expiresInDays: 3, trend: 'down', since: '10:05 AM', option: '320 PE ATM', price: 12.85, priceChange: 6.74, margin: 16062.5 },
 ]
+
+/**
+ * Expiry calendar (fno-38, View all on Expiring This Week): the days commodity contracts expire, each day holding
+ * every contract that expires on it (one day can have several). Just the contract's name — no prices; its row has
+ * ScalpPro and open-contract buttons. `inDays` = days from today (0 = today), so the dates always lead from today.
+ */
+export type ExpiryEntry = {
+  id: string
+  name: string
+  /** "MCX" / "NSE", shown only where the name alone is ambiguous. */
+  exchange?: string
+  /** The commodity's art, shown as a 24 avatar before the name. Base metals have no art yet: `initials` instead. */
+  image?: string
+  /** Chemical symbol for metals without art (Zn, Cu, Al, Pb). */
+  initials?: string
+}
+export type ExpiryDay = { inDays: number; contracts: ExpiryEntry[] }
+const expiryArt: Record<string, Pick<ExpiryEntry, 'image' | 'initials'>> = {
+  'Gold': { image: gold }, 'Gold Mini': { image: goldMini }, 'Gold Guinea': { image: goldGuinea }, 'Gold Petal': { image: goldPetal },
+  'Silver': { image: silver }, 'Silver Mini': { image: silver }, 'Silver Micro': { image: silver },
+  'Crude Oil': { image: crudeOil }, 'Crude Oil Mini': { image: crudeOil },
+  'Natural Gas': { image: naturalGas }, 'Natural Gas Mini': { image: naturalGas },
+  'Zinc': { initials: 'Zn' }, 'Copper': { initials: 'Cu' }, 'Aluminium': { initials: 'Al' }, 'Lead': { initials: 'Pb' },
+}
+const entries = (prefix: string, names: (string | [string, string])[]): ExpiryEntry[] =>
+  names.map((n) => {
+    const [name, exchange] = typeof n === 'string' ? [n, undefined] : n
+    return { id: `${prefix}-${name}${exchange ? `-${exchange}` : ''}`, name, exchange, ...expiryArt[name] }
+  })
+export const expiryCalendar: Record<'option' | 'future', ExpiryDay[]> = {
+  option: [
+    { inDays: 0, contracts: entries('o0', ['Gold Mini', 'Crude Oil Mini', 'Crude Oil']) },
+    { inDays: 1, contracts: entries('o1', [['Natural Gas', 'NSE']]) },
+    { inDays: 2, contracts: entries('o2', ['Silver Mini']) },
+    { inDays: 3, contracts: entries('o3', ['Natural Gas', 'Natural Gas Mini']) },
+    { inDays: 6, contracts: entries('o6', ['Zinc', 'Copper', 'Aluminium', 'Lead']) },
+    { inDays: 10, contracts: entries('o10', ['Silver', 'Silver Micro']) },
+    { inDays: 16, contracts: entries('o16', ['Gold', 'Gold Guinea', 'Gold Petal']) },
+  ],
+  future: [
+    { inDays: 2, contracts: entries('f2', ['Natural Gas', 'Natural Gas Mini']) },
+    { inDays: 9, contracts: entries('f9', ['Crude Oil', 'Crude Oil Mini']) },
+    { inDays: 13, contracts: entries('f13', ['Zinc', 'Copper', 'Aluminium']) },
+    { inDays: 16, contracts: entries('f16', ['Gold', 'Gold Mini', 'Silver', 'Silver Mini']) },
+  ],
+}
 ```
 
 ### `src/flows/fno/commodities/screens/AssetPage.module.css`
@@ -2994,6 +3101,94 @@ export function AssetPage({ asset, onBack, onChain, onScalper, onOrder }: Props)
         </div>
       </section>
     </Stack>
+  </Screen>
+}
+```
+
+### `src/flows/fno/commodities/screens/ExpiryTimeline.tsx`
+
+```tsx
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import { Actionbar } from '@l3/components/Actionbar'
+import { Avatar } from '@l3/components/Avatar'
+import { Button } from '@l3/components/Button'
+import { Card } from '@l3/components/Card'
+import { Icon } from '@l3/components/Icon'
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { SectionHeader } from '@l3/components/SectionHeader'
+import { Stack } from '@l3/components/Stack'
+import { Tabs } from '@l3/components/Tabs'
+import { msLink } from '@l3/icons/material'
+import { Screen } from '../../../../shared/ui/Screen'
+import { t } from '../../copy'
+import { expiryCalendar } from '../data'
+import scalper from '../../assets/scalppro.svg'
+import styles from '../components/Commodities.module.css'
+import flat from '../../flatCards.module.css'
+
+type Kind = 'option' | 'future'
+
+/** The day `inDays` from today. */
+function dayFrom(inDays: number) {
+  const date = new Date()
+  date.setDate(date.getDate() + inDays)
+  return date
+}
+const monthOf = (date: Date) => date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })
+
+/**
+ * fno-38 · Expiry calendar — View all on Expiring This Week (Commodities). Options / Futures (flat tabs, sticky, in the
+ * Actionbar's bottom slot). The days run from today under a month section header (L3 SectionHeader, content-primary: "Nov 2026", repeated when the month turns):
+ * on the left one grey block (surface-secondary) holding the weekday over the date (today ringed), on the right one card with that day's contracts — one day can hold
+ * several, split by hairlines. Scrolling, the month header sticks at the top until the next month's pushes it out, and
+ * each day's date block sticks under it for as long as that day's card is in view. A row is only the contract's name (· exchange where it's ambiguous) with two flat (no shadow) icon
+ * buttons, centred vertically, the row 12 in from every side: ScalpPro (→ Scalper) and open contract (→ asset page). Cards are flat (border, no shadow).
+ */
+export function ExpiryTimeline({ onBack, onAsset, onScalper }: { onBack: () => void; onAsset: () => void; onScalper: () => void }) {
+  const [kind, setKind] = useState<Kind>('option')
+  const days = expiryCalendar[kind]
+  // The days grouped by month ("Nov 2026", "Dec 2026"), in order.
+  const months: { month: string; days: typeof days }[] = []
+  for (const day of days) {
+    const month = monthOf(dayFrom(day.inDays))
+    if (months.at(-1)?.month === month) months.at(-1)!.days.push(day)
+    else months.push({ month, days: [day] })
+  }
+  // The sticky date blocks stop just under the sticky month header: measure its height once it's drawn.
+  const headRef = useRef<HTMLDivElement>(null)
+  const [headHeight, setHeadHeight] = useState(0)
+  useLayoutEffect(() => { setHeadHeight(headRef.current?.offsetHeight ?? 0) }, [kind])
+  return <Screen className={flat.flatCards} top={<Actionbar title={t('expiryAll.title')} onBack={onBack} backLabel={t('lot.back')}
+    bottom={<Tabs aria-label={t('expiryAll.filter')} value={kind} onChange={(v) => setKind(v as Kind)}
+      items={[{ value: 'option', label: t('expiryAll.options') }, { value: 'future', label: t('expiryAll.futures') }]} />} />}>
+    <div className={styles.calendar} style={{ '--calendar-head': `${headHeight}px` } as CSSProperties}>
+      {months.map((m, mi) => <section key={m.month} className={styles.calendarMonth} aria-label={m.month}>
+        {/* Sticky: the month stays at the top until the next month's header pushes it out. */}
+        <div ref={mi === 0 ? headRef : undefined} className={styles.calendarMonthHead}><SectionHeader title={m.month} /></div>
+        <Stack gap="24">
+          {m.days.map((day) => {
+            const date = dayFrom(day.inDays)
+            return <Stack key={day.inDays} direction="horizontal" gap="12" align="start">
+              {/* Sticky under the month header, for as long as this day's card is in view. */}
+              <Stack gap="00" align="center" className={styles.calendarDate} data-today={day.inDays === 0 || undefined}>
+                <span className={styles.calendarWeekday}>{date.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
+                <span className={styles.calendarDay}>{date.getDate()}</span>
+              </Stack>
+              <Card padding="none" className={styles.calendarCard}>
+                {day.contracts.map((c) => <Stack key={c.id} direction="horizontal" gap="12" align="center" className={styles.calendarRow} onClick={onAsset}>
+                  <Avatar src={c.image} initials={c.initials} size={24} className={styles.calendarAvatar} />
+                  <p className={styles.calendarName}>{c.name}{c.exchange && <span className={styles.calendarExchange}> · {c.exchange}</span>}</p>
+                  <Stack direction="horizontal" gap="08" align="center">
+                    <Button variant="tertiary" size="sm" raised="none" aria-label={t('expiryAll.scalper', { name: c.name })} iconLeft={<span className={styles.calendarIcon}><MaskIcon src={scalper} /></span>} onClick={(e) => { e.stopPropagation(); onScalper() }} />
+                    <Button variant="tertiary" size="sm" raised="none" aria-label={t('expiryAll.open', { name: c.name })} iconLeft={<Icon icon={msLink} size={16} />} onClick={(e) => { e.stopPropagation(); onAsset() }} />
+                  </Stack>
+                </Stack>)}
+              </Card>
+            </Stack>
+          })}
+        </Stack>
+      </section>)}
+    </div>
   </Screen>
 }
 ```
@@ -5201,19 +5396,24 @@ function clock(start: string, add: number) {
 ### `src/flows/fno/components/TrendBadge.tsx`
 
 ```tsx
+import { Icon } from '@l3/components/Icon'
 import { MaskIcon } from '@l3/components/MaskIcon'
 import { Stack } from '@l3/components/Stack'
+import { msInfo } from '@l3/icons/material'
 import downtrend from '../assets/downtrend.svg'
 import styles from './HomeParts.module.css'
 
 /**
  * The trend read-out: "Strong Uptrend / Downtrend" in up / down colour over "Since <time>" (caption 10 in the chart; `largeSince` = description 12, the Expiring cards), with the double
  * arrow on the right. One component for the chart's header and the Expiring This Week cards, so they stay identical.
- * The up arrow is the down artwork turned over.
+ * The up arrow is the down artwork turned over. `info` (the Expiring cards) adds the info (eye) icon after "Since", in
+ * content-secondary like the line.
  */
-export function TrendBadge({ trend, label, since, largeSince = false }: { trend: 'up' | 'down'; label: string; since: string; largeSince?: boolean }) {
+export function TrendBadge({ trend, label, since, largeSince = false, info }: { trend: 'up' | 'down'; label: string; since: string; largeSince?: boolean; /** Label of the info icon after "Since"; none = no icon. */ info?: string }) {
   return <Stack direction="horizontal" gap="04" align="center">
-    <Stack gap="04" align="end"><span className={trend === 'up' ? styles.up : styles.down}>{label}</span><span className={largeSince ? styles.description : styles.caption}>{since}</span></Stack>
+    <Stack gap="04" align="end"><span className={trend === 'up' ? styles.up : styles.down}>{label}</span>{info
+      ? <Stack direction="horizontal" gap="04" align="center" className={largeSince ? styles.description : styles.caption}><span>{since}</span><Icon icon={msInfo} size={12} label={info} /></Stack>
+      : <span className={largeSince ? styles.description : styles.caption}>{since}</span>}</Stack>
     <span className={styles.trendIcon} data-trend={trend}><MaskIcon src={downtrend} /></span>
   </Stack>
 }
@@ -5763,8 +5963,15 @@ function addMinutes(start: string, add: number) {
   "expiring.since": "Since {time}",
   "expiring.futTag": "FUT Expiry {date}",
   "expiring.ltp": "LTP",
+  "expiring.sinceInfo": "About the trend",
   "expiring.margin": "Margin Per Lot",
-  "expiring.buy": "Buy"
+  "expiring.buy": "Buy",
+  "expiryAll.title": "Expiry Calendar",
+  "expiryAll.filter": "Contract type",
+  "expiryAll.options": "Options",
+  "expiryAll.futures": "Futures",
+  "expiryAll.scalper": "Open {name} in ScalpPro",
+  "expiryAll.open": "Open {name}"
 }
 ```
 
@@ -6006,6 +6213,7 @@ import type { Flow, Go } from '../types'
 import { Home, type HomePart, type Product } from './screens/Home'
 import { LotSummary } from './commodities/screens/LotSummary'
 import { AssetPage } from './commodities/screens/AssetPage'
+import { ExpiryTimeline } from './commodities/screens/ExpiryTimeline'
 import { goldMiniAsset, illiquidAsset } from './commodities/data'
 import { OptionChain } from './option-chain/screens/OptionChain'
 import { OrderPad } from './order-pad/screens/OrderPad'
@@ -6023,7 +6231,7 @@ const backOr = (go: Go, fallback: string) => { if (window.history.length > 1) wi
 
 const tabScreen = (product: Product, segment?: Segment) => product === 'equity' ? 'fno-01' : product === 'commodities' ? 'fno-08' : segment === 'commodities' ? 'fno-16' : 'fno-15'
 type HomeOptions = { scrollTo?: HomePart; product?: Product; segment?: Segment; picker?: 'equity' | 'commodities' }
-const home = (go: Go, scrollTo?: HomePart, options: HomeOptions = {}) => <Home scrollTo={scrollTo} product={options.product} segment={options.segment} picker={options.picker} onProduct={(product, segment) => go(tabScreen(product, segment))} onCommodity={() => go('fno-12')} onAsset={() => go('fno-21')} onHome={() => go('stocks-01')} onSearch={() => go('search-25')} onProfile={() => go('profile-01')} onWallet={() => go('deposit-01')} onDash={() => go('dash-02')} onUsStocks={() => go('stocks-09')} onOptions={() => go('search-26')} onFutures={() => go('search-27')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} />
+const home = (go: Go, scrollTo?: HomePart, options: HomeOptions = {}) => <Home scrollTo={scrollTo} product={options.product} segment={options.segment} picker={options.picker} onProduct={(product, segment) => go(tabScreen(product, segment))} onCommodity={() => go('fno-12')} onAsset={() => go('fno-21')} onExpiries={() => go('fno-38')} onHome={() => go('stocks-01')} onSearch={() => go('search-25')} onProfile={() => go('profile-01')} onWallet={() => go('deposit-01')} onDash={() => go('dash-02')} onUsStocks={() => go('stocks-09')} onOptions={() => go('search-26')} onFutures={() => go('search-27')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} />
 
 export const fno: Flow = {
   id: 'fno', title: 'F&O',
@@ -6062,6 +6270,7 @@ export const fno: Flow = {
     { id: 'fno-09', section: 'home', group: 'home', name: 'Commodities · heatmap & Smart Futures', figma: '6754:63637', tab: true, note: 'The same long screen, scrolled to the Futures Heatmap.', render: (go) => home(go, 'heatmap', { product: 'commodities' }) },
     { id: 'fno-10', section: 'home', group: 'home', name: 'Contract picker · Commodities', figma: '6754:65111', tab: true, note: 'From the chart’s “Gold ⇕”. Equity / Commodities tabs in the sheet header’s bottom slot, commodity chips (All, Gold, Silver …) under them; contracts grouped by commodity as radio rows (Gold Mini tagged “Lowest Margin”). Picking one updates the chart and closes the sheet.', render: (go) => home(go, undefined, { product: 'commodities', picker: 'commodities' }) },
     { id: 'fno-11', section: 'home', group: 'home', name: 'Contract picker · Equity', figma: '6754:65054', tab: true, note: 'The same sheet on its Equity tab: the 8 index contracts.', render: (go) => home(go, undefined, { product: 'commodities', picker: 'equity' }) },
+    { id: 'fno-38', section: 'home', name: 'Expiry calendar (View all)', figma: '', badge: 'new', note: 'From View all on Expiring This Week (fno-08). Options / Futures (flat tabs, sticky). Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today ringed), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet).', render: (go) => <ExpiryTimeline onBack={() => go('fno-08')} onAsset={() => go('fno-21')} onScalper={() => go('fno-05')} /> },
     { id: 'fno-12', section: 'asset', group: 'lot', name: 'Gold Summary · by price', figma: '6754:65113', note: 'From a commodity shortcut on fno-08. Gold lot tabs (Gold, Gold Mini, Gold Guinea, Gold Ten, Gold Petal) in the Actionbar’s bottom slot; Futures (View all) and Options (View option chain, expiry month, category pills, Filter, sort). The sort opens a sheet: By Price · By Volume · Margin per lot.', render: (go) => <LotSummary onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-13', section: 'asset', group: 'lot', name: 'Gold Summary · by volume', figma: '6754:65288', note: 'Sorted by volume: each option shows its traded volume, no change.', render: (go) => <LotSummary sort="volume" onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
     { id: 'fno-14', section: 'asset', group: 'lot', name: 'Gold Summary · margin per lot', figma: '6754:65444', note: 'Sorted by margin per lot: each option shows the margin for one lot, no change.', render: (go) => <LotSummary sort="margin" onBack={() => go('fno-08')} onChain={() => go('fno-17')} onAsset={(illiquid) => go(illiquid ? 'fno-22' : 'fno-21')} onOrder={(side) => go(side === 'buy' ? 'fno-25' : 'fno-29')} /> },
@@ -6770,11 +6979,13 @@ type Props = {
   onCommodity: (commodity: Commodity) => void
   /** A contract card (Expiring This Week) → that contract's asset page. */
   onAsset: () => void
+  /** Expiring This Week's View all → the Upcoming expiries timeline (fno-38). */
+  onExpiries: () => void
   scrollTo?: HomePart; onHome: () => void; onSearch: () => void; onProfile: () => void; onWallet: () => void; onDash: () => void; onUsStocks?: () => void; onOptions: () => void; onFutures: () => void; onChain: () => void; onScalper: () => void }
 type Modal = { kind: 'detail'; title: string; contract?: Contract } | { kind: 'create' } | { kind: 'choice'; title: string; values: string[]; value: string; onPick: (v: string) => void } | { kind: 'picker'; segment: 'equity' | 'commodities' }
 
 /** fno-01 … 04 · one scrollable Equity home, with board frames for the lower sections. */
-export function Home({ product = 'equity', segment = 'equity', picker, onProduct, onCommodity, onAsset, scrollTo = 'top', onHome, onSearch, onProfile, onWallet, onDash, onUsStocks, onOptions, onFutures, onChain, onScalper }: Props) {
+export function Home({ product = 'equity', segment = 'equity', picker, onProduct, onCommodity, onAsset, onExpiries, scrollTo = 'top', onHome, onSearch, onProfile, onWallet, onDash, onUsStocks, onOptions, onFutures, onChain, onScalper }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const [modal, setModal] = useState<Modal | null>(picker ? { kind: 'picker', segment: picker } : null)
   const [instrument, setInstrument] = useState('Gold')
@@ -6843,7 +7054,7 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
         <div data-fno="heatmap"><Heatmap onOpen={open} onViewAll={() => open(t('heatmap.title'))} /></div>
         <div data-fno="futures"><ContractSection kind="futures" onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onViewAll={onFutures} /></div>
       </Stack>}
-      {product === 'commodities' && <CommoditiesFeed instrument={instrument} lists={lists} onCommodity={onCommodity} onAsset={onAsset} onPicker={() => setModal({ kind: 'picker', segment: 'commodities' })} onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onDestination={open} onAddWatchlist={() => setModal({ kind: 'create' })} onChain={onChain} onScalper={onScalper} />}
+      {product === 'commodities' && <CommoditiesFeed instrument={instrument} lists={lists} onCommodity={onCommodity} onAsset={onAsset} onPicker={() => setModal({ kind: 'picker', segment: 'commodities' })} onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onDestination={open} onAddWatchlist={() => setModal({ kind: 'create' })} onChain={onChain} onScalper={onScalper} onExpiries={onExpiries} />}
       {product === 'strategies' && <StrategiesFeed segment={segment} onSegment={(next) => onProduct('strategies', next)} onChoose={choose} onDestination={open} onWatchlist={() => open(t('shortcut.watchlist'))} />}
       </div>
     </Stack>

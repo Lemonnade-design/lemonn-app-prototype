@@ -153,6 +153,18 @@
       "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65054"
     },
     {
+      "id": "fno-38",
+      "name": "Expiry calendar (View all)",
+      "figma": "",
+      "note": "From View all on Expiring This Week (fno-08). Options / Futures (flat tabs, sticky). Days from today under a month section header (SectionHeader, content-primary): weekday over the date in one grey block (surface-secondary; today ringed), beside it one card with that day’s contracts — one day can hold several. A row is only the name with flat ScalpPro (→ fno-05) and open-contract (→ asset page fno-21) icon buttons. Back → Commodities home. Layout after the user’s reference (Expiry Calendar screenshot, 2026-11-17; no Figma frame yet).",
+      "goesTo": [
+        "fno-08",
+        "fno-21",
+        "fno-05"
+      ],
+      "figmaUrl": ""
+    },
+    {
       "id": "fno-12",
       "name": "Gold Summary · by price",
       "figma": "6754:65113",
@@ -398,6 +410,7 @@
     "src/flows/fno/commodities/data.ts",
     "src/flows/fno/commodities/screens/AssetPage.module.css",
     "src/flows/fno/commodities/screens/AssetPage.tsx",
+    "src/flows/fno/commodities/screens/ExpiryTimeline.tsx",
     "src/flows/fno/commodities/screens/LotSummary.tsx",
     "src/flows/fno/commodities/sheets/ContractPickerSheet.tsx",
     "src/flows/fno/commodities/sheets/ContractSheet.module.css",
