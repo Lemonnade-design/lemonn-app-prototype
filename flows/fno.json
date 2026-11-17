@@ -486,6 +486,7 @@
     "src/shared/ui/dash/assets/leaf-back.svg",
     "src/shared/ui/dash/assets/leaf-front.svg",
     "src/shared/ui/dash/assets/orb-fill.svg",
-    "src/shared/ui/dash/assets/orb-ring.svg"
+    "src/shared/ui/dash/assets/orb-ring.svg",
+    "src/shared/ui/useSwipeBetween.ts"
   ]
 }

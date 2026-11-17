@@ -256,7 +256,7 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 - **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts expiring soon (`expiringThisWeek` in `commodities/data.ts`), in three variants (`kind`): **option**, **future** (one GOLDM future sits second, for testing) and **event** (third), snapping to the 16 inset. Each card: the symbol (GOLDM) over the expiry as plain description text (12) — option “OPT Expiry Today / Tomorrow / <weekday>”, future “FUT Expiry 3 Dec” (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM” (description 12 here, 10 in the chart), double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) — or LTP (₹ + change) for a future — left, Margin Per Lot right. Action footer (no fill, 16 under the details like the other parts): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The trend read-out (the whole top right — label, since, the i, the arrow; hit area grown 12 around it) → the **trend info sheet** (`TrendInfoSheet`, live app reference 2026-11-17): no header; the trend on the left (arrow first, text left-aligned) and the symbol with its day change on the right over a hairline, Dash's two bullets on what's behind the trend (`trendNotes` in `commodities/data.ts`), a grey disclaimer (warning icon, “Disclaimer:”), a dashed rule, “Analyzed by Dash” with the Dash orb (24), then Okay (Large). The event card's Bullish read-out has the i too and opens the same sheet. The read-out is a `role="button"` span, not a button, because the card body is already a button; its tap doesn't open the card. The commodity art is hidden (`SHOW_ART = false`, kept). Prototype setting “Expiring card buttons” (Commodities, toggle, default Shown) hides the whole button footer; on a phone (app mode) a floating “BTN ON / BTN OFF” switch on the Commodities home (fno-08 … 10) flips it in one tap.
 - **Expiring This Week, Version 2** (`ExpiringCalendar`; prototype setting “Expiring This Week”, Commodities, Version 1 = the card rail above, default): the same section as a short calendar. The calendar's first 3 entries (`expiryPreview(3)` in `commodities/data.ts`) on their days, drawn like the calendar page (`CalendarDay`, shared with fno-38): the grey date block left (today not marked, not sticky here), one card per day, so it's three rows on one day or spread over two or three days. Within a day events come first (they're timed) and stay short (name over time, then the asset cards; the readings are on the calendar page). Contract rows as on fno-38: kind under the name, option chain (options) → fno-17 and ScalpPro → fno-05, row → asset page fno-21. View all → the Commodity calendar (fno-38).
 - **Expiring This Week, Version 3** (`ExpiringCalendarCard`): Version 2's three entries in **one card**. Each day is a band: the date (weekday over the number, every date the same weight) as the card's grey left column, attached edge to edge and as tall as that day's rows, the rows beside it. Hairlines between days (across the date column too) and between a day's rows. Rows behave as in Version 2; View all → fno-38.
-- **Calendar days** (prototype setting, Commodities; Versions 2 and 3): which week the short calendar shows, to see how the days split — **3 today** (the real calendar, default), **2 today · 1 tomorrow**, **1 a day** (three days). Sample weeks in `expiryPreviewSamples` (`commodities/data.ts`): the first two days hold only option / future contracts and an event (EIA crude oil) comes on the third day only — so it shows in **1 a day**; the other two fill the 3 rows before it. The calendar page keeps the real calendar. The cap stays 3 entries.
+- **Calendar days** (prototype setting, Commodities; Versions 2 and 3): which week the short calendar shows, to see how the days split — **3 today** (the real calendar), **2 today · 1 tomorrow** (default), **1 a day** (three days). Sample weeks in `expiryPreviewSamples` (`commodities/data.ts`): the first two days hold only option / future contracts and an event (EIA crude oil) comes on the third day only — so it shows in **1 a day**; the other two fill the 3 rows before it. The calendar page keeps the real calendar. The cap stays 3 entries.
   - **Event card** (third; data from the user's reference card, its layout kept to the option card's): a market event
     on the contract's commodity today. NATGASMINI over “NG storage · Today 9:00 PM”; the trend read-out says the outlook
     (“Bullish” over “Smaller build”, up arrow, no info icon); hairline; then the ATM option (305 CE ATM ₹7.40 +4.20%) and Margin Per Lot (₹1,850), and
@@ -274,7 +274,9 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 - **Entry:** View all on Expiring This Week (fno-08). Back → Commodities home. Layout after the user's reference
   (an Expiry Calendar screenshot, 2026-11-17): only names and simple buttons, no prices.
 - **Tabs:** All · Options · Futures · Events — flat L3 Tabs (underline) with a 16 icon each (apps, candlestick chart,
-  trending up, event), in the Actionbar's bottom slot (sticky). All (default) merges the three by day — options, then
+  trending up, event), in the Actionbar's bottom slot (sticky). The body slides with the tabs: a tap slides the new tab's list in from its
+  side, and a left / right swipe on the list drags it to the next / previous tab (rubber-band at the ends; shared
+  `useSwipeBetween`, as on Market's tabs and the stocks theme page). All (default) merges the three by day — options, then
   futures, then events — and says under each name which it is ("Options", "Futures", "Event").
 - **Events:** for now only the US EIA weekly reports that move MCX energy — crude oil inventories (Wed 9:00 PM IST)
   and natural gas storage (Thu 9:00 PM IST). There is no event page, so the row shows everything upfront — the fields every
@@ -282,10 +284,12 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
   - top: event icon (Avatar 24), the event's name (up to two lines, then ellipsis), under it the release time in IST ("9:00 PM"); no buttons, no country, no impact tag;
   - Previous / Forecast / Actual in a 3-column Grid (caption secondary over label 14); Actual reads "Due" until it's
     out. Left out for an event with no number;
-  - what it moves: one small clickable L3 Card per asset (6 / 8 padding, radius 8, as wide as its name, in one row
-    that scrolls sideways): "Bullish" / "Bearish" (label 10, up / down colour) over the asset name (description 12, secondary); tap → that asset's page
-    (fno-21). An event can move several assets in different directions (crude inventories: Bearish Crude Oil, Crude Oil
-    Mini; Bullish Gold). Data `moves: {name, trend}[]`. No buttons on an event row, no line on how it moves prices.
+  - what it moves, one per commodity in a row that scrolls sideways; tap → that asset's page (fno-21): an L3 Tag
+    (tertiary, small, profit / loss colour) with an up / down arrow (msArrowUpward / msArrowDownward) and the name — the
+    arrow says bullish / bearish, so the tag stays small. 10 below the readings.
+    An event can move several commodities in different directions (crude inventories: down Crude Oil, Natural Gas; up
+    Gold). One tag per commodity, never its contract sizes — Gold and Gold Mini move together, so it's just "Gold"
+    (same for Crude Oil, Natural Gas, Silver). Data `moves: {name, trend}[]`. No buttons on an event row, no line on how it moves prices.
   The details line up with the name (indented past the icon). The row itself isn't tappable.
 - **Days** (`ExpiryTimeline`, data `expiryCalendar`) run from today under a month section header (L3 SectionHeader, content-primary:
   "Nov 2026"; repeated when the month turns), 24 apart. Left (48 wide): one date block (surface-secondary,
@@ -438,6 +442,10 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 ### Changelog
 
 - 2026-11-17 — Expiring This Week: events card third in the rail (EIA natural gas storage today on NATGASMINI: outlook, ATM option, margin — like the other cards; the readings stay on the calendar); the calendar's gas report moved to today with the same readings.
+- 2026-11-17 — Event assets: the arrow tags are the only version; the earlier cards (Bullish / Bearish over the name) and the "Event assets" setting are archived (removed).
+- 2026-11-17 — Event assets: one per commodity (no Mini alongside the full size); natural gas storage moves Natural Gas, Crude Oil; crude inventories Crude Oil, Natural Gas, Gold.
+- 2026-11-17 — Event assets Version 2 (default): L3 Tags with an up / down arrow and the asset; the cards are kept as Version 1.
+- 2026-11-17 — Expiry calendar: the body slides with the tabs (tap or swipe), like Market's tabs.
 - 2026-11-17 — Event rows: country (US), impact tag and the how-it-moves line removed; no buttons; "Moves …" is now one small card per asset (Bullish / Bearish over the name, radius 8, scrolling row, tap → asset page); an event can move several assets.
 - 2026-11-17 — Expiry calendar: All · Options · Futures · Events tabs with icons (All default); Events = the EIA crude and natural gas reports with time (IST) · country, impact, previous / forecast / actual, how it moves prices and what it moves; futures rows have ScalpPro only; option chain (→ option chain page fno-17) left, ScalpPro right; Option chain's back now returns to the page it was opened from. ScalpPro anywhere in F&O now opens the Scalper as a new page (in from the right) and its back returns to the page it was opened from.
 - 2026-11-17 — Commodities: View all on Expiring This Week opens a new Expiry calendar (fno-38): Options / Futures tabs, expiry days (weekday + grey date pill) each with one card of contract names (several per day), each row with the commodity's icon (Avatar 24), its name, and ScalpPro and open-contract icon buttons.
@@ -485,6 +493,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - 2026-11-17 — Expiring This Week Version 2 (setting “Expiring This Week”): a short calendar of the first 3 entries on their days, events first; View all → fno-38. The calendar day (date block + card) is one shared part, `CalendarDay`, for fno-38 and the home.
 - 2026-11-17 — Expiring This Week Version 3: the short calendar in one card, dates as its attached grey left column (`ExpiringCalendarCard`; `CalendarDate` / `CalendarEntry` split out of `CalendarDay`).
 - 2026-11-17 — Prototype setting “Calendar days” for Expiring This Week v2 / v3: 3 today · 2 today + 1 tomorrow · 1 a day.
+- 2026-11-17 — Calendar days: “2 today · 1 tomorrow” is the default.
 - 2026-11-17 — Calendar today: on the calendar page (fno-38) today's date block is inverted (surface-inverted, content-inverted text) instead of ringed; the home's short calendar no longer marks today.
 
 
@@ -2339,7 +2348,8 @@ import { Grid } from '@l3/components/Grid'
 import { Icon } from '@l3/components/Icon'
 import { MaskIcon } from '@l3/components/MaskIcon'
 import { Stack } from '@l3/components/Stack'
-import { msEvent, msLink } from '@l3/icons/material'
+import { msArrowDownward, msArrowUpward, msEvent, msLink } from '@l3/icons/material'
+import { Tag } from '@l3/components/Tag'
 import { t } from '../../copy'
 import type { ExpiryDay, ExpiryEntry } from '../data'
 import scalper from '../../assets/scalppro.svg'
@@ -2358,8 +2368,8 @@ export function dayFrom(inDays: number) {
  * Expiring This Week, version 2.
  * - A contract row: art, name (and its kind when `showKind`), option chain (options only) and ScalpPro icon buttons;
  *   the row opens the asset page.
- * - An event row: event icon, name (two lines), time; no buttons. Under it one small card per asset it moves
- *   (Bullish / Bearish over the asset, tap → asset page); with `eventDetails` also previous / forecast / actual above
+ * - An event row: event icon, name (two lines), time; no buttons. Under it one tag per commodity it moves
+ *   (an L3 Tag with an up / down arrow and the commodity; tap → asset page); with `eventDetails` also previous / forecast / actual above
  *   (the calendar page — the home keeps events to one line). No country, impact tag or why line. Not tappable.
  * `sticky` keeps the date block under the calendar page's month header while the day is in view.
  */
@@ -2419,16 +2429,17 @@ export function CalendarEntry({ entry: c, showKind, eventDetails = true, onAsset
               <span className={styles.calendarStat}>{value ?? t('expiryAll.due')}</span>
             </Stack>)}
           </Grid>}
-          {/* What it moves, one small card per asset: Bullish / Bearish (up / down colour) over the asset; tap → its asset page.
-              Each as wide as its name, in one row that scrolls sideways when they don't fit. */}
+          {/* What it moves, one tag per commodity (arrow = bullish / bearish); tap → its asset page.
+              One row that scrolls sideways when they don't fit. */}
           <Stack direction="horizontal" gap="08" className={styles.calendarMoves}>
-            {e.moves.map((m) => <Card key={m.name} onClick={onAsset} className={styles.calendarMove}
-              aria-label={t(m.trend === 'up' ? 'expiryAll.bullishFor' : 'expiryAll.bearishFor', { name: m.name })}>
-              <Stack gap="00">
-                <span className={styles.calendarMoveTrend} data-trend={m.trend}>{t(m.trend === 'up' ? 'expiryAll.bullish' : 'expiryAll.bearish')}</span>
-                <span className={styles.calendarMoveName}>{m.name}</span>
-              </Stack>
-            </Card>)}
+            {e.moves.map((m) => {
+              const label = t(m.trend === 'up' ? 'expiryAll.bullishFor' : 'expiryAll.bearishFor', { name: m.name })
+              // A small L3 Tag: up / down arrow (profit / loss colour) and the commodity; tappable.
+              return <Tag key={m.name} variant="tertiary" size="sm" color={m.trend === 'up' ? 'profit' : 'loss'}
+                iconLeft={<Icon icon={m.trend === 'up' ? msArrowUpward : msArrowDownward} />}
+                role="button" tabIndex={0} aria-label={label} className={styles.calendarMoveTag}
+                onClick={onAsset} onKeyDown={(ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); onAsset() } }}>{m.name}</Tag>
+            })}
           </Stack>
         </Stack>
       </Stack>
@@ -2548,15 +2559,13 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
 .calendarStat { font: var(--l3-text-label-14); color: var(--l3-content-primary); }
 .calendarWhy { margin: 0; font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
 /* An event's details line up with its name: past the 24 icon and the 12 gap. */
-/* An event's asset cards: one row that scrolls sideways (no scrollbar), each card as wide as its name — Bullish /
-   Bearish (label 10, up / down) over the asset, 6 / 8 padding, radius 8 (smaller than L3 Card's, per design). */
+/* An event's commodities: one row of tags that scrolls sideways (no scrollbar). */
 .calendarMoves { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
 .calendarMoves::-webkit-scrollbar { display: none; }
-.calendarMove { flex: none; width: auto; padding: var(--l3-spacing-06) var(--l3-spacing-08); border-radius: var(--l3-radius-08); text-align: start; }
-.calendarMoveTrend { font: var(--l3-text-label-10); }
-.calendarMoveTrend[data-trend='up'] { color: var(--l3-content-accent-indicator-up-default); }
-.calendarMoveTrend[data-trend='down'] { color: var(--l3-content-accent-indicator-down-default); }
-.calendarMoveName { font: var(--l3-text-description-12); color: var(--l3-content-secondary); white-space: nowrap; }
+/* Under the Previous / Forecast / Actual readings: 10 above the tags (the body's 8 + 2), not tight under the numbers. */
+.calendarMoves:not(:first-child) { margin-block-start: var(--l3-spacing-02); }
+/* Each commodity as an L3 Tag (arrow + name); it's tappable, so it doesn't shrink and shows a pointer. */
+.calendarMoveTag { flex: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .calendarEventBody { padding-inline-start: calc(var(--l3-size-24) + var(--l3-spacing-12)); }
 .calendarExchange { font: var(--l3-text-description-12); color: var(--l3-content-secondary); }
 .calendarIcon { display: inline-flex; width: var(--l3-size-16); height: var(--l3-size-16); }
@@ -2575,6 +2584,14 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
 .calendarJoinedDate.calendarJoinedDate { flex: none; box-sizing: border-box; width: var(--l3-spacing-48); justify-content: center; padding: var(--l3-spacing-08) var(--l3-spacing-04); background: var(--l3-surface-secondary); }
 .calendarJoinedRows { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .calendarJoinedRows > * + * { box-shadow: inset 0 1px 0 var(--l3-border-light); } /* 1px between rows of a day */
+
+/* fno-38: the body slides with the tabs. The track holds the current tab's body with the tabs next door just off-screen
+   either side (clip, not hidden, so the sticky month / date blocks still stick to the page's scroll). */
+.calendarViewport { overflow-x: clip; min-height: 100%; }
+.calendarTrack { position: relative; min-height: 100%; }
+.calendarPanel[data-side='before'], .calendarPanel[data-side='after'] { position: absolute; inset-block-start: 0; inline-size: 100%; }
+.calendarPanel[data-side='before'] { inset-inline-start: -100%; }
+.calendarPanel[data-side='after'] { inset-inline-start: 100%; }
 ```
 
 ### `src/flows/fno/commodities/components/CommoditiesFeed.tsx`
@@ -2705,7 +2722,7 @@ import styles from './Commodities.module.css'
  */
 export function ExpiringCalendar({ onAsset, onOptionChain, onScalper, onViewAll }: { onAsset: () => void; onOptionChain: () => void; onScalper: () => void; onViewAll: () => void }) {
   // Prototype setting “Calendar days”: which week to show (the real calendar, 2 today + 1 tomorrow, or 1 a day).
-  const sample = useFlowOption('fno', 'expiringDays', 'calendar') as ExpiryPreviewSample
+  const sample = useFlowOption('fno', 'expiringDays', 'split') as ExpiryPreviewSample
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
     <SectionHeader title={t('expiring.title')} action={{ type: 'view-all', label: t('viewAll'), onClick: onViewAll }} />
     <div className={styles.expiryCalendarPreview}>
@@ -2735,7 +2752,7 @@ import styles from './Commodities.module.css'
  */
 export function ExpiringCalendarCard({ onAsset, onOptionChain, onScalper, onViewAll }: { onAsset: () => void; onOptionChain: () => void; onScalper: () => void; onViewAll: () => void }) {
   // Prototype setting “Calendar days”: which week to show (the real calendar, 2 today + 1 tomorrow, or 1 a day).
-  const sample = useFlowOption('fno', 'expiringDays', 'calendar') as ExpiryPreviewSample
+  const sample = useFlowOption('fno', 'expiringDays', 'split') as ExpiryPreviewSample
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
     <SectionHeader title={t('expiring.title')} action={{ type: 'view-all', label: t('viewAll'), onClick: onViewAll }} />
     <Card padding="none" className={styles.calendarJoined}>
@@ -3120,7 +3137,9 @@ export type ExpiryEvent = {
   previous?: string
   forecast?: string
   actual?: string
-  /** The MCX commodities it moves and which way it's expected to push each: up = "Bullish for …", down = "Bearish for …". */
+  /** The MCX commodities it moves and which way it's expected to push each (up = bullish, down = bearish). One entry per
+   *  commodity, never its contract sizes: Gold and Gold Mini move together, so it's just "Gold" (likewise Crude Oil,
+   *  Natural Gas, Silver). */
   moves: { name: string; trend: 'up' | 'down' }[]
   /** How it usually moves them, in one line. */
   why: string
@@ -3155,8 +3174,8 @@ export const expiryCalendar: Record<ExpiryKind, ExpiryDay[]> = {
   // For now only the two EIA weekly reports (sample readings, not live). Times are IST in winter (US standard time):
   // natural gas storage today, crude tomorrow, both 9:00 PM.
   event: [
-    { inDays: 0, entries: [event('EIA natural gas storage', { time: '9:00 PM', country: 'US', impact: 'high', previous: '+56 Bcf', forecast: '+38 Bcf', moves: [{ name: 'Natural Gas', trend: 'up' }, { name: 'Natural Gas Mini', trend: 'up' }], why: 'A smaller injection than expected usually lifts natural gas.' })] },
-    { inDays: 1, entries: [event('EIA crude oil inventories', { time: '9:00 PM', country: 'US', impact: 'high', previous: '−3.4M bbl', forecast: '−1.8M bbl', moves: [{ name: 'Crude Oil', trend: 'down' }, { name: 'Crude Oil Mini', trend: 'down' }, { name: 'Gold', trend: 'up' }], why: 'Falling stocks usually lift crude; a surprise build pulls it down.' })] },
+    { inDays: 0, entries: [event('EIA natural gas storage', { time: '9:00 PM', country: 'US', impact: 'high', previous: '+56 Bcf', forecast: '+38 Bcf', moves: [{ name: 'Natural Gas', trend: 'up' }, { name: 'Crude Oil', trend: 'up' }], why: 'A smaller injection than expected usually lifts natural gas.' })] },
+    { inDays: 1, entries: [event('EIA crude oil inventories', { time: '9:00 PM', country: 'US', impact: 'high', previous: '−3.4M bbl', forecast: '−1.8M bbl', moves: [{ name: 'Crude Oil', trend: 'down' }, { name: 'Natural Gas', trend: 'down' }, { name: 'Gold', trend: 'up' }], why: 'Falling stocks usually lift crude; a surprise build pulls it down.' })] },
   ],
 }
 /** All tab: every kind on each day — options, then futures, then events. */
@@ -3477,6 +3496,7 @@ import { Stack } from '@l3/components/Stack'
 import { Tabs } from '@l3/components/Tabs'
 import { msApps, msCandlestickChart, msEvent, msTrendingUp } from '@l3/icons/material'
 import { Screen } from '../../../../shared/ui/Screen'
+import { neighbour, useSwipeBetween } from '../../../../shared/ui/useSwipeBetween'
 import { t } from '../../copy'
 import { expiryCalendar, expiryCalendarAll, type ExpiryKind } from '../data'
 import { CalendarDay, dayFrom } from '../components/CalendarDay'
@@ -3496,10 +3516,61 @@ const monthOf = (date: Date) => date.toLocaleDateString('en-IN', { month: 'short
  * several, split by hairlines. Scrolling, the month header sticks at the top until the next month's pushes it out, and
  * each day's date block sticks under it for as long as that day's card is in view. A row is only the contract's name with two flat (no shadow) icon
  * buttons, centred vertically, the row 12 in from every side: options get option chain (→ option chain page) then ScalpPro (→ Scalper);
- * futures ScalpPro only; events show everything upfront (time IST, previous / forecast / actual, one card per asset it moves: Bullish / Bearish → asset page), no buttons. All tags each row with its kind. Cards are flat (border, no shadow).
+ * Changing tab slides the body with it (tap: the new tab's body slides in from its side; swipe left / right on the body drags it
+ * to the next / previous tab, rubber-band at the ends — shared useSwipeBetween).
+ * futures ScalpPro only; events show everything upfront (time IST, previous / forecast / actual, one arrow tag per commodity it moves → asset page), no buttons. All tags each row with its kind. Cards are flat (border, no shadow).
  */
 export function ExpiryTimeline({ onBack, onAsset, onOptionChain, onScalper }: { onBack: () => void; onAsset: () => void; onOptionChain: () => void; onScalper: () => void }) {
   const [tab, setTab] = useState<Tab>('all')
+  // The tab being tapped, so the tabs answer at once while the body is still sliding.
+  const [tapped, setTapped] = useState<Tab | null>(null)
+  // The body slides with the tabs (the shared useSwipeBetween, like Market's tabs and the stocks theme page): the tab
+  // next door's body sits just off-screen on either side, so a swipe drags it into view and a tap slides it across.
+  const body = useRef<HTMLDivElement>(null)
+  const comingFrom = useRef<1 | -1 | 0>(0)
+  const swipe = useSwipeBetween({
+    page: tab,
+    canGo: (direction) => neighbour(TABS, tab, direction) !== null,
+    onSwitch: (direction) => { const next = neighbour(TABS, tab, direction); if (next) { setTab(next); setTapped(null) } },
+    slides: () => (body.current ? [body.current] : []),
+    fades: () => [],
+  })
+  // A tap on a tab. Next door: the same slide as a swipe. Further away: it slides straight in from its side.
+  const pick = (next: Tab) => {
+    const step = TABS.indexOf(next) - TABS.indexOf(tab)
+    if (!step || next === tapped) return
+    setTapped(next)
+    if (Math.abs(step) === 1) return swipe.go(step as 1 | -1, () => { setTab(next); setTapped(null) })
+    comingFrom.current = step > 0 ? 1 : -1
+    setTab(next)
+    setTapped(null)
+  }
+  useLayoutEffect(() => {
+    const from = comingFrom.current
+    comingFrom.current = 0
+    const el = body.current
+    if (!from || !el || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    el.animate([{ translate: `${from * el.offsetWidth}px 0` }, { translate: '0 0' }], { duration: 280, easing: 'cubic-bezier(0.2, 0, 0, 1)' })
+  }, [tab])
+  const props = { onAsset, onOptionChain, onScalper }
+  return <Screen className={flat.flatCards} top={<Actionbar title={t('expiryAll.title')} onBack={onBack} backLabel={t('lot.back')}
+    bottom={<Tabs aria-label={t('expiryAll.filter')} value={tapped ?? tab} onChange={(v) => pick(v as Tab)}
+      items={TABS.map((value) => ({ value, label: t(`expiryAll.tab.${value}`), iconLeft: <Icon icon={TAB_ICONS[value]} size={16} /> }))} />} />}>
+    <div className={styles.calendarViewport}>
+      <div ref={(el) => { body.current = el; swipe.bind(el) }} className={styles.calendarTrack}>
+        {/* Keyed by tab: the body that slides in stays the same once it becomes the current one. */}
+        {[neighbour(TABS, tab, -1), tab, neighbour(TABS, tab, 1)].map((panelTab, at) => panelTab && (
+          <div key={panelTab} className={styles.calendarPanel} data-side={['before', 'current', 'after'][at]} inert={at !== 1} aria-hidden={at !== 1 || undefined}>
+            <CalendarBody tab={panelTab} {...props} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </Screen>
+}
+
+/** One tab's days, grouped by month. */
+function CalendarBody({ tab, onAsset, onOptionChain, onScalper }: { tab: Tab; onAsset: () => void; onOptionChain: () => void; onScalper: () => void }) {
   const days = tab === 'all' ? expiryCalendarAll : expiryCalendar[tab]
   // The days grouped by month ("Nov 2026", "Dec 2026"), in order.
   const months: { month: string; days: typeof days }[] = []
@@ -3512,19 +3583,15 @@ export function ExpiryTimeline({ onBack, onAsset, onOptionChain, onScalper }: { 
   const headRef = useRef<HTMLDivElement>(null)
   const [headHeight, setHeadHeight] = useState(0)
   useLayoutEffect(() => { setHeadHeight(headRef.current?.offsetHeight ?? 0) }, [tab])
-  return <Screen className={flat.flatCards} top={<Actionbar title={t('expiryAll.title')} onBack={onBack} backLabel={t('lot.back')}
-    bottom={<Tabs aria-label={t('expiryAll.filter')} value={tab} onChange={(v) => setTab(v as Tab)}
-      items={TABS.map((value) => ({ value, label: t(`expiryAll.tab.${value}`), iconLeft: <Icon icon={TAB_ICONS[value]} size={16} /> }))} />} />}>
-    <div className={styles.calendar} style={{ '--calendar-head': `${headHeight}px` } as CSSProperties}>
-      {months.map((m, mi) => <section key={m.month} className={styles.calendarMonth} aria-label={m.month}>
-        {/* Sticky: the month stays at the top until the next month's header pushes it out. */}
-        <div ref={mi === 0 ? headRef : undefined} className={styles.calendarMonthHead}><SectionHeader title={m.month} /></div>
-        <Stack gap="24">
-          {m.days.map((day) => <CalendarDay key={day.inDays} day={day} showKind={tab === 'all'} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
-        </Stack>
-      </section>)}
-    </div>
-  </Screen>
+  return <div className={styles.calendar} style={{ '--calendar-head': `${headHeight}px` } as CSSProperties}>
+    {months.map((m, mi) => <section key={m.month} className={styles.calendarMonth} aria-label={m.month}>
+      {/* Sticky: the month stays at the top until the next month's header pushes it out. */}
+      <div ref={mi === 0 ? headRef : undefined} className={styles.calendarMonthHead}><SectionHeader title={m.month} /></div>
+      <Stack gap="24">
+        {m.days.map((day) => <CalendarDay key={day.inDays} day={day} showKind={tab === 'all'} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
+      </Stack>
+    </section>)}
+  </div>
 }
 ```
 
@@ -6427,8 +6494,6 @@ function addMinutes(start: string, add: number) {
   "expiryAll.forecast": "Forecast",
   "expiryAll.actual": "Actual",
   "expiryAll.due": "Due",
-  "expiryAll.bullish": "Bullish",
-  "expiryAll.bearish": "Bearish",
   "expiryAll.bullishFor": "Bullish for {name}",
   "expiryAll.bearishFor": "Bearish for {name}",
   "expiryAll.scalper": "Open {name} in ScalpPro",
@@ -6713,7 +6778,7 @@ export const fno: Flow = {
     { id: 'expiringVersion', group: 'Commodities', label: 'Expiring This Week', values: [{ value: 'v1', label: 'Version 1' }, { value: 'v2', label: 'Version 2' }, { value: 'v3', label: 'Version 3' }], default: 'v1', floatOn: ['fno-08', 'fno-09', 'fno-10'] },
     // Expiring This Week v2 / v3: which sample week the short calendar shows, to see how the days split — 3 today,
     // 2 today + 1 tomorrow, or 1 a day. Contracts only on the first two days; the event comes on day 3.
-    { id: 'expiringDays', group: 'Commodities', label: 'Calendar days', values: [{ value: 'calendar', label: '3 today' }, { value: 'split', label: '2 today · 1 tomorrow' }, { value: 'spread', label: '1 a day' }], default: 'calendar', floatOn: ['fno-08', 'fno-09', 'fno-10'] },
+    { id: 'expiringDays', group: 'Commodities', label: 'Calendar days', values: [{ value: 'calendar', label: '3 today' }, { value: 'split', label: '2 today · 1 tomorrow' }, { value: 'spread', label: '1 a day' }], default: 'split', floatOn: ['fno-08', 'fno-09', 'fno-10'] },
     // Expiring This Week (Commodities, fno-08): show or hide the cards' ScalpPro + Buy footer (the whole grey strip).
     { id: 'expiringButtons', group: 'Commodities', label: 'Expiring card buttons', picker: 'toggle', values: [{ value: 'off', label: 'Hidden' }, { value: 'on', label: 'Shown' }], default: 'on', floatOn: ['fno-08', 'fno-09', 'fno-10'],
       // Phone app mode: a floating one-tap switch on the Commodities home, so it flips without opening the settings sheet.
@@ -11279,4 +11344,224 @@ function OrbArt({ className }: { className?: string }) {
 </filter>
 <clipPath id="paint0_angular_0_407_clip_path"><rect x="-41.3666" y="-41.3666" width="154.778" height="156.543"/></clipPath></defs>
 </svg>
+```
+
+### `src/shared/ui/useSwipeBetween.ts`
+
+```ts
+import { useCallback, useLayoutEffect, useRef } from 'react'
+
+// Ported from the US Stocks prototype (screens/home/useSwipeBetween.ts): swipe a page sideways to the next one —
+// Stocks Home (IND ↔ US), a theme page, the Market list tabs.
+// FLAG: hand-made swipe gesture (pointer events + translate) — L3 has no swipeable pages.
+
+const MIN_DISTANCE = 48
+const MIN_VELOCITY = 0.45
+const EASING = 'cubic-bezier(0.2, 0, 0, 1)'
+const SLIDE_MS = 280
+// The rest of the page: a quick dissolve, done while the card is still moving.
+const FADE_OUT_MS = 100
+const FADE_IN_MS = 200
+
+const reducedMotion = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** The item `step` places after/before `current` in `list`, or null at the ends. */
+export const neighbour = <T,>(list: T[], current: T, step: number): T | null => {
+  const at = list.indexOf(current) + step
+  return at >= 0 && at < list.length ? list[at] : null
+}
+
+// Is there a sideways-scrolling element between the touch target and the swipe container (a card rail)? Then it scrolls, not swipes.
+const insideSideScroller = (from: HTMLElement | null, stop: HTMLElement) => {
+  for (let el = from; el && el !== stop; el = el.parentElement) {
+    const overflowX = getComputedStyle(el).overflowX
+    if ((overflowX === 'auto' || overflowX === 'scroll') && el.scrollWidth > el.clientWidth + 1) return true
+  }
+  return false
+}
+
+/** Pointer-swipe on an element: `onSwipe(±1)` when released far/fast enough, `onDrag(dx)` while dragging (null when it ends). */
+function useSwipe(onSwipe: (direction: 1 | -1) => void, onDrag: (dx: number | null) => void, area?: string) {
+  const swipeRef = useRef(onSwipe)
+  swipeRef.current = onSwipe
+  const dragRef = useRef(onDrag)
+  dragRef.current = onDrag
+  const cleanup = useRef<(() => void) | null>(null)
+
+  return useCallback((el: HTMLElement | null) => {
+    cleanup.current?.()
+    cleanup.current = null
+    if (!el) return
+    el.style.touchAction = 'pan-y'
+    let start: { x: number; y: number; t: number; id: number } | null = null
+    let swiped = false
+    let dragging = false
+
+    const down = (e: PointerEvent) => {
+      const target = e.target as HTMLElement
+      // `data-own-swipe`: a part with its own swipe (the activation card's benefits strip) keeps the gesture.
+      if (e.button !== 0 || target.closest('input, textarea, [role="dialog"], [contenteditable], [data-own-swipe]') || insideSideScroller(target, el)) return
+      // `area`: the swipe starts only there (the top card), not anywhere on the page.
+      if (area && !target.closest(area)) return
+      start = { x: e.clientX, y: e.clientY, t: e.timeStamp, id: e.pointerId }
+      swiped = false
+      dragging = false
+    }
+    const move = (e: PointerEvent) => {
+      if (!start || e.pointerId !== start.id || !dragRef.current) return
+      const dx = e.clientX - start.x
+      const dy = e.clientY - start.y
+      if (!dragging) {
+        if (Math.hypot(dx, dy) < 8) return
+        if (Math.abs(dx) < Math.abs(dy) * 1.5) {
+          start = null
+          return
+        }
+        dragging = true
+      }
+      dragRef.current(dx)
+    }
+    const up = (e: PointerEvent) => {
+      if (!start || e.pointerId !== start.id) return
+      const dx = e.clientX - start.x
+      const dy = e.clientY - start.y
+      const velocity = Math.abs(dx) / Math.max(1, e.timeStamp - start.t)
+      start = null
+      if (dragging) dragRef.current?.(null)
+      dragging = false
+      if (Math.abs(dx) < Math.abs(dy) * 1.5) return
+      if (Math.abs(dx) >= MIN_DISTANCE || (Math.abs(dx) >= 24 && velocity >= MIN_VELOCITY)) {
+        swiped = true
+        swipeRef.current(dx < 0 ? 1 : -1)
+      }
+    }
+    const cancel = () => {
+      if (dragging) dragRef.current?.(null)
+      start = null
+      dragging = false
+    }
+    // A swipe that ends on a button must not also click it.
+    const click = (e: Event) => {
+      if (swiped) {
+        swiped = false
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    }
+    el.addEventListener('pointerdown', down)
+    el.addEventListener('pointermove', move)
+    el.addEventListener('pointerup', up)
+    el.addEventListener('pointercancel', cancel)
+    el.addEventListener('click', click, true)
+    cleanup.current = () => {
+      el.removeEventListener('pointerdown', down)
+      el.removeEventListener('pointermove', move)
+      el.removeEventListener('pointerup', up)
+      el.removeEventListener('pointercancel', cancel)
+      el.removeEventListener('click', click, true)
+    }
+  }, [])
+}
+
+/**
+ * Swipe between two markets' pages: only the top cards move sideways — a track with both, the other one beside it,
+ * follows the finger and slides across so the other market's card comes into view, as in a carousel — while the rest of the page (`fades()`) just dissolves
+ * into the other market's. A tap on a switcher (`go`) runs the same switch, so a swipe and a tap look alike.
+ * `bind` goes on the scroll container; `area` is where a swipe may start (the cards); `slides()` returns what moves
+ * sideways (the cards' track), `fades()` what dissolves (the feed under it).
+ */
+export function useSwipeBetween({ canGo, onSwitch, page, area, slides, fades }: { canGo: (direction: 1 | -1) => boolean; onSwitch: (direction: 1 | -1) => void; page: string; area?: string; slides: () => HTMLElement[]; fades: () => HTMLElement[] }) {
+  const entering = useRef<number>(0)
+  const settling = useRef(false)
+  const leaving = useRef(false)
+  const pageNow = useRef(page)
+  pageNow.current = page
+
+  const springBack = () => {
+    for (const el of slides()) {
+      if (!el.style.translate) continue
+      const from = { translate: el.style.translate }
+      el.style.translate = ''
+      el.animate([from, { translate: '0 0' }], { duration: 240, easing: EASING })
+    }
+  }
+
+  // The track slides to the other card (from where the finger left it) as the rest fades out; then the switch.
+  const leave = (direction: 1 | -1, commit: () => void) => {
+    if (leaving.current) return
+    entering.current = direction
+    const moving = slides()
+    const dissolving = fades()
+    if (reducedMotion() || (!moving.length && !dissolving.length)) return commit()
+    leaving.current = true
+    Promise.all([
+      ...moving.map((el) => {
+        const from = { translate: el.style.translate || '0 0' }
+        el.style.translate = ''
+        // The track moves one card's width: the other card is then where this one was.
+        return el.animate([from, { translate: `${-direction * el.offsetWidth}px 0` }], { duration: SLIDE_MS, easing: EASING, fill: 'forwards' }).finished
+      }),
+      ...dissolving.map((el) => el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE_OUT_MS, easing: 'linear', fill: 'forwards' }).finished),
+    ]).then(done, done)
+    function done() {
+      leaving.current = false
+      const was = pageNow.current
+      commit()
+      // The switch didn't happen (still the same page once React has had time to render): bring the old one back
+      // rather than leave it hidden.
+      setTimeout(() => {
+        if (pageNow.current !== was || !entering.current) return
+        entering.current = 0
+        for (const el of [...slides(), ...fades()]) el.getAnimations().forEach((a) => a.cancel())
+      }, 120)
+    }
+  }
+
+  const swipeBind = useSwipe(
+    (direction) => {
+      settling.current = false
+      if (!canGo(direction)) return springBack()
+      leave(direction, () => onSwitch(direction))
+    },
+    (dx) => {
+      if (reducedMotion() || leaving.current) return
+      if (dx === null) {
+        settling.current = true
+        setTimeout(() => {
+          if (settling.current) springBack()
+          settling.current = false
+        }, 0)
+        return
+      }
+      // Swiping is off altogether (neither way goes): the card doesn't even rubber-band.
+      if (!canGo(1) && !canGo(-1)) return
+      // Towards a market: the card follows the finger. Past the last one: a short rubber band.
+      const pull = canGo(dx < 0 ? 1 : -1) ? 1 : 0.18
+      for (const el of slides()) el.style.translate = `${dx * pull}px 0`
+    },
+    area,
+  )
+
+  useLayoutEffect(() => {
+    const from = entering.current
+    if (!from) return
+    entering.current = 0
+    const motion = !reducedMotion()
+    // The track has already brought the new card into place: it just resets (now with that card in the middle).
+    for (const el of slides()) {
+      el.getAnimations().forEach((a) => a.cancel())
+      el.style.translate = ''
+    }
+    for (const el of fades()) {
+      el.getAnimations().forEach((a) => a.cancel())
+      if (motion) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE_IN_MS, easing: 'linear' })
+    }
+  }, [page])
+
+  return {
+    bind: swipeBind,
+    /** Switch by tap (tabs, market button): the same switch as a swipe, towards `direction`. */
+    go: (direction: 1 | -1, commit: () => void) => leave(direction, commit),
+  }
+}
 ```
