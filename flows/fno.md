@@ -19,7 +19,7 @@ Prototype: https://kirtanyak-pe.github.io/lemonn-app-prototype/#/fno · machine-
 | `fno-06` | Scalper · DASH indicator | — | `fno-01`, `dash-20` | From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list. |
 | `fno-07` | Scalper · indicator applied | — | `fno-01`, `dash-20` | With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles. |
 | `fno-35` | Break Even · position + breakeven line | [11756:78739](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11756-78739) | `fno-01`, `dash-20` | Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large. |
-| `fno-36` | Break Even · How breakeven works (sheet) | [11783:5569](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11783-5569) | `fno-01`, `dash-20` | Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (“Breakeven calculation” card on the secondary surface, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 on the B/E warning tint. Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx. |
+| `fno-36` | Break Even · How breakeven works (sheet) | [11783:5569](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11783-5569) | `fno-01`, `dash-20` | Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx. |
 | `fno-37` | Break Even · chart settings (breakeven line) | [11754:69563](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11754-69563) | `fno-01`, `dash-20` | The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here. |
 | `fno-08` | Commodities home | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The Commodities product tab. Gold / Silver / Crude Oil / Natural Gas shortcuts open the Lot summary (Gold Summary). The chart’s instrument selector (“Gold”) opens the contract picker. Popular commodities: Options ⇕ Futures switch; Futures Heatmap: Bullion / Energy / Metals. |
 | `fno-09` | Commodities · heatmap & Smart Futures | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The same long screen, scrolled to the Futures Heatmap. |
@@ -183,10 +183,14 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
   brokerage + transaction + SEBI (≈₹0.016). `breakevenExample` — bought ₹100, B/E = ₹100 + the charges with GST
   (≈₹0.26) up to the next tick = ₹100.30, sold ₹102, the price path's five turns.
 
+  **Versions** (F&O setting "Breakeven sheet", also a floating card beside the phone on fno-36; 2026-11-16):
+  **Version 2** (default) — heading "What is breakeven price?" with a one-line description under it (L3 sheet header
+  `description`), the example, then the charges table; the two info lines are hidden. **Version 1** — the sheet as it
+  first shipped: heading "How breakeven works", the example, then the two info lines; no table.
   **Charges table** (under the example card, `ChargesTable` in the sheet; 2026-11-16): the same trade as a calculation,
-  on a secondary-surface card (radius 12, no edge, no lines inside) so it stands out on the sheet: heading "Breakeven
-  calculation" (Heading/14), then compact L3 key-value rows (4 / 16), one line each: Bought at ₹100.00 · Order charges
-  (incl. GST) ≈₹0.26 · Breakeven price ₹100.30 (the L3 total row on the B/E line's warning-light tint). The
+  on a secondary-surface card (radius 12, no edge, no lines inside) so it stands out on the sheet (no heading): compact
+  L3 key-value rows (4 / 16), one line each: Bought at ₹100.00 · Order charges
+  (incl. GST) ≈₹0.26 · Breakeven price ₹100.30 (the L3 total row: bold label, larger value, on the same grey). The
   charges row is closed by default; a tap anywhere on it (its label is the toggle, ⌄ turns) opens the breakdown under it
   as sm rows on a tertiary-surface panel (radius 8): STT, Transaction, Brokerage, Stamp duty, SEBI, GST (18%).
 
@@ -364,7 +368,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
   the 13:55 spike with 8 empty slots after them (Figma: the candles stop about three quarters across).
 
 #### L3 gaps (Scalper position and breakeven)
-- An expandable key-value row (a row that opens a breakdown under it, e.g. order charges): built from KeyValueRow with a button label stretched over the row and a breakdown panel (`BreakevenSheet` `ChargesTable`). And a table / calculation layout (compact rows on a surface card, a tinted total): local CSS on KeyValueRow.
+- An expandable key-value row (a row that opens a breakdown under it, e.g. order charges): built from KeyValueRow with a button label stretched over the row and a breakdown panel (`BreakevenSheet` `ChargesTable`). And a table / calculation layout (compact rows on a surface card): local CSS on KeyValueRow.
 
 - No chart overlay parts: position pill (handle · tag · P&L · ✕), price lines, axis tags, the boxed B/E chip.
 - No breakeven / Auto TP/SL icons; no overline text style ("INTRODUCING": heading-12 + `--app-overline-tracking`).
@@ -385,8 +389,9 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 ### Changelog
 
+- 2026-11-16 — Breakeven sheet Version 2 (default): heading What is breakeven price? + a description, the charges table, info lines hidden; Version 1 (the first sheet) kept behind the new F&O setting "Breakeven sheet".
 - 2026-11-16 — The three breakeven screens are named “Break Even · …” in the screen list (fno-35, fno-36, fno-37), so a search for break even finds them; the sheet's heading stays How breakeven works.
-- 2026-11-16 — How breakeven works: a charges table under the example (bought at, order charges incl. GST, breakeven price on the warning tint, one line each); the charges row opens the breakdown. GST now counts in the example: order charges ≈₹0.26, B/E ₹100.30 (was ≈₹0.24 / ₹100.25).
+- 2026-11-16 — How breakeven works: a charges table under the example (bought at, order charges incl. GST, breakeven price in bold, one line each, on a grey card); the charges row opens the breakdown. GST now counts in the example: order charges ≈₹0.26, B/E ₹100.30 (was ≈₹0.24 / ₹100.25).
 
 - 2026-11-04 — How breakeven works V2 (F&O setting "Breakeven explainer", V2 by default; V1 kept): starts zoomed in, the line rises from the bottom to the buy at ₹100 with a blue ₹0 → ₹100 fill, the charges fill and merge into Order charges, then it zooms out true to scale (₹100 stays put, the chart shrinks down to ₹0 at the bottom): the ₹0.25 of charges a hairline on the blue ₹100, the run up 12% to Sold at ₹112, Net Profit. 10.25 s, then it stops.
 - 2026-11-04 — V2 archived (`archive/BreakevenExplainerV2.tsx`) and the "Breakeven explainer" setting removed: V1 ships.
@@ -5244,6 +5249,8 @@ function addMinutes(start: string, add: number) {
   "breakeven.chip": "Breakeven",
   "breakeven.chipLabel": "Breakeven ₹{price}. How breakeven works",
   "breakeven.title": "How breakeven works",
+  "breakeven.titleV2": "What is breakeven price?",
+  "breakeven.descriptionV2": "The price your trade must sell above to cover what you paid plus all order charges. Sell above it and you make a profit.",
   "breakeven.understand": "I understand",
   "breakeven.playing": "Example playing",
   "breakeven.exampleLabel": "Example",
@@ -5274,7 +5281,6 @@ function addMinutes(start: string, add: number) {
   "breakeven.tableHide": "Hide the charges breakdown",
   "breakeven.charge.gst": "GST (18%)",
   "breakeven.tableBreakeven": "Breakeven price",
-  "breakeven.tableTitle": "Breakeven calculation",
   "breakeven.info1": "See your **Breakeven price** live on your ScalpPro",
   "breakeven.info2": "For a positive P&L after charges, always **sell above your breakeven line**",
   "settings.title": "Chart settings",
@@ -5545,6 +5551,11 @@ export const fno: Flow = {
   id: 'fno', title: 'F&O',
   description: 'Equity F&O home: P&L, indices, chart metrics, watchlists, Smart Options, Futures Heatmap and Smart Futures.',
   figmaFile: 'nLs24dTJdPz9A5pu3AWMbe',
+  options: [
+    // The breakeven sheet (fno-36): Version 2 (default) = What is breakeven price? + a description + the charges table,
+    // no info lines; Version 1 = the sheet as it first shipped (How breakeven works, two info lines, no table).
+    { id: 'breakevenSheet', group: 'Scalper', label: 'Breakeven sheet', values: [{ value: 'v1', label: 'Version 1' }, { value: 'v2', label: 'Version 2' }], default: 'v2', floatOn: ['fno-36'] },
+  ],
   screens: [
     { id: 'fno-34', name: 'Splash', figma: '', badge: 'new', tab: true, note: 'The launch splash: the Lemonn logo centred for 2 s, then it fades into Equity home (a tap skips ahead). Hidden at launch for now (src/shared/ui/Splash: SPLASH_SCREENS is empty), so the app opens straight on the home; this page still plays it.', render: (go) => <SplashScreen onDone={() => go('fno-01')} home={home(go)} /> },
     { id: 'fno-01', group: 'home', name: 'Equity home', figma: '11569:41100', tab: true, note: 'From the main F&O tab. Home returns to Stocks; DASH, Search, Profile and Wallet open their existing flows. Selectors, chart metrics, filters, sorting and watchlist creation work locally. Destinations outside this frame open an explanatory sheet.', render: (go) => home(go) },
@@ -5555,7 +5566,7 @@ export const fno: Flow = {
     { id: 'fno-06', group: 'scalper', name: 'Scalper · DASH indicator', figma: '', note: 'From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list.', render: (go) => <Scalper onBack={() => go('fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
     { id: 'fno-07', group: 'scalper', name: 'Scalper · indicator applied', figma: '', note: 'With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles.', render: (go) => <Scalper onBack={() => go('fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" openIndicators={false} initialIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
     { id: 'fno-35', group: 'scalper', name: 'Break Even · position + breakeven line', figma: '11756:78739', badge: 'new', note: 'Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} /> },
-    { id: 'fno-36', group: 'scalper', name: 'Break Even · How breakeven works (sheet)', figma: '11783:5569', badge: 'new', note: 'Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (“Breakeven calculation” card on the secondary surface, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 on the B/E warning tint. Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="breakeven" /> },
+    { id: 'fno-36', group: 'scalper', name: 'Break Even · How breakeven works (sheet)', figma: '11783:5569', badge: 'new', note: 'Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="breakeven" /> },
     { id: 'fno-37', group: 'scalper', name: 'Break Even · chart settings (breakeven line)', figma: '11754:69563', badge: 'new', note: 'The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here.', render: (go) => <Scalper onBack={() => go('fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="settings" openIndicators={false} /> },
     { id: 'fno-08', group: 'home', name: 'Commodities home', figma: '6754:63637', tab: true, note: 'The Commodities product tab. Gold / Silver / Crude Oil / Natural Gas shortcuts open the Lot summary (Gold Summary). The chart’s instrument selector (“Gold”) opens the contract picker. Popular commodities: Options ⇕ Futures switch; Futures Heatmap: Bullion / Energy / Metals.', render: (go) => home(go, undefined, { product: 'commodities' }) },
     { id: 'fno-09', group: 'home', name: 'Commodities · heatmap & Smart Futures', figma: '6754:63637', tab: true, note: 'The same long screen, scrolled to the Futures Heatmap.', render: (go) => home(go, 'heatmap', { product: 'commodities' }) },
@@ -7001,22 +7012,17 @@ function markBreakevenIntroSeen() {
 }
 
 /* ---- The charges table: a calculation, built on L3 key-value rows (L3 has no table) ----
-   A secondary-surface card (radius 12, no edge, no lines inside) so it stands apart from the white sheet: the heading,
-   compact rows (4 / 16), the total on the B/E line's warning tint (the last row). */
+   A secondary-surface card (radius 12, no edge, no heading, no lines inside) so it stands apart from the white sheet:
+   compact rows (4 / 16), the total last — L3's total row (bold label, larger value) on the same grey. */
 .table {
   overflow: hidden;
   border-radius: var(--l3-radius-12);
   background: var(--l3-surface-secondary);
 }
 
-.tableHead.tableHead {
-  padding: var(--l3-spacing-12) var(--l3-spacing-16) var(--l3-spacing-04);
-  border-bottom: 0;
-  font: var(--l3-text-heading-14);
-}
-
 .tableRows {
   margin: 0;
+  padding: var(--l3-spacing-08) 0;
 }
 
 .tableRow {
@@ -7024,12 +7030,11 @@ function markBreakevenIntroSeen() {
   white-space: nowrap;
 }
 
-/* The total: the L3 total row (primary label, larger value) on the warning tint, no divider (L3's inset line off). */
+/* The total: L3's total row (bold label, larger value), no tint and no divider (L3's inset line off). */
 .tableTotal.tableTotal {
   margin-top: var(--l3-spacing-04);
-  padding: var(--l3-spacing-08) var(--l3-spacing-16);
+  padding-top: var(--l3-spacing-04);
   box-shadow: none;
-  background: var(--l3-surface-accent-warning-light);
 }
 
 /* The charges row opens the breakdown: its label is the toggle, stretched over the whole row so a tap anywhere works. */
@@ -7152,6 +7157,7 @@ import { msKeyboardArrowDown } from '@l3/components/icons/glyphs'
 import { KeyValueRow } from '@l3/components/KeyValueList'
 import { ButtonGroup } from '@l3/components/ButtonGroup'
 import { Stack } from '@l3/components/Stack'
+import { useFlowOption } from '../../../shared/prototype'
 import { Sheet } from '../../../shared/ui/Sheet'
 import { BreakevenExplainer, chargeInr, EXPLAINER_LENGTH } from '../components/BreakevenExplainer'
 import { BreakevenIcon } from '../components/BreakevenIcon'
@@ -7174,12 +7180,17 @@ export function BreakevenSheet({ onClose }: { onClose: () => void }) {
   const headingId = useId()
   const [still] = useState(prefersReducedMotion)
   const [ready, setReady] = useState(still)
+  // Prototype setting "Breakeven sheet": v2 (default) = new heading + description + charges table, no info lines;
+  // v1 = the sheet as it first shipped (How breakeven works, the two info lines, no table).
+  const v1 = useFlowOption('fno', 'breakevenSheet', 'v2') === 'v1'
 
   return (
     <Sheet
       labelledBy={headingId}
       onClose={onClose}
-      header={<BottomSheetHeader size="sm" headingId={headingId} heading={t('breakeven.title')} />}
+      header={v1
+        ? <BottomSheetHeader size="sm" headingId={headingId} heading={t('breakeven.title')} />
+        : <BottomSheetHeader size="sm" headingId={headingId} heading={t('breakeven.titleV2')} description={t('breakeven.descriptionV2')} />}
       footer={
         <ButtonGroup aria-label={t('breakeven.title')}>
           <div className={styles.loader} style={{ '--app-be-explainer': `${EXPLAINER_LENGTH}ms` } as CSSProperties}>
@@ -7200,11 +7211,12 @@ export function BreakevenSheet({ onClose }: { onClose: () => void }) {
           </p>
           <BreakevenExplainer still={still} />
         </section>
-        <ChargesTable />
-        <Stack gap="12">
-          <InfoRow icon={<BreakevenIcon variant="line" />} text={t('breakeven.info1')} />
-          <InfoRow icon={<BreakevenIcon variant="up" />} text={t('breakeven.info2')} />
-        </Stack>
+        {v1 ? (
+          <Stack gap="12">
+            <InfoRow icon={<BreakevenIcon variant="line" />} text={t('breakeven.info1')} />
+            <InfoRow icon={<BreakevenIcon variant="up" />} text={t('breakeven.info2')} />
+          </Stack>
+        ) : <ChargesTable />}
       </Stack>
     </Sheet>
   )
@@ -7214,8 +7226,8 @@ export function BreakevenSheet({ onClose }: { onClose: () => void }) {
 const BREAKDOWN_ORDER = ['stt', 'transaction', 'brokerage', 'stamp', 'sebi'] as const
 
 /**
- * The example as a calculation table: a header line like the example card's, then one row each, divided by hairlines —
- * Bought at, Order charges (incl. GST), Breakeven price (on the B/E line's warning tint). The charges row opens and closes the breakdown (closed by default) — a tap anywhere on it.
+ * The example as a calculation table on a grey card (no heading, no lines), one row each —
+ * Bought at, Order charges (incl. GST), Breakeven price (bold, L3's total row). The charges row opens and closes the breakdown (closed by default) — a tap anywhere on it.
  */
 function ChargesTable() {
   const [open, setOpen] = useState(false)
@@ -7225,7 +7237,6 @@ function ChargesTable() {
   const charges = `≈${chargeInr(exampleChargesTotal)}`
   return (
     <section className={styles.table} aria-label={t('breakeven.tableLabel')}>
-      <p className={`${styles.exampleHead} ${styles.tableHead}`}>{t('breakeven.tableTitle')}</p>
       <dl className={styles.tableRows}>
         <KeyValueRow className={styles.tableRow} label={t('breakeven.tableBought')} value={inr(entry)} />
         <KeyValueRow
