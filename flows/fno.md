@@ -251,7 +251,7 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 
 - Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left). On scroll the tabs stick right under the top bar (`position: sticky` in the page — they sit mid-page under the overview, so not in the Actionbar's bottom slot); a tab switch while scrolled lines the new content up under them. Once stuck, the tab row takes the scrolled top bar's colour (surface/primary, not the active tab's gradient); the active tab stays as it is.
 - **Shortcuts** Gold · Silver · Crude Oil · Natural Gas (artwork, name, day change in up / down colour) → Gold Summary (fno-12).
-- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts whose options expire this week (`expiringThisWeek` in `commodities/data.ts`), snapping to the 16 inset. Each card: the symbol (GOLDM) over “OPT Expiry Today / Tomorrow / <weekday>” as plain description text (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM”, double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) left, Margin Per Lot right. Grey footer (`footerFilled`): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The commodity art is hidden (`SHOW_ART = false`, kept).
+- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts expiring soon (`expiringThisWeek` in `commodities/data.ts`), in two variants (`kind`): **option** and **future** (one GOLDM future sits second, for testing), snapping to the 16 inset. Each card: the symbol (GOLDM) over the expiry as plain description text (12) — option “OPT Expiry Today / Tomorrow / <weekday>”, future “FUT Expiry 3 Dec” (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM” (description 12 here, 10 in the chart), double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) — or LTP (₹ + change) for a future — left, Margin Per Lot right. Action footer (no fill, 16 under the details like the other parts): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The commodity art is hidden (`SHOW_ART = false`, kept). Prototype setting “Expiring card buttons” (Commodities, toggle, default Shown) hides the whole button footer; on a phone (app mode) a floating “BTN ON / BTN OFF” switch on the Commodities home (fno-08 … 10) flips it in one tap.
 - **Chart**: same as Equity, the instrument selector reads “Gold ⇕” and opens the contract picker (fno-10). Picking a contract renames the chart and closes the sheet.
 - **Contract picker** (`ContractPickerSheet`): header “Choose options contract”, underline tabs Equity (8) / Commodities (7) in its bottom slot; on Commodities, pill chips All / Gold / Silver / Crude Oil / Natural Gas / Copper / Aluminium / Zinc filter the groups. Rows: ListCell Small with artwork, name, price + change, a “Lowest Margin” discover Tag where it applies, Radio. The selected row is highlighted (ListCell `selected`).
 - **Watchlist** — same as Equity.
@@ -383,6 +383,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 #### L3 gaps (Commodities & Strategies)
 
+- Card action footer spacing: the unfilled footer sits 12 under the body (the body's padding) with no prop to change it; the Expiring cards want 16, so `Commodities.module.css` adds 4 on top of the footer (`.expiryCard`).
 - No-shadow clickable cards: L3 gives every clickable Card / card ListCell elevation-soft with no prop to turn it off; F&O wants all its cards flat (border only), so every F&O screen carries `flatCards.module.css` (Screen className), which keeps only the 1px border.
 - Commodity artwork (L3/Image/Commodities/… in Figma) isn't in the code package — exported PNGs live in `commodities/assets`; Copper / Aluminium / Zinc missing.
 - Outlined Buy / Sell buttons (Quick Trade): L3 Button has filled Buy / Sell only; the flow tints Secondary with the up / down tokens.
@@ -391,7 +392,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 ### Changelog
 
-- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: symbol over its option expiry day, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page fno-21; art hidden). Product tabs stick under the top bar on scroll (their row then takes the top bar's colour). The trend read-out is one shared component (`TrendBadge`) in the chart header and the Expiring cards. Expiring cards: the option expiry day as plain text under the symbol (no Tag). All F&O cards lose their shadow (border only).
+- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: symbol over its option expiry day, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page fno-21; art hidden). Product tabs stick under the top bar on scroll (their row then takes the top bar's colour). The trend read-out is one shared component (`TrendBadge`) in the chart header and the Expiring cards. Expiring cards: option and future variants (a GOLDM future second for testing); the expiry as plain text under the symbol (no Tag); trend “Since” at 12 (the chart keeps 10); buttons without the grey strip, the card's three parts 16 apart; card → asset page fno-21; “Expiring card buttons” setting hides the button footer. All F&O cards lose their shadow (border only).
 - 2026-11-16 — Breakeven sheet Version 2 (default): heading What is breakeven price? + a description, the charges table, info lines hidden; Version 1 (the first sheet) kept behind the new F&O setting "Breakeven sheet".
 - 2026-11-16 — The three breakeven screens are named “Break Even · …” in the screen list (fno-35, fno-36, fno-37), so a search for break even finds them; the sheet's heading stays How breakeven works.
 - 2026-11-16 — How breakeven works: a charges table under the example (bought at, order charges incl. GST, breakeven price in bold, one line each, on a grey card); the charges row opens the breakdown. GST now counts in the example: order charges ≈₹0.26, B/E ₹100.30 (was ≈₹0.24 / ₹100.25).
@@ -2316,6 +2317,9 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
 .expiryRule { height: 1px; background: var(--l3-border-light); }
 .expiryLabel { font: var(--l3-text-description-12); color: var(--l3-content-secondary); white-space: nowrap; }
 .expiryValue { font: var(--l3-text-heading-14); white-space: nowrap; }
+/* The action footer sits 16 under the details, like the card's other parts (L3's footer gives 12: the body's bottom
+   padding; local 4 on top — L3 gap, Card has no footer spacing prop). */
+.expiryCard[data-footer] > :last-child { padding-top: var(--l3-spacing-04); }
 .expiryActionIcon { display: inline-flex; width: var(--l3-size-20); height: var(--l3-size-20); }
 ```
 
@@ -2423,6 +2427,7 @@ import { PriceChange } from '@l3/components/PriceChange'
 import { SectionHeader } from '@l3/components/SectionHeader'
 import { Stack } from '@l3/components/Stack'
 import { inr } from '../../../../shared/data/format'
+import { useFlowOption } from '../../../../shared/prototype'
 import type { Contract } from '../../data'
 import { t } from '../../copy'
 import { expiringThisWeek, type ExpiringContract } from '../data'
@@ -2444,41 +2449,50 @@ function expiryDay(days: number) {
 }
 
 /** The card as a contract, for the contract sheet (Buy). */
-const asContract = (c: ExpiringContract): Contract => ({ id: c.id, name: `${c.symbol} ${c.option}`, description: c.description, price: c.premium, change: c.premiumChange, volume: 0, side: c.option.includes(' PE') ? 'put' : 'call' })
+const asContract = (c: ExpiringContract): Contract => c.kind === 'option'
+  ? { id: c.id, name: `${c.symbol} ${c.option}`, description: c.description, price: c.price, change: c.priceChange, volume: 0, side: c.option.includes(' PE') ? 'put' : 'call' }
+  : { id: c.id, name: c.symbol, description: c.description, price: c.price, change: c.priceChange, volume: 0 }
+
+/** The card's variant: the expiry line under the symbol and the left column's label (the option, or LTP for a future). */
+const expiryLine = (c: ExpiringContract) => c.kind === 'option' ? t('expiring.tag', { day: expiryDay(c.expiresInDays) }) : t('expiring.futTag', { date: c.expiryDate })
+const priceLabel = (c: ExpiringContract) => c.kind === 'option' ? c.option : t('expiring.ltp')
 
 /**
  * Expiring This Week — the Commodities tab's section between the commodity shortcuts and the chart: a sideways rail
  * of contracts whose options expire this week. Each card: the commodity with when its options expire (plain text,
- * "OPT Expiry Today"), the trend since when it started, the ATM option's premium (left) and the margin per lot
+ * "OPT Expiry Today" / "FUT Expiry 3 Dec"), the trend since when it started, the option's premium or the future's LTP
+ * (left) and the margin per lot
  * (right), each a label over its value, then
- * ScalpPro and Buy in a grey footer. A tap on the card opens the contract's asset page.
+ * ScalpPro and Buy in the card's action footer (no fill); the three parts sit 16 apart. A tap on the card opens the contract's asset page.
  */
 export function ExpiringThisWeek({ onAsset, onContract, onScalper }: { onAsset: () => void; onContract: (contract: Contract) => void; onScalper: () => void }) {
+  // Prototype setting “Expiring card buttons”: off hides the whole ScalpPro + Buy footer.
+  const showButtons = useFlowOption('fno', 'expiringButtons', 'on') === 'on'
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
     <SectionHeader title={t('expiring.title')} />
     <div className={styles.expiryRail}>
       {expiringThisWeek.map((c) => <div key={c.id} className={styles.expiryItem}>
         <Card
+          className={styles.expiryCard}
           onClick={onAsset}
-          aria-label={`${c.symbol} ${c.option}`}
-          footerFilled
-          footer={<>
+          aria-label={`${c.symbol} ${priceLabel(c)}`}
+          footer={showButtons ? <>
             <Button variant="secondary" size="md" fullWidth iconLeft={<span className={styles.expiryActionIcon}><MaskIcon src={scalper} /></span>} onClick={onScalper}>{t('chart.scalper')}</Button>
             <Button variant="primary" size="md" fullWidth onClick={() => onContract(asContract(c))}>{t('expiring.buy')}</Button>
-          </>}
+          </> : undefined}
         >
           <Stack gap="16">
             <Stack direction="horizontal" gap="12" align="center">
               {SHOW_ART && <span className={styles.expiryLogo}><img className={styles.expiryArt} src={c.image} alt="" /></span>}
               <Stack gap="04" className={parts.grow}>
                 <p className={styles.expirySymbol}>{c.symbol}</p>
-                <p className={parts.description}>{t('expiring.tag', { day: expiryDay(c.expiresInDays) })}</p>
+                <p className={parts.description}>{expiryLine(c)}</p>
               </Stack>
-              <TrendBadge trend={c.trend} label={t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')} since={t('expiring.since', { time: c.since })} />
+              <TrendBadge trend={c.trend} label={t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')} since={t('expiring.since', { time: c.since })} largeSince />
             </Stack>
             <div className={styles.expiryRule} />
             <Stack direction="horizontal" gap="12" justify="between">
-              <Stack gap="04"><span className={styles.expiryLabel}>{c.option}</span><Stack direction="horizontal" gap="08" align="center"><span className={styles.expiryValue}>{inr(c.premium)}</span><PriceChange value={c.premiumChange} unit="percent" size="md" /></Stack></Stack>
+              <Stack gap="04"><span className={styles.expiryLabel}>{priceLabel(c)}</span><Stack direction="horizontal" gap="08" align="center"><span className={styles.expiryValue}>{inr(c.price)}</span><PriceChange value={c.priceChange} unit="percent" size="md" /></Stack></Stack>
               <Stack gap="04" align="end"><span className={styles.expiryLabel}>{t('expiring.margin')}</span><span className={styles.expiryValue}>{inr(c.margin)}</span></Stack>
             </Stack>
           </Stack>
@@ -2697,19 +2711,28 @@ export const assetCandles = assetCloses.map((close, i) => {
 })
 
 /**
- * Expiring This Week (F&O home → Commodities, between the shortcuts and the chart): commodity contracts whose options
- * expire this week, soonest first. `expiresInDays` is from today (0 = today) and names the tag; `option` is the ATM
- * call shown on the card with its premium and change; `margin` is the margin per lot (₹).
+ * Expiring This Week (F&O home → Commodities, between the shortcuts and the chart): commodity contracts expiring soon.
+ * One card, two variants (`kind`):
+ * - `option`: the ATM option (`option`, e.g. "132000 CE ATM") with its premium; the expiry line is "OPT Expiry <day>",
+ *   the day from `expiresInDays` (0 = Today, 1 = Tomorrow, then the weekday).
+ * - `future`: the future's last traded price (LTP); the expiry line is "FUT Expiry <expiryDate>" ("3 Dec").
+ * `price` / `priceChange` are the option's premium or the future's LTP with the day change (%); `margin` is the margin
+ * per lot (₹); `trend` / `since` feed the trend read-out.
  */
-export type ExpiringContract = {
-  id: string; symbol: string; /** The Commodity it belongs to (its asset page). */ commodity: Commodity['id']; image: string; change: number; description: string; expiresInDays: number
-  trend: 'up' | 'down'; since: string; option: string; premium: number; premiumChange: number; margin: number
+type ExpiringBase = {
+  id: string; symbol: string; /** The Commodity it belongs to. */ commodity: Commodity['id']; image: string; description: string
+  trend: 'up' | 'down'; since: string; price: number; priceChange: number; margin: number
 }
+export type ExpiringContract =
+  | (ExpiringBase & { kind: 'option'; option: string; expiresInDays: number })
+  | (ExpiringBase & { kind: 'future'; expiryDate: string })
 export const expiringThisWeek: ExpiringContract[] = [
-  { id: 'exp-goldm', symbol: 'GOLDM', commodity: 'gold', image: gold, change: 1.24, description: 'Fut | 3 Dec 26', expiresInDays: 0, trend: 'up', since: '3:25 PM', option: '132000 CE ATM', premium: 118, premiumChange: 14.56, margin: 1180 },
-  { id: 'exp-silverm', symbol: 'SILVERM', commodity: 'silver', image: silver, change: -0.86, description: 'Fut | 27 Feb 27', expiresInDays: 1, trend: 'down', since: '1:10 PM', option: '158000 PE ATM', premium: 642.5, premiumChange: 8.2, margin: 3212.5 },
-  { id: 'exp-crudeoilm', symbol: 'CRUDEOILM', commodity: 'crude', image: crudeOil, change: 2.31, description: 'Fut | 18 Dec 26', expiresInDays: 2, trend: 'up', since: '11:40 AM', option: '5400 CE ATM', premium: 96.4, premiumChange: 21.03, margin: 964 },
-  { id: 'exp-naturalgas', symbol: 'NATURALGAS', commodity: 'gas', image: naturalGas, change: -1.48, description: 'Fut | 24 Dec 26', expiresInDays: 3, trend: 'down', since: '10:05 AM', option: '320 PE ATM', premium: 12.85, premiumChange: 6.74, margin: 16062.5 },
+  { kind: 'option', id: 'exp-goldm', symbol: 'GOLDM', commodity: 'gold', image: gold, description: 'Fut | 3 Dec 26', expiresInDays: 0, trend: 'up', since: '3:25 PM', option: '132000 CE ATM', price: 118, priceChange: 14.56, margin: 1180 },
+  // Second for testing the futures variant (sample from the live card, 2026-11-17).
+  { kind: 'future', id: 'exp-goldm-fut', symbol: 'GOLDM', commodity: 'gold', image: gold, description: 'Fut | 3 Dec 26', expiryDate: '3 Dec', trend: 'up', since: '2:40 PM', price: 132640, priceChange: 1.24, margin: 14020 },
+  { kind: 'option', id: 'exp-silverm', symbol: 'SILVERM', commodity: 'silver', image: silver, description: 'Fut | 27 Feb 27', expiresInDays: 1, trend: 'down', since: '1:10 PM', option: '158000 PE ATM', price: 642.5, priceChange: 8.2, margin: 3212.5 },
+  { kind: 'option', id: 'exp-crudeoilm', symbol: 'CRUDEOILM', commodity: 'crude', image: crudeOil, description: 'Fut | 18 Dec 26', expiresInDays: 2, trend: 'up', since: '11:40 AM', option: '5400 CE ATM', price: 96.4, priceChange: 21.03, margin: 964 },
+  { kind: 'option', id: 'exp-naturalgas', symbol: 'NATURALGAS', commodity: 'gas', image: naturalGas, description: 'Fut | 24 Dec 26', expiresInDays: 3, trend: 'down', since: '10:05 AM', option: '320 PE ATM', price: 12.85, priceChange: 6.74, margin: 16062.5 },
 ]
 ```
 
@@ -5176,13 +5199,13 @@ import downtrend from '../assets/downtrend.svg'
 import styles from './HomeParts.module.css'
 
 /**
- * The trend read-out: "Strong Uptrend / Downtrend" in up / down colour over "Since <time>" (caption), with the double
+ * The trend read-out: "Strong Uptrend / Downtrend" in up / down colour over "Since <time>" (caption 10 in the chart; `largeSince` = description 12, the Expiring cards), with the double
  * arrow on the right. One component for the chart's header and the Expiring This Week cards, so they stay identical.
  * The up arrow is the down artwork turned over.
  */
-export function TrendBadge({ trend, label, since }: { trend: 'up' | 'down'; label: string; since: string }) {
+export function TrendBadge({ trend, label, since, largeSince = false }: { trend: 'up' | 'down'; label: string; since: string; largeSince?: boolean }) {
   return <Stack direction="horizontal" gap="04" align="center">
-    <Stack gap="04" align="end"><span className={trend === 'up' ? styles.up : styles.down}>{label}</span><span className={styles.caption}>{since}</span></Stack>
+    <Stack gap="04" align="end"><span className={trend === 'up' ? styles.up : styles.down}>{label}</span><span className={largeSince ? styles.description : styles.caption}>{since}</span></Stack>
     <span className={styles.trendIcon} data-trend={trend}><MaskIcon src={downtrend} /></span>
   </Stack>
 }
@@ -5730,6 +5753,8 @@ function addMinutes(start: string, add: number) {
   "expiring.up": "Strong Uptrend",
   "expiring.down": "Strong Downtrend",
   "expiring.since": "Since {time}",
+  "expiring.futTag": "FUT Expiry {date}",
+  "expiring.ltp": "LTP",
   "expiring.margin": "Margin Per Lot",
   "expiring.buy": "Buy"
 }
@@ -6000,6 +6025,10 @@ export const fno: Flow = {
     // The breakeven sheet (fno-36): Version 2 (default) = What is breakeven price? + a description + the charges table,
     // no info lines; Version 1 = the sheet as it first shipped (How breakeven works, two info lines, no table).
     { id: 'breakevenSheet', group: 'Scalper', label: 'Breakeven sheet', values: [{ value: 'v1', label: 'Version 1' }, { value: 'v2', label: 'Version 2' }], default: 'v2', floatOn: ['fno-36'] },
+    // Expiring This Week (Commodities, fno-08): show or hide the cards' ScalpPro + Buy footer (the whole grey strip).
+    { id: 'expiringButtons', group: 'Commodities', label: 'Expiring card buttons', picker: 'toggle', values: [{ value: 'off', label: 'Hidden' }, { value: 'on', label: 'Shown' }], default: 'on', floatOn: ['fno-08', 'fno-09', 'fno-10'],
+      // Phone app mode: a floating one-tap switch on the Commodities home, so it flips without opening the settings sheet.
+      quickSwitch: { on: ['fno-08', 'fno-09', 'fno-10'], values: [{ value: 'on', label: 'Shown', short: 'BTN ON' }, { value: 'off', label: 'Hidden', short: 'BTN OFF' }] } },
   ],
   // The F&O tab's parts, as the preview lists them (like the tab's own pages). Positions isn't built yet.
   sections: [
