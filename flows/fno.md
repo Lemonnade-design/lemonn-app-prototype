@@ -249,9 +249,9 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 
 #### Commodities (fno-08 … 14)
 
-- Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left). On scroll the tabs stick right under the top bar (`position: sticky` in the page — they sit mid-page under the overview, so not in the Actionbar's bottom slot); a tab switch while scrolled lines the new content up under them.
+- Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left). On scroll the tabs stick right under the top bar (`position: sticky` in the page — they sit mid-page under the overview, so not in the Actionbar's bottom slot); a tab switch while scrolled lines the new content up under them. Once stuck, the tab row takes the scrolled top bar's colour (surface/primary, not the active tab's gradient); the active tab stays as it is.
 - **Shortcuts** Gold · Silver · Crude Oil · Natural Gas (artwork, name, day change in up / down colour) → Gold Summary (fno-12).
-- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts whose options expire this week (`expiringThisWeek` in `commodities/data.ts`), snapping to the 16 inset. Each card: an “OPT Expiry Today / Tomorrow / <weekday>” Tag (secondary, discover) on its top edge; the symbol (GOLDM) over “Fut | 3 Dec 26”; on the right Strong Uptrend / Downtrend, “Since 3:25 PM ⓘ” and a double arrow in up / down colour; a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) left, Margin Per Lot right. Grey footer (`footerFilled`): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the commodity's asset page (fno-12). The commodity art is hidden (`SHOW_ART = false`, kept).
+- **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts whose options expire this week (`expiringThisWeek` in `commodities/data.ts`), snapping to the 16 inset. Each card: the symbol (GOLDM) over “OPT Expiry Today / Tomorrow / <weekday>” as plain description text (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM”, double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) left, Margin Per Lot right. Grey footer (`footerFilled`): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The commodity art is hidden (`SHOW_ART = false`, kept).
 - **Chart**: same as Equity, the instrument selector reads “Gold ⇕” and opens the contract picker (fno-10). Picking a contract renames the chart and closes the sheet.
 - **Contract picker** (`ContractPickerSheet`): header “Choose options contract”, underline tabs Equity (8) / Commodities (7) in its bottom slot; on Commodities, pill chips All / Gold / Silver / Crude Oil / Natural Gas / Copper / Aluminium / Zinc filter the groups. Rows: ListCell Small with artwork, name, price + change, a “Lowest Margin” discover Tag where it applies, Radio. The selected row is highlighted (ListCell `selected`).
 - **Watchlist** — same as Equity.
@@ -391,7 +391,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 
 ### Changelog
 
-- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: expiry tag, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page; art hidden). Product tabs stick under the top bar on scroll. All F&O cards lose their shadow (border only).
+- 2026-11-17 — Commodities: new Expiring This Week section between the shortcuts and the chart (sideways contract cards: symbol over its option expiry day, trend, ATM premium and margin per lot as label-over-value columns, ScalpPro + Buy in a grey footer; card → asset page fno-21; art hidden). Product tabs stick under the top bar on scroll (their row then takes the top bar's colour). The trend read-out is one shared component (`TrendBadge`) in the chart header and the Expiring cards. Expiring cards: the option expiry day as plain text under the symbol (no Tag). All F&O cards lose their shadow (border only).
 - 2026-11-16 — Breakeven sheet Version 2 (default): heading What is breakeven price? + a description, the charges table, info lines hidden; Version 1 (the first sheet) kept behind the new F&O setting "Breakeven sheet".
 - 2026-11-16 — The three breakeven screens are named “Break Even · …” in the screen list (fno-35, fno-36, fno-37), so a search for break even finds them; the sheet's heading stays How breakeven works.
 - 2026-11-16 — How breakeven works: a charges table under the example (bought at, order charges incl. GST, breakeven price in bold, one line each, on a grey card); the charges row opens the breakdown. GST now counts in the example: order charges ≈₹0.26, B/E ₹100.30 (was ≈₹0.24 / ₹100.25).
@@ -2306,20 +2306,13 @@ sl��-�""	d ί��n������'�O�gt�s:�#E>�_��
 
 /* Expiring This Week: a sideways rail of contract cards, each with its expiry tag sitting on the card's top edge.
    The rail runs to the screen edges (cards snap to the 16 inset); the top padding makes room for the tag. */
-.expiryRail { display: flex; gap: var(--l3-spacing-12); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--l3-spacing-16); margin-inline: calc(-1 * var(--l3-spacing-16)); padding: var(--l3-spacing-12) var(--l3-spacing-16) var(--l3-spacing-04); scrollbar-width: none; }
+.expiryRail { display: flex; gap: var(--l3-spacing-12); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--l3-spacing-16); margin-inline: calc(-1 * var(--l3-spacing-16)); padding: 0 var(--l3-spacing-16) var(--l3-spacing-04); scrollbar-width: none; }
 .expiryRail::-webkit-scrollbar { display: none; }
 .expiryItem { position: relative; flex: none; width: calc(100% - var(--l3-spacing-32)); scroll-snap-align: start; }
 .expiryItem:only-child { width: 100%; }
-.expiryTag { position: absolute; z-index: 1; top: 0; left: var(--l3-spacing-16); transform: translateY(-50%); pointer-events: none; }
 .expiryArt { display: block; width: var(--l3-size-32); height: var(--l3-size-32); object-fit: contain; }
 .expiryLogo { display: inline-flex; flex: none; align-items: center; justify-content: center; width: var(--l3-size-48); height: var(--l3-size-48); border-radius: var(--l3-radius-full); background: var(--l3-surface-secondary); }
 .expirySymbol { font: var(--l3-text-heading-16); white-space: nowrap; }
-.expiryTrendUp, .expiryTrendDown { font: var(--l3-text-heading-14); white-space: nowrap; }
-.expiryTrendUp { color: var(--l3-content-accent-indicator-up-default); }
-.expiryTrendDown { color: var(--l3-content-accent-indicator-down-default); }
-.expiryTrendIcon { display: inline-flex; }
-.expiryTrendIcon[data-trend='up'] { color: var(--l3-content-accent-indicator-up-default); }
-.expiryTrendIcon[data-trend='down'] { color: var(--l3-content-accent-indicator-down-default); }
 .expiryRule { height: 1px; background: var(--l3-border-light); }
 .expiryLabel { font: var(--l3-text-description-12); color: var(--l3-content-secondary); white-space: nowrap; }
 .expiryValue { font: var(--l3-text-heading-14); white-space: nowrap; }
@@ -2347,6 +2340,7 @@ type Props = {
   instrument: string
   lists: Watchlist[]
   onCommodity: (commodity: Commodity) => void
+  onAsset: () => void
   onPicker: () => void
   onChoose: Choose
   onContract: (contract: Contract) => void
@@ -2357,10 +2351,10 @@ type Props = {
 }
 
 /** The Commodities tab of F&O home (Figma 6754:63637), under the shared header, P&L, indices and product tabs. */
-export function CommoditiesFeed({ instrument, lists, onCommodity, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper }: Props) {
+export function CommoditiesFeed({ instrument, lists, onCommodity, onAsset, onPicker, onChoose, onContract, onDestination, onAddWatchlist, onChain, onScalper }: Props) {
   return <Stack gap="32" className={parts.feed}>
     <CommodityShortcuts onOpen={onCommodity} />
-    <ExpiringThisWeek onCommodity={onCommodity} onContract={onContract} onScalper={onScalper} />
+    <ExpiringThisWeek onAsset={onAsset} onContract={onContract} onScalper={onScalper} />
     <TradingChart instrument={instrument} onInstrument={onPicker} onChoose={onChoose} onDestination={onDestination} onChain={onChain} onScalper={onScalper} />
     <div className={parts.divider} />
     <div data-fno="watchlists"><Watchlists lists={lists} onAdd={onAddWatchlist} onOpen={onDestination} /></div>
@@ -2424,25 +2418,23 @@ export function CommodityShortcuts({ onOpen }: { onOpen: (commodity: Commodity) 
 ```tsx
 import { Button } from '@l3/components/Button'
 import { Card } from '@l3/components/Card'
-import { Icon } from '@l3/components/Icon'
 import { MaskIcon } from '@l3/components/MaskIcon'
 import { PriceChange } from '@l3/components/PriceChange'
 import { SectionHeader } from '@l3/components/SectionHeader'
 import { Stack } from '@l3/components/Stack'
-import { Tag } from '@l3/components/Tag'
-import { msInfo, msKeyboardDoubleArrowDown, msKeyboardDoubleArrowUp } from '@l3/icons/material'
 import { inr } from '../../../../shared/data/format'
 import type { Contract } from '../../data'
 import { t } from '../../copy'
-import { commodities, expiringThisWeek, type Commodity, type ExpiringContract } from '../data'
+import { expiringThisWeek, type ExpiringContract } from '../data'
 import scalper from '../../assets/scalppro.svg'
+import { TrendBadge } from '../../components/TrendBadge'
 import parts from '../../components/HomeParts.module.css'
 import styles from './Commodities.module.css'
 
 /** The commodity art on the left of each card — hidden for now (kept, not deleted). */
 const SHOW_ART = false
 
-/** The tag's day: Today, Tomorrow, then the weekday ("Thu"). */
+/** The expiry line's day: Today, Tomorrow, then the weekday ("Thu"). */
 function expiryDay(days: number) {
   if (days === 0) return t('expiring.today')
   if (days === 1) return t('expiring.tomorrow')
@@ -2456,19 +2448,18 @@ const asContract = (c: ExpiringContract): Contract => ({ id: c.id, name: `${c.sy
 
 /**
  * Expiring This Week — the Commodities tab's section between the commodity shortcuts and the chart: a sideways rail
- * of contracts whose options expire this week. Each card: the expiry tag on its top edge, the commodity with its
- * future's expiry, the trend since when it started, the ATM option's premium (left) and the margin per lot
+ * of contracts whose options expire this week. Each card: the commodity with when its options expire (plain text,
+ * "OPT Expiry Today"), the trend since when it started, the ATM option's premium (left) and the margin per lot
  * (right), each a label over its value, then
- * ScalpPro and Buy in a grey footer. A tap on the card opens the commodity's asset page.
+ * ScalpPro and Buy in a grey footer. A tap on the card opens the contract's asset page.
  */
-export function ExpiringThisWeek({ onCommodity, onContract, onScalper }: { onCommodity: (commodity: Commodity) => void; onContract: (contract: Contract) => void; onScalper: () => void }) {
+export function ExpiringThisWeek({ onAsset, onContract, onScalper }: { onAsset: () => void; onContract: (contract: Contract) => void; onScalper: () => void }) {
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
     <SectionHeader title={t('expiring.title')} />
     <div className={styles.expiryRail}>
       {expiringThisWeek.map((c) => <div key={c.id} className={styles.expiryItem}>
-        <Tag className={styles.expiryTag} variant="secondary" color="discover" size="sm">{t('expiring.tag', { day: expiryDay(c.expiresInDays) })}</Tag>
         <Card
-          onClick={() => onCommodity(commodities.find((x) => x.id === c.commodity)!)}
+          onClick={onAsset}
           aria-label={`${c.symbol} ${c.option}`}
           footerFilled
           footer={<>
@@ -2481,15 +2472,9 @@ export function ExpiringThisWeek({ onCommodity, onContract, onScalper }: { onCom
               {SHOW_ART && <span className={styles.expiryLogo}><img className={styles.expiryArt} src={c.image} alt="" /></span>}
               <Stack gap="04" className={parts.grow}>
                 <p className={styles.expirySymbol}>{c.symbol}</p>
-                <p className={parts.description}>{c.description}</p>
+                <p className={parts.description}>{t('expiring.tag', { day: expiryDay(c.expiresInDays) })}</p>
               </Stack>
-              <Stack direction="horizontal" gap="04" align="center">
-                <Stack gap="04" align="end">
-                  <span className={c.trend === 'up' ? styles.expiryTrendUp : styles.expiryTrendDown}>{t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')}</span>
-                  <Stack direction="horizontal" gap="04" align="center"><span className={parts.caption}>{t('expiring.since', { time: c.since })}</span><Icon icon={msInfo} size={12} label={t('expiring.sinceInfo')} /></Stack>
-                </Stack>
-                <span className={styles.expiryTrendIcon} data-trend={c.trend}><Icon icon={c.trend === 'up' ? msKeyboardDoubleArrowUp : msKeyboardDoubleArrowDown} size={20} /></span>
-              </Stack>
+              <TrendBadge trend={c.trend} label={t(c.trend === 'up' ? 'expiring.up' : 'expiring.down')} since={t('expiring.since', { time: c.since })} />
             </Stack>
             <div className={styles.expiryRule} />
             <Stack direction="horizontal" gap="12" justify="between">
@@ -4431,6 +4416,7 @@ export function Heatmap({ onOpen, onViewAll }: { onOpen: (name: string) => void;
 :global([data-mode='dark']) .asset { filter: invert(1); }
 .chartSection { display: flex; flex-direction: column; gap: var(--l3-spacing-16); padding-inline: var(--l3-spacing-16); }
 .trendIcon { display: inline-flex; width: var(--l3-size-20); height: var(--l3-size-20); color: var(--l3-content-accent-indicator-down-default); }
+.trendIcon[data-trend='up'] { color: var(--l3-content-accent-indicator-up-default); transform: scaleY(-1); }
 .chart { width: 100%; display: block; }
 .divider { border-top: 1px solid var(--l3-border-light); }
 .watchlists, .heatmapSection { display: flex; flex-direction: column; gap: var(--l3-spacing-16); }
@@ -4461,6 +4447,10 @@ export function Heatmap({ onOpen, onViewAll }: { onOpen: (name: string) => void;
 /* The product tabs stay put under the top bar once the page scrolls past them (they sit mid-page, so not in the
    Actionbar's bottom slot). */
 .stickyTabs { position: sticky; top: 0; z-index: 2; }
+/* Once stuck, the row (what the inactive tabs sit on) takes the scrolled top bar's colour (Header .bar[data-scrolled]);
+   the active tab keeps its own gradient. */
+.stickyTabs .productTabs.productTabs { transition: background-color var(--l3-motion-duration-short) var(--l3-motion-easing-standard); }
+.stickyTabs[data-stuck] .productTabs.productTabs { background-color: var(--l3-surface-primary); }
 .productContent { overflow-x: clip; }
 .productContent[data-slide='from-end'] > * { animation: fno-in-from-end var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both; }
 .productContent[data-slide='from-start'] > * { animation: fno-in-from-start var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both; }
@@ -4849,7 +4839,7 @@ import { chartSeries } from '../data'
 import { t } from '../copy'
 import chain from '../assets/option-chain.svg'
 import scalper from '../assets/scalppro.svg'
-import downtrend from '../assets/downtrend.svg'
+import { TrendBadge } from './TrendBadge'
 import styles from './HomeParts.module.css'
 
 /** `instrument` + `onInstrument`: the Commodities tab shows its own instrument and opens the contract picker instead of the index sheet. */
@@ -4861,7 +4851,7 @@ export function TradingChart({ instrument, onInstrument, onChoose, onDestination
   return <section className={styles.chartSection} aria-label={t('chart.label', { index, metric })}>
     <Stack direction="horizontal" justify="between" align="center">
       <Stack direction="horizontal" gap="08" align="center"><Select size="lg" aria-label={t('chart.index')} onClick={onInstrument ?? (() => onChoose(t('chart.index'), ['NIFTY 50', 'BANK NIFTY', 'SENSEX'], index, setIndex))}>{index}</Select><span className={styles.down}>5.17%</span></Stack>
-      <Stack direction="horizontal" gap="04" align="center"><Stack gap="04" align="end"><span className={styles.down}>{t('chart.trend')}</span><span className={styles.caption}>{t('chart.since')}</span></Stack><span className={styles.trendIcon}><MaskIcon src={downtrend} /></span></Stack>
+      <TrendBadge trend="down" label={t('chart.trend')} since={t('chart.since')} />
     </Stack>
     <Tabs aria-label="Chart metric" appearance="pill" size="sm" items={items} value={metric} onChange={setMetric} />
     <Chart data={chartSeries(metric, index)} label={t('chart.label', { index, metric: items.find((i) => i.value === metric)!.label })} type={metric === 'price' ? 'candle' : 'line'} showLastPrice={false} showVolume={metric === 'price'} className={styles.chart} />
@@ -5174,6 +5164,27 @@ function clock(start: string, add: number) {
   const [h, m] = start.split(':').map(Number)
   const total = h * 60 + m + add
   return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`
+}
+```
+
+### `src/flows/fno/components/TrendBadge.tsx`
+
+```tsx
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { Stack } from '@l3/components/Stack'
+import downtrend from '../assets/downtrend.svg'
+import styles from './HomeParts.module.css'
+
+/**
+ * The trend read-out: "Strong Uptrend / Downtrend" in up / down colour over "Since <time>" (caption), with the double
+ * arrow on the right. One component for the chart's header and the Expiring This Week cards, so they stay identical.
+ * The up arrow is the down artwork turned over.
+ */
+export function TrendBadge({ trend, label, since }: { trend: 'up' | 'down'; label: string; since: string }) {
+  return <Stack direction="horizontal" gap="04" align="center">
+    <Stack gap="04" align="end"><span className={trend === 'up' ? styles.up : styles.down}>{label}</span><span className={styles.caption}>{since}</span></Stack>
+    <span className={styles.trendIcon} data-trend={trend}><MaskIcon src={downtrend} /></span>
+  </Stack>
 }
 ```
 
@@ -5719,7 +5730,6 @@ function addMinutes(start: string, add: number) {
   "expiring.up": "Strong Uptrend",
   "expiring.down": "Strong Downtrend",
   "expiring.since": "Since {time}",
-  "expiring.sinceInfo": "About the trend",
   "expiring.margin": "Margin Per Lot",
   "expiring.buy": "Buy"
 }
@@ -5980,7 +5990,7 @@ const backOr = (go: Go, fallback: string) => { if (window.history.length > 1) wi
 
 const tabScreen = (product: Product, segment?: Segment) => product === 'equity' ? 'fno-01' : product === 'commodities' ? 'fno-08' : segment === 'commodities' ? 'fno-16' : 'fno-15'
 type HomeOptions = { scrollTo?: HomePart; product?: Product; segment?: Segment; picker?: 'equity' | 'commodities' }
-const home = (go: Go, scrollTo?: HomePart, options: HomeOptions = {}) => <Home scrollTo={scrollTo} product={options.product} segment={options.segment} picker={options.picker} onProduct={(product, segment) => go(tabScreen(product, segment))} onCommodity={() => go('fno-12')} onHome={() => go('stocks-01')} onSearch={() => go('search-25')} onProfile={() => go('profile-01')} onWallet={() => go('deposit-01')} onDash={() => go('dash-02')} onUsStocks={() => go('stocks-09')} onOptions={() => go('search-26')} onFutures={() => go('search-27')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} />
+const home = (go: Go, scrollTo?: HomePart, options: HomeOptions = {}) => <Home scrollTo={scrollTo} product={options.product} segment={options.segment} picker={options.picker} onProduct={(product, segment) => go(tabScreen(product, segment))} onCommodity={() => go('fno-12')} onAsset={() => go('fno-21')} onHome={() => go('stocks-01')} onSearch={() => go('search-25')} onProfile={() => go('profile-01')} onWallet={() => go('deposit-01')} onDash={() => go('dash-02')} onUsStocks={() => go('stocks-09')} onOptions={() => go('search-26')} onFutures={() => go('search-27')} onChain={() => go('fno-17')} onScalper={() => go('fno-05')} />
 
 export const fno: Flow = {
   id: 'fno', title: 'F&O',
@@ -6721,21 +6731,29 @@ type Props = {
   picker?: 'equity' | 'commodities'
   onProduct: (product: Product, segment?: Segment) => void
   onCommodity: (commodity: Commodity) => void
+  /** A contract card (Expiring This Week) → that contract's asset page. */
+  onAsset: () => void
   scrollTo?: HomePart; onHome: () => void; onSearch: () => void; onProfile: () => void; onWallet: () => void; onDash: () => void; onUsStocks?: () => void; onOptions: () => void; onFutures: () => void; onChain: () => void; onScalper: () => void }
 type Modal = { kind: 'detail'; title: string; contract?: Contract } | { kind: 'create' } | { kind: 'choice'; title: string; values: string[]; value: string; onPick: (v: string) => void } | { kind: 'picker'; segment: 'equity' | 'commodities' }
 
 /** fno-01 … 04 · one scrollable Equity home, with board frames for the lower sections. */
-export function Home({ product = 'equity', segment = 'equity', picker, onProduct, onCommodity, scrollTo = 'top', onHome, onSearch, onProfile, onWallet, onDash, onUsStocks, onOptions, onFutures, onChain, onScalper }: Props) {
+export function Home({ product = 'equity', segment = 'equity', picker, onProduct, onCommodity, onAsset, scrollTo = 'top', onHome, onSearch, onProfile, onWallet, onDash, onUsStocks, onOptions, onFutures, onChain, onScalper }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const [modal, setModal] = useState<Modal | null>(picker ? { kind: 'picker', segment: picker } : null)
   const [instrument, setInstrument] = useState('Gold')
   const [lists, setLists] = useState(watchlists)
   const [created, setCreated] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  // The product tabs are stuck under the top bar: their row takes the scrolled top bar's colour.
+  const [tabsStuck, setTabsStuck] = useState(false)
   useEffect(() => {
     const body = root.current?.parentElement
     if (!body) return
-    const onScroll = () => setScrolled(body.scrollTop > 0)
+    const tabs = root.current?.querySelector('[data-fno="tabs"]')
+    const onScroll = () => {
+      setScrolled(body.scrollTop > 0)
+      setTabsStuck(!!tabs && body.scrollTop > 0 && tabs.getBoundingClientRect().top <= body.getBoundingClientRect().top + 1)
+    }
     onScroll()
     body.addEventListener('scroll', onScroll, { passive: true })
     return () => body.removeEventListener('scroll', onScroll)
@@ -6776,7 +6794,7 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
   return <Screen className={flat.flatCards} top={<Header scrolled={scrolled} initials={user.name.split(' ').map((name) => name[0]).join('')} onSearch={onSearch} onProfile={onProfile} onWallet={onWallet} onDash={onDash} />} bottom={<FnoNav onHome={onHome} onDestination={open} onChain={onChain} onScalper={onScalper} />} sheet={sheet} toast={created ? <Aerobar floating type="success" heading={t('watchlists.created')} onDismiss={() => setCreated(false)} /> : undefined}>
     <Stack ref={root}>
       <div data-fno="top"><Overview onDestination={open} /></div>
-      <div data-fno="tabs" className={styles.stickyTabs}><Tabs aria-label="F&O products" appearance="ribbon" size="md" className={styles.productTabs} value={product} onChange={(v) => onProduct(v)} items={[{ value: 'equity', label: t('equity'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={equity} /></span> }, { value: 'commodities', label: t('commodities'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={commodities} /></span> }, { value: 'strategies', label: t('strategies'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={strategies} /></span> }]} /></div>
+      <div data-fno="tabs" className={styles.stickyTabs} data-stuck={tabsStuck || undefined}><Tabs aria-label="F&O products" appearance="ribbon" size="md" className={styles.productTabs} value={product} onChange={(v) => onProduct(v)} items={[{ value: 'equity', label: t('equity'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={equity} /></span> }, { value: 'commodities', label: t('commodities'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={commodities} /></span> }, { value: 'strategies', label: t('strategies'), iconLeft: <span className={styles.ribbonIcon}><MaskIcon src={strategies} /></span> }]} /></div>
       <div key={product} data-fno="content" className={styles.productContent} data-slide={slide ?? undefined}>
       {product === 'equity' && <Stack gap="32" className={styles.feed}>
         <Shortcuts onWatchlist={() => scroll('watchlists')} onDestination={open} />
@@ -6788,7 +6806,7 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
         <div data-fno="heatmap"><Heatmap onOpen={open} onViewAll={() => open(t('heatmap.title'))} /></div>
         <div data-fno="futures"><ContractSection kind="futures" onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onViewAll={onFutures} /></div>
       </Stack>}
-      {product === 'commodities' && <CommoditiesFeed instrument={instrument} lists={lists} onCommodity={onCommodity} onPicker={() => setModal({ kind: 'picker', segment: 'commodities' })} onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onDestination={open} onAddWatchlist={() => setModal({ kind: 'create' })} onChain={onChain} onScalper={onScalper} />}
+      {product === 'commodities' && <CommoditiesFeed instrument={instrument} lists={lists} onCommodity={onCommodity} onAsset={onAsset} onPicker={() => setModal({ kind: 'picker', segment: 'commodities' })} onChoose={choose} onContract={(contract) => setModal({ kind: 'detail', title: contract.name, contract })} onDestination={open} onAddWatchlist={() => setModal({ kind: 'create' })} onChain={onChain} onScalper={onScalper} />}
       {product === 'strategies' && <StrategiesFeed segment={segment} onSegment={(next) => onProduct('strategies', next)} onChoose={choose} onDestination={open} onWatchlist={() => open(t('shortcut.watchlist'))} />}
       </div>
     </Stack>

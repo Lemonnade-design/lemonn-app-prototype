@@ -421,6 +421,7 @@
     "src/flows/fno/components/TradingChart.tsx",
     "src/flows/fno/components/TradingPane.module.css",
     "src/flows/fno/components/TradingPane.tsx",
+    "src/flows/fno/components/TrendBadge.tsx",
     "src/flows/fno/components/UsBanner.module.css",
     "src/flows/fno/components/UsBanner.tsx",
     "src/flows/fno/components/useLiveInstrument.ts",
