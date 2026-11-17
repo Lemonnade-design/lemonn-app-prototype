@@ -4,7 +4,7 @@
   "description": "Describe a trading habit; DASH builds it into a rule, backtests it, saves it. Your active rules, on / off, delete.",
   "designSystem": {
     "name": "Lemonnade V3 (L3)",
-    "commit": "cdf73c6",
+    "commit": "6de43c8",
     "docs": "https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt"
   },
   "prototype": {
@@ -484,6 +484,8 @@
     "src/shared/ui/Sheet.tsx",
     "src/shared/ui/TextKeyboard.module.css",
     "src/shared/ui/TextKeyboard.tsx",
+    "src/shared/ui/TopBarAction.module.css",
+    "src/shared/ui/TopBarAction.tsx",
     "src/shared/ui/dash/DashOrb.module.css",
     "src/shared/ui/dash/DashOrb.tsx",
     "src/shared/ui/dash/assets/leaf-back.svg",

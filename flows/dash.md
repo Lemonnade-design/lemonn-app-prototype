@@ -1,6 +1,6 @@
 # Flow: DASH Ai · Trading rules (`dash`)
 
-> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `6de43c8` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Describe a trading habit; DASH builds it into a rule, backtests it, saves it. Your active rules, on / off, delete.
 
@@ -3242,12 +3242,12 @@ export function ReplyChips({ options, asButtons = false, glow = false }: { optio
 
 ```tsx
 import { useEffect, useRef, useState } from 'react'
-import { ActionbarAction } from '@l3/components/Actionbar'
 import { Icon } from '@l3/components/Icon'
 import { ListCell } from '@l3/components/ListCell'
 import { msDelete, msHistory, msMoreVert, msWidgets } from '@l3/icons/material'
 import { t } from '../copy'
 import styles from './ChatMenu.module.css'
+import { TopBarAction } from '../../../shared/ui/TopBarAction'
 
 /**
  * A started chat's ⋮ in the top bar: a small dropdown that opens over it (three options don't need a sheet) — Past chats,
@@ -3276,7 +3276,7 @@ export function ChatMenu({ onPastChats, onCreations, onDelete }: {
   const pick = (go?: () => void) => () => { setOpen(false); go?.() }
   return (
     <span ref={wrap} className={styles.wrap}>
-      <ActionbarAction icon={msMoreVert} label={label} onClick={() => setOpen((o) => !o)} />
+      <TopBarAction icon={msMoreVert} label={label} onClick={() => setOpen((o) => !o)} />
       {open && (
         <div className={styles.menu} role="group" aria-label={label}>
           <ListCell as="button" size="sm" iconLeft={<Icon icon={msHistory} />} label={t('landing.pastChats')} onClick={pick(onPastChats)} />
@@ -9001,7 +9001,7 @@ export function Creations({ rules, indicators, strategies, onBack, onDeleteRule,
           />
         </div>
       ) : (
-        <Inset paddingInline="16" paddingBlock="24">
+        <Inset paddingInline="16" paddingBlock="24" data-page-end>
           <Stack gap="24">
             {kinds.map((kind) => (
               <Stack as="section" gap="16" key={kind} aria-label={t(`creations.${kind}Count`, { count: counts[kind] })}>
@@ -9053,7 +9053,6 @@ export function Creations({ rules, indicators, strategies, onBack, onDeleteRule,
 
 ```tsx
 import { useEffect, useState, type ReactNode } from 'react'
-import { ActionbarAction } from '@l3/components/Actionbar'
 import { msHistory, msWidgets } from '@l3/icons/material'
 import { DashBar, DashScreen } from '../components/DashScreen'
 import { SceneSwap, type SceneMove } from '../components/SceneSwap'
@@ -9071,6 +9070,7 @@ import { ChatMenu } from '../components/ChatMenu'
 import { Tag } from '@l3/components/Tag'
 import { PastChatsSheet } from './PastChats'
 import type { PastChat } from '../data'
+import { TopBarAction } from '../../../shared/ui/TopBarAction'
 
 type Common = {
   onBack?: () => void
@@ -9196,7 +9196,7 @@ export function DashAI(props: DashAIProps) {
       bottom={<div ref={setDockHost} className={styles.dockHost} />}
       // Right of the bar — on the home and an empty chat: past chats (history), then what they've made. Once a chat has
       // started (a message sent, or a past chat opened): one ⋮ dropdown with those two and Delete this chat.
-      top={<DashBar onBack={onBack} center={barTitle} actions={inChat ? <ChatMenu onPastChats={onPastChats} onCreations={onYourRules} onDelete={() => setChatSheet('delete')} /> : <><ActionbarAction icon={msHistory} label={t('landing.pastChats')} onClick={onPastChats} /><ActionbarAction icon={msWidgets} label={t('landing.menu')} onClick={() => onYourRules?.()} /></>} />}
+      top={<DashBar onBack={onBack} center={barTitle} actions={inChat ? <ChatMenu onPastChats={onPastChats} onCreations={onYourRules} onDelete={() => setChatSheet('delete')} /> : <><TopBarAction icon={msHistory} label={t('landing.pastChats')} onClick={onPastChats} /><TopBarAction icon={msWidgets} label={t('landing.menu')} onClick={() => onYourRules?.()} /></>} />}
       sheet={
         chatSheet === 'history' ? (
           <PastChatsSheet
@@ -9580,7 +9580,7 @@ export function IndicatorScene({ step, onStep, request: initialRequest, onSend, 
         )}
         {chatStarted && (
           <div className={styles.panel} data-flat>
-            <Inset paddingInline="16" paddingBlock="24">
+            <Inset paddingInline="16" paddingBlock="24" data-page-end>
               <Stack gap="16" className={styles.turns}>
                 {turns.map((turn) => (
                   <div key={turn.key} className={turn.key === 'request' ? undefined : styles.appear} data-turn={turn.key}>
@@ -11078,7 +11078,7 @@ export function RuleScene({ step, request: initialRequest = maxDailyLoss.title, 
         )}
         {!empty && (
           <div className={styles.panel} data-flat>
-            <Inset paddingInline="16" paddingBlock="24">
+            <Inset paddingInline="16" paddingBlock="24" data-page-end>
               <Stack gap="16" className={styles.turns}>
                 {conversation(step, request, step === 'question' && pending ? answer : step !== 'thinking' && step !== 'question' ? answer : null, {
                   onRefine,
@@ -11920,6 +11920,10 @@ export function makeCopy<Copy extends Record<string, string>>(flow: string, copy
 export const inr = (n: number, decimals = 2) =>
   '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
 
+/** $ with US grouping: usd(1234.5) → "$1,234.50"; usd(1000, 0) → "$1,000". */
+export const usd = (n: number, decimals = 2) =>
+  '$' + n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+
 /** "9876543210" → "98765 43210" (how Indian mobile numbers are read out). */
 export const phone = (digits: string) => (digits.length > 5 ? `${digits.slice(0, 5)} ${digits.slice(5)}` : digits)
 
@@ -11963,6 +11967,21 @@ export const bankAccount: BankAccount = {
   type: 'Savings',
   branch: 'Andheri West, Mumbai',
 }
+
+/** A linked bank account as the money screens show it: the bank's logo symbol (companies.ts) and the last 4 digits. */
+export type LinkedBank = BankAccount & { id: string; logoSymbol: string; last4: string; primary?: boolean }
+
+/** The user's linked bank accounts, primary first. "User status → Bank accounts" picks how many the prototype shows. */
+export const linkedBanks: LinkedBank[] = [
+  { ...bankAccount, id: 'hdfc', logoSymbol: 'HDFCBANK', last4: '7821', primary: true },
+  { id: 'icici', bank: 'ICICI Bank', accountNumber: '002101554410', ifsc: 'ICIC0000021', type: 'Savings', branch: 'Powai, Mumbai', logoSymbol: 'ICICIBANK', last4: '4410' },
+]
+
+/**
+ * A linked account at a bank that can't send money abroad for US Stocks (not an LRS partner) — "User status → Bank
+ * accounts: Three" and "SBI only" add it, to show the US Stocks bank step with an account it can't use.
+ */
+export const otherBank: LinkedBank = { id: 'sbi', bank: 'State Bank of India', accountNumber: '38201945520', ifsc: 'SBIN0000300', type: 'Savings', branch: 'Fort, Mumbai', logoSymbol: 'SBIN', last4: '5520' }
 ```
 
 ### `src/shared/prototype.ts`
@@ -11983,10 +12002,35 @@ export type Preview = {
   go: (id: string) => void
   /** The screen being shown — a new id gives the sheet a fresh mount while the page behind it stays put. */
   screenId?: string
+  /** Back to the screen shown before this one in the prototype (any flow); false when there's none to go back to. */
+  back?: () => boolean
+  /** The screen was reached by going back (a back button, or a screen earlier in the app) — a page can come back as it was left. */
+  cameBack?: boolean
+  /** An `over` screen (a sheet over the screen the user is on): the screen under it — closing the sheet goes there. */
+  under?: string
 }
 
 export const PreviewContext = createContext<Preview>({ interactive: false, go: () => {} })
 export const usePreview = () => useContext(PreviewContext)
+
+// ---- Which way the next move goes ------------------------------------------------------------------------------------
+// The preview guesses a move's direction (a screen visited before, or one earlier in the same flow, is "back"). A tap can
+// say it instead: Deposit opens Add money (listed earlier in the flow) as a page going forward; a back button's fallback
+// (nothing in the history) is back, and replaces the page instead of adding to the history.
+let intent: { id: string; direction: 'forward' | 'back' } | null = null
+
+/** Say the move to screen `id` that is about to happen is forward (a page opening) or back. */
+export const markMove = (id: string, direction: 'forward' | 'back') => {
+  intent = { id, direction }
+}
+
+/** The preview: the direction said for a move to `id`, if any. */
+export const moveIntent = (id: string) => (intent?.id === id ? intent.direction : undefined)
+
+/** The preview: the move happened. */
+export const clearMoveIntent = () => {
+  intent = null
+}
 
 /** Prototype only: after `ms`, go to `next` (loaders, "Verifying…"). */
 export function useAutoAdvance(next: string | undefined, ms: number) {
@@ -12095,6 +12139,15 @@ export function useSystemKeyboard() {
   overflow: clip; /* clip, not hidden: a sheet taking focus while it slides in can't scroll the screen */
   background: var(--l3-surface-default);
   color: var(--l3-content-primary);
+  /* An app, not a page: swiping and long-pressing never select text (fields still do — see below). */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.screen :is(input, textarea, [contenteditable='true']) {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .page {
@@ -12128,7 +12181,16 @@ export function useSystemKeyboard() {
   min-height: 0;
   overflow-x: hidden; /* a screen never scrolls sideways — only rails inside it do */
   overflow-y: auto;
+  padding-bottom: var(--app-body-end);
 }
+
+/* The body owns the page's end spacing: whatever comes last adds none of its own (no 24 + 24). */
+.body > :last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+/* A page's last block nested deeper (inside tabs or a panel) is marked data-page-end so it adds none either. */
+.body [data-page-end] { padding-bottom: 0; margin-bottom: 0; }
 
 /* Floating toast: sits on the bottom edge of the body, above the dock / navbar (L3 Aerobar rule). */
 .toast {
@@ -12211,6 +12273,11 @@ export function Screen({ top, bottom, toast, sheet, children, className }: Scree
   flex-direction: column;
   max-height: calc(100% - var(--l3-size-48));
 }
+
+/* A top sheet (placement="top") hangs from the top edge instead. */
+.dock[data-placement='top'] {
+  inset: 0 0 auto;
+}
 ```
 
 ### `src/shared/ui/Sheet.tsx`
@@ -12238,6 +12305,8 @@ type SheetProps = {
   onClose?: () => void
   /** A screen's own styling hook on the sheet surface (e.g. a sheet that brings its own layout and no padding). */
   className?: string
+  /** 'top' (L3 isBottom=False): drops from the top of the screen, for menus tied to the top (a market or sort picker). */
+  placement?: 'bottom' | 'top'
 }
 
 type Publish = (id: string, sheet: SheetProps | null) => void
@@ -12261,12 +12330,12 @@ export function Sheet(props: SheetProps) {
   useLayoutEffect(() => (hosted ? () => publish(id, null) : undefined), [hosted, publish, id])
 
   if (hosted) return null
-  const { header, children, footer, labelledBy, label, className } = props
+  const { header, children, footer, labelledBy, label, className, placement = 'bottom' } = props
   return (
     <>
       <Overlay open className={styles.scrim} />
-      <div className={styles.dock} role="dialog" aria-labelledby={labelledBy} aria-label={label}>
-        <BottomSheetSurface header={header} footer={footer} className={className}>{children}</BottomSheetSurface>
+      <div className={styles.dock} data-placement={placement} role="dialog" aria-labelledby={labelledBy} aria-label={label}>
+        <BottomSheetSurface header={header} footer={footer} className={className} placement={placement}>{children}</BottomSheetSurface>
       </div>
     </>
   )
@@ -12302,6 +12371,7 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
           aria-labelledby={shown.sheet.labelledBy}
           aria-label={shown.sheet.label}
           className={shown.sheet.className}
+          placement={shown.sheet.placement}
         >
           {shown.sheet.children}
         </BottomSheet>
@@ -12526,6 +12596,70 @@ export const typeText = (value: string, key: string) => {
   if (key.length !== 1) return value
   // Like a phone keyboard: the first letter is a capital, the rest lower case.
   return value + (value === '' ? key.toUpperCase() : key.toLowerCase())
+}
+```
+
+### `src/shared/ui/TopBarAction.module.css`
+
+```css
+/* Home's round top-bar button (stocks TopBar .wallet): 38 circle, border/light edge, no shadow. L3 gap: see TopBarAction.tsx. */
+.action.action {
+  --btn-radius: var(--l3-radius-full);
+  --btn-border: var(--l3-border-light);
+  --btn-icon-size: var(--l3-icon-size-20);
+  width: var(--app-stocks-topbar-control);
+  height: var(--app-stocks-topbar-control);
+  padding: 0;
+}
+
+/* A toggled action (pressed) takes border-dark, like any selected bordered control (as L3's ActionbarAction). */
+.action.action[aria-pressed='true'] {
+  --btn-border: var(--l3-border-dark);
+}
+```
+
+### `src/shared/ui/TopBarAction.tsx`
+
+```tsx
+import { Button } from '@l3/components/Button'
+import { Icon } from '@l3/components/Icon'
+import { Stack } from '@l3/components/Stack'
+import { msAccountBalanceWallet, msSearch } from '@l3/icons/material'
+import styles from './TopBarAction.module.css'
+
+/**
+ * The app's icon button in a top bar (Actionbar `actions`): the same round button as Home's top bar — a 38 circle with
+ * a 1px border/light edge, a 20 icon and no shadow — so every page's top-bar icons match.
+ * It's L3's Tertiary Small button with three local changes (L3 gap: ActionbarAction is a 32 rounded square with
+ * the tertiary border and a soft raise, no round option): fully round, border/light, raised none.
+ * Icon-only actions with no box keep L3's `ActionbarAction variant="ghost"`.
+ */
+export function TopBarAction({ icon, label, onClick, pressed }: { icon: string; label: string; onClick: () => void; pressed?: boolean }) {
+  return (
+    <Button
+      size="sm"
+      variant="tertiary"
+      raised="none"
+      className={styles.action}
+      iconLeft={<Icon icon={icon} size={20} />}
+      onClick={onClick}
+      aria-label={label}
+      aria-pressed={pressed}
+    />
+  )
+}
+
+/**
+ * The top bar's search and wallet, in this order, 8 apart — the same pair on every navbar tab (Stocks home, Market,
+ * Portfolio, Mutual Fund), so nothing moves when you switch tabs. Copy it as is; don't redraw it per screen.
+ */
+export function SearchWalletActions({ searchLabel, walletLabel, onSearch, onWallet }: { searchLabel: string; walletLabel: string; onSearch: () => void; onWallet: () => void }) {
+  return (
+    <Stack direction="horizontal" align="center" gap="08">
+      <TopBarAction icon={msSearch} label={searchLabel} onClick={onSearch} />
+      <TopBarAction icon={msAccountBalanceWallet} label={walletLabel} onClick={onWallet} />
+    </Stack>
+  )
 }
 ```
 

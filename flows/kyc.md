@@ -1,6 +1,6 @@
 # Flow: Account setup (`kyc`)
 
-> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `6de43c8` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 KYC after login: PAN, details and declarations, nominee, bank account and F&O activation.
 
@@ -694,7 +694,7 @@ export function Done({ fnoUnderReview = true, onAddMoney, onExplore }: { fnoUnde
     <Screen
       bottom={
         <ButtonGroup aria-label={t('done.actionsLabel')}>
-          <Button onClick={onAddMoney}>{t('done.addMoney')}</Button>
+          <Button variant="brand" onClick={onAddMoney}>{t('done.addMoney')}</Button>
           <Button variant="secondary" onClick={onExplore}>{t('done.explore')}</Button>
         </ButtonGroup>
       }
@@ -1333,6 +1333,10 @@ export function makeCopy<Copy extends Record<string, string>>(flow: string, copy
 export const inr = (n: number, decimals = 2) =>
   '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
 
+/** $ with US grouping: usd(1234.5) → "$1,234.50"; usd(1000, 0) → "$1,000". */
+export const usd = (n: number, decimals = 2) =>
+  '$' + n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+
 /** "9876543210" → "98765 43210" (how Indian mobile numbers are read out). */
 export const phone = (digits: string) => (digits.length > 5 ? `${digits.slice(0, 5)} ${digits.slice(5)}` : digits)
 
@@ -1376,6 +1380,21 @@ export const bankAccount: BankAccount = {
   type: 'Savings',
   branch: 'Andheri West, Mumbai',
 }
+
+/** A linked bank account as the money screens show it: the bank's logo symbol (companies.ts) and the last 4 digits. */
+export type LinkedBank = BankAccount & { id: string; logoSymbol: string; last4: string; primary?: boolean }
+
+/** The user's linked bank accounts, primary first. "User status → Bank accounts" picks how many the prototype shows. */
+export const linkedBanks: LinkedBank[] = [
+  { ...bankAccount, id: 'hdfc', logoSymbol: 'HDFCBANK', last4: '7821', primary: true },
+  { id: 'icici', bank: 'ICICI Bank', accountNumber: '002101554410', ifsc: 'ICIC0000021', type: 'Savings', branch: 'Powai, Mumbai', logoSymbol: 'ICICIBANK', last4: '4410' },
+]
+
+/**
+ * A linked account at a bank that can't send money abroad for US Stocks (not an LRS partner) — "User status → Bank
+ * accounts: Three" and "SBI only" add it, to show the US Stocks bank step with an account it can't use.
+ */
+export const otherBank: LinkedBank = { id: 'sbi', bank: 'State Bank of India', accountNumber: '38201945520', ifsc: 'SBIN0000300', type: 'Savings', branch: 'Fort, Mumbai', logoSymbol: 'SBIN', last4: '5520' }
 ```
 
 ### `src/shared/prototype.ts`
@@ -1396,10 +1415,35 @@ export type Preview = {
   go: (id: string) => void
   /** The screen being shown — a new id gives the sheet a fresh mount while the page behind it stays put. */
   screenId?: string
+  /** Back to the screen shown before this one in the prototype (any flow); false when there's none to go back to. */
+  back?: () => boolean
+  /** The screen was reached by going back (a back button, or a screen earlier in the app) — a page can come back as it was left. */
+  cameBack?: boolean
+  /** An `over` screen (a sheet over the screen the user is on): the screen under it — closing the sheet goes there. */
+  under?: string
 }
 
 export const PreviewContext = createContext<Preview>({ interactive: false, go: () => {} })
 export const usePreview = () => useContext(PreviewContext)
+
+// ---- Which way the next move goes ------------------------------------------------------------------------------------
+// The preview guesses a move's direction (a screen visited before, or one earlier in the same flow, is "back"). A tap can
+// say it instead: Deposit opens Add money (listed earlier in the flow) as a page going forward; a back button's fallback
+// (nothing in the history) is back, and replaces the page instead of adding to the history.
+let intent: { id: string; direction: 'forward' | 'back' } | null = null
+
+/** Say the move to screen `id` that is about to happen is forward (a page opening) or back. */
+export const markMove = (id: string, direction: 'forward' | 'back') => {
+  intent = { id, direction }
+}
+
+/** The preview: the direction said for a move to `id`, if any. */
+export const moveIntent = (id: string) => (intent?.id === id ? intent.direction : undefined)
+
+/** The preview: the move happened. */
+export const clearMoveIntent = () => {
+  intent = null
+}
 
 /** Prototype only: after `ms`, go to `next` (loaders, "Verifying…"). */
 export function useAutoAdvance(next: string | undefined, ms: number) {
@@ -1628,6 +1672,15 @@ export function Intro({ title, description, art, align = 'start', children }: {
   overflow: clip; /* clip, not hidden: a sheet taking focus while it slides in can't scroll the screen */
   background: var(--l3-surface-default);
   color: var(--l3-content-primary);
+  /* An app, not a page: swiping and long-pressing never select text (fields still do — see below). */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.screen :is(input, textarea, [contenteditable='true']) {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .page {
@@ -1661,7 +1714,16 @@ export function Intro({ title, description, art, align = 'start', children }: {
   min-height: 0;
   overflow-x: hidden; /* a screen never scrolls sideways — only rails inside it do */
   overflow-y: auto;
+  padding-bottom: var(--app-body-end);
 }
+
+/* The body owns the page's end spacing: whatever comes last adds none of its own (no 24 + 24). */
+.body > :last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+/* A page's last block nested deeper (inside tabs or a panel) is marked data-page-end so it adds none either. */
+.body [data-page-end] { padding-bottom: 0; margin-bottom: 0; }
 
 /* Floating toast: sits on the bottom edge of the body, above the dock / navbar (L3 Aerobar rule). */
 .toast {
@@ -1744,6 +1806,11 @@ export function Screen({ top, bottom, toast, sheet, children, className }: Scree
   flex-direction: column;
   max-height: calc(100% - var(--l3-size-48));
 }
+
+/* A top sheet (placement="top") hangs from the top edge instead. */
+.dock[data-placement='top'] {
+  inset: 0 0 auto;
+}
 ```
 
 ### `src/shared/ui/Sheet.tsx`
@@ -1771,6 +1838,8 @@ type SheetProps = {
   onClose?: () => void
   /** A screen's own styling hook on the sheet surface (e.g. a sheet that brings its own layout and no padding). */
   className?: string
+  /** 'top' (L3 isBottom=False): drops from the top of the screen, for menus tied to the top (a market or sort picker). */
+  placement?: 'bottom' | 'top'
 }
 
 type Publish = (id: string, sheet: SheetProps | null) => void
@@ -1794,12 +1863,12 @@ export function Sheet(props: SheetProps) {
   useLayoutEffect(() => (hosted ? () => publish(id, null) : undefined), [hosted, publish, id])
 
   if (hosted) return null
-  const { header, children, footer, labelledBy, label, className } = props
+  const { header, children, footer, labelledBy, label, className, placement = 'bottom' } = props
   return (
     <>
       <Overlay open className={styles.scrim} />
-      <div className={styles.dock} role="dialog" aria-labelledby={labelledBy} aria-label={label}>
-        <BottomSheetSurface header={header} footer={footer} className={className}>{children}</BottomSheetSurface>
+      <div className={styles.dock} data-placement={placement} role="dialog" aria-labelledby={labelledBy} aria-label={label}>
+        <BottomSheetSurface header={header} footer={footer} className={className} placement={placement}>{children}</BottomSheetSurface>
       </div>
     </>
   )
@@ -1835,6 +1904,7 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
           aria-labelledby={shown.sheet.labelledBy}
           aria-label={shown.sheet.label}
           className={shown.sheet.className}
+          placement={shown.sheet.placement}
         >
           {shown.sheet.children}
         </BottomSheet>

@@ -1,8 +1,8 @@
 # Flow: Search (`search`)
 
-> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `cdf73c6` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `6de43c8` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
-Search stocks, F&O contracts, mutual funds and IPOs; Smart Options & Futures lists; add to watchlist.
+Search stocks, US stocks, F&O contracts, mutual funds and IPOs; Smart Options & Futures lists; add to watchlist.
 
 Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/search · machine-readable: https://lemonnade-design.github.io/lemonn-app-prototype/flows/search.json
 
@@ -16,6 +16,9 @@ Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/search · m
 | `search-03` | Stocks · only a watchlist matches | [4912:13671](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-13671) | `stocks-01` | "Penny": the watchlist, and "Stocks (0)" with nothing under it. |
 | `search-04` | Stocks · no matching watchlist | [4912:13587](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-13587) | `stocks-01`, `search-18` | Same results without the watchlist group. |
 | `search-05` | Stocks · nothing found | [4912:13703](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-13703) | `stocks-01` | L3 empty state with the L3 default illustration (Figma still has the old magnifier). Clear Search empties the field. |
+| `search-29` | US · before typing | [5796:89230](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=5796-89230) | `stocks-01` | From the search field on Stocks home’s US tab, or Search on the US Portfolio. Recent and popular US stocks as chips (a chip searches for that company), then US collections as tiles. Back returns to where Search was opened. |
+| `search-30` | US · results | — | `stocks-01` | "N": US stocks by name or ticker, with $ prices. A row opens that stock’s US stock page. |
+| `search-31` | US · nothing found | — | `stocks-01` | No US stock matches: L3 empty state with Clear search. |
 | `search-25` | F&O · search from home | [4912:13728](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-13728) | `fno-01`, `search-26` | From F&O home; Back returns there. |
 | `search-28` | F&O · “Gold” results (illiquid) | — | `fno-01`, `search-26` | Typing “Gold” on the F&O tab (live app reference, 2026-10-29): MCX gold options with the gold artwork. Illiquid contracts (GOLD 135000 Put, GOLD 150000 Call) carry the ILLIQUID tag after the name; tapping the tag opens “What does illiquidity mean?”. Tapping a row opens the contract’s asset page (fno-21); an illiquid one opens the ILLIQUID asset page (fno-22). |
 | `search-26` | F&O home · all Smart Options | [4912:13925](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-13925) | `fno-01` |  |
@@ -53,8 +56,9 @@ F&O home entry points (2026-10-26): `search-25` opens F&O search, `search-26` op
 - **Figma:** [Search → 🌙 Dark](https://www.figma.com/design/sG24GPizTdwbMBxLm0IpTA/?node-id=4912-12950) (dev
   handoff file) — **final layouts** in the old D2 system. This flow keeps every layout as it is and swaps the parts for
   L3 components, tokens and text styles. Figma frames are dark; the code works in every L3 theme.
-- **Status:** ✅ · last updated 2026-10-19
-- **Entry:** the search field on Stocks home (`stocks-01`), or the Search action on Market (`market-01` → `search-24`) ·
+- **Status:** ✅ · last updated 2026-11-01
+- **Entry:** the search field on Stocks home (`stocks-01`; on the US tab → `search-29`), the Search action on Market
+  (`market-01` → `search-24`), or Search on the US Portfolio (`us-stocks-05`) ·
   **Exit:** back → where it was opened from (Stocks home or Market); a result opens its page
   (stock / contract / fund / IPO page — not in this flow)
 
@@ -68,6 +72,9 @@ F&O home entry points (2026-10-26): `search-25` opens F&O search, `search-26` op
 | `search-03` | Stocks · only a watchlist matches | 4912:13671 | "Penny": one watchlist, "Stocks (0)" |
 | `search-04` | Stocks · no matching watchlist | 4912:13587 | "Bank" without the watchlist group |
 | `search-05` | Stocks · nothing found | 4912:13703 | Empty state + Clear Search |
+| `search-29` | US · before typing | 5796:89230 | Recent / popular US stocks as chips (a chip searches for it), then US collections as tiles; back → where Search was opened |
+| `search-30` | US · results | — | "N": US stocks by name or ticker, $ price and change; a row opens the US stock page (`us-stocks-13`) |
+| `search-31` | US · nothing found | — | Empty state + Clear Search |
 | `search-06` | F&O · before typing | 4912:13728 | Recent / popular contracts, Smart Options & Futures tiles (View All) |
 | `search-07` | F&O · results | 4912:14199 | "Bank": watchlists (no count), Contracts (4) |
 | `search-08` | F&O · nothing found | 4912:13902 | Empty state |
@@ -93,6 +100,8 @@ F&O home entry points (2026-10-26): `search-25` opens F&O search, `search-26` op
 
 ```
 market Search action ─▶ search-24 (= search-01; back ─▶ market-01)
+stocks-01 search field ─▶ search-01 (US tab on Home ─▶ search-29; US Portfolio Search ─▶ search-29)
+search-29/30 US row ─▶ us-stocks-13 (that stock) ─back─▶ search
 stocks-01 search field ─▶ search-01 ─type─▶ results in place (search-02 …) · tabs switch in place · ✕ / Clear Search ─▶ before typing
 search-06 tile / View All ─▶ search-09 ─back─▶ search-06        (↕ pill, list pills and Price ↕ change the list in place)
 search-02 bookmark ─▶ search-18 ─tick─▶ search-19 ─Save─▶ search-20 (toast) ─OK / auto─▶ search-21
@@ -103,12 +112,20 @@ any screen ─back─▶ where Search was opened from (stocks-01 / market-01)
 ### Data
 
 `data.ts` (types = the API contract, values = examples from Figma):
-- `search(query)` → `SearchResults` `{ query, counts: {stocks, fno, mf, ipo}, tabs: { [tab]: { watchlists, listTitle, items } } }`.
+- `search(query)` → `SearchResults` `{ query, counts: {stocks, us, fno, mf, ipo}, tabs: { [tab]: { watchlists, listTitle, items } } }`.
   A tab with no entry shows the empty state. Real app: one search call per (debounced) query.
 - `WatchlistMatch` `{ id, name, initials, count? }` — `count` ("2 stocks") on the Stocks tab only.
-- `SearchResult` `{ id, name, detail, initials?, logoUrl?, price?, changePct?, returnsLabel?, priceBand?, volume?, saved? }`
-  — stocks: logo + price + change; contracts: no logo; funds: no logo, "3Y" + returns; IPOs: logo + price band.
-- Before typing: `recent[tab]` (max 5), `popular[tab]` (1–2 rows), `signalCategories`, `collections`, `ipoLists`.
+- `SearchResult` `{ id, name, detail, initials?, logoUrl?, price?, changePct?, returnsLabel?, priceBand?, volume?, saved?, currency? }`
+  — stocks: logo + price + change, `id` = NSE symbol; US stocks: `currency: 'usd'`, `id` = ticker, detail "NASDAQ • NVDA", $ price; contracts: the underlying's logo (an index: its initial); funds: no logo, "3Y" + returns; IPOs: logo + price band.
+- Stocks tab: chips and results come from the shared company catalogue (`src/shared/data/companies.ts`: name,
+  design-system logo, snapshot ₹ price and day change); `indianStocks(q)` matches the symbol or any word of the name
+  onward ("bank" → 7). Cap band: Large Cap except the few marked in `CAP`. `withLivePrices()` re-reads prices for a
+  given result set; Search re-renders on a snapshot refresh.
+- F&O: stock contracts are on catalogue companies at strikes near the snapshot price; index contracts at strikes around
+  the shared index levels (`src/shared/data/market.ts`); expiry 24NOV2026 (last Tuesday). Premiums stay sample values.
+- Before typing: `recent[tab]` (max 5), `popular[tab]` (1–2 rows), `signalCategories`, `collections`, `usCollections`, `ipoLists`.
+- US tab: chips and results come from the shared US catalogue (`src/shared/data/usStocks.ts`: name, exchange, $ price,
+  change, logo); `usStocks(q)` matches the ticker or any word of the name onward.
 - Signals: `signalScopes` (Indices / Stocks, each with its lists), `indexSignals`, `stockSignals`, sort `price | volume`.
 - Watchlists: `allWatchlists` (the sheet), `fewWatchlists`.
 - API: search(query) · add item to watchlists(ids) · create watchlist(name) · signals list(scope, list, sort, filters).
@@ -123,7 +140,7 @@ any screen ─back─▶ where Search was opened from (stocks-01 / market-01)
 | View All | Button ("L3: Button" Ghost Small) | `variant="ghost" size="sm"`, chevron right |
 | Recent / popular chip | Card (clickable) + Avatar | `padding="none"`, radius 8, no shadow (1px `border/light` only); inside: 8 / 12 / 8 / 8 padding, Avatar 24 rounded (initials), Label/12 `content/tertiary`; max 200 wide; rows scroll sideways |
 | Watchlist match | ListCell ("L3: list cell", card, tappable, small) | `variant="card" size="sm" as="button"`, Avatar 32 rounded, label + "n stocks", chevron; 12 apart |
-| Result row | ListCell (plain, small, breathable) + Avatar + PriceChange | `size="sm" density="breathable" as="button"` (70 tall); right: price (Label/12) over `PriceChange size="sm" arrow`; 1px `border/light` line under each row, 16 in |
+| Result row | ListCell (plain, small, breathable) + Avatar + PriceChange | `size="sm" density="breathable" as="button"` (70 tall); right: price (Label/12) over `PriceChange size="sm"` (sign, no arrow); 1px `border/light` line under each row, 16 in |
 | Bookmark | Button (Ghost, icon only) + L3 custom icons | `variant="ghost"` (lg, 24 icon): `watchlist_add` (outline bookmark with +) / `watchlist_added` (filled, ✓ cut out) when saved — Icons library → Custom icons; 16 from the edge |
 | F&O / MF tiles | Card (clickable) | radius 8, no shadow (1px `border/light` only); 2 columns, 12 apart; label Label/12 (MF: `content/tertiary`), 10 / 12 padding |
 | Sort | Select ("L3: Select switcher") | `size="sm" icon="swap"`: Price ↕ / Volume, 3Y Returns ↕ |
@@ -186,6 +203,10 @@ any screen ─back─▶ where Search was opened from (stocks-01 / market-01)
 
 ### Changelog
 
+- 2026-11-04 — **Real Indian stocks and contracts.** Stocks tab chips and results come from the shared company catalogue (real names, design-system logos, snapshot prices); "Bank" now finds the 7 catalogue banks (Bank of Baroda, PNB, AU and Federal aren't in it), State Bank of India is the pre-saved one. F&O: contracts show the underlying's logo, strikes sit near today's prices / index levels, expiry 24NOV2026; Smart Futures list is on catalogue stocks. Gold (MCX) contracts unchanged.
+- 2026-11-01 — **US tab** (Stocks · US · F&O · MF · IPO): `search-29`–`31`. Replaces US Stocks' own search screen
+  (`us-stocks-03`, Figma 5796:89230) — one Search for the whole app. Opened from Home's US tab and the US Portfolio;
+  back returns to where it was opened; a result opens the US stock page.
 - 2026-10-21 — layout moved from CSS-module classes to the L3 layout blocks (Section, Stack, Inset, Grid); nothing moved (measured at 392).
 - 2026-10-19 — opened from Market too (`search-24`, back returns to Market).
 - 2026-10-19 — Clear Search back to Small (empty-state action).
@@ -367,7 +388,7 @@ import { Stack } from '@l3/components/Stack'
 import { Tag } from '@l3/components/Tag'
 import { msBlock } from '@l3/icons/material'
 import { lmWatchlistAdd, lmWatchlistAdded } from '@l3/icons/lemonnade'
-import { inr } from '../../../shared/data/format'
+import { inr, usd } from '../../../shared/data/format'
 import type { SearchResult } from '../data'
 import { t } from '../copy'
 import styles from './ResultList.module.css'
@@ -436,12 +457,12 @@ export function ResultList({ items, label, showVolume, bookmarks = true, saved, 
 function Trailing({ item, showVolume }: { item: SearchResult; showVolume?: boolean }) {
   if (showVolume && item.volume !== undefined) return <span className={styles.value}>{item.volume.toLocaleString('en-IN')}</span>
   if (item.priceBand) return <span className={styles.value}>{item.priceBand}</span>
-  const top = item.returnsLabel ?? (item.price !== undefined ? inr(item.price) : undefined)
+  const top = item.returnsLabel ?? (item.price !== undefined ? (item.currency === 'usd' ? usd(item.price) : inr(item.price)) : undefined)
   if (top === undefined) return null
   return (
     <span className={styles.stack}>
       <span className={styles.value}>{top}</span>
-      {item.changePct !== undefined && <PriceChange value={item.changePct} size="sm" arrow />}
+      {item.changePct !== undefined && <PriceChange value={item.changePct} size="sm" />}
     </span>
   )
 }
@@ -653,12 +674,14 @@ export function WatchlistMatches({ watchlists, onOpen }: { watchlists: Watchlist
 ```json
 {
   "tab.stocks": "Stocks",
+  "tab.us": "US",
   "tab.fno": "F&O",
   "tab.mf": "MF",
   "tab.ipo": "IPO",
   "tab.withCount": "{tab} ({count})",
   "tabs.label": "Search in",
   "field.stocks": "Search stocks",
+  "field.us": "Search US stocks",
   "field.fno": "Search contracts",
   "field.mf": "Search mutual funds",
   "field.ipo": "Search IPOs",
@@ -670,6 +693,7 @@ export function WatchlistMatches({ watchlists, onOpen }: { watchlists: Watchlist
   "signals.tilesLabel": "Smart Options & Futures lists",
   "collections.title": "Collections",
   "collections.tilesLabel": "Fund collections",
+  "usCollections.tilesLabel": "US stock collections",
   "group.viewAll": "View All",
   "group.viewAllLabel": "View all {name}",
   "results.title": "{list} ({count})",
@@ -724,11 +748,16 @@ export const t = makeCopy('search', copy)
 
 ```ts
 // Sample data for Search — the shapes are the API contract; the values are examples (from the Figma frames).
+// Indian stocks (results, chips, the underlying of a stock contract) come from the shared company catalogue
+// (src/shared/data/companies.ts): real names, design-system logos and the market snapshot's price and day change.
 
 /** The four search tabs, in order. */
 import goldArt from './assets/gold.png'
+import { catalogue, usLogo } from '../../shared/data/usStocks'
+import { companies, getCompany } from '../../shared/data/companies'
+import { indices } from '../../shared/data/market'
 
-export type SearchTab = 'stocks' | 'fno' | 'mf' | 'ipo'
+export type SearchTab = 'stocks' | 'us' | 'fno' | 'mf' | 'ipo'
 
 /** A recent or popular search, shown as a chip (max 200 wide; at most 5 recent ones are kept). */
 export type SearchChip = { label: string; initials: string; logoUrl?: string }
@@ -755,6 +784,8 @@ export type SearchResult = {
   volume?: number
   /** Already in one of the user's watchlists (filled bookmark). */
   saved?: boolean
+  /** US stocks: the price is in dollars, and `id` is the ticker (a row opens that US stock's page). */
+  currency?: 'usd'
   /** Commodity contracts: the commodity's artwork instead of a logo. */
   image?: string
   /**
@@ -775,20 +806,72 @@ export type TabResults = {
 /** The result of a search: per tab, and the counts the tabs show. */
 export type SearchResults = { query: string; counts: Record<SearchTab, number>; tabs: Partial<Record<SearchTab, TabResults>> }
 
+// ---- Indian stocks (shared catalogue) -----------------------------------------------------------------------------
+
+/** Market-cap band shown before the symbol ("Large Cap • HDFCBANK"). The catalogue's companies are large caps but these. */
+const CAP: Record<string, string> = { IDEA: 'Mid Cap', SUZLON: 'Mid Cap', YESBANK: 'Mid Cap', SOUTHBANK: 'Small Cap' }
+
+/** One Indian stock as a result row: catalogue name and logo, snapshot price and day change (₹). */
+export function indianStock(symbol: string, extra: Partial<SearchResult> = {}): SearchResult {
+  const c = getCompany(symbol)!
+  return { id: c.symbol, name: c.name, detail: `${CAP[c.symbol] ?? 'Large Cap'} • ${c.symbol}`, initials: c.initials, logoUrl: c.logoUrl, price: c.market?.price, changePct: c.market?.changePct, ...extra }
+}
+
+/** Indian stocks whose symbol, or any word of the name onward, starts with the query ("hdfc", "bank", "tata st"). */
+export function indianStocks(q: string): SearchResult[] {
+  return Object.values(companies)
+    .filter((c) => c.symbol.toLowerCase().startsWith(q) || ` ${c.name.toLowerCase()}`.includes(` ${q}`))
+    .map((c) => indianStock(c.symbol, { saved: SAVED_STOCKS.includes(c.symbol) }))
+}
+
+/** Indian stocks already in one of the user's watchlists (filled bookmark). */
+const SAVED_STOCKS = ['SBIN']
+
+/** Indian chips: the company's name and logo. An index (NIFTY 50) has no logo — its initial. */
+function indianChips(symbols: string[]): SearchChip[] {
+  return symbols.map((sym) => {
+    const c = getCompany(sym)
+    return c ? { label: c.name, initials: c.initials, logoUrl: c.logoUrl } : { label: sym, initials: sym[0] }
+  })
+}
+
+/** A stock contract's row: the underlying's logo (contracts on an index show its initials). */
+const underlying = (symbol: string) => ({ initials: getCompany(symbol)?.initials ?? symbol[0], logoUrl: getCompany(symbol)?.logoUrl })
+
+/**
+ * The prices on a result set as of now: Indian stock rows re-read the catalogue (the snapshot refreshes every 5
+ * minutes). Call from a screen that uses `useMarketSnapshot()`.
+ */
+export function withLivePrices(results: SearchResults): SearchResults {
+  const tabs = Object.fromEntries(Object.entries(results.tabs).map(([tab, r]) => [tab, { ...r, items: r!.items.map((item) => {
+    const market = item.currency !== 'usd' ? getCompany(item.id)?.market : undefined
+    return market ? { ...item, price: market.price, changePct: market.changePct } : item
+  }) }]))
+  return { ...results, tabs }
+}
+
+/** F&O contracts expire on the month's last Tuesday (NSE). */
+const EXPIRY = '24NOV2026'
+const NIFTY = indices.find((i) => i.id === 'nifty-50')!.value
+const BANKNIFTY = indices.find((i) => i.id === 'nifty-bank')!.value
+const SENSEX = indices.find((i) => i.id === 'sensex')!.value
+/** The strike nearest the level, in the index's step (NIFTY 50, BANKNIFTY 100, SENSEX 100). */
+const strike = (level: number, step: number) => Math.round(level / step) * step
+
 // ---- Before typing ---------------------------------------------------------------------------------------------
 
+/** US chips: the company's name and logo from the shared US catalogue (src/shared/data/usStocks.ts). */
+function usChips(symbols: string[]): SearchChip[] {
+  return symbols.map((sym) => ({ label: catalogue[sym].name, initials: sym[0], logoUrl: usLogo(sym) }))
+}
+
 export const recent: Record<SearchTab, SearchChip[]> = {
-  stocks: [
-    { label: 'Bharat Coking Coal Ltd.', initials: 'B' },
-    { label: 'Saregama India Ltd.', initials: 'S' },
-    { label: 'NIFTY 50', initials: 'N' },
-    { label: 'Reliance Industries Ltd', initials: 'R' },
-    { label: 'Tata Motors Passenger Vehicles Ltd.', initials: 'T' },
-  ],
+  stocks: indianChips(['RELIANCE', 'HDFCBANK', 'NIFTY 50', 'INFY', 'TATASTEEL']),
+  us: usChips(['NVDA', 'AAPL', 'TSLA', 'MSFT', 'AMZN']),
   fno: [
-    { label: 'Reliance Fut Finnifty 23500 CE', initials: 'R' },
-    { label: 'Nifty 24500 CE', initials: 'N' },
-    { label: 'Banknifty 52000 PE', initials: 'B' },
+    { label: `NIFTY ${strike(NIFTY, 50)} CE`, initials: 'N' },
+    { label: 'RELIANCE Fut', ...underlying('RELIANCE') },
+    { label: `BANKNIFTY ${strike(BANKNIFTY, 100)} PE`, initials: 'B' },
   ],
   mf: [
     { label: 'Nippon India Small Cap Fund', initials: 'N' },
@@ -804,23 +887,13 @@ export const recent: Record<SearchTab, SearchChip[]> = {
 
 /** Popular searches: one or two rows of chips that scroll sideways together. */
 export const popular: Record<SearchTab, SearchChip[][]> = {
-  stocks: [
-    [
-      { label: 'NIFTY 50', initials: 'N' },
-      { label: 'Nippon India Silver ETF', initials: 'N' },
-      { label: 'Bharat Coking Coal Ltd.', initials: 'B' },
-    ],
-    [
-      { label: 'Reliance Industries Ltd', initials: 'R' },
-      { label: 'Tata Motors Passenger Vehicles Ltd.', initials: 'T' },
-      { label: 'Saregama India Ltd.', initials: 'S' },
-    ],
-  ],
+  stocks: [indianChips(['NIFTY 50', 'ITC', 'SBIN']), indianChips(['ICICIBANK', 'BHARTIARTL', 'ETERNAL'])],
+  us: [usChips(['GOOGL', 'META', 'NFLX']), usChips(['AVGO', 'AMD', 'UBER'])],
   fno: [
     [
-      { label: 'Nifty 24500 CE', initials: 'N' },
-      { label: 'Banknifty 52000 PE', initials: 'B' },
-      { label: 'Reliance Fut Finnifty 23500 CE', initials: 'R' },
+      { label: `NIFTY ${strike(NIFTY, 50) + 200} CE`, initials: 'N' },
+      { label: `SENSEX ${strike(SENSEX, 100)} PE`, initials: 'S' },
+      { label: 'HDFCBANK 700 CE', ...underlying('HDFCBANK') },
     ],
   ],
   mf: [
@@ -843,6 +916,9 @@ export const popular: Record<SearchTab, SearchChip[][]> = {
     ],
   ],
 }
+
+/** US: themed lists, as tiles (2 columns). */
+export const usCollections = ['AI Leaders', 'Trillion Dollar Club', 'Warren Buffett’s Portfolio', 'Dividend Kings']
 
 /** F&O: the Smart Options & Futures lists, as tiles (2 columns). Each opens its signals list. */
 export const signalCategories = [
@@ -885,22 +961,14 @@ const bankWatchlists: WatchlistMatch[] = [
   { id: 'large-cap-banking', name: 'large cap banking', initials: 'L', count: 2 },
 ]
 
-const bankStocks: SearchResult[] = [
-  { id: 'BANKBARODA', name: 'Bank of Baroda', detail: 'Small Cap • BANKBARODA', initials: 'BB', price: 248.35, changePct: -2.03, saved: true },
-  { id: 'HDFCBANK', name: 'HDFC Bank', detail: 'Large Cap • HDFCBANK', initials: 'HB', price: 1964.56, changePct: -0.42 },
-  { id: 'ICICIBANK', name: 'ICICI Bank', detail: 'Large Cap • ICICIBANK', initials: 'IB', price: 1428.9, changePct: 0.86 },
-  { id: 'AXISBANK', name: 'Axis Bank', detail: 'Large Cap • AXISBANK', initials: 'AB', price: 1182.4, changePct: -1.12 },
-  { id: 'KOTAKBANK', name: 'Kotak Mahindra Bank', detail: 'Large Cap • KOTAKBANK', initials: 'KM', price: 2104.75, changePct: 1.35 },
-  { id: 'PNB', name: 'Punjab National Bank', detail: 'Mid Cap • PNB', initials: 'PN', price: 112.48, changePct: -2.03 },
-  { id: 'AUBANK', name: 'AU Small Finance Bank', detail: 'Mid Cap • AUBANK', initials: 'AU', price: 742.1, changePct: 0.54 },
-  { id: 'FEDERALBNK', name: 'Federal Bank', detail: 'Mid Cap • FEDERALBNK', initials: 'FB', price: 208.62, changePct: -0.77 },
-]
+/** "Bank": every catalogue company with Bank in its name (7). */
+const bankStocks = () => indianStocks('bank')
 
 const bankContracts: SearchResult[] = [
-  { id: 'hdfc-fut', name: 'HDFC Bank', detail: 'Stock • Fut • 30JUN2026', saved: true },
-  { id: 'hdfc-call', name: 'HDFC Bank', detail: 'Stock • Call • 30JUN2026' },
-  { id: 'bn-call', name: 'BANKNIFTY 52000', detail: 'Index • Call • 30JUN2026' },
-  { id: 'bn-put', name: 'BANKNIFTY 52000', detail: 'Index • Put • 30JUN2026' },
+  { id: 'hdfc-fut', name: 'HDFC Bank', detail: `Stock • Fut • ${EXPIRY}`, ...underlying('HDFCBANK'), saved: true },
+  { id: 'hdfc-call', name: 'HDFC Bank 700', detail: `Stock • Call • ${EXPIRY}`, ...underlying('HDFCBANK') },
+  { id: 'bn-call', name: `BANKNIFTY ${strike(BANKNIFTY, 100)}`, detail: `Index • Call • ${EXPIRY}`, initials: 'B' },
+  { id: 'bn-put', name: `BANKNIFTY ${strike(BANKNIFTY, 100)}`, detail: `Index • Put • ${EXPIRY}`, initials: 'B' },
 ]
 
 const bankFunds: SearchResult[] = [
@@ -913,29 +981,30 @@ const noWatchlistCounts = (w: WatchlistMatch[]) => w.map(({ count: _count, ...re
 /** "Bank": results on the Stocks, F&O and MF tabs (no IPO matches). */
 export const bank: SearchResults = {
   query: 'Bank',
-  counts: { stocks: bankStocks.length, fno: bankContracts.length, mf: bankFunds.length, ipo: 0 },
+  counts: { stocks: bankStocks().length, us: 0, fno: bankContracts.length, mf: bankFunds.length, ipo: 0 },
   tabs: {
-    stocks: { watchlists: bankWatchlists, listTitle: 'Stocks', items: bankStocks },
+    stocks: { watchlists: bankWatchlists, listTitle: 'Stocks', items: bankStocks() },
     fno: { watchlists: noWatchlistCounts(bankWatchlists), listTitle: 'Contracts', items: bankContracts },
     mf: { watchlists: noWatchlistCounts(bankWatchlists), listTitle: 'Funds', items: bankFunds },
   },
 }
 
 /** "Bank" for someone with no matching watchlist: only the stocks. */
-export const bankNoWatchlist: SearchResults = { ...bank, tabs: { ...bank.tabs, stocks: { watchlists: [], listTitle: 'Stocks', items: bankStocks } } }
+export const bankNoWatchlist: SearchResults = { ...bank, tabs: { ...bank.tabs, stocks: { watchlists: [], listTitle: 'Stocks', items: bankStocks() } } }
 
 /** "Penny": a watchlist matches, no stock does. */
 export const penny: SearchResults = {
   query: 'Penny',
-  counts: { stocks: 1, fno: 0, mf: 0, ipo: 0 },
+  counts: { stocks: 1, us: 0, fno: 0, mf: 0, ipo: 0 },
   tabs: { stocks: { watchlists: [{ id: 'penny', name: 'Penny stocks', initials: 'P', count: 7 }], listTitle: 'Stocks', items: [] } },
 }
 
 /** "Energy": two IPOs. */
 export const energy: SearchResults = {
   query: 'Energy',
-  counts: { stocks: 3, fno: 1, mf: 0, ipo: 2 },
+  counts: { stocks: indianStocks('energy').length, us: 0, fno: 1, mf: 0, ipo: 2 },
   tabs: {
+    stocks: { watchlists: [], listTitle: 'Stocks', items: indianStocks('energy') },
     ipo: {
       watchlists: [],
       listTitle: 'IPOs',
@@ -964,12 +1033,12 @@ const goldContracts: SearchResult[] = [
 /** "Gold": only F&O contracts in this sample. */
 export const gold: SearchResults = {
   query: 'Gold',
-  counts: { stocks: 0, fno: goldContracts.length, mf: 0, ipo: 0 },
+  counts: { stocks: 0, us: 0, fno: goldContracts.length, mf: 0, ipo: 0 },
   tabs: { fno: { watchlists: [], listTitle: 'Contracts', items: goldContracts } },
 }
 
 /** A query nothing matches ("Vanf", "Adsf"): the empty state on every tab. */
-export const nothing = (query: string): SearchResults => ({ query, counts: { stocks: 0, fno: 0, mf: 0, ipo: 0 }, tabs: {} })
+export const nothing = (query: string): SearchResults => ({ query, counts: { stocks: 0, us: 0, fno: 0, mf: 0, ipo: 0 }, tabs: {} })
 
 /**
  * Prototype search: the sample result sets above, matched as you type ("Ba" → Bank). Anything else finds nothing.
@@ -979,7 +1048,21 @@ export function search(query: string): SearchResults | undefined {
   const q = query.trim().toLowerCase()
   if (!q) return undefined
   const sample = [bank, penny, energy, gold].find((s) => s.query.toLowerCase().startsWith(q))
-  return sample ? { ...sample, query } : nothing(query)
+  let found: SearchResults = sample ? { ...sample, query } : nothing(query)
+  // The Stocks and US tabs search their catalogues by name or symbol, whatever the query (with the sample's watchlists).
+  const stocks = indianStocks(q)
+  const watchlists = found.tabs.stocks?.watchlists ?? []
+  if (stocks.length || watchlists.length) found = { ...found, counts: { ...found.counts, stocks: stocks.length || watchlists.length }, tabs: { ...found.tabs, stocks: { watchlists, listTitle: 'Stocks', items: stocks } } }
+  else found = { ...found, counts: { ...found.counts, stocks: 0 }, tabs: { ...found.tabs, stocks: undefined } }
+  const us = usStocks(q)
+  return us.length ? { ...found, counts: { ...found.counts, us: us.length }, tabs: { ...found.tabs, us: { watchlists: [], listTitle: 'US Stocks', items: us } } } : found
+}
+
+/** US stocks whose ticker, or any word of the name onward, starts with the query ("nv", "nvidia corp", "corp"). Prices in $. */
+export function usStocks(q: string): SearchResult[] {
+  return Object.entries(catalogue)
+    .filter(([sym, s]) => sym.toLowerCase().startsWith(q) || ` ${s.name.toLowerCase()}`.includes(` ${q}`))
+    .map(([sym, s]) => ({ id: sym, name: s.name, detail: `${s.exchange} • ${sym}`, initials: sym[0], logoUrl: usLogo(sym), price: s.price, changePct: s.change, currency: 'usd' as const }))
 }
 
 // ---- Smart Options & Futures (signals) ---------------------------------------------------------------------------
@@ -995,27 +1078,31 @@ export const signalScopes: Record<SignalScope, { label: string; categories: stri
 /** How a signals list is sorted — the ↕ switcher on the right of the list header. */
 export type SignalSort = 'price' | 'volume'
 
+/** Index contracts at strikes around today's levels (shared/data/market.ts). Premiums are sample values. */
+const n = strike(NIFTY, 50)
+const sx = strike(SENSEX, 100)
 export const indexSignals: SearchResult[] = [
-  { id: 's1', name: 'SENSEX 61000', detail: 'Stock • Fut • 30JUN2026', price: 85.35, changePct: -2.03 },
-  { id: 's2', name: 'NIFTY 18250', detail: 'Stock • Call • 30JUN2026', price: 66.4, changePct: 4.12 },
-  { id: 's3', name: 'NIFTY 18250', detail: 'Stock • Put • 30JUN2026', price: 23.3, changePct: -6.4 },
-  { id: 's4', name: 'SENSEX 61000', detail: 'Index • Call • 30JUN2026', price: 784.15, changePct: 1.86 },
-  { id: 's5', name: 'NIFTY 18250', detail: 'Stock • Put • 30JUN2026', price: 766.5, changePct: -2.03 },
-  { id: 's6', name: 'SENSEX 61000', detail: 'Index • Call • 30JUN2026', price: 29.6, changePct: 3.25 },
-  { id: 's7', name: 'NIFTY 18250', detail: 'Stock • Put • 30JUN2026', price: 15.7, changePct: -8.14 },
-  { id: 's8', name: 'SENSEX 61000', detail: 'Stock • Put • 30JUN2026', price: 49, changePct: -1.52 },
-  { id: 's9', name: 'SENSEX 61000', detail: 'Stock • Put • 30JUN2026', price: 23.3, changePct: 0.43 },
+  { id: 's1', name: `SENSEX ${sx}`, detail: `Index • Call • ${EXPIRY}`, initials: 'S', price: 385.35, changePct: -2.03 },
+  { id: 's2', name: `NIFTY ${n}`, detail: `Index • Call • ${EXPIRY}`, initials: 'N', price: 166.4, changePct: 4.12 },
+  { id: 's3', name: `NIFTY ${n}`, detail: `Index • Put • ${EXPIRY}`, initials: 'N', price: 123.3, changePct: -6.4 },
+  { id: 's4', name: `SENSEX ${sx + 500}`, detail: `Index • Call • ${EXPIRY}`, initials: 'S', price: 184.15, changePct: 1.86 },
+  { id: 's5', name: `NIFTY ${n - 200}`, detail: `Index • Put • ${EXPIRY}`, initials: 'N', price: 66.5, changePct: -2.03 },
+  { id: 's6', name: `BANKNIFTY ${strike(BANKNIFTY, 100)}`, detail: `Index • Call • ${EXPIRY}`, initials: 'B', price: 429.6, changePct: 3.25 },
+  { id: 's7', name: `NIFTY ${n + 300}`, detail: `Index • Call • ${EXPIRY}`, initials: 'N', price: 25.7, changePct: -8.14 },
+  { id: 's8', name: `SENSEX ${sx - 500}`, detail: `Index • Put • ${EXPIRY}`, initials: 'S', price: 149, changePct: -1.52 },
+  { id: 's9', name: `BANKNIFTY ${strike(BANKNIFTY, 100) - 500}`, detail: `Index • Put • ${EXPIRY}`, initials: 'B', price: 123.3, changePct: 0.43 },
 ]
 
+/** Stock contracts on catalogue companies (logo = the underlying's), at strikes near the snapshot price. Premiums are sample values. */
 export const stockSignals: SearchResult[] = [
-  { id: 't1', name: 'VBL 525', detail: 'Stock • Fut • 30JUN2026', price: 85.35, changePct: -2.03, volume: 407925 },
-  { id: 't2', name: 'COLPAL 2160', detail: 'Stock • Call • 30JUN2026', price: 66.4, changePct: 2.41, volume: 473250 },
-  { id: 't3', name: 'MAXHEALTH 1090', detail: 'Stock • Put • 30JUN2026', price: 23.3, changePct: -3.6, volume: 374850 },
-  { id: 't4', name: 'ASIANPAINT 2620', detail: 'Index • Call • 30JUN2026', price: 784.15, changePct: 1.08, volume: 336375 },
-  { id: 't5', name: 'PAYTM 1150', detail: 'Stock • Put • 30JUN2026', price: 766.5, changePct: -2.03, volume: 1813225 },
-  { id: 't6', name: 'ITC 302.5', detail: 'Index • Call • 30JUN2026', price: 29.6, changePct: 5.72, volume: 204750 },
-  { id: 't7', name: 'ICICIPRULI 530', detail: 'Stock • Put • 30JUN2026', price: 15.7, changePct: -4.9, volume: 1821550 },
-  { id: 't8', name: 'AUROPHARMA 1480', detail: 'Stock • Put • 30JUN2026', price: 49, changePct: 0.82, volume: 971500 },
+  { id: 't1', name: 'HDFCBANK', detail: `Stock • Fut • ${EXPIRY}`, ...underlying('HDFCBANK'), price: 697.35, changePct: -2.03, volume: 407925 },
+  { id: 't2', name: 'RELIANCE 1200', detail: `Stock • Call • ${EXPIRY}`, ...underlying('RELIANCE'), price: 26.4, changePct: 2.41, volume: 473250 },
+  { id: 't3', name: 'INFY 1140', detail: `Stock • Put • ${EXPIRY}`, ...underlying('INFY'), price: 23.3, changePct: -3.6, volume: 374850 },
+  { id: 't4', name: 'ASIANPAINT 2300', detail: `Stock • Call • ${EXPIRY}`, ...underlying('ASIANPAINT'), price: 54.15, changePct: 1.08, volume: 336375 },
+  { id: 't5', name: 'TATASTEEL 170', detail: `Stock • Put • ${EXPIRY}`, ...underlying('TATASTEEL'), price: 3.65, changePct: -2.03, volume: 1813225 },
+  { id: 't6', name: 'ITC 260', detail: `Stock • Call • ${EXPIRY}`, ...underlying('ITC'), price: 5.6, changePct: 5.72, volume: 204750 },
+  { id: 't7', name: 'SBIN 960', detail: `Stock • Put • ${EXPIRY}`, ...underlying('SBIN'), price: 15.7, changePct: -4.9, volume: 1821550 },
+  { id: 't8', name: 'AXISBANK 1220', detail: `Stock • Call • ${EXPIRY}`, ...underlying('AXISBANK'), price: 29, changePct: 0.82, volume: 971500 },
 ]
 
 // ---- Watchlists (Add to watchlist sheet) -------------------------------------------------------------------------
@@ -1037,6 +1124,7 @@ export const fewWatchlists = allWatchlists.slice(0, 4)
 import { Aerobar } from '@l3/components/Aerobar'
 import { Icon } from '@l3/components/Icon'
 import { msCheck } from '@l3/icons/material'
+import { viewUsStock } from '../../shared/data/usStocks'
 import type { Flow, Go } from '../types'
 import { t } from './copy'
 import { allWatchlists, bank, bankNoWatchlist, energy, fewWatchlists, nothing, penny, type SearchResult } from './data'
@@ -1044,27 +1132,32 @@ import { Search } from './screens/Search'
 import { Signals } from './screens/Signals'
 import { AddToWatchlistSheet, CreateWatchlistSheet } from './sheets/WatchlistSheets'
 
-/** HDFC Bank after it's been added to a watchlist (plus Bank of Baroda, already in one). */
-const savedAfter = ['BANKBARODA', 'HDFCBANK']
+/** HDFC Bank after it's been added to a watchlist (plus State Bank of India, already in one). */
+const savedAfter = ['SBIN', 'HDFCBANK']
 
 /**
- * Search — the search screen for Stocks, F&O, MF and IPO (one screen, four tabs), F&O's Smart Options & Futures lists,
+ * Search — the search screen for Stocks, US stocks, F&O, MF and IPO (one screen, five tabs), F&O's Smart Options & Futures lists,
  * and adding a result to a watchlist. Figma: "Search → 🌙 Dark" (4912:12950) in the dev handoff file — final D2
  * layouts, rebuilt with L3 components and tokens without changing the layout.
  */
 /**
  * Tapping a result: commodity contracts (they carry artwork) open their asset page in F&O — fno-21, or the ILLIQUID
- * asset page fno-22. Other results have no page in this prototype yet.
+ * asset page fno-22; US stocks open their US stock page (us-stocks-13) for that ticker. Other results have no page in
+ * this prototype yet.
  */
-const openResult = (go: Go) => (item: SearchResult) => { if (item.image) go(item.illiquid ? 'fno-22' : 'fno-21') }
+const openResult = (go: Go) => (item: SearchResult) => {
+  if (item.currency === 'usd') { viewUsStock(item.id); go('us-stocks-13'); return }
+  if (item.image) go(item.illiquid ? 'fno-22' : 'fno-21')
+}
 
 export const search: Flow = {
   id: 'search',
   title: 'Search',
-  description: 'Search stocks, F&O contracts, mutual funds and IPOs; Smart Options & Futures lists; add to watchlist.',
+  description: 'Search stocks, US stocks, F&O contracts, mutual funds and IPOs; Smart Options & Futures lists; add to watchlist.',
   figmaFile: 'sG24GPizTdwbMBxLm0IpTA',
   sections: [
     { id: 'stocks', title: 'Stocks' },
+    { id: 'us', title: 'US stocks' },
     { id: 'fno', title: 'F&O' },
     { id: 'mf', title: 'Mutual funds' },
     { id: 'ipo', title: 'IPO' },
@@ -1078,6 +1171,11 @@ export const search: Flow = {
     { id: 'search-03', section: 'stocks', name: 'Stocks · only a watchlist matches', figma: '4912:13671', note: '"Penny": the watchlist, and "Stocks (0)" with nothing under it.', render: (go) => <Search onOpen={openResult(go)} results={penny} onBack={() => go('stocks-01')} /> },
     { id: 'search-04', section: 'stocks', name: 'Stocks · no matching watchlist', figma: '4912:13587', note: 'Same results without the watchlist group.', render: (go) => <Search onOpen={openResult(go)} results={bankNoWatchlist} onBack={() => go('stocks-01')} onBookmark={() => go('search-18')} /> },
     { id: 'search-05', section: 'stocks', name: 'Stocks · nothing found', figma: '4912:13703', note: 'L3 empty state with the L3 default illustration (Figma still has the old magnifier). Clear Search empties the field.', render: (go) => <Search onOpen={openResult(go)} results={nothing('Vanf')} onBack={() => go('stocks-01')} /> },
+    // ---- US stocks (was US Stocks' own search screen, us-stocks-03 / Figma 5796:89230 — merged here)
+    { id: 'search-29', section: 'us', badge: 'new', badgeNote: 'US tab added to Search (replaces US Stocks’ own search screen)', name: 'US · before typing', figma: '5796:89230', note: 'From the search field on Stocks home’s US tab, or Search on the US Portfolio. Recent and popular US stocks as chips (a chip searches for that company), then US collections as tiles. Back returns to where Search was opened.', render: (go) => <Search onOpen={openResult(go)} tab="us" backToPrevious onBack={() => go('stocks-01')} /> },
+    { id: 'search-30', section: 'us', badge: 'new', name: 'US · results', figma: '', note: '"N": US stocks by name or ticker, with $ prices. A row opens that stock’s US stock page.', render: (go) => <Search onOpen={openResult(go)} tab="us" query="N" backToPrevious onBack={() => go('stocks-01')} /> },
+    { id: 'search-31', section: 'us', badge: 'new', name: 'US · nothing found', figma: '', note: 'No US stock matches: L3 empty state with Clear search.', render: (go) => <Search onOpen={openResult(go)} tab="us" results={nothing('Vanf')} backToPrevious onBack={() => go('stocks-01')} /> },
+
     // ---- F&O
     { id: 'search-25', section: 'fno', name: 'F&O · search from home', figma: '4912:13728', note: 'From F&O home; Back returns there.', render: (go) => <Search onOpen={openResult(go)} tab="fno" onBack={() => go('fno-01')} onSignals={() => go('search-26')} /> },
     { id: 'search-28', section: 'fno', name: 'F&O · “Gold” results (illiquid)', figma: '', note: 'Typing “Gold” on the F&O tab (live app reference, 2026-10-29): MCX gold options with the gold artwork. Illiquid contracts (GOLD 135000 Put, GOLD 150000 Call) carry the ILLIQUID tag after the name; tapping the tag opens “What does illiquidity mean?”. Tapping a row opens the contract’s asset page (fno-21); an illiquid one opens the ILLIQUID asset page (fno-22).', render: (go) => <Search onOpen={openResult(go)} tab="fno" query="Gold" keyboard={false} onBack={() => go('fno-01')} onSignals={() => go('search-26')} /> },
@@ -1141,6 +1239,8 @@ import { Select } from '@l3/components/Select'
 import { Stack } from '@l3/components/Stack'
 import { Tabs } from '@l3/components/Tabs'
 import { msClose, msDeleteForever } from '@l3/icons/material'
+import { useMarketSnapshot } from '../../../shared/data/companies'
+import { useUsMarketSnapshot } from '../../../shared/data/usStocks'
 import { usePreview } from '../../../shared/prototype'
 import { Screen } from '../../../shared/ui/Screen'
 import { IlliquidSheet } from '../../../shared/ui/IlliquidSheet'
@@ -1151,13 +1251,13 @@ import { SearchChips } from '../components/SearchChips'
 import { Tiles } from '../components/Tiles'
 import { WatchlistMatches } from '../components/WatchlistMatches'
 import {
-  collections, ipoLists, popular, recent, search, signalCategories,
-  type SearchResult, type SearchResults, type SearchTab,
+  collections, ipoLists, popular, recent, search, signalCategories, usCollections, withLivePrices,
+  type SearchChip, type SearchResult, type SearchResults, type SearchTab,
 } from '../data'
 import { t } from '../copy'
 import styles from './Search.module.css'
 
-const TABS: SearchTab[] = ['stocks', 'fno', 'mf', 'ipo']
+const TABS: SearchTab[] = ['stocks', 'us', 'fno', 'mf', 'ipo']
 
 type SearchProps = {
   /** The tab it opens on. */
@@ -1177,23 +1277,29 @@ type SearchProps = {
   onBookmark?: (item: SearchResult) => void
   /** F&O: a Smart Options & Futures tile (or View All) opens its signals list. */
   onSignals?: (category: string) => void
-  /** A result row opens its page (commodity contracts → the asset page; illiquid → the ILLIQUID asset page). */
+  /** A result row opens its page (commodity contracts → the asset page; illiquid → the ILLIQUID asset page; US stocks → the US stock page). */
   onOpen?: (item: SearchResult) => void
+  /** Back goes to the screen shown before (wherever Search was opened from), `onBack` when there's none. */
+  backToPrevious?: boolean
 }
 
 /**
- * Search — one screen for Stocks, F&O, MF and IPO. The top bar is the search field (back · field · ✕ once something is
- * typed) with the four tabs in its bottom slot; each tab shows its result count once there's a query.
- * Before typing: recent and popular searches (chips), plus F&O's Smart Options & Futures, MF's collections or the IPO
- * lists. After typing: the matching watchlists, then the results (with a bookmark each). No match on a tab: the L3
+ * Search — one screen for Stocks, US, F&O, MF and IPO. The top bar is the search field (back · field · ✕ once something is
+ * typed) with the five tabs in its bottom slot; each tab shows its result count once there's a query.
+ * Before typing: recent and popular searches (chips), plus US collections, F&O's Smart Options & Futures, MF's
+ * collections or the IPO lists. A US chip types its name into the field. After typing: the matching watchlists, then the results (with a bookmark each). No match on a tab: the L3
  * empty state with "Clear Search". The phone keyboard stays up while searching.
  */
-export function Search({ tab: initialTab = 'stocks', query: initialQuery, results, saved, keyboard = true, sheet, toast, onBack, onBookmark, onSignals, onOpen }: SearchProps) {
-  const { interactive } = usePreview()
+export function Search({ tab: initialTab = 'stocks', query: initialQuery, results, saved, keyboard = true, sheet, toast, onBack, onBookmark, onSignals, onOpen, backToPrevious }: SearchProps) {
+  const { interactive, back } = usePreview()
+  const goBack = () => { if (!(backToPrevious && back?.())) onBack?.() }
   const startQuery = initialQuery ?? results?.query ?? ''
   const [tab, setTab] = useState<SearchTab>(initialTab)
   const [query, setQuery] = useState(startQuery)
-  const shown = results && query === startQuery ? results : search(query)
+  // Re-render when fresher prices arrive (Indian and US snapshots).
+  useMarketSnapshot()
+  useUsMarketSnapshot()
+  const shown = results && query === startQuery ? withLivePrices(results) : search(query)
 
   const tabItems = TABS.map((id) => ({ value: id, label: shown ? t('tab.withCount', { tab: t(`tab.${id}`), count: shown.counts[id] }) : t(`tab.${id}`) }))
   const clear = () => setQuery('')
@@ -1205,7 +1311,7 @@ export function Search({ tab: initialTab = 'stocks', query: initialQuery, result
     <Screen
       top={
         <Actionbar
-          onBack={onBack}
+          onBack={onBack || backToPrevious ? goBack : undefined}
           search={{ value: query, onChange: setQuery, placeholder: t(`field.${tab}`), label: t(`field.${tab}`), autoFocus: interactive && keyboard }}
           actions={query ? <ActionbarAction variant="ghost" icon={msClose} label={t('field.clear')} onClick={clear} /> : undefined}
           bottom={<Tabs size="sm" aria-label={t('tabs.label')} items={tabItems} value={tab} onChange={(v) => setTab(v as SearchTab)} />}
@@ -1216,7 +1322,7 @@ export function Search({ tab: initialTab = 'stocks', query: initialQuery, result
       sheet={sheet ?? illiquidSheet}
     >
       {!shown ? (
-        <BeforeTyping tab={tab} onSignals={onSignals} />
+        <BeforeTyping tab={tab} onSignals={onSignals} onPick={(chip) => setQuery(chip.label)} />
       ) : shown.tabs[tab] ? (
         <Results tab={tab} results={shown} saved={saved} onBookmark={onBookmark} onIlliquid={setIlliquid} onOpen={onOpen} />
       ) : (
@@ -1233,11 +1339,19 @@ export function Search({ tab: initialTab = 'stocks', query: initialQuery, result
 }
 
 /** Nothing typed yet. */
-function BeforeTyping({ tab, onSignals }: { tab: SearchTab; onSignals?: (category: string) => void }) {
+function BeforeTyping({ tab, onSignals, onPick }: { tab: SearchTab; onSignals?: (category: string) => void; onPick?: (chip: SearchChip) => void }) {
+  // US chips search for that company (the other tabs' chips are not wired in this prototype).
+  const pick = tab === 'us' ? onPick : undefined
   return (
     <Section paddingBlock="16" gap="24">
-      <SearchChips title={t('recent.title')} rows={[recent[tab]]} />
-      <SearchChips title={t('popular.title')} rows={popular[tab]} />
+      <SearchChips title={t('recent.title')} rows={[recent[tab]]} onPick={pick} />
+      <SearchChips title={t('popular.title')} rows={popular[tab]} onPick={pick} />
+      {tab === 'us' && (
+        <Stack as="section" gap="12" aria-label={t('collections.title')}>
+          <GroupHeader title={t('collections.title')} />
+          <Tiles items={usCollections} label={t('usCollections.tilesLabel')} muted />
+        </Stack>
+      )}
       {tab === 'fno' && (
         <Stack as="section" gap="12" aria-label={t('signals.title')}>
           <GroupHeader title={t('signals.title')} action={<ViewAll label={t('signals.title')} onClick={() => onSignals?.(signalCategories[0])} />} />
@@ -1512,6 +1626,433 @@ export function CreateWatchlistSheet({ name: initialName = '', onCreate, onClose
 
 ## Source — shared app parts it uses
 
+### `src/shared/assets/logos/asahiindia.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>150</exif:PixelXDimension>
+         <exif:PixelYDimension>150</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+��Q�  -�IDATx�}xTU��;��7�t��b{Aݵ7�UW]q-*ؕDqſ��Ȣ>�Ů����K(!!$��L����]L���	���t��̽�{���rT999a���]��❅�a�+"
+)��w��J��K�V��K��_��	���^�GFF�v튼�<dee!99�&�IA� �����t*���
+����������w�p�V�F� �HD���%F[�����c�9#F�@������� R�*/��A����\.�v;�n7l6��ك�k�b�ƍ(((@ 8tz��}q�~P	2X(T� �$2g�}6F��P�Pfm��z��ҭV+֯_�O?�6l@YYjjj�yE�<V׌�8�5��b�^/RRR�0` �=�\�3���\�V�����b�
+,[�LA��ݻ����r�V�K�
+b��^x�8��Wjjj�o���	����o�����Y��h�6�6��Vy�֭n���q��ӧ�a�X�!L�P��o���n��:R#�p�"�|5��իn��F�j;u���z������W_��_ĦM��\��#ݡ�F�l�~�p�5���Cff�a���NL���ŋ���BX��o4M�����C���Ν;�n��W_���:�5�>����������ؾ}{B��p�%��s���	0r��#։�ڧL��`�|����%�9ސ0��v,N�[o�7�|� �F�S��_��s΄�ޮD�p.�Ϗ<�v��w/���G�}�B��`qJ̚5W^y�bJ�������i�� �7�VQ���Ac2F;4.߉S�o߾8餓P^^�x����5��2y���)S�����8+:
+�t?�%�h��� |[v�婁����R�O$Ѓ���;O�h�7oV����`�\q+N�6��v�����u�寶��J�j�bB*�*��ax�Q�yZF���L"AL'��jժ� 9n���SO=�h�:
+|"�>=X�i�8L�p��	CUTA��7�ca`b�0����_���=�Xlٲ���W��X��1G��Z��JtgΜ9�7*V���0-�;D'JՒ�}���.�����3�1u2�����|${���؅@��0��Ay�x7c�.]p�'b׮]߶�Y,�-��1�)�ॗ^����[����V����>�ҫ*�Ӫ��/ȹg"R��apU�`X�zj�����-���J'ϙg���.��We]ڋ�"Xd�h����S܎q�\���b�^x���A��;�ȝ��N-�-}�U��"\\���-��u�K��-�Jl�صW��w�ء�$��"s�;�8̟?_Qb{ۭ��7_�1cR�� ���F"��{a�߯�`���{t�w�f��*���ñ����p��bu,,,Ķm��Ůc�`���Ν;�59t�E����zr.,�vB�S�>h 2g<�$*Q\�C�F>�tF�[�7n���*[5l���&ss"�%�](YF�_���m����B�=z�P"'�e��`_��OF֮}��C�dL��̇�r��Q��̗���Z��Ȭ��'$;k`�]��-�a:�x+��안�%�-vr�,2W&����H�\I��(�3�6A����-)�NB��-���j ���M0�TC]i���C���evLI$��믿n���f��,OԤI�p�M7�D�o��ܸ	�OA�r-�����Ӕ��}�X�Zh��5jX�>j�������*�����'@g2�g�m>Wb�*���n���fk�袋��C%4�m�|4��|�/V�P�i1Cw�mȼ��[邔��ث7�U��w�F��};��IÇB�`oW�~�d|��+�����OV�T�du$���p`�,X>���՝,�M�Y��V"7r�D��c�滇)�).?[�����D�M���DdN�.�.q�H�HK=���`qd�y�̙>|x��'����es�C��ǰ��P��0L���\��}~o�p}��a��s�o����������6�~kY\��M}@����-R�Z�`Q�$c���b��~��@�[K~�5�\Ԑ���^��;�]Jl�/5d�������|�]5��܍pv6��qb}[͎'Q(Q�>��3%��n��z%����O+T��l�t@�vw��/��֛H��D@e���K�s�0�d���Z.�q`�Ż�ݻ�H�·9�,VO��!�����+ޮ�L�V!X���ٳq��);B� �_~���#�f�S����D�C��LLmF:L�[���iP9}���~RS����ª%i`���J�fST�b���K.�w��b�;)g�� �9�Ze�������Ⱦ2��㛴��J
+��=tc�+K`�9��UD�f�;�%����N�i~���&��"kmyƌ�޽{��֢���/�EGFI	<*=B'��y
+R�&ƃf��鷶m�3mc������ˁI�%�2Y��|F�!K�iQZ�$�_u�UJ�W����l,��Κs�~��A���G�������2���q�D�3,�]ЭZ��E� �7~R�~�FI^l�Ep$3cܸqJ�^c��{:��q���`��Y�Lg�Mb�+�(zs��g�8m:��]���<�0��j/��2�v�i��+�e�b�;�_}��>���NO�a���Ǎ�	�"��S;l>�`��A�K<�㮄���ͤ�]�Ɵ�����&��D���x��sK��e���	s�����xGC�9���S��0�ґ y\�_~�;�D���$�:��@�LZ�dA:���25�ѐ�)�ޒ(� 	+F���D�LP"E�wI)
+_}��և�ȕ�?������^{;�pt{�:4�����x���Q�f&~Oy2	>jU��u�*[�Bo"/߾k��Y�}�8a/,@���@2L�l!ܶ>4�`qlH��>{J^z��!�iE��p�.H���}�C�5+W�XQ�L���^F��/L ��J,��!*������՘]{��|�����!"��(���vG�F��\�#$̘s�8Ԝ1���%�yl�?�8!� �N�P�MGE�P��V�)I<��4��䨁]����kҝ�'�/었�׾�������אA�B0��k�<�Z���U���|��`���1!2bT;X���D(��]91V�"���,�{�sH)���R#x�X��;�6�vָ���������Lh��S<�Fǉ�Ϫ"BǤ���*�l�S�{�P\ΪV@�X�`44]�c`Bӹ<��P���`s���%)=����x�h��Z�t�xA��
+y˓ n��p�'&Ot��?���H�� �1�=br&N�o����P(�זo��"+o� �_�?�L����B��Z��f��VI�B���ɘ|��H6�����*���v|�SA�נs#Y�郳q���1�/��x�R�8!m��#�� �~E��3�{�I$�;�hc����={*��޽{$7�`�;��,Q�xV�� �~���姐���
+�Q�"c�$���ǽ��x�k����l(q`]����=���!��_��~��o�|pU���\X�e]�l.Lu%^���ψJ��d�����ȉu[J���Eϼ4"Y����w�@R2�~��eERq9���a>q$�q�|I38ɥ��qz4x�閪@qd��r+?��C+
+|a5\��Gփ�)��mA���F�ZPIo�֌j.��)<�U�<t?���I��x4F��z�XN*�>��'���&����drzL�6�QC���0����J퇆��A��#���������1~�5J{��=�Ni�wB��JѦ X�.dOp��q��&���Dg��kdN�3�#�%U�D�RP2/��/�����3,��F�),V$�󜃇�.���QX�e?��p@��`�5P����0��G��~R�����!WH��0�x3��0�Cj?\��^��fa<@*�G-����?�j�nCգ�`޺z^�ѳ����\sͦxU⋥7�\A4��0
+Kz�ƅx��J�(��yW������RU^I�cT��U5���xq�p�)}��ٲ<i�����e���I�b�[�r��
+8/���X8� ���%�lI/+���s2����`o��`��ܳIp����ZX� 9Td�A�Gsر�#��Qct�B}���_���u���oe�҆e ��`ܨ<�q��y����^�k�]8�_.��:��.=�� �Y���ɢt����Ⱥ�F��)M�ުߤ�r6#]�W�2���x��r�b��}����]a��z��=7&��~���vB�F���/'�������	�&��B����~�nVD��X
+�>�_;я\z���з��,;�Ҩ\����;�ޘ����댔�&��t���{0V�''�*����}����s͏����Rk,� ���k�UOσj�0�?�Ò�� �!�XU
+TոP�$�R�NMѡ�I��U^x��JگuA�U�� Yle�(���� l��� �d�)ץ��}:�g�T��-����6df��w��@�?~��?�?�u�p��~9Vk/,I�r�u �ޫ m����}#V��+/B�+����X���S�],j���A�N�� �[��N�! ~~,<\@V���h	�-+ܝ�J�S%�1�x\��H�H�E����G�!x��z�`#r�U��;���a�3n�`Iǌ����wx�m�^8)CW_�N���lP��(�[=psj�N���<#90���Q�&%��S� ��O�ρ�H�ĬUQ&#l@�K�v��>}�}�dT��o؇���Ϟ��u�br=�eHzm�*k�O%����y�vTӿ����ȥ�a����=����`�AXR��Z5
+����e*�IDc����j�_����uU4c�!�E*�ے����ڗ����Ð:c�G��h�Z�U�v9����!
+`�A|Q,���Z�(��˯-�����y�9��wc\y�kA��TJ@Cn��L
+����*:@�l�C�����IX̤Ι)��H�g������~�ޒ�ث���>�&O@5�n5��y�`���f�1�x���m���g���/#��
+�V癧�˴�0��ɚ���K��R�j���T�:R���:�J&�Gb2�7�?�1V4p��٢��e;ݸy�����=�+�����KY�Tz�&���4�^X6�@��g�.�׶Ay��$�ЀEY�*�����#�`ĉ�c�"�)H�?{�ՍB�j�zt��B��,�Xh$���a���Le	��9!$Q3�7� ��������6�<�d#��:��F�����"9���`��pwI���|�+Q�`>{��|�ZG
+��i��h�[��k�#�~�ܷ������?}���'"���`f�t<����.R#CF:j�wC5]�8"�D���r���.�52THǈ�XC���'w����ﴩU/�+KU�{�F<��O6�n˽2�̛n�v�$�e�`�.�_�>�=�(�{
+Z=� 7*��˶���@%U}sA1�~���A�=S��~��J;�<�)-�'wJ;�B��i�0RD��������C ���+)�T.�X�~�`�.pH/*47Ǣ���hW	��sb��`wP��1H�f�E��x��U�c�*�+R�@���(�-��9�M��I/!���e�SN]��õ�r:9\!a��]5|����y�
+�*�	�����q�5��l`P�N���H��J}*`D.OR��t�ބ�WU⻍���?t�@��Txi�5:�X��SAl$,��uc��,F��w�����:z
+��*P��s�67�v�F���{}N)F���8�W]�\)��r����5:����ѻA�p�?��[��L����k�8Q����yPEN���"8Y+KP�[>[��;�2F�b�w�qȸ���6ݨ�#q��N\E'F���<}2k��x��W��2�� t�@�mJi	+UQffѳ��|03�o.��2TX��������K�UX��S��ـ�W�9���4nZ�b�������Ւ��QȤ�XB񢥰=>Il���9�z�td�z)lZ�\6@��c��Y�;�*`��d$��B1�W��4�)�������Wj��R��.RI��8��v���%$Ow@�
+nG@�/���F$�!�\�����cl���>L�	ѕv�͖J��Ĩ=B�>;V����H�[D��0'k�R&�3���('*�e����(
+9��q!��Ν�L���(�/!PS��О�~n��MԘ�!5�*��l�|�����5�)V�dS���e�P2��.z%�������O���S����,T��01`�-�g�ST���j���:s�iZi;{�B��l�%�����f�Q��ҽ��m�uDr֍ף4������pJ���P����믃�r:V�6R�
+B�J&Ky��̋i���~)OH��N�n�1.,�`"g�Y�2��#֢NI��蕃{��a�5	Z��PKzOD��zr������y0��L����- y�HӾ�V�B,X��0��م�t�����A�dM>�2J�?����b�����uW��)�B���ղ��N�}��
+�f���t5��rc�H�7�Y�t�H4����Ņ�t���1�T&��}�6���� <�8��.���AY�N0M���?��b�A$����&x�����(npF�г:"s�M�I�
+��F����o�IJ�} �õ;
+�2�󿰸���J��@\S:�b�_bg�b�b�=�E̊�Ѣ����c�t���'Dfsl��mG�.�͙�ԕ?AOn`�JFʤېu��D����qh�4ٲ'*�%�6��g)E�S�=�t�4��A�t���Q����/j3	��̢T�
+Q�ʀ9tH��^ͤf��lH�|��
+������$v2j"I�J�;$&�n$	5���x`�/�}Nk0j�z���P�f�>h�'"�+�z���'��7��*/� �z���9
+��6+~�Y���;���$���JY0c��Wa���N�F�#Y3�KC�f�o�̇֜F�)�ʫ��A9D�0/R`���Xqj�}{Q��p�p�����}V&��؛v1y=r3(������4+-���`���0��x,�/���}5�
+PPP�Ppˮ�ҵ%�0'��i��B� �5?㨝��zx&�t�vjSsm���j7vU��"�u`���q�G+�.2V�?�c��(5�HQ��=X�K*�8a���a>�Է��cG��헲��w��L�@��n,�N�,	9�z :�TEakt��~s�ʒg�C�Hzऽ���:�����N��_i�� 'K�K��d{i6kHgSn�=*T<lCp��H�W�ʆ!H{9��[}9��M=�TN䥩j�!d���ztJ1��$"u̹��4��Jh�H���*ƿWoًU%A~QĽ}����HeD�O9��'۱��J�L8��,���Ӻe�F[DS1��"v�spL7g�����z�O����A8j@�b?�V��@��A�}�Y����J
+�������������i�}�d ��_�c�Iř��(kba�]�l���8Rpa5ӈ���(�K����R��b�n�(�'�abL���vV���r��fˤ�G�Fg*F-r�ǟ���B�ژ�� �����;�n�� !�Y�,	|u�h�`A����[4��r���~#<}zBǅ�n����\�	[%�S���HebA^zC���a�l�?���\�7��A%ߐ����h�D�6��I�tn�����Xǲ���XS�A5m쐎���h�ʃ�Gv��m�C�_�w+XB�<��]�>>��lVn�Sy�l�QQQ����·E��q��x��i4��_����ӥ�>�&�O+b���7�ǅWS�&S�J�a��bԡw.��`�b�#�Vz����_����l�$AUM�afT�L�k�D�*H��	f��u��d�1�zW���u�J��+�f�>�G��a�|�a$�O�K����a!�:,S�\���b��i�)��[3�O�?n�=9	p�ۀr&��[�vr��{���w�r;�L���΍���lM��<�32�Y����)�&\:����IwN�b���	�Iu�P�5��p�.IG���}��
+�0'1+��^�Χ�"�	>��9t ���`+�f�m��eee��_��;���]�-Xe+ٞ.��6���q������7����`6F��g5�|x<~�򑾽���J��z���r0�_g�|��uK�5�uC�^=Yy�&�Zrq��J<���!�����i�e�ɫ2��gz�C��駝�FY<vDw\u�Q8��D˚;�Ȋ�O"s-w�v{q��ɼ��1��>�����+��#� X�Z�{�s/��b%y���l�t[4d^w�!��H�h�-z���rם���O!;�z�(���1�L��H�S�aP�,�Z���l�4J�o�!Mv��s���P������℡]`c��M
+�9��t��Td��h����y)k�(��*��)�ݪ��m������.��^ѣ��L j�;A�0-�A���~���K�h\���0��~��7\Ͻ}őqd��@9J�͆��a�P�eB�}��q�EH,�J�&�(E�t���5��rA�q����6�ʹ�v)�kHa�Lñ���];5�v_'@���y�aZ���P��f-eʝJx��+��m�ćA�|�����M�K�@�d�t3g�V
+�Lǜ Kn^�.���u�ʺ#��y)���.C�U�r�(�A���p���_��j��@G~��xوI|ӲgO��D��L�����z��0df$�����(��/��~�ݬ-���n��/-��x������7h�R�i�"J�9�S��6w�Aژ�a`$�H-�&s��ќN���ꫯ��O?U(Xp�FY� ���I,��`hhg�p�+�M���� Zk���'�	���QA���F�L�Y�O����N�d�������Pc�F��H��}�����|������Y6����j+W��E���d�J�r;$1��Y�O�c���p��/�%�Y��s8��Z6�)�~���x[rZ̏�,�O>��ѝI�D��F�-��>�裘O�5z�<w���A���P��3���5׮�}�Z��b��B$3͵�/��������~�K�,��'O��.rf� ��X��cF ��{ags�4:�����xl&����OU�W�kҷ�$���? ��e�8�N�h��t:!ʕ$i4�ۣI-:2��5Eђ��x�Њ\/ڻ�|0�-���w��U0�=�v�N`�w2�;ں�h�k5��{_!J�?��_�1��bRa�#�*������|DtΟ?���9�q-B��(O� N;�4�S�����dj��b�(#C�w!�Zc��Uv+RN��=���]X��O ��լ6d�Av:4�o@���(�ƺ�h�i�w��{�(�&a�5��c��2��:e��/��ɧ��b�Y�ASF���l���6��:�V;�7���%{�`��O��l�mض�m���&"����r����?��OE���9�>�����+V=lذ��$����F��Yf綯Ԧ3Y��ܼ��Xd���� [V�~�C��y_7\��[o����R<Fb�`)3jL�F��j�Z.I��{.RSc�Ood2�y�2�h<�lp뙃d���)dYظ�zC{��xq՛o¿�%��/Iץc��X���#@���?�lJ)}���V!X� �>�x���rs�����t6� c��-���`ݴδ�q��@�n��7߆�߯�Ȏ��KUXu��V�&vs�(���_V�Д�̯��e`a�+��+ߒE.�w�ʶ�aj�5[�a(�����8h�����G�6�-DV\��=�,����d*����=�n3pT,o�Uc����Ń>Ȕ^O��92p�,�k�U\���ٳgd�y��Sm�^�wKW���{�!�����<	-�����pϞ���Vv�e�婣���t�գ������l�<e�EjN��}�6!X�.�m	0�3F��T{�D~���r����֐�Z����Ll���H���Pɜ0��'��M4�֬8�t~��=z@k���^�E�I
+��ɓ��N�֊�6#Xf&�Y����SB����բ�m� e����r2�\�+46�%U�OHu�A������e*|�;�C`_箝���Hb��tH�v[���[
+Q�V��rA�B�;�r�D���B�Xah`uD�����&R�z�^X��C7l(�Y����B�j&7�^ä��z��fA��z�<��r��Jnܼy�R�M��Zh��b�`yI5�LB�,�.��oon���+�7��|h��K�4���D�
+�f�T<� R׬�&��r����8��C���_{�5<��J�Xk�n��o7�e�ې�&	/�5�C�,�1���*&��^���O�z�U�����ʹ�B�g�3�ދ��T��*�Kd�j/X">Ku�+���3f(s[�+s�	�e��b�]�VIil?[96 �aK�~T��9���HaHh�nجհ�:��TT���9�?��*�ӓ`������_���n��� 9�D�ڃ\�~�,�	�En���Oʓw�q�*����J��u��8�m#,�n�#��?ɪ�w�@�gš���u�1�����ga��?�<z�!��՘�]+��D|�Bɢ]��M":
+$�h����R;Ns��-�M(��o``}�S���ˑ�N��(2:s�s���x�g q�X W�sˠB�"G�F�����&Z����1�Ў}�P4� [�A���]hg곛�9��=H�o���x��ו�C�˖k�1.�Dd�]��z�"��Ծ��>k�V5��*Vl���DvX#���� �M���Kq�=OI�z��G��{�)_G8`�c��9n�I	�e�b��[aC��(3J��2�!�a/)���:�4�<�~֬F����wߍU�V)kk��=���Ey"�6�|۰a����Ĕ;�١��V���ƗD�'$C�dQ�$2���yD�.�ǅdL�ˢe������[uGĔC��~���Fm�̥�(з�~�9s�@�Py�#�,^k�PGnB�,O����?^aۑ��W�ŝ�럥$�·+VZrs��!�I	5�-���3��ĉ�]Ǜ����䰉v�x�b���<�񐵍�K�!82!�_�FNR�|�7*��4"�J��ʐ�t)�)`J�����Y�H�P�UW]�K.�����E�̩-&�/���F6"g�-k��a���#�[��;���q��+�`d����:%/��R'$�`�fō��a���DE-Z��*~mA��ѣ�MXb�I�1y�w+��[������
+�9-Zg2�Ĳ�񩧞�.�@Q���mf2|����%���{|���J�$:��G��Gp��.�[^�����GB���}�K�����U�#�a�+/q�
+�J*�@G����{?�\�f��ʅ��]ع��={*l=��I�%�P(LX�|��9r�P_�]D����B;���
+B�X9_^m}h��=Q���H�����\ط���"��p�g9V^r��o�_�b�w��;b=�v�'�՘�#H��.��>Ҩ�5K� D�>�1W�    IEND�B`�
+```
+
+### `src/shared/assets/logos/crisil.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>150</exif:PixelXDimension>
+         <exif:PixelYDimension>150</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+��Q�  UIDATx�]�U��;�LO$� "YĀ$QP�'*OV�5|�O�İ���'���5,뺆ր�UA�]3��9� �09vz���S]�=�i�i�;_MUW�x�{�=��S�L]�t��0>������V�1�L&��٬~��o�C������o`}��P�h���x���v���fCff&rss������,��v����l�ohh@}}=jjjPYY�^3?�Ţ�3�O�����9G"G%�a�=ꨣ0h� 2G}4�����:uB���
+h6�y0}]]jkkQ^^���R���(���ʰe����OX�v����s*���`��G�q���'�N@׮]A0e�	�Z�pgv�#??ݻwo���ÁPTT�U�Vaٲeذa��Z��:�M�}��.�<x0.��B�u�Y(((P��-�K�^UU�]�v��?ƢE��m�6p��p
+h��hL;��v0	�y��j����4i�L��޽{kmi7g���^{+V�����q��A5�
+��=��W	,�/�0a�5�=��WWW+�?��#�����s�'��*�[�55�#�ꫯ�\��]�Z���·�~����c޼yJx�hn����c)<���]t�O��^�z�y,Yh�u��������9OS�nM��n �T�g�}6��Δ��t
+dO=��/_�T2����`M���z�7��NS=�5ܞ���d�<��j��ĝl�m��t:g�%(Sݹ�{����V	S�ɲڲm-�EKռq��)�Jaa���%�@^��3-d}�`
+Q�'�x"y�\z�J�m�(��sUƏ��oT�h=#0� �p�W9j�{/���������Ƥ2���W\�9s�(z�F�&��v��f�iqz衇K�u:4R�j�9眣̞T�r"��8�[`�@\x��KN}#�����ѣՂ�ʕ+��'^��`ε�֨Y�f)3cې*uK�D}�)��gϞ��oԼπ0��9��R�5j�~�i��.�۶��&(�pP��C:&�
+�6rǎ�ٳgc�С���Lϕ2Z���B&��T�) p�>��c�&R�#=�1c�:٧O5��K��Lv��裏�&�x	O:D�}�6�HN
+��_�~x�ᇕ�L<�I�	O��gΜ�|�(���=�cǎx���{����-S�,w�q����KH`F��n�	��~z,���@�>�^{-.����h�H`
+U\Ý1cFB֗h*z�ǡ��w߭"��OqL3
+Uw�uWJ������{�r�� �K��?����r8/U�0b���w�SN}�,N�0�]�_=N=��T��aSO�ǚ�p� L�0|�pL�6�U}�DZ�!\j���ەKqK �4�9r�CE7�F�p�(@�	:(&`fv��+q蚖.Y��5�\���hN��zs��ݟn�!͚5
+�3}ۮ��:e�4���j�UW]�c�=�7+]��t� �'\�
+`� ��I�*�E�p��%���h�#_8[uT �=sBO��䀒�\�DKSq86�"�4js�1���H�_N6 ���&�!���4�U�0+����Sb��w�yj��V�X�{�N��^L�S�^�i��\F6�"�|Ղ^����)�Wn馬��h`6����4���Gn;wP�!H��3]F�!5(��H��:i!"��t�b�H�ԡ }�.���`�#L�y:]r�!u(Э[7�|���
+���'�T�##غ#���
+Qi�����vM�uO��!%)T��L�&�ӯz�$�!�n0�3=�Җ�:��&{U`�����vy+kа{7ܕU0���ѽ,9��ZɼnL4��/RH�O2��mS����V@0�l�`iҷC����µ���R��iٹ#l�:�$�悾w�5�[��H��=o.�x�������֬݀���n�O�큼	�H�ւ�0�=y�F�9���"��>����'��uܙ����?
+�1��6t ��Bƀ��$��+z�5x��^�[`3G��R�o�ƺ�n،�/�F�'�aٳކz�Y����s�D�����5�N��۷��6ΒJԚ�A��+�3t����j�x�d�����K�q����ָ���n�z]n�
+��{	�͛଩��-�׃A��
+Q��h�u::L8C��i�����O��~+�f+$-cf����� ��EY(����'��U��ڹS��>�J����އ���L;  �W����?B��saߴeb���}����c�Z�[W��ϖ����x�M���[��e�.^���l�=Y�D:���}���9��R��#C�H��& sA�#8����Q<�-��<����A.T[eԞxl�;�n�ԭ݄�R8֔�|�ch��Bש�����f�������_~GD���TWKY%2k�`�W��M;P,#�������R� @6�V��--׬�1��U�3��p���G!��Ap���S��f`�d�J[�Y���*t�dʛZP�b���,���C����z���I��]�C�$�G�dQ\[L{�X�\s^G��b4�,��{�?��G�s�<d�V�f�(�Elߍ�m[P9{.�ǜ�y���ӫ��1jB��b=2�^ @m[��>}e{�P9o�~؀L�z��>��l|_J�HaN�|��\�%�y�-8���jG݈�ȟ1ك��%�]XE�ν�\�5����*a�_�D�[�y���g�V*s��S�s���
+��h�h�s�,������'TYk�����i�҈r1w��u
+&��9 �8� N!�T�߃�;Pߏ�Q��7ȸ�09�"����y`r<r�7��U�'#�6�?���a�� {I1j�}��1#a���mf�ݫ�+�y�Z�L6�w,p�E�����l;����¾�{���1r�eU����˧�ޥC0n�L�/3��Ǎ�j���p]1QGͮ"���B��4㌑�p�Ap����6�9�8V#s��C>|��X��s>aw®��&�y��e�X��|2͚P��zx�K0�#�������wO1L���ly��=mD ^��ޥ3r����G�3�Tx��V�m ����K��M�n��X47 I$�w�m�^�,�����I"����ޱ���+xw�$Lp���i=��#��_7��酨2=�����e��}!}"8��e��Y#��ǐ������d7����Jx�6w�hd��r���*��C,�G�$�M��%�D�Z�q�4��m"{D�q���a����0����k�
+�2G
+��kW�����偣k'�����&e��m}{�ܵ ��
+XE`+{���������[s�0e��&�aG�HN4�ս��M � ��
+R]UTx��s�[���V�LQ�#F���2?m	�z.�����/���erυ:Q����M�A�H��k�ϔ�U*�u킏�U'D���u�Q��H�D�2u���p,�� d����`F�����`�Ϧ����U�YP�ޓ>��V���*�6�<km�i~l�5{a����Q�u��xm�R]��ԋ-2��09�9��u�{v�p���Ik��*���(˕oM!l2�Z��1�!�9��I�5G���DE��ȼ���8�Qhd+�(B��+��ji�:78QpYj 6a�f�X��x�2SRU��S!|k���l��,���D��Lש��s�td��+�t?�\��c����ep�]�����݇��jXj�@���� *R5�JP�}'���/�Ҙ���-��R�3���	��g�K)V�xe��D5&ޠ"�p������P��e{}b�a�"�̻���Ppׯ���I�F:7��s���!��[8��� <�੮��`9�;v�����vlu������WP'f�YdWAu�@f���* �2�J=r�6���B������A.-B�zaŘ:	9S�Q��$y�N\�����5�]�8�qB:X,A��Ybm˒u�^��py�s��_|؏�w���o��%�.�&�^��+����IeuU��K}��	�zB�]��yE81�p�ՠ~�Nd70lv>�O�W�����SGt�tfc\E%a�bX��9��6>�i�f�T��dYe^KV������Z\�r+ľl���jC�_���4�A��6`���4�"���k~@����M��jW���T{���&z��_m<���o��~[��l+E:��.���䑿����P~�#�c�>P�p��<k3��"�l��%G,[u�{�P'��}�Q:�}�׍c�K�%�_F͝���?b�3/EH�m��"U@��Hl��G�E�0�2�4[V2��jL$d���)Ce^��!v\�g+Q����h���'�v�⥰�X��2�j��|�ƨ�Q���!����8w��p�8�/���7�~7l�Y֐��JG̮(�I:X��O���̀&���|W�&dr1Ad��>��#�$���)�½������sm�IMw~��/2�̲"�;m*ʗ�la��%�(��pm� ��0eg)�Q���0��ȩ�S��;f(�F�,�0pI��2��if�9睍��´�1����X֗u�t�'�1'���`��$���P���p�ST��'��e%���9�*�Nz�
+5k�G�K�"G:C�����{�i��T΍ * U���2���P�`!»hJ��
+�v�S�P��ɽ'�.ǩ4�����e��݋>}���
+�>��\��Y�#o_1��l��E4�s����dm�W\
+�*׍�G�ÍW�.6i}0����AQ�D5j�pT�,q�=a(�D�1�ѣ��Uh�e)�p��$'[�S�c�2�Ɛ}�q��l�Z�ʬ:�Q�<�Be�\4�gH�&�����D:� ��Eu��(�~:��r*1�?����b��SE�lB�����Y������}һ��7�,��/?��,&�E��fE�_^��N�|�M���
+��ZY�)���d�!TyN>�5�]!K����.���UKsk�pջ`�<�n��߃���P��ȕ�[.;��jR�K��G��������V+:5=E���#ͬ��W�@�|Կ�����c;�v��k���.nуk�eL��/�D��3B���b�83��P'B�S�7} 7���s���|}��5LjI���"�R\Y~`_�8$BF0���Ν;Ȳ1�Yց.��Yu�Z�oԯ����� @yū�!,0o��Ȓ5���=�ul�.��w��
+۴Jǳ�8�	�Z��sdUj�t�d��d�zsE���a��K�C�iG�<��ˍ�,���;��"Y>U_�ύU�ݱW��ę�b��X��	�v2���_W�:f�-���4��+�!�Q��2�)���ʳ�o`' �r�,���>2�ʖ���M>/K����?������#�?����rY��*�xg�
+�`��H(}�TcL�X"l/3CF��#7U��F��J�Tө��D��R�$e�Y���N' oy��Q�����b)ȇU�������:�8�8��7�C�J��sr���ْ��!]\n����1���� &VcB�z~DQM��e��o����C���7�`m&�4JB�)��C�S<b�6ѕ#�$����׈�6��BvF)�߱O�ԧ@��t�o�o߾=�[�n��B���o߾4�!TI�MF0�~b�#X���n��5o0IB��/��R��4�R�M�h�+V`��GԵkט[X\\�8���h�빃_5��!�B ��_�������DU�-���vC�bU)-�`���W�.����ۦ����-�D^0+�o��z'�|r̕�g�����Z��QF� 4bab� �u�K��Ĵ*} ���)xE@��7OY,�Y��Y��t�%S�R��k���|f���W�5�O��*�ĉq�}�5�"��88�`>�w�~��{�뤱n#���Q"�7L_y��V?(�m
+
+c�7�
+�ץ\��SH��0�#�s���~h������K�z��s֞����b	����"����_`���8����Q��͓N:)\&�Wޘ�����{*M  =���H$����'������K9�)������h`l�1_-^�>r���o��."��AizѢE1�J�Z�`��qS�x����!��J�Z����{�: h��ϭK��%K����70��k�.5�n�ҹ'�����>��	�A��x��ѝ������zR>V��:}�d
+p�`޼yM�ff�5k����'�J��I���_j�(��0�%��,\�0��ɬd:��(@���[o���Z�E�t��;���u���W�t�V��g�}��k׆�8*�9��n݊ٳgG��G+�;�e��.�o��4*����Ο?�V��Ҧ���6.[�L�r��5�l��Y�f)H;h�_��O?�����F�� �D�e�7�|SK�>B
+<��3ظq���G�FL ��p��'�|۶m��g�~P��>P�	�Q#\�1�(pmذ�?��r��i�^�R�F��\-�Fb�Zb�Rmz�嗱`�-����(�%Ĺs�*�W�Z
+1��(p=��(,,l����$R`�ҥ�{r��4zYl\ 3!���m�݆��"�J�V� ��w�}��,��ф�f�d�_�5���?)�h
+Lǉ��̙3�pk�JI`fB6��o��W_��L��L��{������?oV%
+Wl� s>�'���>�ŋ�+#}/
+Љ�W^W�(`E3��K`fFՉV�[o����!9�_����{�D�λ�қ���Gl����;�CE=��s[J�~�8Z_x�<�������>)#X�'A�H���ەIS��>�F��9s���P��x�e�I�j s$�駼�1P����#7�`�%`N����]w�b�Б��*���o~��
+��Xd�D���t�L4�p�Y���J|��Wjc���eG�(��p����pO���{n�/�){uuu�BҬ� V���,�!�bȐ!	��u��L���k��F᪥���`8�s��p�Z�r|_�[n�w�}g�rD��myƌ�+��Ī�D�ę|K%�sV��2��׭[��ӧ�n���"��*
+��\W��f�H.7�6�UY��r�W�HO�z"��=�:uJz�5�۞~s�W�^ˏ8��G�*�rKm1��6����BU�#�c�#�rF�]�J����-}�~��߫E�"��6	9��+��QʦG �����5��6U:�X��l �p8�}�p����j��`�*�m�y�Wb���I�ّ�К������P@M��fk͵���d+�H[�>O!O>4��)q6��E�T�������K�:*R�h�k�ː)�9ѫ�V��`����ypt��O�M�6#G�D�~��(��La��!|��'ʭ��n`5��{����̹����2e�����w{	ܙ��=��R)_�Jx�d	#��tn	$�5��ID�on)čI�9f�$��Ŗ����-[�@�M�U�J6��{bݰ&\�ɼ��Xts����^����T+JޣF�g���8�l
+2$6;G���*����N��ձիW���Q2&��K[ͯѴ�8�S
+`}��Z�s7n<x��{���W��,ٷ� �mjg-�6P��5��h���t�'������	ɣ����H��(�A�x6��"΍d�z�G(D8b������Π��#���o8~��C|���0�gM�9B�A���R��ap$@�Q��#�;���?�v!�1    IEND�B`�
+```
+
+### `src/shared/assets/logos/hoec.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>190</exif:PixelXDimension>
+         <exif:PixelYDimension>190</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+�I�  2IDATx�]	�Tՙ�k��h����!��a3,a���qf����(�0NZ�YN �G���$�8��9J9g� �i0��qd���Y�����ﻯ^������W�.T��������������¢	~�؄�U��<����\{�dK����J~~�L�<Yn��&�>}����X���@uu�l۶M6m�$~���:uJrs�R�w˥��]l6h����v�$�f���y���u �J|��R\<P:u�T�0a�8�T���/8 �������RUY)>G����֛�RB?O�0��0&���U-N�G\N�̜5KJKKe��	H���9"k֬�-�ߑ�_j�  ���^#��S`59F��N�J���ү� y���e v�\mA���$9��� �7o�+���ӧD\��d�F��U�0Zc���̓���P�[)%%Ce�ڵ2q�D�9&��,��:t����=r�┸�6��e�5F�L��2�5hy�W�� ���(p��fŲ�	���I�dݺu
+3bW�c�R�v�v��i�,���_~\��u�� V�l0Z][}��;�!��v��ng��mUҫWoy��'Q�iQ,�bq��=���ҷ�s�`g��UC[���K���99�.uѢEP��z �%�*�3g�̙3�Y2�� ��3a��ݮ=�^/���#�XC� ��{��,�����h�=b����[n�E����[*�����WY��!��{���s�M�!1�Sr���3f`� O��ƍ�!C��� ѱ9p���ʔ)S�~���ǎe=1-�s����x�֔�iq�K8�m0g�i��1����2U��z���� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�� N�"sG� 67~	�w&������d�=R	��ǌ�_}_"u2�ꫥ{�iN}�gZ�+Ξ�?��m�.��N�d=|W�y�Yٺe�x���r�}��5#G�>'������V6 �������Gr�{vv6<���*�9|X��Ӓ2x����;�w�%�;��S��gϜ��=$�}TCjs����vclh1�u#++K�x�t�����rϝw�g�~��r�zd�r�����O�8!/X ݸQ(��$���ҽ������Ν;[L��20���*%�;��$''�6ʱ	?}��<��_��/�0F-�5���|���ղ�o�l4�-	�(|L-�.��/�$+ӤM{��o�*�_{M)QA�"-`o@�`�.yڶ�'�CZk�.\�U+W�i�ğ2ؿ�s�Fga���!^�����?@�w��w3�CZ\SS#��)��M����2}7��������t���1�Qj������2=�5�tE�lŊ����˦�ߖR��T2Hn����1��TX��w�?ip"P8���9rM�3O?��kJ�����Ж�Tu�`j�u�n��vy���V.������Ɲ�עu�iњs$�l�٣��
+2f�?g�N|��2[�V+d�Ԝ�=5�@k�Z	`*9���6�t:�d@4f��P�a
+��d�p���P/՗.��#u�1��Po���߹��z�����>�uO��٨g�M�����J1�~]+��B�=�c�����N��� ����Z�`�ԟ�\���Od�o~#��N�3���� �~�,]�XNc�hРA�򷿕.]���
+�S�U�HCf��?*�ˢB0�Is�L3�F9��s9y�8\MESy0Q ���ˇ!ր�GȠ�c�u�s�_SKGMՆ^����d%5j�<�d�|�{�,��@������z߉�����W�^�4���h��M\����K��O>�H��\�X�.~8�S~���Cb(	]���)s��J���w��@���@p��/�a�Ii��7@����(裡���lX1���o��r�YSh�iB�&�z�T����M��}8 -���GM�U��Y���` =.H/��N3%�e�/�:o"Z�X/I��&Φ 3f�
+�,@Q޹�l��?Q�&�#8"�{Y4�z��D�Ǧ9�k79	3j|�{��8�_5�̃���G��t����,�0P��:�	Ơ۸��x�|9T��?�7�6��'�n��r�It(;�W���`��OT�"�2$Gp��}��
+�8x��R|ͨ ��HOǧ���qAi
+*W �@]U\,����y�䱢0N��\�G����R\e��W���u��-��IU�����K�T]8�4�ES�7��&�k�~����	Vc�e�XqFYOƈ�D{��={�ͳ^��S���/ϰ�W�-W��A��|�SOI�~�),�y�x3`a�Z|�r�Qu���9ԑYuX���>&��|�<�`>9�1S��P���p��|�J��.ڻ��p��ϒEH�	j2ک�>�@��ٙ�~��\m�:c��0�	�Ǚ�t2��`#w�qN	Ɇ��5/���Q�KL$ˍ����)?�eoo�kF�h�}�áV���V�Z��!O��9�f;^���j�П��U�)���Ϣ���$���/��o�F��X�&���Fd�f7�`'�r�S+��g��� ����.'���|�*��?���al���U��矊��&"��g�>F�����Zy��Xf���-*��C^a�ڞŃ`�k�ò�w^>�F��x��)�=i����|RW�?�����r'�Ϙw��X�N��ms3� �f���A3 w"�A����.�V��l§͛߬|���X�G͔�A��V�	�)//�����[��C������5�o~-v�[Rx?��1�F�b؎K�Ğ��t��|�m�x����6J|���xA�@[Źsr멍�F����Ʀ�Hm����4�}�/V��U2�� 2���_�����+k���,FŤ�;R���]
+�t�n:�}e��*��҄yq��̴����e��h�YSBq�֭!Æ�s/�W�o����Z`)�Ƣ���gE#Fʜ_- ��@�g���h 3�ƈ?� l㑳Y|���f�n�/C��N���|H�V�tʺ;�.Z`7����{�`����Ѭj�	%;�$����R���Il�zh��Us�3�����4���nZ$`�Y�T�����~85�8�r�z���X����yd̦W^��_մZC~��N_�F{�7�DFL�&'�]}C*����Z���`��/��~C���g0D��%"��'TК��t�r#� J�Y��?��<�}@T��}0��`�cX�m�ЈISe�+���r¼����������X�s���z�6v��u��y����T�C**�s�y!҄��I\��,x�)�U�(���r�j^�5����~hӉ�Uzh@*�l,���M\)�tY9y2��n�JHk�^�2S�N�q����#��菈Ԏ7R�L��4M���s��84b���:���J����$�&���*f���8f��~��6���ƫ����j�R�(I��@1(+�؀Ъx��z<�5�m��\�8`CV�$ɟ	M>U��l7�#�H�^��=�/��O-Wf�x�AO��cY����(}�$�̄1��dx5��{e��n�3ǎ�1m2i��)s�re���r�9'�G�Hq*m�$�y���Q`������{���T^{�1�Ƽ�j��2���r���C'Qk�GN�^Fc�m�`7��t�N�)�>�-,�؛~�U߃�I1A������'!W �f�<���?lxR�\h/��>"��Ko�8�a��ˀc��J��[)lݓ�ؠ���!@�L�k��z�9ٳs;��ğ"4$;Ů	LC2/Z�r
+:�=�T�4.y�	�dǋa�8�1��V���.�jk��?_���0��%%%��ڵ1g��w��z��)"ï��r�1g�r��r���eX��VÛ�x����Y�1)qゅ2��ISq����D��#��Kf�J�x��">�Z�};�f�߳h�<�ҟ些v4%΄?��rшk�W^/ߟ���b'ͩlR���td΢��5^�Yץ�Y�\a��K0�Ǹ��(�t=n2�s�t���8I6�i���+C0��.n>��d3ʱta�^2�~&�x�QT�G�{�i�E��\�D��?<�~�ǔ��N����+ �������,�++[���h�7��?�A��خ0ϥ��f^����΢Ywߏ��7�$�;M�~����g!
+��{8��_V|I/^�}���t}�~�L�~�J����*l��g����\��#FDh�����)�����3��ԡӕ�f�0��47 :1���hZR�WFd���+vB�e����eߗ_jJS���.&��6O�Kk2�Sp2/���W�j�rv�7Y g8���΁/�%��΁/�%��΁/�%��΁/�%��΁/�%��΁/�%��΁/�%��΁/�%��0=�[!39@l���	t+d&����7�lr(���찥z�wľc����;,2�����"����#[�f��>SK���E,ׯ_/���e{����>q�DcC��رc�a���1{M�]�b��U���80�V�g�a���J���6{e-}>:e��-�e��[�� �[�l�8�\��{�q����e%v���cV0'�}�]Y�|��Ju� !�쐫ᚷ��D?\.?��>|؜%��T�e˖)�֞�x�2cǫ�t _��	�{"����_��V0�1;r�xm�R,����]Tץ܉�×I�)��]r�|�����2p�@)**2G);(��R,X G ����_��`�-�W�07$C����/��N�p�,@�%}��Q@7�_T�u����M����T8,�ٲ�\&A��VX��D������/ˇ]��9s�,\�0��b۴t�e��i����l����:�b5]KPj�%��F��~J/�(�@���*7[ 2\�C��}�[o�Un��6��X�m9@�K������2e����[��<u��"������v�#�}f �S~1����8�턶/n�{���c���ٳe����Z¸Vhpʏ�FN
+��G���}G~уaPU\D�� 	A�JHE�9>:    IEND�B`�
+```
+
+### `src/shared/assets/logos/igil.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>150</exif:PixelXDimension>
+         <exif:PixelYDimension>150</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+��Q�   �IDATx�pT���B]�����`��q����`'��Ğd<)N�t�9�L
+i�괙8��0�q�ĸ�16��B����z		՜��'����V��Yv���}����~�}YYYCr	��А
+����[���0_EFF
+�����NĿ�'b�G� ����k``@���$..NRRR$))I���%66V&M�$��n�s������WΞ=+���r��i���6�����k"҅��`�H ܴ�4�;w�̙3G�O�.������t�2e��'O�l@��`{zz�ܹs���!mmm���l�noo���jٷo�>|XN�:e$�����0dED�Ep�̙3��o�,^�Xrss%33Ӽ 1P�jll4�744Ȟ={��_�����c�u��Pzi�
+���EEEr�m�`�M�&�����`,�A���/���<���l�o��`�Û�C`=��5k�\y�����߈`onn,������k�����?#���ꌾ������h�)��vчr���M7�$K�,������2�#iv��)/���<�䓆�1����I!���`��w�!���3�c��9b���5k���޴3^@�+��b,�U�V��?�q#�'*����a�������?R[[k|�v��`D1��ҥK�3���1��t)}����(�֭3~6F���>�`�1�
+������|��&�����7m�$�<���ʵS�[�_��< �=�c~}���\~�a!�lk{L �k�������/~Q����v�G7D.�x ������޽{M��e�E��:����py~��<ֆF0�ϗ��%%%�b�
+imm�cǎ�xx0@*3SA��G�K_����2 ��9������7�񍠈�q0��P�W��U���?=!��1��f,0����ۍ�HN
+�X�Ċ�����}��wY�[O'��ٳe����k�.����p�7//O~��_�ʕ+����t C�8�
+�c���'O$-�@)Q)�����d���<�!�7����>*�^{�1N�c���q0�rqq���-[�O�.�s�BY�h�q�(4�G'���\��~����.{�1 H����2o�<��M�9�%�G������V�HYY���曦�ė��_�~ p����;�����Y��� CX��$���0�_��'l�����Q���-[���M&�g����塇2Պ�q��5�S�����]�2U��ܷO .���_���d���c}�pD1�ozJ^�QE��k_��q�=�P�8�G������=����X{0��zd�*ot���n�@-R��ܑW �@�:u��a=�i�G��W\q�G��W 3c��~Y�p���Y���#���O~�&�ꎋ=Ê��?����?��`QS�TuEL#�����>&��ɮ��6F#��F�H�{0f9��DU�:#@��vWn�[�q�X�u�=��KnB[�b��B����x&Ct�UW9;?��8� �1|G�.�$t�{���p��89�����E���Y2�-�,��G���]�Jg�`�3�x���u,���#@D��;�t��
+0�R<w���{~���6������G�g��/��#@�����`f����ė2���K����"z;;�`|*�N@y��T������9,BW��	��#��ť�[�Nf`o��F���>9�, ��k���mr��Y���=�7H��N�8�W*�8_�rst�&b{�鱙�A���0���%:H�L������}���7o���L�E���.=]�R{�Bڛ�OW�WW������ǥ��Lr�K�7I�[�Χ n-�qKK���v ��$N3Y iHۭ:zP��z%fR��ٲQ�Sӌ������3g$5#KS��О�TW#�I��ٻS��J��Z�q�3fKzf�K �{�ۢ��k��'�x��Q ���ǁ� &L[K� péj9~`��gO���$��ҡ��$22"R�RT'�H�r�`��*G�gf+g7H�����(31�m�Ň�K�GO�`C���=��9�`Dƕ��`���\�Y�����so��	��v���+�)YS�I��F�
+�s��4�ާ�ޣ�U�<z@Ψ8OM˔�#�e�ӏɍw�+E3��gR�[�tL.��O���s.� ��
+7���ZΞnU@���ѿs�I^�tIV��ItL��q���d���ѓ%N�Js�)��~�im��ړҫ::A��i]��!�D��L׶Ƨ��q�0e�����,������RM�k��*#;;[�u�)����K��zd��urV����(IJN��
+l^a�LV�TOV#����=Z����m�=��Y)iY2��;%3K2r�ҫ����I��zSٳu���2o�52m�,���~�+��k���S4%J`'E�=!&$K<��l��Ͳc���K{t����ɖ��Zp�ƉY5���)�\�.#�E��r�-� ���k���,�+����Ҥ`uH����ZIRcjւ+T��J�T���u'+e��V:Z��cx�gM�H��C=��y�74)צ*������	�*I��,u�'̹��&��)�;9��?�������^�RUKת�	�gt���������RQQ!�j�vuuɀ�n�(�^�N˲�?������=������k��.�Ө"��ɹ ӈ?���77�����ʡ�ƀ*����+4"˙���@���.)�1G���?*J�.�ۥ� V'۠>)�.u���#��ɚV(�{�����:5�N����iť��n�w�K{{���]w�e@�+�Y��VH � �cx�i�o�aR����g�z)�:a�t�j(V?ۃ��i���5��`���BD��� ���\4�F�q΢���V3����*���.�2��D�m����-}�E�z,�����<E��:å�u��4����v�ڵŜ�5���y�]��>��-\�I䎶m�f��({0�Օx���Lv�a�¦���c����{�I��S��mO�6��i�`֥�BX�5'���E��4X�%��X�S:M����]J��1��2��GD��<0��3E�W��M��<#����$�����e�M�R�ޭ����VJf�u���KҫzL�g���|E^}���s�M��n0\�F,�_���و���^3�M�!&�SO=e<�իWms�3f���x��o}`Y�/D�*F�X�Edf��X. �W�ܯ@�I��@��*C�q�*�-:?����'��L�\5�p��4��5N?���KJZ�{�׍��-(�`I�դW�v�����e����뇿&V�}H>��əZCo����gOi���� �6���Ý�}��#�����ܦ�S��Et,����9����퓃��I������ n{�E3	�Kf��V�V�	r*/G����������p�����T�����u����vO�����[��m*�j��� �T�k�t
+�Y�N1��G�����7�����Y����7�[���������Bđ�m{��ǜ�"���(�Sԇ�����Qn�R�k����͚�HZ�7ǩUL2*�M�|��{�ա���pD�.=��l�1ت+�J�rr���0�7�G�O}t��f���y���81�F�}�2[p�>��|�Ϟ�	�GK�������LBԅc$xK��)�*��T�K��X��b��HP���O.Yr�Mrx�vI��T�&Jj��x�z�Ƙh��z������y�>k�y�n�����VC���s��
+��AÚjХi�����}���+���~cs6v�8g��<%KZxz���,����譸 �z�S+�4��pJ�L)�ŉP=ګܥD��SGK�&I{k������1�f(0���s%M_�
+n��#\)7����)i���P��>g����֬V|���,����>�ƽ��G�<��3����U�����4��� �-Y�`_���Qf�
+"�i�p�(����z���Y(G��Pp���QEV��bUާ��~��A��=�:w�b��ܩ<d��W�y��[�p�\=?�rӊg� ��x�<�@��VW�[�����؏'��s,�JF�5��/�p������̔\�����i��s�F�v��mi�7�P��\�d�-���~�z�5֬|)'+K��q|d���j���E�vv���G�U׫�-0�TBR��.���g&F�Z�@s�/<b�=�A<�G�X���j�1��~L����{��Ř,ѩ�]�rn\|�1~YZ�c	�-�f��n��7�T��=��.�����7� jb�iP��Fo��-bv�non2��C��i�ƅ":���ш �+��q�q����~�<��&�6�xE�Z�B��@0�`_�;������! p�`�4��΍�����N¿��&��������B��*�j4J}��8�h�r�g]��[75�h9I�J0�erq���2WD �юi뭃,@\��o���f�.8j�a�P��o~��a>��Wg�yK���͕�;�l�x:v�`t11��NX��/3\�y���T���q3��ZE6�v�Kl��<���L=��W"�֚zߞ�����F�%J��"�9�@�^<�� zB���L��"�\WU!X�j�"&)�����Rg�AU���l��Zk&�T��"5�fͿBk�.����
+�>3D�
+�@$��h�V7`�yB#���e��q[�Q9D�\�R�Ğ��"0M���H�K���y�7��psqf�7�X���-(�j�.�P�hi����]i2�KJ0I�#C��.��TnXu�l}���+e�rm���KݚqJR�]�	g����^�?��@KrZ�����t�;镘�9��������\�M����o}I�;����v;PH&��������/���������&1K�!n�3���D,ww�1q�T�G��u���3�����A�/�"�f,�F��֟�6)Br�#	P��;�0�bTߓ6$c��E{S4�4]ۢ?�(��\"��[o�B���Q)�P?Ī���z�]MM����Č��4���v �ͨ��'` ��EZ�V�p7��u�4S����g���cG���Z���_T"�'OHs]����Y��>l?�|���6e<�\*D�t���rlcm�	a�*.Zs��;���0���҂���b��������î�}�{�[��%��W�<��>: Lb�����ko�d���Nj�Ck��TTf�&��ok'��ڭ:�c�޼I
+JgK��uf�>��*գB�D4���1!'�~�p �m��2כ��}�U��8ܚ��?�m�qZnӚ5k�o��E.����o}�[&}hK�	�ݑ/ c+�W�Q`��B�j�෶��T����G�t�R����EİI$PV�X[mB��ؠ�	`ףt����z��	
+B�D��Zꪹ�$�d�"�]rG�����?K3�/_>��`��G?2���N>`uCo�t�,��>�9)..vr��_�8q� |��E�Do���J�9�|?�E��2�
+F��;�Q&�����G��O����&:U0��|�"�o��rp�Vy텧4��.�\k,@'�a���b��k|^�/��"E�%1l�p.�$�wwd���B�O$(���c�n���7R�̸a�R����wҍ[�n5F�"(۹뮻���>�V4������J ,(��ٟy��L�N��M�'�Kь2�U�%^u%@���-7��kn��TKRN%��E��Y��L#T	���8���R'�j)����:9��&'r4(R���Z�Yh�5�I�����~�+���f���`�.���D����5� ̤`L-�w
+H�D(�=��:C	�� 39��x�$�i|�(%�p&Vn^��jJDj���h�CQ��a�N��c��lڅ���D��������7��%KE!��#*��Q�����g������e���?�_�����cX4/wDN�T#[�����7O%��҅g$").�������|��j1/_�n�Sv���i��QWnT�	]��nT��S_h{H�ۚLy-�M]4I
+��ʯ4>.�Ѐˍ��m�񺜪<fٚ�X�^��P{C����q:њL��`�0�&"�*��Ǐnr��x�Q��^�䅉�Yj��=��o`�� � |=�sVgd52�;�&M���d	1fjП��F�SX�����DsT�Ʊ�#I�8�D�#��z�YA���F�N�GW1��n7�m�5&��~P}#S�]r������w�c���2��V���A�m��fd����>��mz����(Fl��?wΜ9B)�+)a�6��%�A��z�� ?��?�gb��1� *}%�ݚ���^P��U���>3�Hr�yť�y�G�:���EMF��(-�UWQi�d¡��4՝��-[�z<�p��u�Fr���o� 0f<*��IN��$\���}��i��	���|:�d�	:C8w��Y���F�F��a������r#�����7�B���Ĝ/1�3��3@S��q]�n��:v>!�~5wd�R�25�;S�|q�����#���#
+Y0��ʃ�m8��׾�D��'�a��a" T�Zܗ�G��yp���6��EߧU�ej8�\O�ѧ��j�F�4�c}�(���(ܜ��c��)�!��D)Ԁȼ%�$Y����ո�eOp<>7~���F`�7��������Y)GOՄ���ʌy�&OL��W�fVv�;4�b�Z+�9Q+4�����r���%�^����a�0x@/����-���K�U��Y��>k��@D�X�۠��h-�-)[���#�h��j�Ҳ����^��O�u1��7���q��YI�`�TV߱lў��~��я��pH���X�p"�MR������LT
+��:k�Rb�P���<���7��#G9X�֩�s|C�4����7bE���Op{/��^�]�/X��h�R��>YG�������i��q���]�v�/���d�Uu�5�Y�0���5���ch�Q�b����E�9����+�D��+�9��[�)tG`����(��f��.9�1������uR�=tF�Xub,*wV��`n��H�>���{�o�>��-o�`����?���6�C:#@đMd*++�r/=u0��w�Z��wa�`�
+����y0'���h���� ���~�3��r��&:B)�o~�W����_�j�;���]�`Nd�-��0���Ї��=��{G��+�i�T��?l�TF6�;�# �VG�հ���+�9�L	ev�Yao8�98#@蘱�-yU���y1����4v#��D+,w���� s"��ڟ|Pwk�k�~�0��Rc��Ӂ�.��4����^�z����.���@�����f�j>L�1)�a��0g�򗿘-��Y�ή��\���ֺt��w�;�=���rUO���QZ��������(�'S�Np��4o�{9O��<`�S��Yys�~��,�Y����a��A�ɱ���Ť}�f02�6˶8�����P��R �.W�4�DZ�l�b��`=N���6�C=d�yk1;�R@���#���f5��Jg��ܿ�ӟ�d�rEEE@J�πL���&��:U/Jp��|Pm�;f� b���\�JA����-�vax��ٸ��K��b����#��hi4�w�����c�?�d�� �}��,0�@Ө+}!��eپ 1��&t���	��G}Ԕ%�*����c0Ed��<�����eg��4�}*ѵD�<��tBLg�IlB�&`����{!>�&�������[q<�1�`;
+ �Nl�Ql+�j�* �s)|�7m�d�]�n]�t�hc5n [B7c9�Q	�C��{L����D}GJ����B��TL];�8�;�tnF�� ��\��+W���G�x�~�S��F�g Xı7I�@�[H l�@[:C��ـ%%%��X�
+�;�֐�g�B��`�M���i/� �w����sv`�{@�����ne�8�.85��
+��x�9d�n��	uIii�����#hB䉍�H籚��1{d�_C	Xk�B`�������ȓ}�/^l ��<+��Dx���`Ra ����}�� �ݣ�<%@Fʺo�'���t��;�����2ݞp�y���1 ��v.C: ���>�]v�A�� �>�S(�V{\}�� �vC X� ���9���D��Mt=�9����P�������%��������(d���>;��R�1�=X�Y���.�����؜���    IEND�B`�
+```
+
+### `src/shared/assets/logos/jindrill.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>190</exif:PixelXDimension>
+         <exif:PixelYDimension>190</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+�I�  IDATx�]il\U��ޫ}�]޷8��=dq� �4fi �4�z4B�B�H��?�j`����i5���%q ��8����^�ګ�;��N=C���8����{�w�r�}u�V0eEZ��S��ne�=����W"�f�a��ذa֯_����QY�����4�����G᫯�Bkk+�N'4݁�Db);tI��OAJdX�kZM�Y�2�=�-$FPTT�U�Va�ڵX�r%���e��XI���[�l��ﾋ�����BL�!�t#MU5���&���eN�
+Ђ17^}�G*�y���_�ҥK���X�c=�'$��ߏ��{����c`pI[�	�it��P4�G �5���.��r᷿�7<���(,,���Y�o�:��^{{������d�#A�mh��]0i�Օ��G�J\����
+\��su1�xH���˗/G˹shmi��	��$S6�]Zp�L]5��a����o�����aU��$PSS���zk׭G,2��0$v���6����*m���o���nl}7~$ �����b�u	�N���I:E��	��$�lD�aǳ�>�իW���[5�E�^�k���;�X���y�8C{��r�>�O>��q���d�7mڄ�I�p�CХ���#��AL�1O?�t�O|��fU7+��S�⩧�b��kZ
+�R��q<��3֨�I��ƍ�o�>�n[�DXd������L�b�[��kx�'��Gs`�㢡�v;"���5kr_X;摀��]�x1d`�"�I@O$X�p!UY�/-2�t�@�5k������J@���(..�bR	��{-�M�.�R\PP`^'8g��h���0m3�M6���	Θ������%`r�,� 6�LΞ���&���ٳ4���09{�[ �\&g��``�K���Yllr	��=K�-�M.��gi���%`r�,� 6�LΞ���&���ٳ4���09{�[ �\&go���?�L_ۍ�� ��&0��
+w�X�03�}x�&��O!N�n�~�[~�T2��@\�a��%�\X�����\>��ĚYw�2P���>�:�i{
+6)��~�Tf��Tbv�Lx]?N�:<��#_1's�i�Ӽ�f����Z,�>/�<R��8��C]В��&aŴ�L�-9�o�����q�y?�K�O&��uk��떃8�qu�2�t*��X���^��Brn'��D�xd�? �a��/�-q�������Zn=��Ϡ���	�R����4�)|}x
+���o�}X0y�h�5g;[���23&ٵ�6��p�j�����m����^T���u��u.�AUQ���q��h��ek0wrF+�{�V����7��ܾ3�&�'ԋS�7#���ߏ;j���������F�ӇEշ`��53�ױ֣����ƿ���(�]���g��`��F�mN̬��������5���W�{���j��w���3se��,��@o�v;��J7��M���5ĒI%��H<A+�3��� Q&(��&ɟ�1u���QU����<���3l���9QU�DG�e0�xI�h�fT��÷=�O�~�z����~8ࢩ��*�%�c��D��:Eٸ`��`����0?�_��%7 Id�Q���M`\��
+qͫ�E�~��a0�[*�b�Fⱨ���m�e���voƖ=[�y��moQ��,�Ĝi�p��qu�E�"?�Լ.�$�/8�c�wR���hG���zJ�J�)�Tb}�َ̍��,�|J�l��].BB���Ia˪v�҄:�>t��+���awbf-H�%��x!�Ù�,=F�/�%3�`zy->��c9�uA�-��P�H�xQ>�as �J�_�]C=�;�Í0k��PDlG'JH1P�G�)4���`�ז��聲nD��`�La	I�E7�s�_&���T�F$��Z�Ξ.L9m:�R�lj�T�Tc��yxp�|�|��{Oת��'��	p�zv�Vd(9��`�:�0�Χ?��+�ƙ�n9vҵ���M�ȍ�7 �\cY3D�Y;$���r��̲́�lc�.�pxHɮ��}����I����2u_�B�r!�*�VG@]�d����g��kB��2A+��eת"P�J��XX=#�au,u���9���>]B�hantI�2� &�YM�i^�ʇQ�3+�[�t���O�2J3��]`��wQcS4��{2>U��T\E��tq2�rif]��17^�X�{�>p0���B�'�
+]�F���]9��v:��F!�`c�R���ɤ����1�G ��Q>���]��d�$$�i� ��@�f�9rm���i�Q�?Y��iʍ@G\@�I�?�W�a���)n���DC4�v��
+�B����G��J�F�{� �����	�<�d/uB��q0Ț]C��W@F�
+9'I�#��� �?u5
+qPC��pZv���eG�>Ո�%�}�A�h���	?-$8+r�s�^�N�Si���VC�J�E-�6���4��a�j��k���q�Ҫl���=�H�I_�0��w�*Mӳ�E|k����ƸJ�� GHj����
+��+͔��O�K �y�s��̲�p>�3�������q���y3�%>�ZD�9���{��ʺ�h7#Y���V�n���I�hV��)�G��))�������ׁ����RD̴P��7�6�����<N��ųjt����*�������v��G�zh�:Z�uơ�:�F���e��3���7��D(}��8��S��~�hJ��0I�*]%!1�N��jf���t�n��헑2#e������l� �z<�v#*��EGϟ�����He%ƍ���~z ��n$̮����8�����`Q��SZ�d�����y�����f�.S�3F�h<݄�� e�֫�#�t��	�PU~^�����r������;8�����3���x���0�� Ȕ��X6g������d$]Ĭ���c��>a�C�x�5X��
+�;�a��r�,I-N��?����>ׇ���y�]����X���r���;M�md�0����8���&��R+��Ԉ5��FraN����e >B����P_Y����<��(;I�`G���D����'�\� ++$>{�h�48�%j�z���vs�`,X��eu���K�����*ib��\< =���3�)�����cy�x�0����&/*/,��vb(��i���NJ��
+��!4݉��)~�@6��v���m���st��:Zq��<��Tk���9������|�S����T��죅�1)p�l�
+�����?�]'�ȗs��p��U�{^��1x��M�dK�` 4�.�M�0���T�K���;q��~d����g"��G}�t��_�g� IL���i����T�L*91�f�z�,N��x��T!��A	*��&��.S'*Y� ٠�"P���)�n�d�b֭�k�YU�8x�<���O�P_V��Tޕ/ �u��8�����1�j*�_��А�V9��*�u��v� �k�^Z��5s��߃��L��`�1G�2�X�23#\�)�=s�1��wͻ=�o�HØ[7�8�b[ř"��K���b���~�hY^	��]s����T�g�fw�jK��\��e�%8}�E��9bn\r]�c���Tfv����t�	�������f�10AC]f�\u��0ߏ}�|����ʷ����������3�����h_�i�qˑm(��E*�Ajx0�9�g���0����������ULP�K1'���@=�n%*���Ò�+k#RFL���ҟ�'���p�E�4�����AZ������׃���P��}H1�6�E�+ѿ� ��p�� ���d.��?w��u!�Ӌ�Kpr݊P�yx���d 嫯C����:��gQ��f��%D��j9{��i�(��v��C@5�y�p��݄�sל���IÔ J�J����ص�Vf\�km�`?vK�K�ѧ�I�6�cN�I�u~�	��'�vvE� <!�d1/#����p��"�Lt�hD`�BO�D����R9p��v�U�Acd,�;
+�z�tmߡ ���P�8���K�d_�~B=�h�nN�:�������n��a���XѢEj�|9���"ܞwm3�RS2J�ce\�km�`�0�d�q����� �[��%Pz�*,�WW�&�m��h]�z�2��b��x�08��%	|ZLc_�z�h���f���+����ah�N�)�����!I��ގ@>��N�୯E�Z-&U����sf�9�1t�"��HAs�8���2�ͯ����I��Oc������b�T:5�OL��i��E��jHPވ����o�C<D�o�%`	D;�lm�ps���=���ZL����8����~���]�iwy���PK+5�(�ѱu
+dޢL��X����ի$�c�҈�5�h����K�������8�M�7ж��H=��/�ap��\�7��or��'��[�Jc��s#*�+2��B|��OpqD�.�9�$VS�a�<�?�9g%|�W���a8�*���Y4E����ҩn���L�x�v/����΢�2���I�GA>�}�1��O���={Q��V�nmUZ�3Bg��[H�� B-,N.��7{&���A>�� �B��:h��J|���[Z��5�G�G�QMr�Mc��)�&��d�%*�`כ�6�?���������M�T�8�ʍ�-.�Êߑ���]x���%�%��R�l��Wj��c���^썙H�eV��y�ј�E�7��>�&G����09{�[ �\&g��``�K���Yllr	��=K�-�M.��gi���%`r�,� 6�LΞ���&���ٳ4���09{�[ �\&g��`�������ec
+���<c�?�Ȝ�%�c����Ȝ�s�?��Ȝ�{zzp��9srgq����N��DaR	���v<xP%1)��-�ɜ���G{{���Y��\ĩ���7o6+��/}0�b���b���#q�z����i;ZZ�b߾}��n�s"�����+�%��H�k0��믿n�b�4�>� G�er���ƹ�sX57���o�mE�79�-����;�(.����0�L��1ע �e˖��ŉ[}������,�Q&S犸���I�(I���ZV�|�嗱s�Ή+���s	�_}�U8�����2y��[�I�u�&3s ���1���sLfZ�3fܤ�N�jˌ���?�m���̶L��\l�� +C��>�Q�%���k�.������abI�&�v��Z��>�Np�\����t̒o���nR�� 3�5�.Y�W�_�����&{�.Т�%�C�ᥗ^TF�p�Yp����xj&���n.�q�\�\�Jb��x��|����4�ՉU� �J�����C48�9�TKRnQU��XjޒiL���"�`�E�����e׸���j�u�����m�];����s+}�={��c��cǎ�K�u�̲��
+��Õ�����#����a���h�9��<\;�y����*~y�ڵX�~=*+�Z����,����	[�nŶm��͌�N�̎�4��x��ɝ�
+j`�?��1�9��    IEND�B`�
+```
+
+### `src/shared/assets/logos/jublingrea.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>150</exif:PixelXDimension>
+         <exif:PixelYDimension>150</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+��Q�  '@IDATx�]�]U�]��N�&��Lz�S(RԈ�4�{��}��S�P�"OA0�@HBڤO�L������w�̝�L�S`v��{��s���_���>�%""���cC�������諺)��͝���$���̧��U7��c.�XWWW����ֹ�:n�~l ����ŀ��닰�0���#**�lk�>���/�^__���ZTWW���������AYY����\�?�ڄ��F�����2e
+�̙��퀀 �l6����>>>���0�<�[@�SWWg������Ʈ]�������B#��,η���.E[�)�����qc�ܹ�����wPP��L�:���r.�裏��ob���fh2hl�x��:x�,�jnn6bV\j��|�rxzz�$��꫼�7n�o����L9rUUU���$�X�	��B�.Z�����q��b�����s���u+++�u�V�y��Wq��!3α��q�ġ�%R��_��Ԥ����:��iR=z�����?���ӝָ�i4ڸX��[e�Ξ=��z+V�Ze�� �3�!��_���|�I�8q���Ft;�q�劈c���z|���5֯3�>}�0�ӟ���{��i�g�\�j�
+`�����[n��]w����u�c��S�����駟F^^�1Ɯ1�� �Q,��:S�ҳ�6ŭ��{/.������1��bٲeX�d�q��?n|����d��U�ߨ,`i�:u*x��k###G��cz-Y�qqq���K��:x�q����3���\�_��W��Kq,����t�Ry���6�Q�g$@�	�x�ҵ			����m���6�%Xù��+0c�ci?������p��y��E�����W]uU������$�����¯�y744��{r���#�m%�.\������袋>I��^Ǿ������-��Ts
+�WQ+~���b���#5ޏm?2�V�^�G}���3�Ztnq�5(}n��&<��c�6m�p���:_���_
+ъI��l��v�Z���?DHH�'
+���Y������r-��F`�u������XG��C�����C=d�.���#��eR��sBCCz�ǝ������Ɂ��J�uqEg�
+EGGe���C�!��׿6��P8y� �s�� ����sr�p(�����}��kt` ���뮻Lw871y�)�l�7��MS�5�������|�\s͙G7��) ?�k_���#���*�)�<�F��x���M�F�H�һ�f��w�a�lr��cF�V�&88�B�����U����o�̙3�����N����+��r@Q�A��م^h
+Ν0��.@e��`)))g��A,{�wN�� ��C�
+e����:R����m�)�Z�5k֘uU��f� K4k�|��_���LU��|��f���`�g��~����"�xۧP�������T�%�K���W_=�+���[��\���J4�֢���ߍ`���?W7x���͇ox{��ݯ�{ﶯ��쳑���՟�M�J�p����7�ݸ�L�.��(�bq�ot��t���b����fmsO�|V��[�PYxx�Cף��D@+�އ��Ro�Jb�����?'ACsj���~������I��K�-��ړȫ>h@�r���#^���W/�%8M�n6Ns��HTB�Ά�N�w^x�^�t�m���;�>}:T8��u"$���#IpO��,���O��c�/�Zȕͭ��S���Uu�f8��%�"����C�o����|wW���DP��5�yؗ����?��C�_���`���b�1o�����ۨ����Y�:-݌���v�h���֊rd�-�b��a��LP�AAn�#՚[���Ɯ*}ȖV�9nk@t�,xy�@x�K�j��'���(��J����g�#W�IӦ�pv��W�#�O%>��~�!o�k��M���˰R�͍7�8��t��n(�9bt`��+�\�؆ږv{� ���Q�U�\�Ɂ�$D���v�{{6 ����#�ϩ���Ո	�ͱ�4�����_up�6m8��V�+�<��>+�/p3U�{�M�WI}K�*���\�M�?·�~��v���ǯ'��(�ｏ��jƫaW���ډƦ@�|�4� ��h�BMS)B|�t�v��R����\����u��>��n3�:q,�C|��7�EL_��Vwl*nBVu.��#�h*,�gK+�	��H?�?7s�Cd��}�|�R�fԕn��O4<B��A�'�n�=\�f��|'�E������I7��#9�`s2�z,���5�����kM��:�_�%�������m�4y�p�l;�B��wdն�0�*�" 1��^�kjFNv�/Gz���aقx����Z����������|&݄��l�y�lz~Q[w'�K�,am��� �7�VU����,�㐱%]��-:W�w��Ľ
+�9s�r����F�V�nV�VL]�_w4��N�V���!�q����)Q�K��Gl
+�����a��4#5�������D~�'����v��Ex��l����}��%���,J.`��X5�H:�#tAq�Q�Ĕ���F�9�NKa�4w'c���ke��X�r�Y�َ���v��t�I�n,F������͟���ɨ�-Aю�t������@�L��׼4<�v6^{��p�ۀ%S�a�H�(DE�������9�V�{��s2鳊�x�$/7���ʫ�@�w,��t�A�~�������9J��R���ɝ��_�0��H�R;�iT��{!b&97!;��do�X���*?!�1pI��So�#�X�A�������ذo6�W�c������B�Plߒ���98g�R��]n|n�]s�
+��l����8�"Q�vZ�}���t�+��� G��T���ԇ�h�1���5M(�[�����t_�
+�`���מ����q�2��Z���$T����]
+�E�����݀�K�1=�bR
+d�[eC�l	���v��o޹��X�Y�����"���MjBY]6���
+t����`��Q�W���j�̕�1*Hb�G��x����8����K
+���C	�1�v?EsU��_�3�3�5���T0��n;��}���\���pb�o��î.�X�k�mX�"�s������ٍ�SŴ��Ҫ���PZ��E���zӨ�m�u�o�&���_���TW��_ލ{��PY�K�;��g�_� ��6����ܢf��b����λ87�7��c��h�'�����u�bŨ��i�tGy��*�a��FE{C��8v(�(�g�9���z̊���s���������`,:�����G/��8V�h<�_Gb�$0�SI����� ��>�d��`��F� 8-����K��M����U�/���v7%�;�LG��,̙[�91�a��ʎT���RYeu'0���r�x���nF���O��4���e�:�Y�І��h��G�|4�T3
+%�LQ���fvQ�Jaj���I���>+�FU%�$~�b����a����M�Jja��^ +�;�y߁1>xJj�HV.�\��s��'�.�߸P�|p M�u��Vs+|�C1�¥Խ�سg*��X�{��bq��%Zە�p�\�@���̔�O�~���^=�l��_�����*�[�!�C�X�ؘ Ĭ�?o�䗳4�-���ګV���؛�����qβJ,N��#��	�r̵���9Xc�߽b�X*�͝� F���h ��yv��5y�_�j�s��rE(unR��31/�[��0k�2�aI�zF�.5E }�s}m���������`q�ҥ�L�&�R)��]��?�ŝ���Dz�";���1�`sA���I��5�/�.\��Y1W0i�䌜�-�d�{M�'�uX��hk"UNz��Xѻ���;#L4�����4Y��Y��f>���J�� ).+��*R�#X�eL1N�sl-,��E��س�X����2G��)�>q���©�m�����z��rA��F�1�Y�V�kŦ���?|1+$]YY�z��Kv������*��o)�[�Y>���Dm� V�z,߅0XBz��!5r�罌��������*��� }=C���L�)�#�J=�r˕@�3C
+Ѷ����H�+����|<�}�_��	�c�V�g��T�0n=Kw�MxQiP���@̳��j�K96ڈm{�ޅ}�J���O�'޽�@��^?9��kbN�7����n~�X�S�8��6N�h\é70��{q� ��C�Z��H1*X���WX��
+��0}j��e[RV���3�<0cJ���yl�+���b~dL�z�#����h�d�..�ÉS�hd�2-)�a~\[ێ�%(��G\T �b)����$�o%<O�{zr���k,G�_ss���X�蘇G��=\�܂*�l���ܙQl������.L\�"mJ������Nz�l�h���j����|D����w.8�U��z��%���\�,�]d���<�BY���]�2 ���(yf;Ν��� �� ����/.�����lx�8~������}�|�����s��L���'�_��8{u�u�yy+,�s����k.;�+ ����M�/�浼q��\�y�]��c��2cIM
+��s+q�x	�X�0��.�'����N�k�uܕf�P��ff0߅��8�_�Y)��a�Q[�qHx��(��j뛑_��al6o7#�3����mX}a
+�����/,�2��}9�����WT���z��W�H\�U��զ%u:��Cȥt�`q"���b8��+���IQ_߂�H�̯�G{��;��ceu�B��8�\��}�b,����f�S"�~�����kg�����HowQ��gq�^�8Z-�������wvp�@T��t�~q��
+�_1夸@��x���{"*ܟ�E ��1$������VӤ-�����B1d&�������D��߷�R�������pN4>�z����)��M
+�؛D~'��Χ*��+�F~�}�;Y���`F�#��KQ�j��"��_s�4� ��l� V�]qq��w�ť��ˤ'-�jll1z�ƕ
+��v��1��%�"I05��:���E�����w&Ea)�y!�]`�)��k�)����!�ΕA'��ɉ��]4�gsJ9!��X�ĉs$��V�Xmϡ"rc(VP,_�GK���,�s^q�8C��)W���^���S������͢��}��5>��"�ĳ^�6����9�����Zlߛ��AP`ׂ�:��-{NC&9�ȇ�P�x>�||�xa7*�0gz�1�t��ҷ�!6r�}��s"!W����T����ۿ�3�J7 ��ȅY�+�N�qR	��b&B��+V����8ĉQo&G2�L S�j_������r�Hn3a�AN�����{;v�I���mIY=�	��i����Pv�R�I�Y�� e�T"�F�\�c5]��՗���u_%�~���(����6d���
+KkPB�K��u��5�\����e��ґϼ��*�E�#ى?QT�N�"��R��I�7��p�y2�f�S��3r̸RC�z�۰E���/�߆���Ik:s�������GY�Fn[8+��O�kEu#��f���b��2��6c���@��o�������x��C���Fl�t�sawa�,��
+e<vNjd��t�⽬�S�D��[��!]{��w�P����-��L�዗�(��(#+�Ckҝ�0�������>}��N]�ŉ�ST��`��6�֍�-}���Q���6�z�2���"j��v4q�{�N��>�%��U�l+)��حE �xt���uܾ��8v�)�$�=��t%��	�k�Ѷ;����i���荜0�&�|j:�[g�]�ۼ�(���@;F�e7H�\��0�\�B]ȉPLC��S"�7I�j.�YH���˵4Z/�ũ���Ιk��,h�h�C}����9�6���X���S���NauݧΟb�A7(G�-�g_�4Vsqi5v�+@"_�j���\���:ݓiА �ASC�k��<��7�8A{��۩W�i�7Q�* qW]�f	Qt�T9����%'���`�&A�Z<����4d���L8i�d�e�3L��̐�Ӭӝ��`�ZVV���"�>�[�4�~���b:t��2����__�7?��|���ћ�^71�D�L�,=+ns��C��'K�ƫ�=%�%6��Z��5�ҟ��Љ2�f��#9�k��6Jq�"R�@���/[Bt ��E&��ɑB�Yb]Ɩc�l�T��#�eP��1Z6���&���L�����;���^�x��E��<�y��3.�>������D����:����)�i�#Hp�7a����Ҩ�R���qa�OjE:����`��0aAs �SpDǴ�7�c��zZ��(��n6:N�y���C��s$救j6�����US�d�#?\M��^KcP?>�*����;^﫺F/����[�U+Ɲ�䎔r��W��j|�&�)@�_S�U0-ҁ4�Ў��Hd}�$	|)i����4��&�&�X�^wi�V8��S���J�+�_Cwc�R=�Ȯ�Ĺ&Ojh��d:��u���F���ϔ��Ἡԓ��X��.��=��=��i	O�kQf�ߝ\ы�Օ��w��m"Z�XA�+��+W�aB���}��lc��J���j(�?�d�Tq2�:����.�h0�S����Ϭ�\0�kOw>o����M4����|��^��]`�Br�j����D��������2�$lt�51�u�D�������y�q�/����X���c��ۑ4
+N�.Ǜ7��ڕ)��Y�u�ҿA�~�C�B�f��i�43F�
+���}te�cZB��*���	>c��wr�
+�|t���F�+|����P��c�A�`]{�L��!-��>B�!�<,��k��q��������wsr�����e����>��hݫr���b����(Քꊼ��zj�ǟQ���꠻Ӿ�V�y������Ub��_����3��!k�%�&e��TwJ�+�ԝ�I��M����zi/C���
+HT1p W��Q�'_܃��"F��R�a�,.<3�\[�c6g���C�R����ſ߷�d��[��K`����f���M�O�d_r�2Q��Jiuw�k�ӌ?3��ɨ0�;[��vd�f �&��������|��O{��������{ｷ�
+]#��eߐ?�W�:t��/��S+�&�i�g8RrNQ(����M.�-��cx�
+�8e.~�ۊ$3p������a��`*��8�>�/�6\{y������:TQ�X��G���������۫�걈��x��J9.`ZoZb��iɡ(cŉb�jGi�`4k5�Mr��R*5���s���"Ǹ���3��Qv4ZFF�m�Z��/�����l��V�б_��J���:��L:��Y����=j�i9��\,� ^�
+����L�R>�Kn��c�r�)�}̤�x޺'��2�h�fY��l���8��6���!�7�a5�)�>Tڣ�?�*8���R�S��ɗ�h���j��ߐɉ� K��z��������/S�u�tgX�.�tvS��xN9�.o9��2�Wڐ���E��c�yÎ���媨ؾ/Ϥ -0eD)���{�Qn�6�V��Xv9�{bEj�)�Qu�B�J$�ck��8�}i9�cI�qpX������l\rh0�`nؗ��1��]��U�pSe�-]�������Y�zİ���n //�>��u�Ӿ3B�YfĘ
+q��}i�ɉA���l��.6�6Һ���*�[��1�m�3m��3Y�4;5����(�9�������}G���dܰn6n�r6.]>�X��V�,+~Ӯ���CF�G��
+��~Vў�u#g�s�B��Ȗ'*�U����SO�W�;^� ��_�urK��y#�- �x���7��j������^+%��r���FH�,�]:/�\R��|C\Y����S�kU0P̜sul,����2�֍�O1�`�J*0P�V%���2��jLE�p ��a��oА�y���t�!��*X�}|D�/�{�a�|�j��P��x�YM�Ƿ�z���i�n�� dl�ݻ[�n5Fs�m���sq��U]���a*vk5�-�̉g^7�ā��V`�<��{n'�@���P3?��\]$UQ��{˾�ܹ����[T�,��K���T�Z�,��ճ:�,��Ru$W��i�lW�GJ�1ݩA�qM����;Vx*'�Jt�_�|y�?����3
+
+
+�ڐ��Z�d����|��n�?�������`Oǣ��-��q�
+�T�SYӀR�|epu�W�.�ӟ�2���F��S�Br��w�t�6�5KDʅ�qNݪ�£�L!�fJ ��R�}*r�=�$�п�&���s���oV�C ��j��T��nLB�\jٹ,<�0�D7l01p�� �+--5/�ڿ�Y������@�l����d��U�p��CF�O>�$������I�; �]`�3*�T]]�'�xbTKj���n
+�����)аB�?�\����n�����̧߃&u
+(ڨĐ�����%��ߠ��2��O~�233��?��[`��H�D��]�����g��Q��ʛ�ӟ�8EO��q(�X%=�?�<�3�Ǳ���Q�����7����ư:ӥ�:R�3''gRT���N�M��T�֐�eX9^~� �d�L����;��v>$��q���1��ߕ��f����τ1��|r��R@4��*����	`u,�.kZ�^��ds>�{�=<��C��L���H��:Q�֑#G��d2 �HU'l+x��w�E	��@۰ �E$*�3~��X��2��N7
+腓?�я��(�Z�`�c���~#>�'&��Q@j��?�16l�`��٬�W6��P\,�N�A��I�{�yh+/�y�駇��:" �#d�c���Փm������ܨ>q�`E�u�Xj���O�lC��j��]�6X��x�X�«��·��-<�裓��H�l+-{�=����78�n:��唝GaC�����T��H7/^�� ?��>Q�hM��w�i�����p$R��dΫ�?�l]L�,p~�a|��߅�J&[��j�o|���?�a��Pun�+8����h6ɢ޷o OII1�$�~���S@�e��;��G���5���L�祗^2�=Փ&��r�~�_�K_��I�&B5P:���AhVi�Z!�ٚ��m^~��o�<���$}ky����=<��sf%�H-����������V7'q���/Θ��5��wEE�Y�y���wMŘ���`J�������E�aa]�R�o�}����x�G�+���Ȉ�ZO�T=bW�ё09�III����.����q�������&���Laa�)�i`-*�_Ǻ�1��ĶtPrr2֯_o��(�O���j�Tڤ��z�^����%�"�b�V�Z���R�+VL���Y k�*G�zeƉc�Fʯ�������q���={6֮]���;K�,q�#��=�m�;w.�S	zծ9K�7Ξ �4����_�]��#$T�+,==݄<���
+,X`�.=�.ŭ|�^{�5��=�Y�[��q��:�ǅ>�=I��ZD�3�5k��W��e��~����RxZi��T�%+~���(�:Z��?����	�u3�����_�آE��|�r�����ͻ��EM��4�����Q]��͛7^�ZMm1l]���	p_7$����h[�\F���			l�K���d��[Ǌr�$ju��ťT�6++��R�]��:O��	О4�����}�H׶>j�$`kr��X�Y���3�=�'�����9���-p���_��9~[@N$C���0���6w[    IEND�B`�
+```
+
+### `src/shared/assets/logos/oil.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>190</exif:PixelXDimension>
+         <exif:PixelYDimension>190</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+�I�  �IDATx�]itTǕ��H�ւ�7��c��`���,���8�&^&q�2`�L<�c��s���L��}��đY=��9��a� ,b5�a �]�}�e��ZO4�$Z�^�k�
+������Uݯ�[�n�r�wt�C�_�`�'?��9p-�U!��b�U����Ȍ3d���ҩS����S�����#7n����ZN�>-����p&�_�T��$HL~
+R � ��B���R�{��JR\%"�Riݺ��7N&N�(<���hѢ�^�#Z�r劬_�^�{�=9���3I*)R��H�j �3�_n**�y]��u������dɒ%2|�pq:�Ѫ���z(p��uy������@n�ߕ&�>���Np�M<C|x��d�Tw�$I�$%%ɏ~�c�;w��jժ��ٗcE�����b�rٙ�-��T��R��U�\��]��q�H
+����#o��K���5n�?-D��;�ȑ#�Է���S'$91�>9AA$�C p�e5�pOq�*p����2}�tU�.J]HOO�	&�ɓ����#��$Rtdg`�dr�R���o���Ґ��оf=
+�+?~<����7ś(R�O�-\��%�U$		nY�`�<���֫�]�)�Q͊+d��q�p6-�40��+�,��̙��g�i0#�G�R� /[�L2�dHB�D�A�i���n����W�{1�u�a��!
+���K�}�Y}E�G@��
+�WUɋ/�h[��\�6k�,ٽ{�8=�J	�ʔ!�����h�$�=�Jt��?�mzl���b����vK�t��Y��j~�O��U�{�"4lة�Q����dРA`ew\�����2A�z�����KqI�TTTHYi���8?� /L��\S�R%ٛ�1B͈��p��%7'���g�z�3g�HaA���tم����
+P��TT�KII��KQfW|��U�� �.�ܒ �#95-MRRS$%9�d7<m۶�;HZj*�i�$M:b�;##ò��]�ܩ�L�6mnw_T~`(����k�RX@�M�e�W_I�WTT*� ��L 9� ��h��su�����н���g\�u��n�&{�k׮��=.�B�HE#h+ih ���n��V 8w_�lܰA.]�(�bf�*8��\	�$�XƧf1��x�����U\��޽�=
+��}�ʄI�,�݊�9�t`�ؾCv�en��8q�����.3����F��o��;��5����gϪ	uN�l�g����/�F��3X�wh_W�1��_U�O>�j!�[�|)Y�P>��2���"ᄍj��2��]�'����:�y���)]�u�Y!E]u޻g����Ⱦ�{��DP������@W@��)�ȑ#Ҧmp�hy6=z��9�Q�D܆�Y/�W��Ç)�DK��IemH�B(�7nܐ3���7G���L&O��33��P�Q�������~'��+��&oc��[8W�ݽG�;��^��"i���� �ڹSV���|M�W勛�E8p�=W\�r`P"�o8�_��1qZ4�K�.��?fɶm۠!�+����w?u�6a�ǉ�y��Qצ ���%��巿y[&��H�����3�KJ��{Q������=�OVx�t�����H��fpZ��i�x�ǲf�j	�[ጛL��
+0�G0�%���b��2��0��fKZ�~�n�Zx>�o�^�?j���-��Rk����E*2~���7D#�G�a�F�~>CcE�ir��ɂn���&awl�.���0�S�b Cה�=zJf�ޒ�2]Ҡ�P���8�E����R�/��!��7T����X������M��gt'�[Q��xO������C�+�&?m ���-�B�Ӕ6"&���8 F�nҩs'�Q�{�U�"�h����Ζ�}�T�B;���'0�X2Cl݉��)B�Z�t�Z����i8//O-g$�Q����3_�wG�%O?��܏�ɜ���dt-1>e�TuP�\�ϗsg���ի�DBQQ1��N�P�3l�4�:xPIJ 3��ɽkV��������Z���3o�<�ݺw�O�Ӧ<�t�"#��룬,��Fw"���p�[A˖-ugK~ZdP1Dڶ�[�QQRc���-M�Bp�t�"?[�P���|s��U>N�?:��e�Ke����D	w��-[T��z�_� L���24��x�$��X�����NC��W��o��5��:�R�ʱ�w��ȳ�<� \
+_(z_��ȹ�)�2k��������%�z/��>2u���Y&��43>�����yJa`�ԕX�N;��O<��_ol�M�&��Zl��4��X��d�	DΎp�+��W�k��rj,�����)�U���fW�� S�����['��\i�����M��Ѱ�5`�ٗ�L��8V����VHlh:'NXǲ�2eQ3�~M������ZU��YD$R:�Pf�Πd����n.#!ٷ���I�U+��*��s��P(�̡�Ek2��ѱCGSZ��?��+��1:�D�L]�R/)�#.��롚0�2C�3e�x��U���� T`/_����61�U��0�ifj2�,\O؉9ãs�NB^�"3z'�604��;1���g��0ש��]+- sV���jVv���F]�M�����r���6�Y�7S,oڰQ�A��P��7�{YN- '&&(��͵{zH@Υ���%r��9=�6"�J��?��͟���F<��d
+�����k��*i��ܦNqJ1M�o��19~�Ӣ�����7��OY��k����
+�2����B%�̤e>��r�v��mr�
+:'��!SΎl��/��ɓd��ҷ__�t��_w��c��U�<�w�n.#�����L}�F��0�s�t��U���cP.�Cߖ/�����*�]�v��g#��|��#I��q����o\�'�Y9v�\[��q�;5��{u�˲Q�q�?ᙵ��I�i�LK'6�Z�M�0>|X���~'���P-��aR�n<C�wt��Ԅg)�P߫�r`�~�EXy���U���ϑ�.�RHeZ���2V� �8J�}��`e<�iVa���]�p8!�x���l	�H���]q3g{�����A=��~V@L�|�6Z0Oց������ ���y����� ff;�������*Άn.�;�T�.�a���:���Y�^\����2���XGܶ���^֢EE�e��G�˘1c�&�ol�g�'�c�"x<�y��ap�Ye�]���O?}�۴��`�����j0&��bks����YF͜�~.����`�3B#��k`�\u��Lp����/���~��j7S f?GG�_��W�1� IZ�Ե+a��b\J3t��̙�*�u�A��U���3e��T �uk��8摫�{"�<(��u�"��x$���Ʀ�tB���+������r�Fέ�Z�a��HFwD�4d��D`�I��/V�t�Y1.���S2���d+��W~�RN�"ű���Ɗ :�KPɭ�m�`��O>)c0�u��� l��͛?_�a{<�Tb�ym�I�x��(�
+����aX	A#Ƙ�cժG�ޱ��*�FE�����r����[�N��)���_��;BY���i+n��zp��"���k�c�G��G�2�`T�2�1	e^{r ��:uJ`��.��َ����`i���#�����������:KX;F�a���[Z�l�����*�1�������
+�����ЄE�pwͫW�"��aۂ��/�1������=�7 T��V^�J� ��I��H��}O��c���8��3V�Q��/���%%QõN��R�
+���9ʻ����1"�\���yYy�E#�8?��7_��F�G#'%8�H���4���������dʴ��d�:�6}b�f��Y���#'�vʱ万�+ )�} �3D��
+F��'�kR 3?r%#�S��.��;N�ycn��Լ�"'��6�8��Уv����� ��	�� �A�F�����!A�q!����kx��BԖ�����!�e�v���)�6mAl8��a�;��WFgqbC�HN "=p�;�L�`i6��'5v����I,��mݻp�����@��fai�ɹ���/��Tp>�+��	}�Ã��=�⺧�����8��:��?�����#�l%AD$ `���I�8+�,K�ȸ���5G�t��p^t���6k�J$��
+05&@$>�-XX�4����R���н�F��M��Vk�кU~l,F����a�k�w���}�&I[ 5$��)by�.��D��m-��k�{"�e�JN�'��"�n���|���8.S���� ��&J��8���!d�UD[`F���7�9(J�Z�k�p�Ŷ��6��R*N��S�"-�p$�j�0-���x�p��WY`+X�X��>��: ����N�\G��K�S�8rZ���8��?+��l*�q� `+���p �ĵB�m�����e�6��V��� Ǳ��v��j���6ȷ�T��[���l�;�������6���x�� Gp�Nj� Gp�rp$�"�A��-n9�a��N͓Nƶ���q͓ı�����)^墅����q�b�;5O
+����ѣ2b����1�Xy,.Ah���EbT �QrXU�݆&�t�}���ܹsc�9�*e�/$�=������݄ ��տO�YE�ם��{������-��h|��c_�8.��t����e���q\���Q�YPRU�nݪ����F�z�Q�]���琪��^O����W��uQ��_y�qA)�tJiY�����/���Z|Q ++K<�xq��T��Rpɉ��w޹kwH�/�/-co�����
+..B�7�+Q�����������hh���*�~���	@�����⒊І�/���l��v�/
+p���˗�޽��/	�_WBr�e�� Ud'��*��/��nݻK�>}⫖wii9#��3m޴I܉^�^�C`��X����� y۶m��=nb�[;Y��m��~����G�a�������:��`po��EU0�Sg�R��=y	>9�Q��d-
+����ҥK������U��",�#�M&,4�V;��� {��҂q�~�� Y�p��9Rm�j�j�}��F�Ԕ?���_�ߑ 7J��"d�2������ �ŶT �R c�P�Krc+�Ww�Y�%�&M�ٳg��ѣ�>�Z���fgg�&���n"�>��"�s�G^5�t$�%#�kpr��ЏIO��u`W�r����'�d��ǭS�d�E���Ȇd�����G�[L%�A�eA�,��E��j���?��\��    IEND�B`�
+```
+
+### `src/shared/assets/logos/sagility.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>150</exif:PixelXDimension>
+         <exif:PixelYDimension>150</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+��Q�  -IDATx�]xTU�~S!=!$��^��#M)��X׺�������꯲�Zֵ!(EQ����Dz� R�����=�&�:�L
+��3�3��{�����sϵ���k�e)`+���������ס}�kcc~lmm����Ny�VI�`G �������mڴA�֭ѲeK���������� ;;[}������h$''#33Sϲ;�
+`c.$�5k�]�vŠA�н{wx{{�iӦpww�����&M�(�9�����yyy
+Ԍ����Odd$N�>�S�N��y�0i�ox�!~�i�:�����p:t��ɓ1l�0���*@ɝ�6s���|���*pCBB�m�6=z��� ��:봷o�|�`��%ɍ�;G��q��)�kN M)��=88�~�-N�8�˗/+�N=���XFJ�R�%�68�ɩ�~~~�2e
+������ߖ @m�$�gϞ�ɓ'����c�޽J�P%4��` &���SgϞ�9s�K�.prrj(���qqq8~�8֮]�}��)#�\]�y�L#������ܹsq��*ܐ��Rd�.�2����q���pc��mU[��z�Kۮ];�W/^��W��Fv���駟�j�*;vLMK��S� L���JQ����[�nu��:�����]�Ghͯ���)�4�8�	��/���Ƣck�իW�z�j��t��ʏ�3�ɵ�c��~<����-���t���˗/Ǟ={Ȗ��v...�,I(r-�T�=�t�R<��S
+hK��P˦�E�o���*rv��%�Zd���d��w�}�n����vQ-M�0A�X/\��"c��b \��{�1�o[�jU�Dl�Qw��	���S���dYD3v̠�s�=�|�է��A�%K�`ǎ�J�rs%�s0�)����o��y��՛�o.�E94>G����T$��3W̬ �J�ܹ3�{�=�c�8�Jb삓)��`l���9@6��}��x뭷�h�U_�����l�C�����, S,�` ������S��4A�.8 ���ZLpiP��_�¨Q�j�3�z
+��8p q���2#}��
+`\��k�aڴi&Tk�Z����k׮�
+�Z��O<�f͚UU{��k@.|���1v�X5�V�"P#�ɹ�u��`KEajҡ[��6��׿�eKT����h��4�(���ɲ`\��
+��߯���d�9�v�����|^�v�Z�F�^�z)�����&]&�h�f�Jx衇ЧO�n�(@˚ꐆ�)��$��qF�󹦈�:��o��-Z��^P�`�@�I������?��O`X͚��-Z�檪VT`��g�y��~{UeZ�[�gr��o߾�પ�j�Տ���Zek�
+p��#�<����d�,U	0�1��`��z}d��N���ٸX��T������ȑ#++�z��)@�{����UVu� ��9Mq@�`M��?�>}z�a�*��3g6��Y[�(@.����C��Jf)Խ��ȅ��Q��s�ԩrq� sDp��ĉ�W�5W�P�*���9��B��=����򪗆[+�>��*-/�U.�	�Ą��9�pV��֜�P�L�2� �~q� �	{�=�YYS� �b���S�9�P}Ȑ!j����I�.�9M�L9Ό��XS� Uiy�l���S��XS� �n/�*0}^��q�����fk�g7�㼽�J��&ǌ�]��n���q͜�� L��+뭩�Q�n��)}5c����W�Mf�!$7�r�&�R����E�� ̨��Svq!�/��]=���lso-π�p�G��m`MRZ�M�_�~\����q��D��������@���La!�+.Vb���K������֓�KH�7�P���0]_���p�:--l��&Up�TUBa�$��pfz�x��С��l�-'��==�9������tD_�f��)�ۤ6X2s��$��bn���&���Hl��~����7�oKOY�Z��|�Q1IX��%�TY�Կtq��`�h޼����� �k��Ex;�<^�9�M)W�Ϙ<y�]�\���!�����l��<���-��؂�{1�Q��ï$b�W�q�t�"��w	}�����e�rs���3X��!�ť�w�UȒ�S=S)s�^N"W7%券�B�p���̒BlM�ŉ���J��@p�7�TY�M����8�}M��T\������¡��b���g�����)��p@;o���� ����M��]����[��gf���m��hm�AA�GdT�$��JܱcG�6L)��/\�e+��n���%H��\8�Xv2�錁n�7H�~ꈢC�:2dp|��	����ݡN	Q���[{��������T�7�qc��
+�s���89�$3+�ځ����9�\ O����J�_M�`�&��Ӭ=��`�ת�: �	'���L�r���|ZϒA��wC\�{Nq>�y�*�ʇ�F#":���ѭ��l V;{[Y���ss
+p^�]K͔<�Ѿm%F32r(���ݝ�m�Ւp-g/^Umܯ#�ݜ�%�������md�(~�hgo�o� S��H����4���E��v&Rҳ����4�3�A�/'峲���u�f��&�.{$&e���A��6E`Ǡ\~��9.`��Ò?hb��H����h���ڤp���h{�.\GZqf&`�w;D��tTDw�p�j,�l��A���?33����u�b���8aX�NB��	���C� ���H|�~7.��Hy6pwn��fF��~x�������m[�/��e|�� 6�8�d��wj�Y�pE�?������r�1kr�.s�:ǃ�f�?.>_���i�o�e����]�X�a?�2���/�p%2I�C�CF�xoj瀥Kf����Y�O���A ������������kh(�O}�lSe��3�UJ�GMVN�9���6�D7����3=�|n��Avl�g�u����H��|q4��N��d�I��Wmn�}���g�@45=�������������qx��/������p9,�m9��\���1s� ����|�~��b+��&�����C'�����Ȓv��¢�����I)��x�/�"ẞuȳg�N�Ч=V�w/£�U*R::�W;\��E_/\"y�2�� O���;�4q��нK����1�P��o���O���N/��V�1�{�*0s�"�K��w�/���5��_�N=�}�G��4�z9{�mkW�U�.�X΄��#&���3N�e��v�Zb��*�D�ܱ��]�������<��r�3�������Ŏ���A]�=����Z��:g� ����w>ق��n�KOOC+O�61���rO�m��\p�H�Ν|��?�s��}�:n����;'Cð�`�p�-��2�6�<�A��㉅�U��ED��u&�*�$�CM���9?/<�p��4�>�·�Z���VD�&Mt�W�_�,�S;Y��es����X��k;Ǣ��ќV�ZxOꒇ�f5k�C�UǑX�q�Ъ�m�ڢT����<�d���}{w�ǯ?����װX�o�I<<oF��F>�4qt���]0��`L�i�3Vo�;��%�&w5S�A����4��c�҃�.���:�#}���Z�s�� �����~��\��>iEzS������sG )!G���R����"0npwth�#���16R��~[Sѕ���Vz��{MѿZ㌏M�"n����[�`�g+1�m-����W��¾)z:y�_D��-;T6�=�F�Fhx�^���݃C�/!7� }D��y#B8"M�-�u���~�Oצ�� =��~-��5�^]��t���iG�B:<�m_u��|�P�}2<�2I{�6}��02ĕb
+��1�fL�ō"juа,�mjU��f_G'̓�V�D��ǅླྀP��� �@'F��(RA����H���[���/w*nl�����)cz��(��c_� qNr."�K�L�-[��N��8�(͚��ڛ9�R)6�[�����t�di����/�"�w ��9':�nC��ɬ gʤB���^�n�Jwѻw��:1\@��C���Čf�pK�����'��#{ *6g�E�ؙp�e���e�E���E�����"5�[����'Q�_��.�X��7��?Su,��I�=;��GKow���$P��j�7����nZ#u�0j�v��c�(�ɑ�&Q,N"�����½�%&��j��5�� ���>'��=	��y Fx�D����Î_B���v�ݣ���kSR���X��<��$�?퐑U~��R�5dJ(��HT_)�����&n��_i�=+;���*��l�K����9Ao����E=l�h5O�_m>$�HQ=\"e���5��\Js�lMÒ�z
+_&�㻔�X{OG���W���TXu@"^�E���GǛ��R�b���77��/~�7�-Ԯ���͇�os4�rþc��(=�E�w�3�����Y����6$$��u$����#8"V��E��^1zn��D�4�� ���r8}^Z�ƉRdδ�������w��m��ҩ�q�Z�f\�I����w����dCJ�D�2�V�锄w���|N:v	�z�_VLSV���P� �8��,30Y�;�c�oW�w�ָ�De":)�E1��롸0"*	���G�6B_,�>�����R�s:!1+���|]^����JM�°�]��1X�q��\�pq��y���=�h"����8-M�Q>�5)�Q(����T���%(�1ɑ��-;ѥ��戔(�2:���,g'�H�	�A�HZմ�iq3��/ �%n}<$
+�G��vC�\�?>m�Z�6J\�ŗ=�:�!z���P��
+��j�뎼�ɄP	W:���쓢���V� O&"�p8+�Ģ���קY2�7�pc�}8|<?��qѿk7���#�]4Z��**:[��ž��ر;���p]�b���x)Qb���}{�������/\AX�5|Xt�h�*~�aqxp�p\��7�E��K?�؉�R�þ#���ظT���E"_ǃ� E����dK�m�n2����p(��6�m���i���O�X,ƒ�&�0i�U�rVV�z�Ʀ�`�/���[���C�� 7ȵ%v��	x�}6�vq�<ѻ���X*n�֔hlN�FZ���j0�t>�<ay�x/�<F����ŗ=$n��%�0@,�Xថ�12$J�O�y�� &F��x��8�H�n�s;��`@�@�i���w�\tZ��(+�A�?>>Yf[���$'���D�x,�+���X٢�[4���;�c�Y�&\a�8:��8�~�b�^�|qa�pf+�zf�D����1�J
+0(����T���Մa���Zm��X� S=��PXX�bmS �N���^&��pT,d��$��|o"�X�V)a� �P塌k7�q3�5�[��"#ꚋ��{�R��a*˧�L��0Q/OL3.���� �5b��>�W��mZ7�����.^A��.1r���Q�;J��s�ڠե;�~�7�)O�I�J�gئ��C��U�9�oW�]����3I� f�QQQ��M����'�j$�������pҁ�]�@~ҹ*�4������xEO'�3���bxL�lo;��U^��8�!�k�jP��{`��|_���揆�L^H넛sD�����g�P��~}y��D�Q����3,C����R����{��d�E{y?q�LT�o���]�`�O��D�ʕ+���S�q����(��an>jE�a�f��tI������e:���$�x|.�S���n�����+X�W��Cv�wV~�g/DIH�QY��bD���	�W�(�H��m��\�6BhL���M���6���M���{�/))I�+��:� m�����/MMtZ	�>ؼ��(^������|V��tSE�:8�	����E���u�h�o���W;?-�G�Q���Т�)U]d��O��r�����v�&d$��I(���sX�<���Z�3Cm��2��{��Y��h;uvr�[���ֲ�2	��RL'J=Ƥ����(F�4a�~�[B��T[�7Nؿ��!�=!�Qz�+�U |��9�2 �|�om���#F����3N�&��ok[���wW�����)����ܹs|��)�V(�J�&β4ւ�2k�wa��ŋz�KQ�:"!!����Y{�(K{�_�c�j��	nNN���/0)�p%�AoM��4��2j�8F)���D������w��u��N3�H�R ���˗/����55
+?~\E�ȨZ*0�'�|�55.
+|��7zݫ�������G��#j��ǆK����r�������]��]���A�~�A�UC�̖�0�0�h�њ>8�O�4t��V��vq͚5*>���&�K~�[�^!���X��ab�o�^�ܹS�L�%��?��3���'g���M�6U��Q�̮Pa�ٳ�O7<25���ٲe�apð7�L�)99���z���F���� ��~�i��nT
+0�@.�[/�\\���`�ʕj���kd��J����aZ�~}���Vh�n
+Ѕ���o�\,P%�l&޸q�u��<�Ժ�n�������{YQ� ����u�Ԏj��㏪� ̒�s)�'�|bu�j�O��f���?V���^�«���M-�W�V��v�z�;
+p��G}�Teu7�5	`�j.�~���ՌS�u�Z)@Ѽv��
+��QI��Yy�;G.�y�&���pyHy����C���>��r��h�M5� 3��m][�ʬ�jF>g�d�5�g*CU(��#�q��˗�		�K֯f� �^�bv��]#iY#��Zp���x���S�f�ذa>����V��G���2#*O=�h�[�y)���_+���(w��:������������"S����r�!g���է g�^|�E�I��f��SZ���`!�xV��C���p��3�<#����H��\k���(�CBB�^��dY��iG���/(���{��h6�Y(�5�'>3|�p�g�ae��S`���X�x1���M
+fTV�Y��&'��T~z���QY��d?-YW���c�ҥjj����լ �PM'sC�cǎ��@X_t�������}��W�c'�2ʖX���֊���B����=z��rrZ���r�Q�����?�]��j�
+UF/��J	2''�o߮��>}�X��h�&Էt�(�H+K$��S'S�p�C�ɦ_�Ѷm[�u�D2g��+s�ܲe��V�`K%�̆k�366۶mS�w���7���|����3���y3K~��6�eR��o�{w���mՏ>�(ƌc�S��Y�F��U��AnnC����9�ZchT��M� u�
+h�ڭrd��|n��J�ڄkB�z���~���)S�(��ҥ�ٜ����p#P>���~����ZK�ڊ�]� k��#���3f`����ݻw���t{>�u�֩yr��\[�j�m k�!�4><==1s�L�=Z����wCMlspp�z��.7A�Q\}�Z#9򩣹�f@@�z�1�A���e��#C��3��g��N�.auW;�U�$�Z��ܠ�"�⛜=x�`L�0AAA�j8w%�IXK&J�UZ���ٺu+.\��vt�~e�um<U��`�Nl~�ė/җ��0(�8����:�4`��0�o|,�G���,�&� ���>��F�ʎ�`�N���\���С��<p�Ihr���IPh�s�v?9��q�F�8�=��q��1nKC��h6&*��.��sG3z41�Lp���yy��3��t)���q����@D�v<����\��n�����>�ꑣ    IEND�B`�
+```
+
+### `src/shared/assets/logos/ttml.png`
+
+```tsx
+�PNG
+
+   IHDR   x   x   9d6�   gAMA  ���a    cHRM  z&  ��  �   ��  u0  �`  :�  p��Q<   DeXIfMM *    �i            �       �       x�       x    �U�  �iTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:exif="http://ns.adobe.com/exif/1.0/">
+         <exif:ColorSpace>1</exif:ColorSpace>
+         <exif:PixelXDimension>150</exif:PixelXDimension>
+         <exif:PixelYDimension>150</exif:PixelYDimension>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+��Q�  bIDATx�y����/�B�������81踠�w�(�xN0�	�瘃�0IԘ9'�$�9�x��$L�}\X�Mh�ek�����e������_���^�z�uC_-�uU���}����U�4�YF������ ���kv���\�ܽ{w�l��vֿ;kŭz`]]�9����唔�ٳ�dffJzz�$''K�=$11� �C<{��������)++3Gee���<�a�o�ٙΝ`�� ǎ+S�N��#GJ�>}$##C���k~gee	�����"}uu�9***���D�������R^^.����������3$%%IBBBs'�@w�"��4("t���r�UW�̙3eȐ!���l�W�N� �q��Iٱc����;�y�f��V9]�wX�-.�c�ҡC��W\!�\s�>܈_Do,	�F��U�d�֭�� �H�e}���� �s����F����;On����K�xt�R�z�ĉ�v�Zy뭷��/����:ƺ�z�0
+c��W_-��͓�.�H������"��>�5k�G�pě�0�8F�3g��~��FaB9�TPP 6l��{Nv���lv1Vǃ�0�b�`� �y��6m�:�u�(g������69��k���,�k�ĉ�h�"��댭뗏Ey��?��r�J9~��1�b��1�q�����s�J���c��q/c˖-��/��ի����3���gϖ����2}���7z�+������]~����ݻ[y֢U���x�ԡ"?�я���3�n�^�3����_�B>��C�`F�����e�p��Ǐ�+V�w�aƠh��Y���C��>�|��(��Q�禛n2"	M��ZZ �p֬YƏ�s�N9r�HT@���XL����~�3�+ny��_�-�����۷{nJy����x�cP��s�(t0Q��ɷ�~+���ov��N�쮧 3�����ŋ������7:{����2�v<a{��5/ᅽ���e*�|�r���;g+ǹ�H��/�\:شi�'��	�p.�>���r�-�Ĺ�:w�(_^x��۷��ʼM$�1��K��-[f̠H*ӹ����͘1C���cĵ��_�����;����^3��ˆ���W������KpK���x�t�Ҩ�pn_�lI���/���o��!� 3#�B�ƌY�E�i�q���c�=f&e`�p�����_�Z����-���0[�6��?��s�g(��-��	�	&�Yծ�ݶ ��HL�+
+`K��?��n���g#k��x�	�4i���s�[X ��`f��z���(�-��Eۧ��Q��t� ý�gK�,��:ɻ�(� �HP���c�ɐ�?�ϻ(~-�S�{���\G�#����x���5��ף����5�\C2u6bA �1��^�ۍ�$��Ȉ#:l[(nRQS'GOUˉ�Z9]]'��r��^�h�z�!�Sa���N����]�{$H��$�LI�T��+%I��I��ɒ��x����?��	�'�>���.�׬�c�W��ګ�W��:�+����5rD-,��o���w'���t�T�������k�3�ʽ���*n@�;b:)�CA�s��dث���M��~�2�O�dg�H��d���$�e�bBQH��^�e���/^��yX�^X&;���#r⴮�>#յ�Ry�&�����V�����v;"x�LMNP.O��i�ٽSd�О2-?KFH��	2�^<��k���^zI>��ӠVMȐ̢1cƘV�XJRPT!�
+�çe�����X����E�ʑf,U0!hGz���7���]$A��Pq���`���3�djN/#C��֭[gB�p@���v=�wc	n��z�{�\���H6|["{��K���J�RK�� e�6Q�]"4h����Jt��^�h���q;GE�Լ^r��~rш>�������/sǗ]v���ƌ���Lc2����o���	���B�ͭNɛ[�Ȧ��d��
+)WE���ġ�����$DL�D�u��}��rդ�2X�m8>�������r0�m�E{iI�j���ʛ���;_�P��Jjt<5B1���I�ۅH�*v(zGU_����rL�L(���'cexR^�LXf���o��=�f�e��믿>����p���n;X&/}rP���H��V�q�����q���(z�*�?�u�����e��rd��A�O9�k���3Q�0Ø}h8]��0��;��r�j����w�pO�X��3�i'�Z' Y�\[ר]m:s��J��U嬻�b��pJYeSπ̍K/�Tz���OOi��2�/�IY�o������K8̌�
+Gc�S����òq�I�u�P�wV��J��Khy��[LYVI�nc����A���$�PP��򕼶�U��D�Y±����N�`�
+yn�>yf�.���"�a�؟� �=�.6DlxE�W��+?y�l�[�vl���s���S���_����nͤ��W��d�^�m##���j�|����>�R��}>`o^	M�P��)a��-ŭ�U�_$�����I�DM?�����<�gtl~g��(�(eWN�2��d([,�Bm[̋Z��-����R���*�譀�=����~��v�62��x��L�	zQ�x���o}�5�<�Q�?�Ӱ\���|Д�5��}>l4~5,�5��9�w�W�.�����4٪&��v��̑}�$�QW^y�� ��&( �\pA�L�ިQ'����T��`��`������L���8M}�iɉ������}w�I��L��'�葤~�n��iz$&��":-c�+
+e��4,D��]���O�u�C�D`�d��g¢B;F�r�����w��U����j�|�����5c�0�J�>�}��)���#���������ɛ��duw�%�/��%R+��8''Gz������t/k�>��>�n�e�� ����$u�,��ډ46�vc���`��OK�4�Sv%�='&±>�j5*2����<p~�4Y�:@��h�D�k�^4T�^;��m�]�35գ�p/��(g�5�Q�l���3F*�W1%Y��X5:UY#�tf����������v�i���ⴃ���7e�ߞby��]��wL��}݇!���${n"�� �W$Rڡ����e*����F_�e�����!����)��3��=UL�V �*����d�p�&sO��}ń2L����t.�ָ~���37�5�ێj�ߵ7WkȳJ9�ɐ��3rRA/.���.���:���Cŕ��x��<Ǆ	��q�S>�yB��^�,�3Jz黻!<�X@l��&�H�	�����]^�4���X#*���(�ʙp$32�ʍ��}㨛�r�����T��pL���n^��'*e�R�� <l�p�b��X1����Ҁ}P�?���dy��u�a��*g���ԕ�P ��S� K	V�M���߮+#L�#�4b"Eف��`�q$�:I���C1��?v8�$�g28D�޻�v��!vZn��ϱ4N�vaq�|��1c;�=zG��8�����
+Φdq��tE���Ly�Ʊ��/�;����Js�vc���Ό���}3{����`��J�8E��E��Q�����{��u�a���R �<��A8����0��"t~^o�{�o��:�[b�l+^��V L���lD��$i�t����V����j��(Ph��:n��fJ���z�2��*�Ec��i�gTfn ��435Y�ɔ�.&���X�P�>e�D�k6���3�S���%�����t�����3'��zb���z��Ct@LOQ�^%d�>L����8"! �Qٽ���g�T�N�F����d*!��R��2c@�+��:>6܊�A:ܛڶF�d{�,��-dt��9��@^����uێ�S�)EZ��U8�V=�s"\͐��n���
+f��Rd��y�f?�w��S�Y$�����O�a,!��n0>h��B�����e5��NMD\��
+9��KU��nD�2���H�c7��(��h��b�}���a�|� ��MQ@�}�RK.����ֻn�Q�$¡m*⟠�o޿A;4u�����Έ�	F��M'@�+�puZP:�LS��	�K2~��ă�KD��Y:t��n�����_��;(b���:V*r�7lQړ�Lf�F���/ct�J�@D=,2�i�Ӻl�
+��JSWd���bM}��-��:-�H5�c��"�21��&�7��SG��T_p�8���c��p*�0�n3����vK�*V�Hx--g��-���n�#]K��D�{�x"�S��[iݞ[����;t
+�_�:#��j���C�e�Cd�Fp�C�s�i�~�v!7�c,��Ms���1�U[!IEAVZ�	�h3���ßC{)����g�F�6�7̀r�mQ��r����6h��K��*��vUo�M�:
+�&l7��ʆu�gK��`���tC��`.XSL�fX�c
+���?����ը��nfnbZNm�W�R3Z�'�$�'Ȋ�Q>��sC�� �ɤ#��[���Ȁ��u٨	�V 6�֧� �{�`���"΄X��e�1��X�m�?�!,G�'S;ާ��R�P3*����'�c�g��F?����=��>fp`/����.��q(��H��x�v��|�� 3;]5�_ ����Ԡ�����owRN(�[ �;�qh����W|�~0θ!��'T˶����-���@��niB�9�KX�|s�+�����0y�J���E�#�(|n��x��l%F��Smn����fF'^��!�Y�`�2ʋ��uF`78����u�&Q���kf��-F��P+Ͷ�ͺ��:�9E�����X����\)��I���Xu�2�	�K�}:����w�ɡ��R3�Ԋ��A����=q��>s��*�G�����R����m�G������b���h�zƗ���2�v��,��t�w��Q9u��k4s0"��"�������d.�`,�Ҙ��9�i��Z1iBU�o�k|����:�3�I?�QsC|��
+�k0�p�IS&�|/�x�B5��J�J�R�f�F��"kn~&xDnӹZk�nN�tB�x�Yų���wӭD4�׹�"������-�ff:e�j��2Cѵ�,��������(��4v:6���B�[B<�Ƭ�d���GB�{�E��o�f�3�����D�T��
+E8�-�o��u���<�	�mI������2�������:۪�*�) k^�YD[9~���O���j�?p�p�boT��J���%GCrqt��z�$���F���k��o^�J���.�r���FQ�do.��W_}��ӦEؓ8RBTS�{��+Y�+�yi�Aң^:DE[{�HcZԞk���tV�[I=;�9j-�S���kF�V��
+;vL�-(c��H	���&��Ю�F��==��y�m�Q�)e_�c+`R"D�!t���^D�P�j}<�KhX()<x�(X����{��w#-Ǥǳ��쑲x�H�-`4�5�=��"��t�&��|�
+�}��u����<��;�OǙw�`Y~�DS���Ać��+���Z�h��?�8H�_F�-��'�`���^����/b���Фћ�4q��~��7�W�G���1Ǘ�3�6_M��tH�8nǙ6=��˚${dl�V�U�>p�W���ݗ���['��Q}�}�Ȧ�pj�z�΅����luv��+#%:	A���R呹��ˬz���%c0�jQ�ao��Ỷ^��e���S7��[f1���$�A���F����DSjF��è�1��{�=j�s�ԳU
+r��0 ��z�1�	Kn� I¾�����M�6�[�/|��}��YL�&E�~cB��'��+?>$�i�:+L$�����-���Gh��J�vp:V{c0y�o�Du4��e��B�u!��̻p�.cM5KZ}w�����،����� ���ޓ�o�9*���~��郄��ۏ˪�
+e�.��D�S�Q�rU��Ε��p��!�ݩ���� �l[�F���~�7�	Q�W��\=y��t��7놥�ڙv����v�L}��>��#cOE����.����B����P>�]lH�+�Y��2�X��r��2M�s{Ƕ|+.�K��A����X���}���r��ih�S�ĺQ���2�7�8��Wћ֮]k�&��E�� �P��x��r������h�������_.�u[��;��.]DV�k�@��mXՇ�tB>��I^j#�[#4ܯ�D,l�FDK^�T3m9���f��P�HW�X�&�pn�� � \����}���`��nzFo���8���QX*����S|��-ѭ�Ϙ�������� ��S�Z�ŉ�DZ:��A�f�	�M��
+�"e�7���:9q�.3��HbG�����v2(�p1v�ʕ+�g��E=M(5l��^i�@)�m6�έ�ƞ��E��E����l	�p�&�	��h�_�p��й )�gwL36�90� 
+�t �����X��5k�hG\nP��$��|�M���H�v��uu�i0�i�kTQ9��zԕ����=g���N��p��o8hñŧ����b���(Sr�Lp=�� ��"^��7n4���!d��bf'�򗿘Ϫ� ��
+k[��9�f2�tu�6v� �@�b�,��9���������Kݚ	c-��&��6���.�����kr�]w��7��%��c*�ȉidO˦gK�e>��"�7���zG"�l�c�-����裏
+_�E�(�-PPP`��SXXt����Gf��#�-�6m���g<Z �����m���<�����V?ģ1��2�n�jLX��x0��]�F͠�E�k������~gf�B)WVq��0v#\�m�6�R�9�-���/�F����*a�$r���W@�D�5g-�߳�>k�r{���1,�I�󃙦U�V�mz�����m���(�@0��*P~V'Ѓ�5z�1�	�V�=\V=Υ3f�ҥK�hv2���&l&1�0�/[��Y�3���}�^��8��P�pJp0�=ٻw�q�D��8�ʞ��2����O��h��*lm%䌸f6n�5kVH��=]�og-����p߾}��6b�1��l�b.>u�/�쵺��h�E����H�4"��\́�(>	I���\'���'?1Q�n�1���p2� yƌ] ��Ĥ/^��X)N����`d�p2f ��҇��p���G/���<���df:6l�`B8�M�&|����o��z�0�W�R�� �!�<@��|���2e��i�uQ�`F��%K���%���9�d
+��p3_S㋦]Ժ�.�yݧ�zʄFEC9�
+�� s0������G�n^���UϽ���x��'�^0��/��V��V�T��[֭�ڵ����>ӹJX̫3��׺�P9m?G1YN3�c/���/>��Y���x���p���òb�
+���x��[�Y��3��@��x�7o�Y5����r:ҙ�oX�\.R��bQǘl�S`��.�9s�E̺w6�����W_5�N�b�����f]p�رc��[o����oߞ ��'�?��(����[��ǁ�-� S!�e�f<Ɣ������o�A�EU���^C��u��5�׍��줾qت$@s������/7b<�/�ZeD��� x���3��l���0 �+	Ќ�|dq���r��S�)<�Mj�O޼y��v��m�w��?�v��w��z1��q�oL,&1�l\��}6��M�|-�, Ö�h�Zmء�*	g0N8��Cd�EL,"I&O�,���fg,�ľF�cʓ�����8��T�O֎���8֝�j��N��e ���=@��B#���/p�Yx� ���d�,�-�0�H���ت��# ��Q�V{�B��t { ��0~s�Ɂ�b7U .E!h� ��䈦1�{x}��8T� �?�����9T��^���������Ī�#�����"ƭc��    IEND�B`�
+```
+
 ### `src/shared/copy.ts`
 
 ```ts
@@ -1536,6 +2077,196 @@ export function makeCopy<Copy extends Record<string, string>>(flow: string, copy
 }
 ```
 
+### `src/shared/data/companies.ts`
+
+```ts
+// The company catalogue — every Indian listed stock the prototype shows, with what a card, a list row or the stock
+// (asset) page needs: identity, logo, profile and a real market snapshot.
+//
+// - Logos come from the design system (@l3/assets/company-logos).
+// - Profiles (founded, headquarters, website, one line about the business) are written here — public facts.
+// - Market data (price, day / 52-week range, volume, 3 months of daily closes, sector, industry) comes from
+//   market-snapshot.json, refreshed from Yahoo Finance by `npm run market:snapshot` (see scripts/market-snapshot.mjs).
+//   Near-live, not live: the bundled copy is used at first, then the app re-reads ./market-snapshot.json (published
+//   next to the page; refreshed every 15 minutes in market hours by the site's GitHub Action) on load and every
+//   5 minutes. `companies` / `getCompany()` then return the newer numbers; call `useMarketSnapshot()` in a screen
+//   that shows prices so it re-renders when they change.
+import { useSyncExternalStore } from 'react'
+import { companyLogo } from '@l3/assets/company-logos'
+import bundled from './market-snapshot.json'
+
+export type Exchange = 'NSE' | 'BSE'
+
+export type CompanyProfile = {
+  /** NSE trading symbol — the key everywhere (RELIANCE). */
+  symbol: string
+  /** How the app writes it (Reliance Industries). */
+  name: string
+  /** Two letters for the Avatar when there's no logo. */
+  initials: string
+  exchanges: Exchange[]
+  founded: number
+  headquarters: string
+  website: string
+  /** One sentence on the business. */
+  about: string
+}
+
+export type DailyClose = { date: string; close: number }
+
+export type MarketData = {
+  /** Last traded price, ₹. */
+  price: number
+  prevClose: number
+  /** Day change, ₹ and %. */
+  change: number
+  changePct: number
+  dayHigh: number
+  dayLow: number
+  high52: number
+  low52: number
+  volume: number | null
+  sector: string | null
+  industry: string | null
+  /** Daily closes, oldest first (about 3 months) — for sparklines and the stock page chart. */
+  closes: DailyClose[]
+}
+
+export type Company = CompanyProfile & {
+  /** Logo image URL from the design system, or undefined (show `initials`). */
+  logoUrl?: string
+  /** The snapshot's market data, or undefined if the symbol wasn't fetched. */
+  market?: MarketData
+}
+
+const both: Exchange[] = ['NSE', 'BSE']
+const company = (symbol: string, name: string, initials: string, founded: number, headquarters: string, website: string, about: string): CompanyProfile => ({
+  symbol, name, initials, exchanges: both, founded, headquarters, website, about,
+})
+
+/** Profiles, by NSE symbol (one line each — scripts/market-snapshot.mjs reads the symbols from here). */
+export const profiles = {
+  ADANIENT: company('ADANIENT', 'Adani Enterprises', 'AE', 1988, 'Ahmedabad', 'adanienterprises.com', 'The Adani Group’s incubator — airports, roads, data centres, mining and new energy.'),
+  ADANIGREEN: company('ADANIGREEN', 'Adani Green Energy', 'AG', 2015, 'Ahmedabad', 'adanigreenenergy.com', 'One of India’s largest renewable power producers — solar, wind and hybrid plants.'),
+  ADANIPORTS: company('ADANIPORTS', 'Adani Ports and SEZ', 'AP', 1998, 'Ahmedabad', 'adaniports.com', 'India’s largest private port operator, with logistics and special economic zones.'),
+  ADANIPOWER: company('ADANIPOWER', 'Adani Power', 'AP', 1996, 'Ahmedabad', 'adanipower.com', 'India’s largest private thermal power producer.'),
+  ASIANPAINT: company('ASIANPAINT', 'Asian Paints', 'AP', 1942, 'Mumbai', 'asianpaints.com', 'India’s largest paint company — decorative and industrial coatings, home décor.'),
+  AXISBANK: company('AXISBANK', 'Axis Bank', 'AX', 1993, 'Mumbai', 'axisbank.com', 'A large private-sector bank — retail, corporate and SME banking.'),
+  'BAJAJ-AUTO': company('BAJAJ-AUTO', 'Bajaj Auto', 'BA', 1945, 'Pune', 'bajajauto.com', 'Makes motorcycles, scooters and three-wheelers, and exports them worldwide.'),
+  BAJAJFINSV: company('BAJAJFINSV', 'Bajaj Finserv', 'BF', 2007, 'Pune', 'bajajfinserv.in', 'Holding company for Bajaj’s lending, insurance and payments businesses.'),
+  BAJFINANCE: company('BAJFINANCE', 'Bajaj Finance', 'BF', 1987, 'Pune', 'bajajfinserv.in', 'A large non-bank lender — consumer, SME and mortgage loans.'),
+  BEL: company('BEL', 'Bharat Electronics', 'BE', 1954, 'Bengaluru', 'bel-india.in', 'State-owned maker of defence electronics — radars, communication and avionics.'),
+  BHARTIARTL: company('BHARTIARTL', 'Bharti Airtel', 'BA', 1995, 'New Delhi', 'airtel.in', 'Telecom operator — mobile, broadband and DTH in India and Africa.'),
+  COALINDIA: company('COALINDIA', 'Coal India', 'CI', 1975, 'Kolkata', 'coalindia.in', 'State-owned miner — the world’s largest coal producer.'),
+  DIVISLAB: company('DIVISLAB', 'Divi’s Laboratories', 'DL', 1990, 'Hyderabad', 'divislabs.com', 'Makes active pharmaceutical ingredients and intermediates for drug makers worldwide.'),
+  DMART: company('DMART', 'Avenue Supermarts (DMart)', 'DM', 2000, 'Mumbai', 'dmartindia.com', 'Runs the DMart chain of value supermarkets.'),
+  EICHERMOT: company('EICHERMOT', 'Eicher Motors', 'EM', 1948, 'New Delhi', 'eicher.in', 'Owner of Royal Enfield motorcycles and a partner in VE Commercial Vehicles.'),
+  ETERNAL: company('ETERNAL', 'Eternal (Zomato)', 'ET', 2008, 'Gurugram', 'eternal.com', 'Parent of Zomato, Blinkit, District and Hyperpure — food delivery and quick commerce.'),
+  GRASIM: company('GRASIM', 'Grasim Industries', 'GI', 1947, 'Mumbai', 'grasim.com', 'Aditya Birla Group company — cellulose fibre, chemicals, paints and cement (via UltraTech).'),
+  HAL: company('HAL', 'Hindustan Aeronautics', 'HA', 1940, 'Bengaluru', 'hal-india.co.in', 'State-owned maker of military aircraft, helicopters and aero engines.'),
+  HCLTECH: company('HCLTECH', 'HCL Technologies', 'HC', 1976, 'Noida', 'hcltech.com', 'IT services and software company — engineering, digital and cloud services.'),
+  HDFCBANK: company('HDFCBANK', 'HDFC Bank', 'HB', 1994, 'Mumbai', 'hdfcbank.com', 'India’s largest private-sector bank by assets.'),
+  HINDALCO: company('HINDALCO', 'Hindalco Industries', 'HI', 1958, 'Mumbai', 'hindalco.com', 'Aditya Birla Group’s aluminium and copper maker; owns Novelis.'),
+  HINDUNILVR: company('HINDUNILVR', 'Hindustan Unilever', 'HU', 1933, 'Mumbai', 'hul.co.in', 'India’s largest consumer goods company — Surf, Dove, Lux, Brooke Bond and more.'),
+  HINDZINC: company('HINDZINC', 'Hindustan Zinc', 'HZ', 1966, 'Udaipur', 'hzlindia.com', 'Vedanta Group’s integrated zinc, lead and silver producer.'),
+  ICICIBANK: company('ICICIBANK', 'ICICI Bank', 'IB', 1994, 'Mumbai', 'icicibank.com', 'A large private-sector bank — retail, corporate and digital banking.'),
+  IDEA: company('IDEA', 'Vodafone Idea', 'VI', 1995, 'Mumbai', 'myvi.in', 'Telecom operator Vi — mobile and broadband, formed by the merger of Vodafone India and Idea Cellular.'),
+  INDIGO: company('INDIGO', 'InterGlobe Aviation (IndiGo)', 'IG', 2006, 'Gurugram', 'goindigo.in', 'Runs IndiGo, India’s largest airline by passengers.'),
+  INFY: company('INFY', 'Infosys', 'IN', 1981, 'Bengaluru', 'infosys.com', 'IT services and consulting company — digital, cloud and AI services.'),
+  IOC: company('IOC', 'Indian Oil Corporation', 'IO', 1959, 'New Delhi', 'iocl.com', 'State-owned oil refiner and fuel retailer — India’s largest.'),
+  IRFC: company('IRFC', 'Indian Railway Finance Corporation', 'IR', 1986, 'New Delhi', 'irfc.co.in', 'State-owned lender that funds Indian Railways’ trains, wagons and track.'),
+  ITC: company('ITC', 'ITC', 'IT', 1910, 'Kolkata', 'itcportal.com', 'Cigarettes, packaged foods (Aashirvaad, Sunfeast), paperboards and agri-business.'),
+  JSWSTEEL: company('JSWSTEEL', 'JSW Steel', 'JS', 1982, 'Mumbai', 'jsw.in', 'One of India’s largest steel makers.'),
+  KOTAKBANK: company('KOTAKBANK', 'Kotak Mahindra Bank', 'KB', 1985, 'Mumbai', 'kotak.com', 'Private-sector bank with broking, insurance and asset management.'),
+  LICI: company('LICI', 'Life Insurance Corporation of India', 'LI', 1956, 'Mumbai', 'licindia.in', 'State-owned life insurer — India’s largest.'),
+  LT: company('LT', 'Larsen & Toubro', 'LT', 1938, 'Mumbai', 'larsentoubro.com', 'Engineering and construction conglomerate — infrastructure, defence, IT services.'),
+  'M&M': company('M&M', 'Mahindra & Mahindra', 'MM', 1945, 'Mumbai', 'mahindra.com', 'SUVs, tractors and commercial vehicles; India’s largest tractor maker.'),
+  MARUTI: company('MARUTI', 'Maruti Suzuki India', 'MS', 1981, 'New Delhi', 'marutisuzuki.com', 'India’s largest car maker, majority-owned by Suzuki.'),
+  NESTLEIND: company('NESTLEIND', 'Nestlé India', 'NI', 1959, 'Gurugram', 'nestle.in', 'Maggi, Nescafé, KitKat and baby food — the Indian arm of Nestlé.'),
+  NHPC: company('NHPC', 'NHPC', 'NH', 1975, 'Faridabad', 'nhpcindia.com', 'State-owned hydroelectric power producer — India’s largest.'),
+  NTPC: company('NTPC', 'NTPC', 'NT', 1975, 'New Delhi', 'ntpc.co.in', 'State-owned power producer — India’s largest, thermal and renewables.'),
+  ONGC: company('ONGC', 'Oil and Natural Gas Corporation', 'ON', 1956, 'New Delhi', 'ongcindia.com', 'State-owned explorer and producer of crude oil and natural gas — India’s largest.'),
+  POWERGRID: company('POWERGRID', 'Power Grid Corporation of India', 'PG', 1989, 'Gurugram', 'powergrid.in', 'State-owned operator of India’s inter-state power transmission network.'),
+  RELIANCE: company('RELIANCE', 'Reliance Industries', 'RI', 1966, 'Mumbai', 'ril.com', 'Oil-to-chemicals, Jio telecom and Reliance Retail — India’s largest company by revenue.'),
+  SBIN: company('SBIN', 'State Bank of India', 'SB', 1955, 'Mumbai', 'sbi.co.in', 'State-owned bank — India’s largest by assets and customers.'),
+  SHRIRAMFIN: company('SHRIRAMFIN', 'Shriram Finance', 'SF', 1979, 'Chennai', 'shriramfinance.in', 'Non-bank lender — commercial vehicle, MSME and gold loans.'),
+  SOLARINDS: company('SOLARINDS', 'Solar Industries India', 'SI', 1995, 'Nagpur', 'solargroup.com', 'Industrial explosives and defence ammunition maker.'),
+  SOUTHBANK: company('SOUTHBANK', 'South Indian Bank', 'SB', 1929, 'Thrissur', 'southindianbank.com', 'Private-sector bank rooted in Kerala — retail, SME and NRI banking.'),
+  SUNPHARMA: company('SUNPHARMA', 'Sun Pharmaceutical Industries', 'SP', 1983, 'Mumbai', 'sunpharma.com', 'India’s largest drug maker — specialty and generic medicines.'),
+  SUZLON: company('SUZLON', 'Suzlon Energy', 'SE', 1995, 'Pune', 'suzlon.com', 'India’s largest wind turbine maker — builds and services wind farms.'),
+  TATASTEEL: company('TATASTEEL', 'Tata Steel', 'TS', 1907, 'Mumbai', 'tatasteel.com', 'Tata Group’s steel maker, with plants in India, the Netherlands and the UK.'),
+  TCS: company('TCS', 'Tata Consultancy Services', 'TC', 1968, 'Mumbai', 'tcs.com', 'India’s largest IT services company, part of the Tata Group.'),
+  TITAN: company('TITAN', 'Titan Company', 'TI', 1984, 'Bengaluru', 'titancompany.in', 'Tanishq jewellery, Titan watches and eyewear — Tata Group.'),
+  TORNTPHARM: company('TORNTPHARM', 'Torrent Pharmaceuticals', 'TP', 1959, 'Ahmedabad', 'torrentpharma.com', 'Branded generic medicines in India and abroad.'),
+  TVSMOTOR: company('TVSMOTOR', 'TVS Motor Company', 'TV', 1978, 'Chennai', 'tvsmotor.com', 'Motorcycles, scooters (incl. electric) and three-wheelers.'),
+  ULTRACEMCO: company('ULTRACEMCO', 'UltraTech Cement', 'UC', 1983, 'Mumbai', 'ultratechcement.com', 'India’s largest cement maker — Aditya Birla Group.'),
+  WIPRO: company('WIPRO', 'Wipro', 'WI', 1945, 'Bengaluru', 'wipro.com', 'IT services and consulting company.'),
+  YESBANK: company('YESBANK', 'Yes Bank', 'YB', 2004, 'Mumbai', 'yesbank.in', 'Private-sector bank — retail, MSME and corporate banking; rebuilt by an SBI-led rescue in 2020.'),
+} satisfies Record<string, CompanyProfile>
+
+export type CompanySymbol = keyof typeof profiles
+
+type Snapshot = { source: string; fetchedAt: string; quotes: Record<string, Partial<MarketData> & { closes?: DailyClose[] }> }
+
+/** When the market data shown now was fetched (ISO date-time) and from where. Updated in place by the runtime refresh. */
+export const marketSnapshot = { fetchedAt: bundled.fetchedAt, source: bundled.source }
+
+function toCompany(p: CompanyProfile, snapshot: Snapshot, fallback?: MarketData): Company {
+  const q = snapshot.quotes[p.symbol]
+  return { ...p, logoUrl: companyLogo(p.symbol), market: q?.price != null ? (q as MarketData) : fallback }
+}
+
+/** Every company with logo and market data, by NSE symbol. */
+export const companies = Object.fromEntries(Object.values(profiles).map((p) => [p.symbol, toCompany(p, bundled as Snapshot)])) as Record<CompanySymbol, Company>
+
+// ── Runtime refresh ──────────────────────────────────────────────────────────────────────────────────────────────
+const listeners = new Set<() => void>()
+
+function apply(snapshot: Snapshot) {
+  if (!(snapshot.fetchedAt > marketSnapshot.fetchedAt)) return // ISO strings sort by time; never go back to older data
+  // A symbol the published file doesn't have yet (added to the catalogue after the site's copy) keeps the numbers we have.
+  for (const p of Object.values(profiles)) companies[p.symbol as CompanySymbol] = toCompany(p, snapshot, companies[p.symbol as CompanySymbol]?.market)
+  Object.assign(marketSnapshot, { fetchedAt: snapshot.fetchedAt, source: snapshot.source })
+  listeners.forEach((l) => l())
+}
+
+/** Re-read the published snapshot (same origin — no API call). Fails quietly: the numbers we have stay. */
+export async function refreshMarket() {
+  try {
+    const res = await fetch('market-snapshot.json', { cache: 'no-cache' })
+    if (res.ok) apply(await res.json())
+  } catch { /* offline, or the file isn't there — keep what we have */ }
+}
+
+const REFRESH_MS = 5 * 60 * 1000
+if (typeof window !== 'undefined') {
+  refreshMarket()
+  setInterval(() => { if (document.visibilityState === 'visible') refreshMarket() }, REFRESH_MS)
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshMarket() })
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener)
+  return () => { listeners.delete(listener) }
+}
+
+/** Re-renders the calling component when fresher market data arrives; returns its `fetchedAt`. */
+export function useMarketSnapshot(): string {
+  return useSyncExternalStore(subscribe, () => marketSnapshot.fetchedAt)
+}
+
+/** One company by NSE symbol (undefined if it isn't in the catalogue). */
+export function getCompany(symbol: string): Company | undefined {
+  return (companies as Record<string, Company | undefined>)[symbol]
+}
+
+/** All companies, sorted by today's change — for "top gainers / losers" style lists. */
+export function companiesByChange(direction: 'gainers' | 'losers'): Company[] {
+  const list = Object.values(companies).filter((c) => c.market)
+  return list.sort((a, b) => (direction === 'gainers' ? b.market!.changePct - a.market!.changePct : a.market!.changePct - b.market!.changePct))
+}
+```
+
 ### `src/shared/data/format.ts`
 
 ```ts
@@ -1543,12 +2274,24235 @@ export function makeCopy<Copy extends Record<string, string>>(flow: string, copy
 export const inr = (n: number, decimals = 2) =>
   '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
 
+/** $ with US grouping: usd(1234.5) → "$1,234.50"; usd(1000, 0) → "$1,000". */
+export const usd = (n: number, decimals = 2) =>
+  '$' + n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+
 /** "9876543210" → "98765 43210" (how Indian mobile numbers are read out). */
 export const phone = (digits: string) => (digits.length > 5 ? `${digits.slice(0, 5)} ${digits.slice(5)}` : digits)
 
 /** Keep the last `visible` characters: mask('ABCPM1234K', 1, 5) → "ABCPM****K". */
 export const mask = (s: string, keepStart: number, keepEnd: number) =>
   s.slice(0, keepStart) + '•'.repeat(Math.max(0, s.length - keepStart - keepEnd)) + s.slice(s.length - keepEnd)
+```
+
+### `src/shared/data/live.ts`
+
+```ts
+// Live-looking prices for the prototype. Every price on screen moves a little around its real value (the market
+// snapshots: market-snapshot.json for Indian stocks, us-market-snapshot.json for US), ticking every 2 s.
+// FLAG: simulated movement — there is no free live feed a browser page can call (Yahoo sends no CORS header; Finnhub
+// and the like need a key). The level is real (the snapshot); only the wiggle around it is made up. Each symbol moves
+// on its own smooth path (a few slow sine waves), never more than ±0.6 % from the snapshot, the same on every device.
+import { useSyncExternalStore } from 'react'
+
+const TICK_MS = 2000
+
+let tick = 0
+let timer: ReturnType<typeof setInterval> | undefined
+const listeners = new Set<() => void>()
+
+function subscribe(onChange: () => void) {
+  listeners.add(onChange)
+  if (!timer) {
+    timer = setInterval(() => {
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return
+      tick += 1
+      listeners.forEach((l) => l())
+    }, TICK_MS)
+  }
+  return () => {
+    listeners.delete(onChange)
+    if (!listeners.size && timer) {
+      clearInterval(timer)
+      timer = undefined
+    }
+  }
+}
+
+/** Re-render every ticking price now (fresher snapshot data arrived), one tick early. */
+export function nudgeLive() {
+  tick += 1
+  listeners.forEach((l) => l())
+}
+
+/** The live clock: a number that goes up by one every 2 s while anything on screen listens. */
+export function useLiveTick(): number {
+  return useSyncExternalStore(subscribe, () => tick, () => 0)
+}
+
+/** A stable number in [0, 1) for a symbol (its path's phase and speed). */
+function hash(key: string, salt: number) {
+  let n = 2166136261 ^ salt
+  for (const c of key) n = Math.imul(n ^ c.charCodeAt(0), 16777619)
+  return ((n >>> 0) % 10000) / 10000
+}
+
+/** How far a symbol has moved from its snapshot price at a tick: a fraction, within ±0.006. */
+export function liveDrift(key: string, at: number): number {
+  const a = hash(key, 1), b = hash(key, 2), c = hash(key, 3)
+  return 0.0035 * Math.sin(at * (0.21 + a * 0.2) + a * 6.28) + 0.0018 * Math.sin(at * (0.73 + b * 0.4) + b * 6.28) + 0.0007 * Math.sin(at * (1.9 + c) + c * 6.28)
+}
+
+export type LiveQuote = {
+  price: number
+  /** Day change, % (against yesterday's close, so it moves with the price). */
+  changePct: number
+  /** Day change in the price's currency. */
+  change: number
+  /** Which way the last tick went: for a brief up / down flash. */
+  moved: 'up' | 'down' | 'none'
+}
+
+/** A price and its day change % as they are at a tick (yesterday's close is worked back from the snapshot's %). */
+export function liveQuote(key: string, price: number, changePct: number, at: number): LiveQuote {
+  const prevClose = price / (1 + changePct / 100)
+  const now = price * (1 + liveDrift(key, at))
+  const before = price * (1 + liveDrift(key, at - 1))
+  const round = (n: number) => Math.round(n * 100) / 100
+  const p = round(now)
+  return {
+    price: p,
+    change: round(p - prevClose),
+    changePct: round(((p - prevClose) / prevClose) * 100),
+    moved: at === 0 || round(before) === p ? 'none' : p > round(before) ? 'up' : 'down',
+  }
+}
+
+/** A price that ticks: `useLiveQuote('NVDA', 204.64, -4.22)`. */
+export function useLiveQuote(key: string, price: number, changePct: number): LiveQuote {
+  return liveQuote(key, price, changePct, useLiveTick())
+}
+```
+
+### `src/shared/data/market-snapshot.json`
+
+```json
+{
+ "source": "Yahoo Finance (public chart + search endpoints)",
+ "fetchedAt": "2026-10-22T20:21:36.864Z",
+ "symbols": [
+  "ADANIENT",
+  "ADANIGREEN",
+  "ADANIPORTS",
+  "ADANIPOWER",
+  "ASIANPAINT",
+  "AXISBANK",
+  "BAJAJ-AUTO",
+  "BAJAJFINSV",
+  "BAJFINANCE",
+  "BEL",
+  "BHARTIARTL",
+  "COALINDIA",
+  "DIVISLAB",
+  "DMART",
+  "EICHERMOT",
+  "ETERNAL",
+  "GRASIM",
+  "HAL",
+  "HCLTECH",
+  "HDFCBANK",
+  "HINDALCO",
+  "HINDUNILVR",
+  "HINDZINC",
+  "ICICIBANK",
+  "IDEA",
+  "INDIGO",
+  "INFY",
+  "IOC",
+  "IRFC",
+  "ITC",
+  "JSWSTEEL",
+  "KOTAKBANK",
+  "LICI",
+  "LT",
+  "M&M",
+  "MARUTI",
+  "NESTLEIND",
+  "NHPC",
+  "NTPC",
+  "ONGC",
+  "POWERGRID",
+  "RELIANCE",
+  "SBIN",
+  "SHRIRAMFIN",
+  "SOLARINDS",
+  "SOUTHBANK",
+  "SUNPHARMA",
+  "SUZLON",
+  "TATASTEEL",
+  "TCS",
+  "TITAN",
+  "TORNTPHARM",
+  "TVSMOTOR",
+  "ULTRACEMCO",
+  "WIPRO",
+  "YESBANK"
+ ],
+ "quotes": {
+  "ADANIENT": {
+   "price": 2550,
+   "prevClose": 2657.5,
+   "change": -107.5,
+   "changePct": -4.05,
+   "dayHigh": 2592.2,
+   "dayLow": 2531.5,
+   "high52": 3245,
+   "low52": 1753,
+   "volume": 1011595,
+   "longName": "Adani Enterprises Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 3147.7
+    },
+    {
+     "date": "2026-07-23",
+     "close": 3010
+    },
+    {
+     "date": "2026-07-24",
+     "close": 3026.4
+    },
+    {
+     "date": "2026-07-27",
+     "close": 3036.6
+    },
+    {
+     "date": "2026-07-28",
+     "close": 3002.3
+    },
+    {
+     "date": "2026-07-29",
+     "close": 3024.5
+    },
+    {
+     "date": "2026-07-30",
+     "close": 3049.1
+    },
+    {
+     "date": "2026-07-31",
+     "close": 3009.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 3068
+    },
+    {
+     "date": "2026-08-04",
+     "close": 3050
+    },
+    {
+     "date": "2026-08-05",
+     "close": 3050
+    },
+    {
+     "date": "2026-08-06",
+     "close": 3026
+    },
+    {
+     "date": "2026-08-07",
+     "close": 3020
+    },
+    {
+     "date": "2026-08-10",
+     "close": 3010
+    },
+    {
+     "date": "2026-08-11",
+     "close": 2995.5
+    },
+    {
+     "date": "2026-08-12",
+     "close": 2985.7
+    },
+    {
+     "date": "2026-08-13",
+     "close": 2964.9
+    },
+    {
+     "date": "2026-08-14",
+     "close": 3035.1
+    },
+    {
+     "date": "2026-08-17",
+     "close": 3007.3
+    },
+    {
+     "date": "2026-08-18",
+     "close": 3002.5
+    },
+    {
+     "date": "2026-08-19",
+     "close": 2990.3
+    },
+    {
+     "date": "2026-08-20",
+     "close": 2994.9
+    },
+    {
+     "date": "2026-08-21",
+     "close": 2997
+    },
+    {
+     "date": "2026-08-24",
+     "close": 2998.6
+    },
+    {
+     "date": "2026-08-25",
+     "close": 3110
+    },
+    {
+     "date": "2026-08-26",
+     "close": 3112
+    },
+    {
+     "date": "2026-08-27",
+     "close": 3169
+    },
+    {
+     "date": "2026-08-28",
+     "close": 3168.5
+    },
+    {
+     "date": "2026-08-31",
+     "close": 2859.1
+    },
+    {
+     "date": "2026-09-01",
+     "close": 2863.9
+    },
+    {
+     "date": "2026-09-02",
+     "close": 2891.8
+    },
+    {
+     "date": "2026-09-03",
+     "close": 2901
+    },
+    {
+     "date": "2026-09-04",
+     "close": 2938
+    },
+    {
+     "date": "2026-09-07",
+     "close": 2950
+    },
+    {
+     "date": "2026-09-08",
+     "close": 2953.1
+    },
+    {
+     "date": "2026-09-09",
+     "close": 3104.7
+    },
+    {
+     "date": "2026-09-10",
+     "close": 3077.2
+    },
+    {
+     "date": "2026-09-11",
+     "close": 3060
+    },
+    {
+     "date": "2026-09-15",
+     "close": 2928.6
+    },
+    {
+     "date": "2026-09-16",
+     "close": 2920
+    },
+    {
+     "date": "2026-09-17",
+     "close": 2923.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 3020
+    },
+    {
+     "date": "2026-09-21",
+     "close": 2975
+    },
+    {
+     "date": "2026-09-22",
+     "close": 2997
+    },
+    {
+     "date": "2026-09-23",
+     "close": 2993.2
+    },
+    {
+     "date": "2026-09-24",
+     "close": 2900
+    },
+    {
+     "date": "2026-09-25",
+     "close": 2916.5
+    },
+    {
+     "date": "2026-09-28",
+     "close": 2831.1
+    },
+    {
+     "date": "2026-09-29",
+     "close": 2972.9
+    },
+    {
+     "date": "2026-09-30",
+     "close": 2903.4
+    },
+    {
+     "date": "2026-10-01",
+     "close": 2816.8
+    },
+    {
+     "date": "2026-10-05",
+     "close": 2864
+    },
+    {
+     "date": "2026-10-06",
+     "close": 2849.9
+    },
+    {
+     "date": "2026-10-07",
+     "close": 2743
+    },
+    {
+     "date": "2026-10-08",
+     "close": 2596
+    },
+    {
+     "date": "2026-10-09",
+     "close": 2634.4
+    },
+    {
+     "date": "2026-10-12",
+     "close": 2630
+    },
+    {
+     "date": "2026-10-13",
+     "close": 2695
+    },
+    {
+     "date": "2026-10-14",
+     "close": 2722.6
+    },
+    {
+     "date": "2026-10-15",
+     "close": 2700
+    },
+    {
+     "date": "2026-10-16",
+     "close": 2692
+    },
+    {
+     "date": "2026-10-19",
+     "close": 2657.5
+    },
+    {
+     "date": "2026-10-21",
+     "close": 2594.5
+    }
+   ],
+   "sector": "Energy",
+   "industry": "Thermal Coal"
+  },
+  "ADANIGREEN": {
+   "price": 1250,
+   "prevClose": 1295.2,
+   "change": -45.2,
+   "changePct": -3.49,
+   "dayHigh": 1263.4,
+   "dayLow": 1210.7,
+   "high52": 1631.5,
+   "low52": 765,
+   "volume": 1689322,
+   "longName": "Adani Green Energy Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1472.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1379.9
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1395.1
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1399.7
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1377.8
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1373.1
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1358.7
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1383
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1395
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1384
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1380
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1371.5
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1372.4
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1369
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1366
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1332.3
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1319
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1348
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1327.6
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1308
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1293
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1301.8
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1320
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1308
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1330
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1303.2
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1328.5
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1311
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1214.9
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1265
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1296
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1283.4
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1301.3
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1288
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1292
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1315
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1299.1
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1281.3
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1255
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1270.2
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1274.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1334.5
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1303.6
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1304
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1300.9
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1280.1
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1296.6
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1235
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1260
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1278
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1276.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1284
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1313
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1341.4
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1235.7
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1255.8
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1274
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1287
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1318.4
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1307.1
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1302
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1295.2
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1258.5
+    }
+   ],
+   "sector": "Utilities",
+   "industry": "Utilities—Renewable"
+  },
+  "ADANIPORTS": {
+   "price": 1750,
+   "prevClose": 1766,
+   "change": -16,
+   "changePct": -0.91,
+   "dayHigh": 1750,
+   "dayLow": 1715.3,
+   "high52": 1891.1,
+   "low52": 1292,
+   "volume": 1634176,
+   "longName": "Adani Ports and Special Economic Zone Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1819.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1778.5
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1768.3
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1770.4
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1774.7
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1719.7
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1664.1
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1696.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1701
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1706.7
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1700
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1695
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1693.5
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1681
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1668.2
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1665
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1658
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1700
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1691
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1682.4
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1681.9
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1696
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1700
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1672.1
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1702.7
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1691.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1714
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1707.5
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1593.1
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1647.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1672.7
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1706.5
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1707.3
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1694.3
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1710
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1775
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1768
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1764.6
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1713.8
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1723.8
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1738.3
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1824
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1787.1
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1795
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1807.3
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1785.3
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1788
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1743.7
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1822
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1798.3
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1737.8
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1774
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1783.4
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1750.1
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1708
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1761
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1754
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1763
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1748.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1743.2
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1750.8
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1766
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1748.8
+    }
+   ],
+   "sector": "Industrials",
+   "industry": "Marine Shipping"
+  },
+  "ADANIPOWER": {
+   "price": 185.27,
+   "prevClose": 194.08,
+   "change": -8.81,
+   "changePct": -4.54,
+   "dayHigh": 188.06,
+   "dayLow": 183,
+   "high52": 254.2,
+   "low52": 128.1,
+   "volume": 13368643,
+   "longName": "Adani Power Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 216.95
+    },
+    {
+     "date": "2026-07-23",
+     "close": 212.23
+    },
+    {
+     "date": "2026-07-24",
+     "close": 213.66
+    },
+    {
+     "date": "2026-07-27",
+     "close": 213.96
+    },
+    {
+     "date": "2026-07-28",
+     "close": 208.25
+    },
+    {
+     "date": "2026-07-29",
+     "close": 209.52
+    },
+    {
+     "date": "2026-07-30",
+     "close": 208.97
+    },
+    {
+     "date": "2026-07-31",
+     "close": 211.31
+    },
+    {
+     "date": "2026-08-03",
+     "close": 213.65
+    },
+    {
+     "date": "2026-08-04",
+     "close": 209.95
+    },
+    {
+     "date": "2026-08-05",
+     "close": 208.99
+    },
+    {
+     "date": "2026-08-06",
+     "close": 208.12
+    },
+    {
+     "date": "2026-08-07",
+     "close": 209
+    },
+    {
+     "date": "2026-08-10",
+     "close": 210.65
+    },
+    {
+     "date": "2026-08-11",
+     "close": 209
+    },
+    {
+     "date": "2026-08-12",
+     "close": 206.99
+    },
+    {
+     "date": "2026-08-13",
+     "close": 206.1
+    },
+    {
+     "date": "2026-08-14",
+     "close": 205.25
+    },
+    {
+     "date": "2026-08-17",
+     "close": 203.56
+    },
+    {
+     "date": "2026-08-18",
+     "close": 205.58
+    },
+    {
+     "date": "2026-08-19",
+     "close": 204.02
+    },
+    {
+     "date": "2026-08-20",
+     "close": 204
+    },
+    {
+     "date": "2026-08-21",
+     "close": 205.5
+    },
+    {
+     "date": "2026-08-24",
+     "close": 203.7
+    },
+    {
+     "date": "2026-08-25",
+     "close": 206.33
+    },
+    {
+     "date": "2026-08-26",
+     "close": 207.2
+    },
+    {
+     "date": "2026-08-27",
+     "close": 215
+    },
+    {
+     "date": "2026-08-28",
+     "close": 212.63
+    },
+    {
+     "date": "2026-08-31",
+     "close": 198
+    },
+    {
+     "date": "2026-09-01",
+     "close": 204.36
+    },
+    {
+     "date": "2026-09-02",
+     "close": 207.7
+    },
+    {
+     "date": "2026-09-03",
+     "close": 208.29
+    },
+    {
+     "date": "2026-09-04",
+     "close": 207.2
+    },
+    {
+     "date": "2026-09-07",
+     "close": 204.49
+    },
+    {
+     "date": "2026-09-08",
+     "close": 208.4
+    },
+    {
+     "date": "2026-09-09",
+     "close": 214.9
+    },
+    {
+     "date": "2026-09-10",
+     "close": 213.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 209.97
+    },
+    {
+     "date": "2026-09-15",
+     "close": 202
+    },
+    {
+     "date": "2026-09-16",
+     "close": 202.34
+    },
+    {
+     "date": "2026-09-17",
+     "close": 205.92
+    },
+    {
+     "date": "2026-09-18",
+     "close": 206.6
+    },
+    {
+     "date": "2026-09-21",
+     "close": 206.55
+    },
+    {
+     "date": "2026-09-22",
+     "close": 206.96
+    },
+    {
+     "date": "2026-09-23",
+     "close": 204.8
+    },
+    {
+     "date": "2026-09-24",
+     "close": 199.48
+    },
+    {
+     "date": "2026-09-25",
+     "close": 202.75
+    },
+    {
+     "date": "2026-09-28",
+     "close": 196.14
+    },
+    {
+     "date": "2026-09-29",
+     "close": 196.3
+    },
+    {
+     "date": "2026-09-30",
+     "close": 204
+    },
+    {
+     "date": "2026-10-01",
+     "close": 196.21
+    },
+    {
+     "date": "2026-10-05",
+     "close": 201
+    },
+    {
+     "date": "2026-10-06",
+     "close": 202.4
+    },
+    {
+     "date": "2026-10-07",
+     "close": 196.94
+    },
+    {
+     "date": "2026-10-08",
+     "close": 188
+    },
+    {
+     "date": "2026-10-09",
+     "close": 189
+    },
+    {
+     "date": "2026-10-12",
+     "close": 185.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 185.96
+    },
+    {
+     "date": "2026-10-14",
+     "close": 195.15
+    },
+    {
+     "date": "2026-10-15",
+     "close": 196.5
+    },
+    {
+     "date": "2026-10-16",
+     "close": 195.85
+    },
+    {
+     "date": "2026-10-19",
+     "close": 194.08
+    },
+    {
+     "date": "2026-10-21",
+     "close": 187.09
+    }
+   ],
+   "sector": "Utilities",
+   "industry": "Utilities—Independent Power Producers"
+  },
+  "ASIANPAINT": {
+   "price": 2284.8,
+   "prevClose": 2330.7,
+   "change": -45.9,
+   "changePct": -1.97,
+   "dayHigh": 2309.9,
+   "dayLow": 2270,
+   "high52": 2985.7,
+   "low52": 2115,
+   "volume": 435972,
+   "longName": "Asian Paints Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 2692.8
+    },
+    {
+     "date": "2026-07-23",
+     "close": 2668.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 2637.9
+    },
+    {
+     "date": "2026-07-27",
+     "close": 2710.2
+    },
+    {
+     "date": "2026-07-28",
+     "close": 2736.2
+    },
+    {
+     "date": "2026-07-29",
+     "close": 2758.4
+    },
+    {
+     "date": "2026-07-30",
+     "close": 2746.2
+    },
+    {
+     "date": "2026-07-31",
+     "close": 2747.3
+    },
+    {
+     "date": "2026-08-03",
+     "close": 2810
+    },
+    {
+     "date": "2026-08-04",
+     "close": 2775
+    },
+    {
+     "date": "2026-08-05",
+     "close": 2760
+    },
+    {
+     "date": "2026-08-06",
+     "close": 2755
+    },
+    {
+     "date": "2026-08-07",
+     "close": 2735
+    },
+    {
+     "date": "2026-08-10",
+     "close": 2750
+    },
+    {
+     "date": "2026-08-11",
+     "close": 2735.5
+    },
+    {
+     "date": "2026-08-12",
+     "close": 2740
+    },
+    {
+     "date": "2026-08-13",
+     "close": 2755.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 2696.3
+    },
+    {
+     "date": "2026-08-17",
+     "close": 2687.5
+    },
+    {
+     "date": "2026-08-18",
+     "close": 2628.4
+    },
+    {
+     "date": "2026-08-19",
+     "close": 2630.8
+    },
+    {
+     "date": "2026-08-20",
+     "close": 2625.2
+    },
+    {
+     "date": "2026-08-21",
+     "close": 2640
+    },
+    {
+     "date": "2026-08-24",
+     "close": 2640.8
+    },
+    {
+     "date": "2026-08-25",
+     "close": 2639.8
+    },
+    {
+     "date": "2026-08-26",
+     "close": 2626.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 2631
+    },
+    {
+     "date": "2026-08-28",
+     "close": 2608.7
+    },
+    {
+     "date": "2026-08-31",
+     "close": 2653.6
+    },
+    {
+     "date": "2026-09-01",
+     "close": 2575.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 2527.5
+    },
+    {
+     "date": "2026-09-03",
+     "close": 2541.6
+    },
+    {
+     "date": "2026-09-04",
+     "close": 2527.3
+    },
+    {
+     "date": "2026-09-07",
+     "close": 2500.9
+    },
+    {
+     "date": "2026-09-08",
+     "close": 2481.6
+    },
+    {
+     "date": "2026-09-09",
+     "close": 2489
+    },
+    {
+     "date": "2026-09-10",
+     "close": 2498.1
+    },
+    {
+     "date": "2026-09-11",
+     "close": 2472.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 2402.8
+    },
+    {
+     "date": "2026-09-16",
+     "close": 2416.6
+    },
+    {
+     "date": "2026-09-17",
+     "close": 2454
+    },
+    {
+     "date": "2026-09-18",
+     "close": 2451.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 2440.3
+    },
+    {
+     "date": "2026-09-22",
+     "close": 2448.5
+    },
+    {
+     "date": "2026-09-23",
+     "close": 2455
+    },
+    {
+     "date": "2026-09-24",
+     "close": 2392.7
+    },
+    {
+     "date": "2026-09-25",
+     "close": 2444
+    },
+    {
+     "date": "2026-09-28",
+     "close": 2420
+    },
+    {
+     "date": "2026-09-29",
+     "close": 2415
+    },
+    {
+     "date": "2026-09-30",
+     "close": 2402.6
+    },
+    {
+     "date": "2026-10-01",
+     "close": 2407
+    },
+    {
+     "date": "2026-10-05",
+     "close": 2366
+    },
+    {
+     "date": "2026-10-06",
+     "close": 2424.2
+    },
+    {
+     "date": "2026-10-07",
+     "close": 2372.1
+    },
+    {
+     "date": "2026-10-08",
+     "close": 2311.6
+    },
+    {
+     "date": "2026-10-09",
+     "close": 2339.1
+    },
+    {
+     "date": "2026-10-12",
+     "close": 2331
+    },
+    {
+     "date": "2026-10-13",
+     "close": 2376
+    },
+    {
+     "date": "2026-10-14",
+     "close": 2344.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 2350
+    },
+    {
+     "date": "2026-10-16",
+     "close": 2331.9
+    },
+    {
+     "date": "2026-10-19",
+     "close": 2330.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 2319.4
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Specialty Chemicals"
+  },
+  "AXISBANK": {
+   "price": 1212,
+   "prevClose": 1236,
+   "change": -24,
+   "changePct": -1.94,
+   "dayHigh": 1216.1,
+   "dayLow": 1200.3,
+   "high52": 1418.3,
+   "low52": 1150.3,
+   "volume": 10014652,
+   "longName": "Axis Bank Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1238.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1223
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1227.3
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1227.5
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1223.5
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1235.4
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1228.9
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1229.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1272
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1261.8
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1253.9
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1256
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1238
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1247.3
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1229.8
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1230
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1221.8
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1217.4
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1227.3
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1243
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1235
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1251
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1245.8
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1236
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1235
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1255
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1256
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1265
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1300
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1258
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1253.9
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1267
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1273
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1266
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1244.9
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1238.5
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1246
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1246
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1222.9
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1241
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1240
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1257
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1250
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1242.7
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1243.2
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1186.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1222.4
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1209.9
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1212.1
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1226
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1217.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1222.2
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1248
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1242.5
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1245
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1259.1
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1253
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1268.4
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1264.6
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1288
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1290
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1236
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1210
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  },
+  "BAJAJ-AUTO": {
+   "price": 10155,
+   "prevClose": 10287,
+   "change": -132,
+   "changePct": -1.28,
+   "dayHigh": 10271,
+   "dayLow": 9906,
+   "high52": 12470,
+   "low52": 8605,
+   "volume": 229879,
+   "longName": "Bajaj Auto Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 10998.5
+    },
+    {
+     "date": "2026-07-23",
+     "close": 11283.5
+    },
+    {
+     "date": "2026-07-24",
+     "close": 11130
+    },
+    {
+     "date": "2026-07-27",
+     "close": 11183.5
+    },
+    {
+     "date": "2026-07-28",
+     "close": 11374
+    },
+    {
+     "date": "2026-07-29",
+     "close": 11338
+    },
+    {
+     "date": "2026-07-30",
+     "close": 11432
+    },
+    {
+     "date": "2026-07-31",
+     "close": 11520.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 11856
+    },
+    {
+     "date": "2026-08-04",
+     "close": 11600
+    },
+    {
+     "date": "2026-08-05",
+     "close": 11800
+    },
+    {
+     "date": "2026-08-06",
+     "close": 11620
+    },
+    {
+     "date": "2026-08-07",
+     "close": 11662
+    },
+    {
+     "date": "2026-08-10",
+     "close": 11677
+    },
+    {
+     "date": "2026-08-11",
+     "close": 11717
+    },
+    {
+     "date": "2026-08-12",
+     "close": 11700
+    },
+    {
+     "date": "2026-08-13",
+     "close": 11661
+    },
+    {
+     "date": "2026-08-14",
+     "close": 11700
+    },
+    {
+     "date": "2026-08-17",
+     "close": 11663
+    },
+    {
+     "date": "2026-08-18",
+     "close": 11607
+    },
+    {
+     "date": "2026-08-19",
+     "close": 11645
+    },
+    {
+     "date": "2026-08-20",
+     "close": 11793
+    },
+    {
+     "date": "2026-08-21",
+     "close": 11700
+    },
+    {
+     "date": "2026-08-24",
+     "close": 11800
+    },
+    {
+     "date": "2026-08-25",
+     "close": 11927
+    },
+    {
+     "date": "2026-08-26",
+     "close": 11724
+    },
+    {
+     "date": "2026-08-27",
+     "close": 11720
+    },
+    {
+     "date": "2026-08-28",
+     "close": 11910
+    },
+    {
+     "date": "2026-08-31",
+     "close": 12130
+    },
+    {
+     "date": "2026-09-01",
+     "close": 12361
+    },
+    {
+     "date": "2026-09-02",
+     "close": 12130
+    },
+    {
+     "date": "2026-09-03",
+     "close": 11920
+    },
+    {
+     "date": "2026-09-04",
+     "close": 11919
+    },
+    {
+     "date": "2026-09-07",
+     "close": 11800
+    },
+    {
+     "date": "2026-09-08",
+     "close": 11880
+    },
+    {
+     "date": "2026-09-09",
+     "close": 11790
+    },
+    {
+     "date": "2026-09-10",
+     "close": 11768
+    },
+    {
+     "date": "2026-09-11",
+     "close": 11678
+    },
+    {
+     "date": "2026-09-15",
+     "close": 11424
+    },
+    {
+     "date": "2026-09-16",
+     "close": 11593
+    },
+    {
+     "date": "2026-09-17",
+     "close": 11500
+    },
+    {
+     "date": "2026-09-18",
+     "close": 11414
+    },
+    {
+     "date": "2026-09-21",
+     "close": 11460
+    },
+    {
+     "date": "2026-09-22",
+     "close": 11363
+    },
+    {
+     "date": "2026-09-23",
+     "close": 11400
+    },
+    {
+     "date": "2026-09-24",
+     "close": 11208
+    },
+    {
+     "date": "2026-09-25",
+     "close": 11281
+    },
+    {
+     "date": "2026-09-28",
+     "close": 11024
+    },
+    {
+     "date": "2026-09-29",
+     "close": 10811
+    },
+    {
+     "date": "2026-09-30",
+     "close": 10874
+    },
+    {
+     "date": "2026-10-01",
+     "close": 10045
+    },
+    {
+     "date": "2026-10-05",
+     "close": 10024
+    },
+    {
+     "date": "2026-10-06",
+     "close": 10017
+    },
+    {
+     "date": "2026-10-07",
+     "close": 9884
+    },
+    {
+     "date": "2026-10-08",
+     "close": 9637
+    },
+    {
+     "date": "2026-10-09",
+     "close": 9778
+    },
+    {
+     "date": "2026-10-12",
+     "close": 10034
+    },
+    {
+     "date": "2026-10-13",
+     "close": 10318
+    },
+    {
+     "date": "2026-10-14",
+     "close": 10250
+    },
+    {
+     "date": "2026-10-15",
+     "close": 10385
+    },
+    {
+     "date": "2026-10-16",
+     "close": 10405
+    },
+    {
+     "date": "2026-10-19",
+     "close": 10287
+    },
+    {
+     "date": "2026-10-21",
+     "close": 10072
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Auto Manufacturers"
+  },
+  "BAJAJFINSV": {
+   "price": 1678,
+   "prevClose": 1700,
+   "change": -22,
+   "changePct": -1.29,
+   "dayHigh": 1692.9,
+   "dayLow": 1651.9,
+   "high52": 2195,
+   "low52": 1597,
+   "volume": 1255539,
+   "longName": "Bajaj Finserv Ltd.",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1876.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1889.4
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1876.7
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1913
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1927.9
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1924.4
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1909.4
+    },
+    {
+     "date": "2026-07-31",
+     "close": 2029.1
+    },
+    {
+     "date": "2026-08-03",
+     "close": 2096
+    },
+    {
+     "date": "2026-08-04",
+     "close": 2105
+    },
+    {
+     "date": "2026-08-05",
+     "close": 2086
+    },
+    {
+     "date": "2026-08-06",
+     "close": 2086
+    },
+    {
+     "date": "2026-08-07",
+     "close": 2008.9
+    },
+    {
+     "date": "2026-08-10",
+     "close": 2021.3
+    },
+    {
+     "date": "2026-08-11",
+     "close": 2032
+    },
+    {
+     "date": "2026-08-12",
+     "close": 2020.5
+    },
+    {
+     "date": "2026-08-13",
+     "close": 2025
+    },
+    {
+     "date": "2026-08-14",
+     "close": 2008.3
+    },
+    {
+     "date": "2026-08-17",
+     "close": 2005
+    },
+    {
+     "date": "2026-08-18",
+     "close": 2011.2
+    },
+    {
+     "date": "2026-08-19",
+     "close": 2012
+    },
+    {
+     "date": "2026-08-20",
+     "close": 2016
+    },
+    {
+     "date": "2026-08-21",
+     "close": 2032.5
+    },
+    {
+     "date": "2026-08-24",
+     "close": 2001.7
+    },
+    {
+     "date": "2026-08-25",
+     "close": 2004
+    },
+    {
+     "date": "2026-08-26",
+     "close": 2010
+    },
+    {
+     "date": "2026-08-27",
+     "close": 2011
+    },
+    {
+     "date": "2026-08-28",
+     "close": 2002
+    },
+    {
+     "date": "2026-08-31",
+     "close": 2021
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1972
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1990
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1992.1
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1970
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1938.6
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1938.1
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1927
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1940.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1913.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1855.5
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1837
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1859.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1852.5
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1849.8
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1823.4
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1846.5
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1762.3
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1771
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1752
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1742.4
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1731
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1732.6
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1751.4
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1752.4
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1743.3
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1708
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1734.7
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1719.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1755.7
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1721.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1732
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1729
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1700
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1690
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Financial Conglomerates"
+  },
+  "BAJFINANCE": {
+   "price": 942.1,
+   "prevClose": 957.35,
+   "change": -15.25,
+   "changePct": -1.59,
+   "dayHigh": 942.1,
+   "dayLow": 907.4,
+   "high52": 1176.4,
+   "low52": 787.9,
+   "volume": 10621157,
+   "longName": "Bajaj Finance Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1060.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1039.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1012.8
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1048.3
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1048.4
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1054.4
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1053.5
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1141.2
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1153
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1149
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1158.8
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1144.8
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1078
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1102.2
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1093.3
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1094.2
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1090.8
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1087
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1089.3
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1094.3
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1080.2
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1095
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1095
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1077
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1087.4
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1085
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1083
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1079.9
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1057
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1053.9
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1055.9
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1049
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1060.5
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1060
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1054.1
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1039.3
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1043.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1034.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1009.2
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1006.2
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1015
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1040.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1021.3
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1008.8
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1043.2
+    },
+    {
+     "date": "2026-09-24",
+     "close": 982
+    },
+    {
+     "date": "2026-09-25",
+     "close": 996.9
+    },
+    {
+     "date": "2026-09-28",
+     "close": 985
+    },
+    {
+     "date": "2026-09-29",
+     "close": 973.8
+    },
+    {
+     "date": "2026-09-30",
+     "close": 959.4
+    },
+    {
+     "date": "2026-10-01",
+     "close": 948.3
+    },
+    {
+     "date": "2026-10-05",
+     "close": 970
+    },
+    {
+     "date": "2026-10-06",
+     "close": 963.1
+    },
+    {
+     "date": "2026-10-07",
+     "close": 963.85
+    },
+    {
+     "date": "2026-10-08",
+     "close": 955.95
+    },
+    {
+     "date": "2026-10-09",
+     "close": 960
+    },
+    {
+     "date": "2026-10-12",
+     "close": 957.25
+    },
+    {
+     "date": "2026-10-13",
+     "close": 982.75
+    },
+    {
+     "date": "2026-10-14",
+     "close": 957
+    },
+    {
+     "date": "2026-10-15",
+     "close": 965.25
+    },
+    {
+     "date": "2026-10-16",
+     "close": 982.1
+    },
+    {
+     "date": "2026-10-19",
+     "close": 957.35
+    },
+    {
+     "date": "2026-10-21",
+     "close": 926
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Credit Services"
+  },
+  "BEL": {
+   "price": 364.5,
+   "prevClose": 377.2,
+   "change": -12.7,
+   "changePct": -3.37,
+   "dayHigh": 369.55,
+   "dayLow": 361.7,
+   "high52": 473.45,
+   "low52": 360.5,
+   "volume": 8169838,
+   "longName": "Bharat Electronics Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 406.75
+    },
+    {
+     "date": "2026-07-23",
+     "close": 405.35
+    },
+    {
+     "date": "2026-07-24",
+     "close": 405
+    },
+    {
+     "date": "2026-07-27",
+     "close": 407.15
+    },
+    {
+     "date": "2026-07-28",
+     "close": 389
+    },
+    {
+     "date": "2026-07-29",
+     "close": 387.55
+    },
+    {
+     "date": "2026-07-30",
+     "close": 384.9
+    },
+    {
+     "date": "2026-07-31",
+     "close": 387.85
+    },
+    {
+     "date": "2026-08-03",
+     "close": 392.15
+    },
+    {
+     "date": "2026-08-04",
+     "close": 391.5
+    },
+    {
+     "date": "2026-08-05",
+     "close": 390
+    },
+    {
+     "date": "2026-08-06",
+     "close": 399.2
+    },
+    {
+     "date": "2026-08-07",
+     "close": 401
+    },
+    {
+     "date": "2026-08-10",
+     "close": 404.35
+    },
+    {
+     "date": "2026-08-11",
+     "close": 405.85
+    },
+    {
+     "date": "2026-08-12",
+     "close": 405.7
+    },
+    {
+     "date": "2026-08-13",
+     "close": 410.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 410.8
+    },
+    {
+     "date": "2026-08-17",
+     "close": 412.45
+    },
+    {
+     "date": "2026-08-18",
+     "close": 412
+    },
+    {
+     "date": "2026-08-19",
+     "close": 409.2
+    },
+    {
+     "date": "2026-08-20",
+     "close": 409.4
+    },
+    {
+     "date": "2026-08-21",
+     "close": 414
+    },
+    {
+     "date": "2026-08-24",
+     "close": 409
+    },
+    {
+     "date": "2026-08-25",
+     "close": 413.25
+    },
+    {
+     "date": "2026-08-26",
+     "close": 406.9
+    },
+    {
+     "date": "2026-08-27",
+     "close": 411
+    },
+    {
+     "date": "2026-08-28",
+     "close": 411.9
+    },
+    {
+     "date": "2026-08-31",
+     "close": 414.45
+    },
+    {
+     "date": "2026-09-01",
+     "close": 411.2
+    },
+    {
+     "date": "2026-09-02",
+     "close": 405.75
+    },
+    {
+     "date": "2026-09-03",
+     "close": 408.6
+    },
+    {
+     "date": "2026-09-04",
+     "close": 405.35
+    },
+    {
+     "date": "2026-09-07",
+     "close": 404
+    },
+    {
+     "date": "2026-09-08",
+     "close": 410.55
+    },
+    {
+     "date": "2026-09-09",
+     "close": 406
+    },
+    {
+     "date": "2026-09-10",
+     "close": 405
+    },
+    {
+     "date": "2026-09-11",
+     "close": 404.35
+    },
+    {
+     "date": "2026-09-15",
+     "close": 382.9
+    },
+    {
+     "date": "2026-09-16",
+     "close": 385.75
+    },
+    {
+     "date": "2026-09-17",
+     "close": 395.45
+    },
+    {
+     "date": "2026-09-18",
+     "close": 393.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 398.5
+    },
+    {
+     "date": "2026-09-22",
+     "close": 397.9
+    },
+    {
+     "date": "2026-09-23",
+     "close": 396.05
+    },
+    {
+     "date": "2026-09-24",
+     "close": 392
+    },
+    {
+     "date": "2026-09-25",
+     "close": 393.55
+    },
+    {
+     "date": "2026-09-28",
+     "close": 385.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 387.75
+    },
+    {
+     "date": "2026-09-30",
+     "close": 388.3
+    },
+    {
+     "date": "2026-10-01",
+     "close": 383.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 384.85
+    },
+    {
+     "date": "2026-10-06",
+     "close": 387.4
+    },
+    {
+     "date": "2026-10-07",
+     "close": 378.3
+    },
+    {
+     "date": "2026-10-08",
+     "close": 367.3
+    },
+    {
+     "date": "2026-10-09",
+     "close": 368.15
+    },
+    {
+     "date": "2026-10-12",
+     "close": 373.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 380
+    },
+    {
+     "date": "2026-10-14",
+     "close": 382.35
+    },
+    {
+     "date": "2026-10-15",
+     "close": 380.4
+    },
+    {
+     "date": "2026-10-16",
+     "close": 376.85
+    },
+    {
+     "date": "2026-10-19",
+     "close": 377.2
+    },
+    {
+     "date": "2026-10-21",
+     "close": 371.2
+    }
+   ],
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense"
+  },
+  "BHARTIARTL": {
+   "price": 1895,
+   "prevClose": 1875.2,
+   "change": 19.8,
+   "changePct": 1.06,
+   "dayHigh": 1920.3,
+   "dayLow": 1874.1,
+   "high52": 2174.5,
+   "low52": 1726.3,
+   "volume": 12595786,
+   "longName": "Bharti Airtel Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1949
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1931
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1898.2
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1905.3
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1901.8
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1950.2
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1956.8
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1972
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1970.5
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1970.1
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1978
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1948
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1959.9
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1943
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1915.2
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1945
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1939.1
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1992.1
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1969.3
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1934.2
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1922
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1941.7
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1946
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1935
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1947
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1902.1
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1878.3
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1882.4
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1811.9
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1877.2
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1862.8
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1869
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1840
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1854
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1844
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1814.7
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1839
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1831.1
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1830.4
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1835
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1836
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1893.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1830.2
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1817.2
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1833.2
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1795.8
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1785.4
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1771.4
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1771.2
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1757
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1741.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1779.9
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1810.5
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1833.9
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1804.6
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1805.1
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1778.7
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1806.5
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1794.6
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1854
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1905
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1875.2
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1891.7
+    }
+   ],
+   "sector": "Communication Services",
+   "industry": "Telecom Services"
+  },
+  "COALINDIA": {
+   "price": 402.55,
+   "prevClose": 411.7,
+   "change": -9.15,
+   "changePct": -2.22,
+   "dayHigh": 404.7,
+   "dayLow": 395.65,
+   "high52": 491.25,
+   "low52": 369.6,
+   "volume": 6753782,
+   "longName": "Coal India Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 428.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 427.05
+    },
+    {
+     "date": "2026-07-24",
+     "close": 427.4
+    },
+    {
+     "date": "2026-07-27",
+     "close": 427.5
+    },
+    {
+     "date": "2026-07-28",
+     "close": 410.15
+    },
+    {
+     "date": "2026-07-29",
+     "close": 410.05
+    },
+    {
+     "date": "2026-07-30",
+     "close": 417.2
+    },
+    {
+     "date": "2026-07-31",
+     "close": 414.15
+    },
+    {
+     "date": "2026-08-03",
+     "close": 416
+    },
+    {
+     "date": "2026-08-04",
+     "close": 417.6
+    },
+    {
+     "date": "2026-08-05",
+     "close": 415.5
+    },
+    {
+     "date": "2026-08-06",
+     "close": 415.6
+    },
+    {
+     "date": "2026-08-07",
+     "close": 415.25
+    },
+    {
+     "date": "2026-08-10",
+     "close": 411
+    },
+    {
+     "date": "2026-08-11",
+     "close": 412.6
+    },
+    {
+     "date": "2026-08-12",
+     "close": 409.3
+    },
+    {
+     "date": "2026-08-13",
+     "close": 410.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 407.1
+    },
+    {
+     "date": "2026-08-17",
+     "close": 408.45
+    },
+    {
+     "date": "2026-08-18",
+     "close": 406.9
+    },
+    {
+     "date": "2026-08-19",
+     "close": 400
+    },
+    {
+     "date": "2026-08-20",
+     "close": 402.5
+    },
+    {
+     "date": "2026-08-21",
+     "close": 405.2
+    },
+    {
+     "date": "2026-08-24",
+     "close": 406.9
+    },
+    {
+     "date": "2026-08-25",
+     "close": 404
+    },
+    {
+     "date": "2026-08-26",
+     "close": 403.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 400
+    },
+    {
+     "date": "2026-08-28",
+     "close": 401
+    },
+    {
+     "date": "2026-08-31",
+     "close": 401.75
+    },
+    {
+     "date": "2026-09-01",
+     "close": 401.6
+    },
+    {
+     "date": "2026-09-02",
+     "close": 417.85
+    },
+    {
+     "date": "2026-09-03",
+     "close": 420.05
+    },
+    {
+     "date": "2026-09-04",
+     "close": 415.35
+    },
+    {
+     "date": "2026-09-07",
+     "close": 418.85
+    },
+    {
+     "date": "2026-09-08",
+     "close": 420.25
+    },
+    {
+     "date": "2026-09-09",
+     "close": 431
+    },
+    {
+     "date": "2026-09-10",
+     "close": 432
+    },
+    {
+     "date": "2026-09-11",
+     "close": 426.4
+    },
+    {
+     "date": "2026-09-15",
+     "close": 419.25
+    },
+    {
+     "date": "2026-09-16",
+     "close": 422.25
+    },
+    {
+     "date": "2026-09-17",
+     "close": 418
+    },
+    {
+     "date": "2026-09-18",
+     "close": 409.9
+    },
+    {
+     "date": "2026-09-21",
+     "close": 414.7
+    },
+    {
+     "date": "2026-09-22",
+     "close": 428
+    },
+    {
+     "date": "2026-09-23",
+     "close": 424.55
+    },
+    {
+     "date": "2026-09-24",
+     "close": 422
+    },
+    {
+     "date": "2026-09-25",
+     "close": 426.1
+    },
+    {
+     "date": "2026-09-28",
+     "close": 422.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 425
+    },
+    {
+     "date": "2026-09-30",
+     "close": 425
+    },
+    {
+     "date": "2026-10-01",
+     "close": 420.4
+    },
+    {
+     "date": "2026-10-05",
+     "close": 425.1
+    },
+    {
+     "date": "2026-10-06",
+     "close": 411.65
+    },
+    {
+     "date": "2026-10-07",
+     "close": 414.5
+    },
+    {
+     "date": "2026-10-08",
+     "close": 409.35
+    },
+    {
+     "date": "2026-10-09",
+     "close": 411.55
+    },
+    {
+     "date": "2026-10-12",
+     "close": 404.8
+    },
+    {
+     "date": "2026-10-13",
+     "close": 408.5
+    },
+    {
+     "date": "2026-10-14",
+     "close": 417
+    },
+    {
+     "date": "2026-10-15",
+     "close": 418
+    },
+    {
+     "date": "2026-10-16",
+     "close": 417.2
+    },
+    {
+     "date": "2026-10-19",
+     "close": 411.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 407.5
+    }
+   ],
+   "sector": "Energy",
+   "industry": "Thermal Coal"
+  },
+  "DIVISLAB": {
+   "price": 9162,
+   "prevClose": 9087,
+   "change": 75,
+   "changePct": 0.83,
+   "dayHigh": 9190,
+   "dayLow": 9006.5,
+   "high52": 9740,
+   "low52": 5647.5,
+   "volume": 1040584,
+   "longName": "Divi's Laboratories Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 7386.5
+    },
+    {
+     "date": "2026-07-23",
+     "close": 7305
+    },
+    {
+     "date": "2026-07-24",
+     "close": 7248.5
+    },
+    {
+     "date": "2026-07-27",
+     "close": 7414
+    },
+    {
+     "date": "2026-07-28",
+     "close": 7425
+    },
+    {
+     "date": "2026-07-29",
+     "close": 7784.5
+    },
+    {
+     "date": "2026-07-30",
+     "close": 7835
+    },
+    {
+     "date": "2026-07-31",
+     "close": 8056
+    },
+    {
+     "date": "2026-08-03",
+     "close": 8585
+    },
+    {
+     "date": "2026-08-04",
+     "close": 8378
+    },
+    {
+     "date": "2026-08-05",
+     "close": 8388
+    },
+    {
+     "date": "2026-08-06",
+     "close": 8349
+    },
+    {
+     "date": "2026-08-07",
+     "close": 8275
+    },
+    {
+     "date": "2026-08-10",
+     "close": 8300
+    },
+    {
+     "date": "2026-08-11",
+     "close": 8578.5
+    },
+    {
+     "date": "2026-08-12",
+     "close": 8600
+    },
+    {
+     "date": "2026-08-13",
+     "close": 8500
+    },
+    {
+     "date": "2026-08-14",
+     "close": 8477
+    },
+    {
+     "date": "2026-08-17",
+     "close": 8481.5
+    },
+    {
+     "date": "2026-08-18",
+     "close": 8588
+    },
+    {
+     "date": "2026-08-19",
+     "close": 8560
+    },
+    {
+     "date": "2026-08-20",
+     "close": 8570
+    },
+    {
+     "date": "2026-08-21",
+     "close": 8597
+    },
+    {
+     "date": "2026-08-24",
+     "close": 8496
+    },
+    {
+     "date": "2026-08-25",
+     "close": 8744.5
+    },
+    {
+     "date": "2026-08-26",
+     "close": 9025
+    },
+    {
+     "date": "2026-08-27",
+     "close": 9060
+    },
+    {
+     "date": "2026-08-28",
+     "close": 9239
+    },
+    {
+     "date": "2026-08-31",
+     "close": 9467
+    },
+    {
+     "date": "2026-09-01",
+     "close": 9165
+    },
+    {
+     "date": "2026-09-02",
+     "close": 9220
+    },
+    {
+     "date": "2026-09-03",
+     "close": 9250
+    },
+    {
+     "date": "2026-09-04",
+     "close": 9100
+    },
+    {
+     "date": "2026-09-07",
+     "close": 9315
+    },
+    {
+     "date": "2026-09-08",
+     "close": 9575
+    },
+    {
+     "date": "2026-09-09",
+     "close": 9488
+    },
+    {
+     "date": "2026-09-10",
+     "close": 9438.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 9322
+    },
+    {
+     "date": "2026-09-15",
+     "close": 9198
+    },
+    {
+     "date": "2026-09-16",
+     "close": 9158
+    },
+    {
+     "date": "2026-09-17",
+     "close": 9323
+    },
+    {
+     "date": "2026-09-18",
+     "close": 9375
+    },
+    {
+     "date": "2026-09-21",
+     "close": 9410.5
+    },
+    {
+     "date": "2026-09-22",
+     "close": 9352
+    },
+    {
+     "date": "2026-09-23",
+     "close": 9624
+    },
+    {
+     "date": "2026-09-24",
+     "close": 9602
+    },
+    {
+     "date": "2026-09-25",
+     "close": 9619.5
+    },
+    {
+     "date": "2026-09-28",
+     "close": 9550
+    },
+    {
+     "date": "2026-09-29",
+     "close": 9431
+    },
+    {
+     "date": "2026-09-30",
+     "close": 9291.5
+    },
+    {
+     "date": "2026-10-01",
+     "close": 9249
+    },
+    {
+     "date": "2026-10-05",
+     "close": 9196
+    },
+    {
+     "date": "2026-10-06",
+     "close": 9550
+    },
+    {
+     "date": "2026-10-07",
+     "close": 9588
+    },
+    {
+     "date": "2026-10-08",
+     "close": 9361
+    },
+    {
+     "date": "2026-10-09",
+     "close": 9340
+    },
+    {
+     "date": "2026-10-12",
+     "close": 9426
+    },
+    {
+     "date": "2026-10-13",
+     "close": 9285
+    },
+    {
+     "date": "2026-10-14",
+     "close": 9023
+    },
+    {
+     "date": "2026-10-15",
+     "close": 9030
+    },
+    {
+     "date": "2026-10-16",
+     "close": 9144.5
+    },
+    {
+     "date": "2026-10-19",
+     "close": 9087
+    },
+    {
+     "date": "2026-10-21",
+     "close": 9190
+    }
+   ],
+   "sector": "Healthcare",
+   "industry": "Drug Manufacturers—Specialty & Generic"
+  },
+  "DMART": {
+   "price": 3166,
+   "prevClose": 3304,
+   "change": -138,
+   "changePct": -4.18,
+   "dayHigh": 3231.2,
+   "dayLow": 3149.4,
+   "high52": 4644,
+   "low52": 3149.4,
+   "volume": 1329050,
+   "longName": "Avenue Supermarts Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 4000.5
+    },
+    {
+     "date": "2026-07-23",
+     "close": 4035
+    },
+    {
+     "date": "2026-07-24",
+     "close": 4018.8
+    },
+    {
+     "date": "2026-07-27",
+     "close": 4027.7
+    },
+    {
+     "date": "2026-07-28",
+     "close": 3846.6
+    },
+    {
+     "date": "2026-07-29",
+     "close": 3848.1
+    },
+    {
+     "date": "2026-07-30",
+     "close": 3874
+    },
+    {
+     "date": "2026-07-31",
+     "close": 3921
+    },
+    {
+     "date": "2026-08-03",
+     "close": 4015
+    },
+    {
+     "date": "2026-08-04",
+     "close": 4023
+    },
+    {
+     "date": "2026-08-05",
+     "close": 3946
+    },
+    {
+     "date": "2026-08-06",
+     "close": 3931.2
+    },
+    {
+     "date": "2026-08-07",
+     "close": 3900
+    },
+    {
+     "date": "2026-08-10",
+     "close": 4054
+    },
+    {
+     "date": "2026-08-11",
+     "close": 4054.9
+    },
+    {
+     "date": "2026-08-12",
+     "close": 4040
+    },
+    {
+     "date": "2026-08-13",
+     "close": 4070
+    },
+    {
+     "date": "2026-08-14",
+     "close": 4060
+    },
+    {
+     "date": "2026-08-17",
+     "close": 3995
+    },
+    {
+     "date": "2026-08-18",
+     "close": 3981
+    },
+    {
+     "date": "2026-08-19",
+     "close": 3965
+    },
+    {
+     "date": "2026-08-20",
+     "close": 3960
+    },
+    {
+     "date": "2026-08-21",
+     "close": 3906
+    },
+    {
+     "date": "2026-08-24",
+     "close": 3940
+    },
+    {
+     "date": "2026-08-25",
+     "close": 3909.6
+    },
+    {
+     "date": "2026-08-26",
+     "close": 3826.9
+    },
+    {
+     "date": "2026-08-27",
+     "close": 3847.4
+    },
+    {
+     "date": "2026-08-28",
+     "close": 3830.6
+    },
+    {
+     "date": "2026-08-31",
+     "close": 3900
+    },
+    {
+     "date": "2026-09-01",
+     "close": 3824
+    },
+    {
+     "date": "2026-09-02",
+     "close": 3813.4
+    },
+    {
+     "date": "2026-09-03",
+     "close": 3763
+    },
+    {
+     "date": "2026-09-04",
+     "close": 3770
+    },
+    {
+     "date": "2026-09-07",
+     "close": 3710
+    },
+    {
+     "date": "2026-09-08",
+     "close": 3720.2
+    },
+    {
+     "date": "2026-09-09",
+     "close": 3735
+    },
+    {
+     "date": "2026-09-10",
+     "close": 3690
+    },
+    {
+     "date": "2026-09-11",
+     "close": 3688
+    },
+    {
+     "date": "2026-09-15",
+     "close": 3680
+    },
+    {
+     "date": "2026-09-16",
+     "close": 3720
+    },
+    {
+     "date": "2026-09-17",
+     "close": 3711.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 3749.9
+    },
+    {
+     "date": "2026-09-21",
+     "close": 3800.4
+    },
+    {
+     "date": "2026-09-22",
+     "close": 3777
+    },
+    {
+     "date": "2026-09-23",
+     "close": 3834.8
+    },
+    {
+     "date": "2026-09-24",
+     "close": 3787.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 3834.2
+    },
+    {
+     "date": "2026-09-28",
+     "close": 3803.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 3750
+    },
+    {
+     "date": "2026-09-30",
+     "close": 3801.4
+    },
+    {
+     "date": "2026-10-01",
+     "close": 3813
+    },
+    {
+     "date": "2026-10-05",
+     "close": 3567
+    },
+    {
+     "date": "2026-10-06",
+     "close": 3581.9
+    },
+    {
+     "date": "2026-10-07",
+     "close": 3636
+    },
+    {
+     "date": "2026-10-08",
+     "close": 3585
+    },
+    {
+     "date": "2026-10-09",
+     "close": 3516.8
+    },
+    {
+     "date": "2026-10-12",
+     "close": 3364.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 3383
+    },
+    {
+     "date": "2026-10-14",
+     "close": 3415
+    },
+    {
+     "date": "2026-10-15",
+     "close": 3378.4
+    },
+    {
+     "date": "2026-10-16",
+     "close": 3342
+    },
+    {
+     "date": "2026-10-19",
+     "close": 3304
+    },
+    {
+     "date": "2026-10-21",
+     "close": 3250.9
+    }
+   ],
+   "sector": "Consumer Defensive",
+   "industry": "Discount Stores"
+  },
+  "EICHERMOT": {
+   "price": 7084.5,
+   "prevClose": 7349,
+   "change": -264.5,
+   "changePct": -3.6,
+   "dayHigh": 7230,
+   "dayLow": 7022,
+   "high52": 8230,
+   "low52": 6442,
+   "volume": 406736,
+   "longName": "Eicher Motors Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 7632
+    },
+    {
+     "date": "2026-07-23",
+     "close": 7721.5
+    },
+    {
+     "date": "2026-07-24",
+     "close": 7628
+    },
+    {
+     "date": "2026-07-27",
+     "close": 7769.5
+    },
+    {
+     "date": "2026-07-28",
+     "close": 7836
+    },
+    {
+     "date": "2026-07-29",
+     "close": 7779
+    },
+    {
+     "date": "2026-07-30",
+     "close": 7912.5
+    },
+    {
+     "date": "2026-07-31",
+     "close": 7833.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 8050
+    },
+    {
+     "date": "2026-08-04",
+     "close": 7935
+    },
+    {
+     "date": "2026-08-05",
+     "close": 7986.5
+    },
+    {
+     "date": "2026-08-06",
+     "close": 7967.5
+    },
+    {
+     "date": "2026-08-07",
+     "close": 8020
+    },
+    {
+     "date": "2026-08-10",
+     "close": 7975
+    },
+    {
+     "date": "2026-08-11",
+     "close": 8000
+    },
+    {
+     "date": "2026-08-12",
+     "close": 8049
+    },
+    {
+     "date": "2026-08-13",
+     "close": 8100
+    },
+    {
+     "date": "2026-08-14",
+     "close": 8066.5
+    },
+    {
+     "date": "2026-08-17",
+     "close": 8050
+    },
+    {
+     "date": "2026-08-18",
+     "close": 8018.5
+    },
+    {
+     "date": "2026-08-19",
+     "close": 7990.5
+    },
+    {
+     "date": "2026-08-20",
+     "close": 8042
+    },
+    {
+     "date": "2026-08-21",
+     "close": 8010
+    },
+    {
+     "date": "2026-08-24",
+     "close": 8047
+    },
+    {
+     "date": "2026-08-25",
+     "close": 8055
+    },
+    {
+     "date": "2026-08-26",
+     "close": 8035
+    },
+    {
+     "date": "2026-08-27",
+     "close": 8100
+    },
+    {
+     "date": "2026-08-28",
+     "close": 8059
+    },
+    {
+     "date": "2026-08-31",
+     "close": 7953.5
+    },
+    {
+     "date": "2026-09-01",
+     "close": 7970
+    },
+    {
+     "date": "2026-09-02",
+     "close": 7711.5
+    },
+    {
+     "date": "2026-09-03",
+     "close": 7690
+    },
+    {
+     "date": "2026-09-04",
+     "close": 7630.5
+    },
+    {
+     "date": "2026-09-07",
+     "close": 7672
+    },
+    {
+     "date": "2026-09-08",
+     "close": 7747.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 7734.5
+    },
+    {
+     "date": "2026-09-10",
+     "close": 7697
+    },
+    {
+     "date": "2026-09-11",
+     "close": 7530
+    },
+    {
+     "date": "2026-09-15",
+     "close": 7452.5
+    },
+    {
+     "date": "2026-09-16",
+     "close": 7500
+    },
+    {
+     "date": "2026-09-17",
+     "close": 7493.5
+    },
+    {
+     "date": "2026-09-18",
+     "close": 7516
+    },
+    {
+     "date": "2026-09-21",
+     "close": 7512.5
+    },
+    {
+     "date": "2026-09-22",
+     "close": 7427
+    },
+    {
+     "date": "2026-09-23",
+     "close": 7470
+    },
+    {
+     "date": "2026-09-24",
+     "close": 7338.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 7360
+    },
+    {
+     "date": "2026-09-28",
+     "close": 7213.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 7179
+    },
+    {
+     "date": "2026-09-30",
+     "close": 7150
+    },
+    {
+     "date": "2026-10-01",
+     "close": 6920
+    },
+    {
+     "date": "2026-10-05",
+     "close": 7021.5
+    },
+    {
+     "date": "2026-10-06",
+     "close": 7051
+    },
+    {
+     "date": "2026-10-07",
+     "close": 6960
+    },
+    {
+     "date": "2026-10-08",
+     "close": 6767.5
+    },
+    {
+     "date": "2026-10-09",
+     "close": 7050
+    },
+    {
+     "date": "2026-10-12",
+     "close": 7119
+    },
+    {
+     "date": "2026-10-13",
+     "close": 7163
+    },
+    {
+     "date": "2026-10-14",
+     "close": 7082.5
+    },
+    {
+     "date": "2026-10-15",
+     "close": 7225
+    },
+    {
+     "date": "2026-10-16",
+     "close": 7284.5
+    },
+    {
+     "date": "2026-10-19",
+     "close": 7349
+    },
+    {
+     "date": "2026-10-21",
+     "close": 7170.5
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Auto Manufacturers"
+  },
+  "ETERNAL": {
+   "price": 304.45,
+   "prevClose": 320.2,
+   "change": -15.75,
+   "changePct": -4.92,
+   "dayHigh": 319,
+   "dayLow": 303.6,
+   "high52": 344.4,
+   "low52": 212.6,
+   "volume": 85453094,
+   "longName": "Eternal Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 284.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 287.1
+    },
+    {
+     "date": "2026-07-24",
+     "close": 280
+    },
+    {
+     "date": "2026-07-27",
+     "close": 295.85
+    },
+    {
+     "date": "2026-07-28",
+     "close": 308.35
+    },
+    {
+     "date": "2026-07-29",
+     "close": 311.8
+    },
+    {
+     "date": "2026-07-30",
+     "close": 310.65
+    },
+    {
+     "date": "2026-07-31",
+     "close": 302.45
+    },
+    {
+     "date": "2026-08-03",
+     "close": 310.5
+    },
+    {
+     "date": "2026-08-04",
+     "close": 312.4
+    },
+    {
+     "date": "2026-08-05",
+     "close": 310.35
+    },
+    {
+     "date": "2026-08-06",
+     "close": 316.25
+    },
+    {
+     "date": "2026-08-07",
+     "close": 315
+    },
+    {
+     "date": "2026-08-10",
+     "close": 310.25
+    },
+    {
+     "date": "2026-08-11",
+     "close": 318
+    },
+    {
+     "date": "2026-08-12",
+     "close": 314.05
+    },
+    {
+     "date": "2026-08-13",
+     "close": 318
+    },
+    {
+     "date": "2026-08-14",
+     "close": 318.5
+    },
+    {
+     "date": "2026-08-17",
+     "close": 318
+    },
+    {
+     "date": "2026-08-18",
+     "close": 315.9
+    },
+    {
+     "date": "2026-08-19",
+     "close": 320
+    },
+    {
+     "date": "2026-08-20",
+     "close": 327.95
+    },
+    {
+     "date": "2026-08-21",
+     "close": 328
+    },
+    {
+     "date": "2026-08-24",
+     "close": 327.15
+    },
+    {
+     "date": "2026-08-25",
+     "close": 331
+    },
+    {
+     "date": "2026-08-26",
+     "close": 327
+    },
+    {
+     "date": "2026-08-27",
+     "close": 328.5
+    },
+    {
+     "date": "2026-08-28",
+     "close": 328
+    },
+    {
+     "date": "2026-08-31",
+     "close": 328.1
+    },
+    {
+     "date": "2026-09-01",
+     "close": 327.75
+    },
+    {
+     "date": "2026-09-02",
+     "close": 327.3
+    },
+    {
+     "date": "2026-09-03",
+     "close": 324.8
+    },
+    {
+     "date": "2026-09-04",
+     "close": 322.75
+    },
+    {
+     "date": "2026-09-07",
+     "close": 320.8
+    },
+    {
+     "date": "2026-09-08",
+     "close": 321.6
+    },
+    {
+     "date": "2026-09-09",
+     "close": 320.6
+    },
+    {
+     "date": "2026-09-10",
+     "close": 322.1
+    },
+    {
+     "date": "2026-09-11",
+     "close": 323.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 315.25
+    },
+    {
+     "date": "2026-09-16",
+     "close": 317
+    },
+    {
+     "date": "2026-09-17",
+     "close": 322.35
+    },
+    {
+     "date": "2026-09-18",
+     "close": 326.85
+    },
+    {
+     "date": "2026-09-21",
+     "close": 335.9
+    },
+    {
+     "date": "2026-09-22",
+     "close": 342
+    },
+    {
+     "date": "2026-09-23",
+     "close": 342.65
+    },
+    {
+     "date": "2026-09-24",
+     "close": 335.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 335
+    },
+    {
+     "date": "2026-09-28",
+     "close": 330.95
+    },
+    {
+     "date": "2026-09-29",
+     "close": 327.85
+    },
+    {
+     "date": "2026-09-30",
+     "close": 320
+    },
+    {
+     "date": "2026-10-01",
+     "close": 313.9
+    },
+    {
+     "date": "2026-10-05",
+     "close": 320.8
+    },
+    {
+     "date": "2026-10-06",
+     "close": 329
+    },
+    {
+     "date": "2026-10-07",
+     "close": 328
+    },
+    {
+     "date": "2026-10-08",
+     "close": 319.05
+    },
+    {
+     "date": "2026-10-09",
+     "close": 323.45
+    },
+    {
+     "date": "2026-10-12",
+     "close": 323
+    },
+    {
+     "date": "2026-10-13",
+     "close": 320.45
+    },
+    {
+     "date": "2026-10-14",
+     "close": 316
+    },
+    {
+     "date": "2026-10-15",
+     "close": 323
+    },
+    {
+     "date": "2026-10-16",
+     "close": 325.3
+    },
+    {
+     "date": "2026-10-19",
+     "close": 320.2
+    },
+    {
+     "date": "2026-10-21",
+     "close": 312.35
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Internet Retail"
+  },
+  "GRASIM": {
+   "price": 2894.4,
+   "prevClose": 2879,
+   "change": 15.4,
+   "changePct": 0.53,
+   "dayHigh": 2894.4,
+   "dayLow": 2828.2,
+   "high52": 3411.1,
+   "low52": 2502.5,
+   "volume": 214524,
+   "longName": "Grasim Industries Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 3166.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 3113
+    },
+    {
+     "date": "2026-07-24",
+     "close": 3089.4
+    },
+    {
+     "date": "2026-07-27",
+     "close": 3112.4
+    },
+    {
+     "date": "2026-07-28",
+     "close": 3116.2
+    },
+    {
+     "date": "2026-07-29",
+     "close": 3113
+    },
+    {
+     "date": "2026-07-30",
+     "close": 3104.8
+    },
+    {
+     "date": "2026-07-31",
+     "close": 3100.8
+    },
+    {
+     "date": "2026-08-03",
+     "close": 3260
+    },
+    {
+     "date": "2026-08-04",
+     "close": 3138
+    },
+    {
+     "date": "2026-08-05",
+     "close": 3224
+    },
+    {
+     "date": "2026-08-06",
+     "close": 3220
+    },
+    {
+     "date": "2026-08-07",
+     "close": 3323
+    },
+    {
+     "date": "2026-08-10",
+     "close": 3380.5
+    },
+    {
+     "date": "2026-08-11",
+     "close": 3322.2
+    },
+    {
+     "date": "2026-08-12",
+     "close": 3307.8
+    },
+    {
+     "date": "2026-08-13",
+     "close": 3257
+    },
+    {
+     "date": "2026-08-14",
+     "close": 3248.7
+    },
+    {
+     "date": "2026-08-17",
+     "close": 3250.5
+    },
+    {
+     "date": "2026-08-18",
+     "close": 3278.7
+    },
+    {
+     "date": "2026-08-19",
+     "close": 3270
+    },
+    {
+     "date": "2026-08-20",
+     "close": 3300
+    },
+    {
+     "date": "2026-08-21",
+     "close": 3308
+    },
+    {
+     "date": "2026-08-24",
+     "close": 3288
+    },
+    {
+     "date": "2026-08-25",
+     "close": 3289.6
+    },
+    {
+     "date": "2026-08-26",
+     "close": 3299.9
+    },
+    {
+     "date": "2026-08-27",
+     "close": 3258
+    },
+    {
+     "date": "2026-08-28",
+     "close": 3290
+    },
+    {
+     "date": "2026-08-31",
+     "close": 3371
+    },
+    {
+     "date": "2026-09-01",
+     "close": 3305
+    },
+    {
+     "date": "2026-09-02",
+     "close": 3294.9
+    },
+    {
+     "date": "2026-09-03",
+     "close": 3310
+    },
+    {
+     "date": "2026-09-04",
+     "close": 3322
+    },
+    {
+     "date": "2026-09-07",
+     "close": 3302.4
+    },
+    {
+     "date": "2026-09-08",
+     "close": 3306.8
+    },
+    {
+     "date": "2026-09-09",
+     "close": 3300
+    },
+    {
+     "date": "2026-09-10",
+     "close": 3319
+    },
+    {
+     "date": "2026-09-11",
+     "close": 3281.9
+    },
+    {
+     "date": "2026-09-15",
+     "close": 3171
+    },
+    {
+     "date": "2026-09-16",
+     "close": 3187
+    },
+    {
+     "date": "2026-09-17",
+     "close": 3173.1
+    },
+    {
+     "date": "2026-09-18",
+     "close": 3209.2
+    },
+    {
+     "date": "2026-09-21",
+     "close": 3166
+    },
+    {
+     "date": "2026-09-22",
+     "close": 3128.2
+    },
+    {
+     "date": "2026-09-23",
+     "close": 3188.5
+    },
+    {
+     "date": "2026-09-24",
+     "close": 3166.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 3191
+    },
+    {
+     "date": "2026-09-28",
+     "close": 3150
+    },
+    {
+     "date": "2026-09-29",
+     "close": 3100
+    },
+    {
+     "date": "2026-09-30",
+     "close": 3061.9
+    },
+    {
+     "date": "2026-10-01",
+     "close": 2962
+    },
+    {
+     "date": "2026-10-05",
+     "close": 2972
+    },
+    {
+     "date": "2026-10-06",
+     "close": 2969
+    },
+    {
+     "date": "2026-10-07",
+     "close": 2921.1
+    },
+    {
+     "date": "2026-10-08",
+     "close": 2856.8
+    },
+    {
+     "date": "2026-10-09",
+     "close": 2890
+    },
+    {
+     "date": "2026-10-12",
+     "close": 2858
+    },
+    {
+     "date": "2026-10-13",
+     "close": 2912
+    },
+    {
+     "date": "2026-10-14",
+     "close": 2873
+    },
+    {
+     "date": "2026-10-15",
+     "close": 2885.9
+    },
+    {
+     "date": "2026-10-16",
+     "close": 2920
+    },
+    {
+     "date": "2026-10-19",
+     "close": 2879
+    },
+    {
+     "date": "2026-10-21",
+     "close": 2889.1
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Building Materials"
+  },
+  "HAL": {
+   "price": 4875,
+   "prevClose": 4959,
+   "change": -84,
+   "changePct": -1.69,
+   "dayHigh": 4901.9,
+   "dayLow": 4765.2,
+   "high52": 5149.9,
+   "low52": 3479.1,
+   "volume": 907063,
+   "longName": "Hindustan Aeronautics Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 4574.8
+    },
+    {
+     "date": "2026-07-23",
+     "close": 4592.5
+    },
+    {
+     "date": "2026-07-24",
+     "close": 4573.4
+    },
+    {
+     "date": "2026-07-27",
+     "close": 4619
+    },
+    {
+     "date": "2026-07-28",
+     "close": 4600.1
+    },
+    {
+     "date": "2026-07-29",
+     "close": 4592
+    },
+    {
+     "date": "2026-07-30",
+     "close": 4581.4
+    },
+    {
+     "date": "2026-07-31",
+     "close": 4646.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 4690
+    },
+    {
+     "date": "2026-08-04",
+     "close": 4635
+    },
+    {
+     "date": "2026-08-05",
+     "close": 4645
+    },
+    {
+     "date": "2026-08-06",
+     "close": 4920
+    },
+    {
+     "date": "2026-08-07",
+     "close": 4910
+    },
+    {
+     "date": "2026-08-10",
+     "close": 4928
+    },
+    {
+     "date": "2026-08-11",
+     "close": 4909
+    },
+    {
+     "date": "2026-08-12",
+     "close": 4995
+    },
+    {
+     "date": "2026-08-13",
+     "close": 4945
+    },
+    {
+     "date": "2026-08-14",
+     "close": 5029.9
+    },
+    {
+     "date": "2026-08-17",
+     "close": 5059
+    },
+    {
+     "date": "2026-08-18",
+     "close": 5099
+    },
+    {
+     "date": "2026-08-19",
+     "close": 5017
+    },
+    {
+     "date": "2026-08-20",
+     "close": 4998
+    },
+    {
+     "date": "2026-08-21",
+     "close": 5000
+    },
+    {
+     "date": "2026-08-24",
+     "close": 4906
+    },
+    {
+     "date": "2026-08-25",
+     "close": 4900
+    },
+    {
+     "date": "2026-08-26",
+     "close": 4865.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 4899
+    },
+    {
+     "date": "2026-08-28",
+     "close": 4861.1
+    },
+    {
+     "date": "2026-08-31",
+     "close": 4801.6
+    },
+    {
+     "date": "2026-09-01",
+     "close": 4807.6
+    },
+    {
+     "date": "2026-09-02",
+     "close": 4780
+    },
+    {
+     "date": "2026-09-03",
+     "close": 4765.6
+    },
+    {
+     "date": "2026-09-04",
+     "close": 4856
+    },
+    {
+     "date": "2026-09-07",
+     "close": 4855.2
+    },
+    {
+     "date": "2026-09-08",
+     "close": 5031.1
+    },
+    {
+     "date": "2026-09-09",
+     "close": 5000.5
+    },
+    {
+     "date": "2026-09-10",
+     "close": 4950
+    },
+    {
+     "date": "2026-09-11",
+     "close": 4905
+    },
+    {
+     "date": "2026-09-15",
+     "close": 4695
+    },
+    {
+     "date": "2026-09-16",
+     "close": 4695.6
+    },
+    {
+     "date": "2026-09-17",
+     "close": 4788
+    },
+    {
+     "date": "2026-09-18",
+     "close": 4800.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 4826
+    },
+    {
+     "date": "2026-09-22",
+     "close": 4800
+    },
+    {
+     "date": "2026-09-23",
+     "close": 4836
+    },
+    {
+     "date": "2026-09-24",
+     "close": 4774.2
+    },
+    {
+     "date": "2026-09-25",
+     "close": 4800
+    },
+    {
+     "date": "2026-09-28",
+     "close": 4738
+    },
+    {
+     "date": "2026-09-29",
+     "close": 4549.3
+    },
+    {
+     "date": "2026-09-30",
+     "close": 4668
+    },
+    {
+     "date": "2026-10-01",
+     "close": 4601
+    },
+    {
+     "date": "2026-10-05",
+     "close": 4680
+    },
+    {
+     "date": "2026-10-06",
+     "close": 4816
+    },
+    {
+     "date": "2026-10-07",
+     "close": 4746.3
+    },
+    {
+     "date": "2026-10-08",
+     "close": 4647.4
+    },
+    {
+     "date": "2026-10-09",
+     "close": 4655.6
+    },
+    {
+     "date": "2026-10-12",
+     "close": 4760
+    },
+    {
+     "date": "2026-10-13",
+     "close": 4869
+    },
+    {
+     "date": "2026-10-14",
+     "close": 4933
+    },
+    {
+     "date": "2026-10-15",
+     "close": 4910
+    },
+    {
+     "date": "2026-10-16",
+     "close": 4989
+    },
+    {
+     "date": "2026-10-19",
+     "close": 4959
+    },
+    {
+     "date": "2026-10-21",
+     "close": 4854.4
+    }
+   ],
+   "sector": "Industrials",
+   "industry": "Aerospace & Defense"
+  },
+  "HCLTECH": {
+   "price": 1421.7,
+   "prevClose": 1379.9,
+   "change": 41.8,
+   "changePct": 3.03,
+   "dayHigh": 1427.9,
+   "dayLow": 1395.3,
+   "high52": 1780.1,
+   "low52": 1030,
+   "volume": 3570431,
+   "longName": "HCL Technologies Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1237.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1244.7
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1271
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1295.9
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1318.6
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1344.3
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1352.7
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1346.9
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1377
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1369.9
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1350
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1335
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1356.6
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1357.2
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1365.4
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1365.4
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1370
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1360
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1325
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1298
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1324.8
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1318.4
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1302.5
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1322
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1315.8
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1298.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1282
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1316.1
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1312.2
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1351.4
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1331.5
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1319
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1293.4
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1282.8
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1277
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1229.8
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1207
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1206.1
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1253.7
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1253
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1258.3
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1249.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1281
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1270.4
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1256.7
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1243.6
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1258
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1252.6
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1222
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1230
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1243.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1201.9
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1204.4
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1185
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1176.9
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1216.7
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1223
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1326
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1327
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1360
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1380
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1379.9
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1424.2
+    }
+   ],
+   "sector": "Technology",
+   "industry": "Information Technology Services"
+  },
+  "HDFCBANK": {
+   "price": 694.05,
+   "prevClose": 712,
+   "change": -17.95,
+   "changePct": -2.52,
+   "dayHigh": 703.35,
+   "dayLow": 689.1,
+   "high52": 1020.5,
+   "low52": 681.9,
+   "volume": 60255284,
+   "longName": "HDFC Bank Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 753.15
+    },
+    {
+     "date": "2026-07-23",
+     "close": 747.25
+    },
+    {
+     "date": "2026-07-24",
+     "close": 742.8
+    },
+    {
+     "date": "2026-07-27",
+     "close": 739.55
+    },
+    {
+     "date": "2026-07-28",
+     "close": 735.4
+    },
+    {
+     "date": "2026-07-29",
+     "close": 748.2
+    },
+    {
+     "date": "2026-07-30",
+     "close": 753.95
+    },
+    {
+     "date": "2026-07-31",
+     "close": 748.15
+    },
+    {
+     "date": "2026-08-03",
+     "close": 753
+    },
+    {
+     "date": "2026-08-04",
+     "close": 742
+    },
+    {
+     "date": "2026-08-05",
+     "close": 735
+    },
+    {
+     "date": "2026-08-06",
+     "close": 734.3
+    },
+    {
+     "date": "2026-08-07",
+     "close": 731
+    },
+    {
+     "date": "2026-08-10",
+     "close": 731
+    },
+    {
+     "date": "2026-08-11",
+     "close": 729
+    },
+    {
+     "date": "2026-08-12",
+     "close": 729
+    },
+    {
+     "date": "2026-08-13",
+     "close": 725
+    },
+    {
+     "date": "2026-08-14",
+     "close": 727
+    },
+    {
+     "date": "2026-08-17",
+     "close": 729
+    },
+    {
+     "date": "2026-08-18",
+     "close": 723
+    },
+    {
+     "date": "2026-08-19",
+     "close": 720
+    },
+    {
+     "date": "2026-08-20",
+     "close": 725.05
+    },
+    {
+     "date": "2026-08-21",
+     "close": 726.95
+    },
+    {
+     "date": "2026-08-24",
+     "close": 729
+    },
+    {
+     "date": "2026-08-25",
+     "close": 727.5
+    },
+    {
+     "date": "2026-08-26",
+     "close": 727.2
+    },
+    {
+     "date": "2026-08-27",
+     "close": 711
+    },
+    {
+     "date": "2026-08-28",
+     "close": 720.3
+    },
+    {
+     "date": "2026-08-31",
+     "close": 709
+    },
+    {
+     "date": "2026-09-01",
+     "close": 711.9
+    },
+    {
+     "date": "2026-09-02",
+     "close": 700.8
+    },
+    {
+     "date": "2026-09-03",
+     "close": 706.65
+    },
+    {
+     "date": "2026-09-04",
+     "close": 712.1
+    },
+    {
+     "date": "2026-09-07",
+     "close": 710.5
+    },
+    {
+     "date": "2026-09-08",
+     "close": 703
+    },
+    {
+     "date": "2026-09-09",
+     "close": 687.1
+    },
+    {
+     "date": "2026-09-10",
+     "close": 693.8
+    },
+    {
+     "date": "2026-09-11",
+     "close": 708.25
+    },
+    {
+     "date": "2026-09-15",
+     "close": 716.55
+    },
+    {
+     "date": "2026-09-16",
+     "close": 721.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 713
+    },
+    {
+     "date": "2026-09-18",
+     "close": 731
+    },
+    {
+     "date": "2026-09-21",
+     "close": 739.5
+    },
+    {
+     "date": "2026-09-22",
+     "close": 738.6
+    },
+    {
+     "date": "2026-09-23",
+     "close": 737.25
+    },
+    {
+     "date": "2026-09-24",
+     "close": 728.9
+    },
+    {
+     "date": "2026-09-25",
+     "close": 735.6
+    },
+    {
+     "date": "2026-09-28",
+     "close": 719.05
+    },
+    {
+     "date": "2026-09-29",
+     "close": 722.7
+    },
+    {
+     "date": "2026-09-30",
+     "close": 708.7
+    },
+    {
+     "date": "2026-10-01",
+     "close": 721.2
+    },
+    {
+     "date": "2026-10-05",
+     "close": 704.8
+    },
+    {
+     "date": "2026-10-06",
+     "close": 711.45
+    },
+    {
+     "date": "2026-10-07",
+     "close": 702.75
+    },
+    {
+     "date": "2026-10-08",
+     "close": 692.25
+    },
+    {
+     "date": "2026-10-09",
+     "close": 707.25
+    },
+    {
+     "date": "2026-10-12",
+     "close": 704.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 714
+    },
+    {
+     "date": "2026-10-14",
+     "close": 710.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 726.85
+    },
+    {
+     "date": "2026-10-16",
+     "close": 728.85
+    },
+    {
+     "date": "2026-10-19",
+     "close": 712
+    },
+    {
+     "date": "2026-10-21",
+     "close": 706.95
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  },
+  "HINDALCO": {
+   "price": 885.6,
+   "prevClose": 900.45,
+   "change": -14.85,
+   "changePct": -1.65,
+   "dayHigh": 892.05,
+   "dayLow": 870,
+   "high52": 1176,
+   "low52": 770.15,
+   "volume": 3615195,
+   "longName": "Hindalco Industries Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 950
+    },
+    {
+     "date": "2026-07-23",
+     "close": 955.65
+    },
+    {
+     "date": "2026-07-24",
+     "close": 942.8
+    },
+    {
+     "date": "2026-07-27",
+     "close": 945.25
+    },
+    {
+     "date": "2026-07-28",
+     "close": 936.4
+    },
+    {
+     "date": "2026-07-29",
+     "close": 962.45
+    },
+    {
+     "date": "2026-07-30",
+     "close": 970.4
+    },
+    {
+     "date": "2026-07-31",
+     "close": 974.45
+    },
+    {
+     "date": "2026-08-03",
+     "close": 994.9
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1020
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1040
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1027
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1059.6
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1054.05
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1049.1
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1078.5
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1046.25
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1029.5
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1049.9
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1041.6
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1038.95
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1029.85
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1034
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1058.5
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1051.05
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1053
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1024
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1037.4
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1015.45
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1014.4
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1009.7
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1010
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1011
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1006
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1009
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1026.9
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1014
+    },
+    {
+     "date": "2026-09-11",
+     "close": 981.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 958.7
+    },
+    {
+     "date": "2026-09-16",
+     "close": 972.7
+    },
+    {
+     "date": "2026-09-17",
+     "close": 980.5
+    },
+    {
+     "date": "2026-09-18",
+     "close": 986.5
+    },
+    {
+     "date": "2026-09-21",
+     "close": 981.2
+    },
+    {
+     "date": "2026-09-22",
+     "close": 973
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1003.8
+    },
+    {
+     "date": "2026-09-24",
+     "close": 982
+    },
+    {
+     "date": "2026-09-25",
+     "close": 977
+    },
+    {
+     "date": "2026-09-28",
+     "close": 955.9
+    },
+    {
+     "date": "2026-09-29",
+     "close": 955.2
+    },
+    {
+     "date": "2026-09-30",
+     "close": 941.8
+    },
+    {
+     "date": "2026-10-01",
+     "close": 941.85
+    },
+    {
+     "date": "2026-10-05",
+     "close": 938.4
+    },
+    {
+     "date": "2026-10-06",
+     "close": 940.5
+    },
+    {
+     "date": "2026-10-07",
+     "close": 910.85
+    },
+    {
+     "date": "2026-10-08",
+     "close": 890.15
+    },
+    {
+     "date": "2026-10-09",
+     "close": 900.35
+    },
+    {
+     "date": "2026-10-12",
+     "close": 882.5
+    },
+    {
+     "date": "2026-10-13",
+     "close": 902.25
+    },
+    {
+     "date": "2026-10-14",
+     "close": 882.5
+    },
+    {
+     "date": "2026-10-15",
+     "close": 893.85
+    },
+    {
+     "date": "2026-10-16",
+     "close": 908
+    },
+    {
+     "date": "2026-10-19",
+     "close": 900.45
+    },
+    {
+     "date": "2026-10-21",
+     "close": 892.85
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Aluminum"
+  },
+  "HINDUNILVR": {
+   "price": 1828.3,
+   "prevClose": 1853.2,
+   "change": -24.9,
+   "changePct": -1.34,
+   "dayHigh": 1844.9,
+   "dayLow": 1810.6,
+   "high52": 2667.2,
+   "low52": 1810.6,
+   "volume": 1012054,
+   "longName": "Hindustan Unilever Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 2154.6
+    },
+    {
+     "date": "2026-07-23",
+     "close": 2161.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 2145
+    },
+    {
+     "date": "2026-07-27",
+     "close": 2174.6
+    },
+    {
+     "date": "2026-07-28",
+     "close": 2022.7
+    },
+    {
+     "date": "2026-07-29",
+     "close": 2117.8
+    },
+    {
+     "date": "2026-07-30",
+     "close": 2107.9
+    },
+    {
+     "date": "2026-07-31",
+     "close": 2101.3
+    },
+    {
+     "date": "2026-08-03",
+     "close": 2138
+    },
+    {
+     "date": "2026-08-04",
+     "close": 2096.5
+    },
+    {
+     "date": "2026-08-05",
+     "close": 2085.3
+    },
+    {
+     "date": "2026-08-06",
+     "close": 2079.5
+    },
+    {
+     "date": "2026-08-07",
+     "close": 2096
+    },
+    {
+     "date": "2026-08-10",
+     "close": 2087.2
+    },
+    {
+     "date": "2026-08-11",
+     "close": 2064.9
+    },
+    {
+     "date": "2026-08-12",
+     "close": 2063
+    },
+    {
+     "date": "2026-08-13",
+     "close": 2092
+    },
+    {
+     "date": "2026-08-14",
+     "close": 2077
+    },
+    {
+     "date": "2026-08-17",
+     "close": 2055
+    },
+    {
+     "date": "2026-08-18",
+     "close": 2035
+    },
+    {
+     "date": "2026-08-19",
+     "close": 2020.7
+    },
+    {
+     "date": "2026-08-20",
+     "close": 2028
+    },
+    {
+     "date": "2026-08-21",
+     "close": 2015
+    },
+    {
+     "date": "2026-08-24",
+     "close": 2030
+    },
+    {
+     "date": "2026-08-25",
+     "close": 2024.2
+    },
+    {
+     "date": "2026-08-26",
+     "close": 2021
+    },
+    {
+     "date": "2026-08-27",
+     "close": 2009
+    },
+    {
+     "date": "2026-08-28",
+     "close": 2010.4
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1967.4
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1994.8
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1975
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1962
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1973.4
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1960
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1980
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1945
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1942.3
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1927
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1938.1
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1962
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1942.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1932
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1947
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1933.8
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1950
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1933.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1942.9
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1896
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1863.8
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1879.1
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1836
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1838.4
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1895.2
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1865.4
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1844.5
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1856.7
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1820.7
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1875.5
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1895.5
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1897.1
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1893.8
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1853.2
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1850.2
+    }
+   ],
+   "sector": "Consumer Defensive",
+   "industry": "Household & Personal Products"
+  },
+  "HINDZINC": {
+   "price": 518,
+   "prevClose": 538.4,
+   "change": -20.4,
+   "changePct": -3.79,
+   "dayHigh": 518,
+   "dayLow": 507.4,
+   "high52": 733,
+   "low52": 453.5,
+   "volume": 7450277,
+   "longName": "Hindustan Zinc Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 535.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 531.15
+    },
+    {
+     "date": "2026-07-24",
+     "close": 531.95
+    },
+    {
+     "date": "2026-07-27",
+     "close": 529.65
+    },
+    {
+     "date": "2026-07-28",
+     "close": 526.9
+    },
+    {
+     "date": "2026-07-29",
+     "close": 536.7
+    },
+    {
+     "date": "2026-07-30",
+     "close": 535.9
+    },
+    {
+     "date": "2026-07-31",
+     "close": 539.2
+    },
+    {
+     "date": "2026-08-03",
+     "close": 547
+    },
+    {
+     "date": "2026-08-04",
+     "close": 562.9
+    },
+    {
+     "date": "2026-08-05",
+     "close": 596.95
+    },
+    {
+     "date": "2026-08-06",
+     "close": 590
+    },
+    {
+     "date": "2026-08-07",
+     "close": 603
+    },
+    {
+     "date": "2026-08-10",
+     "close": 595.15
+    },
+    {
+     "date": "2026-08-11",
+     "close": 586.65
+    },
+    {
+     "date": "2026-08-12",
+     "close": 584.6
+    },
+    {
+     "date": "2026-08-13",
+     "close": 578.35
+    },
+    {
+     "date": "2026-08-14",
+     "close": 561.9
+    },
+    {
+     "date": "2026-08-17",
+     "close": 567.5
+    },
+    {
+     "date": "2026-08-18",
+     "close": 558
+    },
+    {
+     "date": "2026-08-19",
+     "close": 557
+    },
+    {
+     "date": "2026-08-20",
+     "close": 573.9
+    },
+    {
+     "date": "2026-08-21",
+     "close": 594.9
+    },
+    {
+     "date": "2026-08-24",
+     "close": 604
+    },
+    {
+     "date": "2026-08-25",
+     "close": 592.6
+    },
+    {
+     "date": "2026-08-26",
+     "close": 626.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 610.1
+    },
+    {
+     "date": "2026-08-28",
+     "close": 622
+    },
+    {
+     "date": "2026-08-31",
+     "close": 595.45
+    },
+    {
+     "date": "2026-09-01",
+     "close": 597
+    },
+    {
+     "date": "2026-09-02",
+     "close": 588.4
+    },
+    {
+     "date": "2026-09-03",
+     "close": 587.95
+    },
+    {
+     "date": "2026-09-04",
+     "close": 601
+    },
+    {
+     "date": "2026-09-07",
+     "close": 589.15
+    },
+    {
+     "date": "2026-09-08",
+     "close": 595.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 605.4
+    },
+    {
+     "date": "2026-09-10",
+     "close": 593.6
+    },
+    {
+     "date": "2026-09-11",
+     "close": 576.45
+    },
+    {
+     "date": "2026-09-15",
+     "close": 560.9
+    },
+    {
+     "date": "2026-09-16",
+     "close": 567.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 572.3
+    },
+    {
+     "date": "2026-09-18",
+     "close": 596
+    },
+    {
+     "date": "2026-09-21",
+     "close": 591.8
+    },
+    {
+     "date": "2026-09-22",
+     "close": 590.5
+    },
+    {
+     "date": "2026-09-23",
+     "close": 595.45
+    },
+    {
+     "date": "2026-09-24",
+     "close": 587.15
+    },
+    {
+     "date": "2026-09-25",
+     "close": 588.95
+    },
+    {
+     "date": "2026-09-28",
+     "close": 573
+    },
+    {
+     "date": "2026-09-29",
+     "close": 563.3
+    },
+    {
+     "date": "2026-09-30",
+     "close": 566
+    },
+    {
+     "date": "2026-10-01",
+     "close": 555.05
+    },
+    {
+     "date": "2026-10-05",
+     "close": 560.95
+    },
+    {
+     "date": "2026-10-06",
+     "close": 557.65
+    },
+    {
+     "date": "2026-10-07",
+     "close": 551
+    },
+    {
+     "date": "2026-10-08",
+     "close": 531.75
+    },
+    {
+     "date": "2026-10-09",
+     "close": 543.5
+    },
+    {
+     "date": "2026-10-12",
+     "close": 546.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 549.6
+    },
+    {
+     "date": "2026-10-14",
+     "close": 540
+    },
+    {
+     "date": "2026-10-15",
+     "close": 531
+    },
+    {
+     "date": "2026-10-16",
+     "close": 540
+    },
+    {
+     "date": "2026-10-19",
+     "close": 538.4
+    },
+    {
+     "date": "2026-10-21",
+     "close": 525
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Other Industrial Metals & Mining"
+  },
+  "ICICIBANK": {
+   "price": 1398.5,
+   "prevClose": 1381,
+   "change": 17.5,
+   "changePct": 1.27,
+   "dayHigh": 1400,
+   "dayLow": 1375.1,
+   "high52": 1480,
+   "low52": 1187.6,
+   "volume": 16079390,
+   "longName": "ICICI Bank Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1440.7
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1434.6
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1432.9
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1445.7
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1430.8
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1437.9
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1433.9
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1435.4
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1460
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1454.6
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1450.1
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1457.5
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1421
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1431.8
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1429.6
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1431.7
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1406.8
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1417
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1415.3
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1412
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1402
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1411.9
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1420
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1415
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1422.7
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1430
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1443
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1422.8
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1454
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1438
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1426.5
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1430
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1423.2
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1427.5
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1399.4
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1389.1
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1384.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1379.3
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1350.4
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1358.8
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1347.6
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1338.9
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1345
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1339.6
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1340
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1334.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1326.8
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1302
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1292.2
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1321.7
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1310.6
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1332
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1342.8
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1357.5
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1349
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1355
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1340
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1360.2
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1338.6
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1389.4
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1397
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1381
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1385
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  },
+  "IDEA": {
+   "price": 11.53,
+   "prevClose": 12.28,
+   "change": -0.75,
+   "changePct": -6.11,
+   "dayHigh": 11.79,
+   "dayLow": 11.23,
+   "high52": 15.79,
+   "low52": 8.13,
+   "volume": 502560506,
+   "longName": "Vodafone Idea Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 13.54
+    },
+    {
+     "date": "2026-07-23",
+     "close": 13.2
+    },
+    {
+     "date": "2026-07-24",
+     "close": 13.13
+    },
+    {
+     "date": "2026-07-27",
+     "close": 13.06
+    },
+    {
+     "date": "2026-07-28",
+     "close": 12.95
+    },
+    {
+     "date": "2026-07-29",
+     "close": 13.05
+    },
+    {
+     "date": "2026-07-30",
+     "close": 12.87
+    },
+    {
+     "date": "2026-07-31",
+     "close": 13.01
+    },
+    {
+     "date": "2026-08-03",
+     "close": 12.86
+    },
+    {
+     "date": "2026-08-04",
+     "close": 12.9
+    },
+    {
+     "date": "2026-08-05",
+     "close": 12.8
+    },
+    {
+     "date": "2026-08-06",
+     "close": 12.63
+    },
+    {
+     "date": "2026-08-07",
+     "close": 12.73
+    },
+    {
+     "date": "2026-08-10",
+     "close": 12.92
+    },
+    {
+     "date": "2026-08-11",
+     "close": 12.89
+    },
+    {
+     "date": "2026-08-12",
+     "close": 13.5
+    },
+    {
+     "date": "2026-08-13",
+     "close": 13.51
+    },
+    {
+     "date": "2026-08-14",
+     "close": 14.11
+    },
+    {
+     "date": "2026-08-17",
+     "close": 13.71
+    },
+    {
+     "date": "2026-08-18",
+     "close": 14.12
+    },
+    {
+     "date": "2026-08-19",
+     "close": 14.07
+    },
+    {
+     "date": "2026-08-20",
+     "close": 14.03
+    },
+    {
+     "date": "2026-08-21",
+     "close": 13.94
+    },
+    {
+     "date": "2026-08-24",
+     "close": 14.07
+    },
+    {
+     "date": "2026-08-25",
+     "close": 15.19
+    },
+    {
+     "date": "2026-08-26",
+     "close": 15.06
+    },
+    {
+     "date": "2026-08-27",
+     "close": 14.97
+    },
+    {
+     "date": "2026-08-28",
+     "close": 14.68
+    },
+    {
+     "date": "2026-08-31",
+     "close": 14.33
+    },
+    {
+     "date": "2026-09-01",
+     "close": 14.06
+    },
+    {
+     "date": "2026-09-02",
+     "close": 14.53
+    },
+    {
+     "date": "2026-09-03",
+     "close": 14.48
+    },
+    {
+     "date": "2026-09-04",
+     "close": 15.02
+    },
+    {
+     "date": "2026-09-07",
+     "close": 15.6
+    },
+    {
+     "date": "2026-09-08",
+     "close": 15.42
+    },
+    {
+     "date": "2026-09-09",
+     "close": 15.52
+    },
+    {
+     "date": "2026-09-10",
+     "close": 14.9
+    },
+    {
+     "date": "2026-09-11",
+     "close": 14.97
+    },
+    {
+     "date": "2026-09-15",
+     "close": 14.45
+    },
+    {
+     "date": "2026-09-16",
+     "close": 14.26
+    },
+    {
+     "date": "2026-09-17",
+     "close": 14.22
+    },
+    {
+     "date": "2026-09-18",
+     "close": 13.92
+    },
+    {
+     "date": "2026-09-21",
+     "close": 13.84
+    },
+    {
+     "date": "2026-09-22",
+     "close": 14.27
+    },
+    {
+     "date": "2026-09-23",
+     "close": 14.52
+    },
+    {
+     "date": "2026-09-24",
+     "close": 14.12
+    },
+    {
+     "date": "2026-09-25",
+     "close": 14.26
+    },
+    {
+     "date": "2026-09-28",
+     "close": 13.47
+    },
+    {
+     "date": "2026-09-29",
+     "close": 13.56
+    },
+    {
+     "date": "2026-09-30",
+     "close": 12.95
+    },
+    {
+     "date": "2026-10-01",
+     "close": 12.64
+    },
+    {
+     "date": "2026-10-05",
+     "close": 12.74
+    },
+    {
+     "date": "2026-10-06",
+     "close": 13.21
+    },
+    {
+     "date": "2026-10-07",
+     "close": 13.18
+    },
+    {
+     "date": "2026-10-08",
+     "close": 12.8
+    },
+    {
+     "date": "2026-10-09",
+     "close": 13
+    },
+    {
+     "date": "2026-10-12",
+     "close": 12.67
+    },
+    {
+     "date": "2026-10-13",
+     "close": 12.8
+    },
+    {
+     "date": "2026-10-14",
+     "close": 12.67
+    },
+    {
+     "date": "2026-10-15",
+     "close": 12.52
+    },
+    {
+     "date": "2026-10-16",
+     "close": 12.59
+    },
+    {
+     "date": "2026-10-19",
+     "close": 12.28
+    },
+    {
+     "date": "2026-10-21",
+     "close": 11.64
+    }
+   ],
+   "sector": "Communication Services",
+   "industry": "Telecom Services"
+  },
+  "INDIGO": {
+   "price": 4600,
+   "prevClose": 4700,
+   "change": -100,
+   "changePct": -2.13,
+   "dayHigh": 4670,
+   "dayLow": 4546.6,
+   "high52": 5970,
+   "low52": 3895.2,
+   "volume": 491477,
+   "longName": "InterGlobe Aviation Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 5117
+    },
+    {
+     "date": "2026-07-23",
+     "close": 5023.5
+    },
+    {
+     "date": "2026-07-24",
+     "close": 4985
+    },
+    {
+     "date": "2026-07-27",
+     "close": 5230
+    },
+    {
+     "date": "2026-07-28",
+     "close": 5270.5
+    },
+    {
+     "date": "2026-07-29",
+     "close": 5276.5
+    },
+    {
+     "date": "2026-07-30",
+     "close": 5230.5
+    },
+    {
+     "date": "2026-07-31",
+     "close": 5171
+    },
+    {
+     "date": "2026-08-03",
+     "close": 5400
+    },
+    {
+     "date": "2026-08-04",
+     "close": 5358
+    },
+    {
+     "date": "2026-08-05",
+     "close": 5400
+    },
+    {
+     "date": "2026-08-06",
+     "close": 5318.5
+    },
+    {
+     "date": "2026-08-07",
+     "close": 5333
+    },
+    {
+     "date": "2026-08-10",
+     "close": 5333.5
+    },
+    {
+     "date": "2026-08-11",
+     "close": 5284
+    },
+    {
+     "date": "2026-08-12",
+     "close": 5333
+    },
+    {
+     "date": "2026-08-13",
+     "close": 5370
+    },
+    {
+     "date": "2026-08-14",
+     "close": 5310
+    },
+    {
+     "date": "2026-08-17",
+     "close": 5275.5
+    },
+    {
+     "date": "2026-08-18",
+     "close": 5220
+    },
+    {
+     "date": "2026-08-19",
+     "close": 5193
+    },
+    {
+     "date": "2026-08-20",
+     "close": 5165
+    },
+    {
+     "date": "2026-08-21",
+     "close": 5110
+    },
+    {
+     "date": "2026-08-24",
+     "close": 5115
+    },
+    {
+     "date": "2026-08-25",
+     "close": 5218
+    },
+    {
+     "date": "2026-08-26",
+     "close": 5250.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 5189
+    },
+    {
+     "date": "2026-08-28",
+     "close": 5166
+    },
+    {
+     "date": "2026-08-31",
+     "close": 5234
+    },
+    {
+     "date": "2026-09-01",
+     "close": 5052
+    },
+    {
+     "date": "2026-09-02",
+     "close": 5020
+    },
+    {
+     "date": "2026-09-03",
+     "close": 4980
+    },
+    {
+     "date": "2026-09-04",
+     "close": 4977
+    },
+    {
+     "date": "2026-09-07",
+     "close": 5001
+    },
+    {
+     "date": "2026-09-08",
+     "close": 5000
+    },
+    {
+     "date": "2026-09-09",
+     "close": 4975
+    },
+    {
+     "date": "2026-09-10",
+     "close": 4945
+    },
+    {
+     "date": "2026-09-11",
+     "close": 4973
+    },
+    {
+     "date": "2026-09-15",
+     "close": 4776
+    },
+    {
+     "date": "2026-09-16",
+     "close": 4733.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 4845
+    },
+    {
+     "date": "2026-09-18",
+     "close": 4920
+    },
+    {
+     "date": "2026-09-21",
+     "close": 4941
+    },
+    {
+     "date": "2026-09-22",
+     "close": 5030
+    },
+    {
+     "date": "2026-09-23",
+     "close": 5028.5
+    },
+    {
+     "date": "2026-09-24",
+     "close": 4890
+    },
+    {
+     "date": "2026-09-25",
+     "close": 4940
+    },
+    {
+     "date": "2026-09-28",
+     "close": 4874.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 4872
+    },
+    {
+     "date": "2026-09-30",
+     "close": 4984
+    },
+    {
+     "date": "2026-10-01",
+     "close": 4929.9
+    },
+    {
+     "date": "2026-10-05",
+     "close": 4935
+    },
+    {
+     "date": "2026-10-06",
+     "close": 5050.5
+    },
+    {
+     "date": "2026-10-07",
+     "close": 4990
+    },
+    {
+     "date": "2026-10-08",
+     "close": 4813.1
+    },
+    {
+     "date": "2026-10-09",
+     "close": 4833
+    },
+    {
+     "date": "2026-10-12",
+     "close": 4795
+    },
+    {
+     "date": "2026-10-13",
+     "close": 4800.4
+    },
+    {
+     "date": "2026-10-14",
+     "close": 4718.5
+    },
+    {
+     "date": "2026-10-15",
+     "close": 4778.3
+    },
+    {
+     "date": "2026-10-16",
+     "close": 4686.9
+    },
+    {
+     "date": "2026-10-19",
+     "close": 4700
+    },
+    {
+     "date": "2026-10-21",
+     "close": 4641.5
+    }
+   ],
+   "sector": "Industrials",
+   "industry": "Airlines"
+  },
+  "INFY": {
+   "price": 1153.35,
+   "prevClose": 1130.7,
+   "change": 22.65,
+   "changePct": 2,
+   "dayHigh": 1174.5,
+   "dayLow": 1144.05,
+   "high52": 1728,
+   "low52": 980.4,
+   "volume": 17003258,
+   "longName": "Infosys Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1052.1
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1047.4
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1040.9
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1079.2
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1105.7
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1155.6
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1155.1
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1130.1
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1180
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1167.5
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1174
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1165
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1175.1
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1183
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1190.7
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1176.1
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1175
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1169.2
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1139.9
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1115
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1119.8
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1130
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1121
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1130
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1144
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1120
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1110.8
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1144
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1133.8
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1156
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1140
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1130.3
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1130
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1087.5
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1082
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1035
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1036.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1037.7
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1077
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1060
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1058.6
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1051.4
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1038.5
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1029.4
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1020.5
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1014.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1000.2
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1003.2
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1015.4
+    },
+    {
+     "date": "2026-09-30",
+     "close": 994.1
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1035
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1020.5
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1013.85
+    },
+    {
+     "date": "2026-10-07",
+     "close": 992
+    },
+    {
+     "date": "2026-10-08",
+     "close": 997
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1023.4
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1020
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1062.1
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1088
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1110
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1161.2
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1130.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1168
+    }
+   ],
+   "sector": "Technology",
+   "industry": "Information Technology Services"
+  },
+  "IOC": {
+   "price": 130.98,
+   "prevClose": 130.25,
+   "change": 0.73,
+   "changePct": 0.56,
+   "dayHigh": 130.98,
+   "dayLow": 127.75,
+   "high52": 188.96,
+   "low52": 124.92,
+   "volume": 6613678,
+   "longName": "Indian Oil Corporation Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 142.03
+    },
+    {
+     "date": "2026-07-23",
+     "close": 139.92
+    },
+    {
+     "date": "2026-07-24",
+     "close": 138.47
+    },
+    {
+     "date": "2026-07-27",
+     "close": 141.52
+    },
+    {
+     "date": "2026-07-28",
+     "close": 141.28
+    },
+    {
+     "date": "2026-07-29",
+     "close": 140.11
+    },
+    {
+     "date": "2026-07-30",
+     "close": 139.94
+    },
+    {
+     "date": "2026-07-31",
+     "close": 140.17
+    },
+    {
+     "date": "2026-08-03",
+     "close": 143.7
+    },
+    {
+     "date": "2026-08-04",
+     "close": 141.6
+    },
+    {
+     "date": "2026-08-05",
+     "close": 144
+    },
+    {
+     "date": "2026-08-06",
+     "close": 142.66
+    },
+    {
+     "date": "2026-08-07",
+     "close": 143.38
+    },
+    {
+     "date": "2026-08-10",
+     "close": 142
+    },
+    {
+     "date": "2026-08-11",
+     "close": 140
+    },
+    {
+     "date": "2026-08-12",
+     "close": 140.6
+    },
+    {
+     "date": "2026-08-13",
+     "close": 141.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 139.4
+    },
+    {
+     "date": "2026-08-17",
+     "close": 138.61
+    },
+    {
+     "date": "2026-08-18",
+     "close": 137.8
+    },
+    {
+     "date": "2026-08-19",
+     "close": 136.3
+    },
+    {
+     "date": "2026-08-20",
+     "close": 135.9
+    },
+    {
+     "date": "2026-08-21",
+     "close": 135.9
+    },
+    {
+     "date": "2026-08-24",
+     "close": 138.5
+    },
+    {
+     "date": "2026-08-25",
+     "close": 139
+    },
+    {
+     "date": "2026-08-26",
+     "close": 139.48
+    },
+    {
+     "date": "2026-08-27",
+     "close": 137.57
+    },
+    {
+     "date": "2026-08-28",
+     "close": 137.1
+    },
+    {
+     "date": "2026-08-31",
+     "close": 139.13
+    },
+    {
+     "date": "2026-09-01",
+     "close": 136.53
+    },
+    {
+     "date": "2026-09-02",
+     "close": 137
+    },
+    {
+     "date": "2026-09-03",
+     "close": 137.8
+    },
+    {
+     "date": "2026-09-04",
+     "close": 137.6
+    },
+    {
+     "date": "2026-09-07",
+     "close": 135.15
+    },
+    {
+     "date": "2026-09-08",
+     "close": 134.35
+    },
+    {
+     "date": "2026-09-09",
+     "close": 135.6
+    },
+    {
+     "date": "2026-09-10",
+     "close": 134.94
+    },
+    {
+     "date": "2026-09-11",
+     "close": 135.11
+    },
+    {
+     "date": "2026-09-15",
+     "close": 132.03
+    },
+    {
+     "date": "2026-09-16",
+     "close": 134.75
+    },
+    {
+     "date": "2026-09-17",
+     "close": 134.27
+    },
+    {
+     "date": "2026-09-18",
+     "close": 137
+    },
+    {
+     "date": "2026-09-21",
+     "close": 136.53
+    },
+    {
+     "date": "2026-09-22",
+     "close": 137.8
+    },
+    {
+     "date": "2026-09-23",
+     "close": 138.15
+    },
+    {
+     "date": "2026-09-24",
+     "close": 136.27
+    },
+    {
+     "date": "2026-09-25",
+     "close": 135.7
+    },
+    {
+     "date": "2026-09-28",
+     "close": 133.32
+    },
+    {
+     "date": "2026-09-29",
+     "close": 131.33
+    },
+    {
+     "date": "2026-09-30",
+     "close": 134.93
+    },
+    {
+     "date": "2026-10-01",
+     "close": 131.34
+    },
+    {
+     "date": "2026-10-05",
+     "close": 130.5
+    },
+    {
+     "date": "2026-10-06",
+     "close": 131.6
+    },
+    {
+     "date": "2026-10-07",
+     "close": 130
+    },
+    {
+     "date": "2026-10-08",
+     "close": 126.25
+    },
+    {
+     "date": "2026-10-09",
+     "close": 126.35
+    },
+    {
+     "date": "2026-10-12",
+     "close": 125.35
+    },
+    {
+     "date": "2026-10-13",
+     "close": 126.14
+    },
+    {
+     "date": "2026-10-14",
+     "close": 127.8
+    },
+    {
+     "date": "2026-10-15",
+     "close": 128.83
+    },
+    {
+     "date": "2026-10-16",
+     "close": 130.38
+    },
+    {
+     "date": "2026-10-19",
+     "close": 130.25
+    },
+    {
+     "date": "2026-10-21",
+     "close": 129.61
+    }
+   ],
+   "sector": "Energy",
+   "industry": "Oil & Gas Refining & Marketing"
+  },
+  "IRFC": {
+   "price": 77,
+   "prevClose": 78.44,
+   "change": -1.44,
+   "changePct": -1.84,
+   "dayHigh": 77.73,
+   "dayLow": 75.6,
+   "high52": 137.17,
+   "low52": 74.06,
+   "volume": 8917328,
+   "longName": "Indian Railway Finance Corporation Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 87.39
+    },
+    {
+     "date": "2026-07-23",
+     "close": 87.03
+    },
+    {
+     "date": "2026-07-24",
+     "close": 87.62
+    },
+    {
+     "date": "2026-07-27",
+     "close": 88.13
+    },
+    {
+     "date": "2026-07-28",
+     "close": 87.15
+    },
+    {
+     "date": "2026-07-29",
+     "close": 89.13
+    },
+    {
+     "date": "2026-07-30",
+     "close": 88.92
+    },
+    {
+     "date": "2026-07-31",
+     "close": 89.15
+    },
+    {
+     "date": "2026-08-03",
+     "close": 90.25
+    },
+    {
+     "date": "2026-08-04",
+     "close": 89.6
+    },
+    {
+     "date": "2026-08-05",
+     "close": 88.9
+    },
+    {
+     "date": "2026-08-06",
+     "close": 89.29
+    },
+    {
+     "date": "2026-08-07",
+     "close": 88.75
+    },
+    {
+     "date": "2026-08-10",
+     "close": 88.5
+    },
+    {
+     "date": "2026-08-11",
+     "close": 87.91
+    },
+    {
+     "date": "2026-08-12",
+     "close": 88.26
+    },
+    {
+     "date": "2026-08-13",
+     "close": 88.35
+    },
+    {
+     "date": "2026-08-14",
+     "close": 87.57
+    },
+    {
+     "date": "2026-08-17",
+     "close": 87.05
+    },
+    {
+     "date": "2026-08-18",
+     "close": 86.11
+    },
+    {
+     "date": "2026-08-19",
+     "close": 85.18
+    },
+    {
+     "date": "2026-08-20",
+     "close": 86.47
+    },
+    {
+     "date": "2026-08-21",
+     "close": 86.4
+    },
+    {
+     "date": "2026-08-24",
+     "close": 85.99
+    },
+    {
+     "date": "2026-08-25",
+     "close": 85.45
+    },
+    {
+     "date": "2026-08-26",
+     "close": 85.7
+    },
+    {
+     "date": "2026-08-27",
+     "close": 84.65
+    },
+    {
+     "date": "2026-08-28",
+     "close": 83.9
+    },
+    {
+     "date": "2026-08-31",
+     "close": 83.34
+    },
+    {
+     "date": "2026-09-01",
+     "close": 82.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 82.48
+    },
+    {
+     "date": "2026-09-03",
+     "close": 82.65
+    },
+    {
+     "date": "2026-09-04",
+     "close": 83.4
+    },
+    {
+     "date": "2026-09-07",
+     "close": 83
+    },
+    {
+     "date": "2026-09-08",
+     "close": 82
+    },
+    {
+     "date": "2026-09-09",
+     "close": 81.39
+    },
+    {
+     "date": "2026-09-10",
+     "close": 81.08
+    },
+    {
+     "date": "2026-09-11",
+     "close": 81.09
+    },
+    {
+     "date": "2026-09-15",
+     "close": 79.15
+    },
+    {
+     "date": "2026-09-16",
+     "close": 78.95
+    },
+    {
+     "date": "2026-09-17",
+     "close": 79.31
+    },
+    {
+     "date": "2026-09-18",
+     "close": 81.5
+    },
+    {
+     "date": "2026-09-21",
+     "close": 80.22
+    },
+    {
+     "date": "2026-09-22",
+     "close": 80
+    },
+    {
+     "date": "2026-09-23",
+     "close": 81
+    },
+    {
+     "date": "2026-09-24",
+     "close": 79.86
+    },
+    {
+     "date": "2026-09-25",
+     "close": 79.95
+    },
+    {
+     "date": "2026-09-28",
+     "close": 78.55
+    },
+    {
+     "date": "2026-09-29",
+     "close": 80.26
+    },
+    {
+     "date": "2026-09-30",
+     "close": 79.28
+    },
+    {
+     "date": "2026-10-01",
+     "close": 77.06
+    },
+    {
+     "date": "2026-10-05",
+     "close": 76.5
+    },
+    {
+     "date": "2026-10-06",
+     "close": 77.1
+    },
+    {
+     "date": "2026-10-07",
+     "close": 76.15
+    },
+    {
+     "date": "2026-10-08",
+     "close": 74.3
+    },
+    {
+     "date": "2026-10-09",
+     "close": 74.7
+    },
+    {
+     "date": "2026-10-12",
+     "close": 77.5
+    },
+    {
+     "date": "2026-10-13",
+     "close": 79.62
+    },
+    {
+     "date": "2026-10-14",
+     "close": 79.75
+    },
+    {
+     "date": "2026-10-15",
+     "close": 78.9
+    },
+    {
+     "date": "2026-10-16",
+     "close": 80.25
+    },
+    {
+     "date": "2026-10-19",
+     "close": 78.44
+    },
+    {
+     "date": "2026-10-21",
+     "close": 76.8
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Credit Services"
+  },
+  "ITC": {
+   "price": 258.9,
+   "prevClose": 260.8,
+   "change": -1.9,
+   "changePct": -0.73,
+   "dayHigh": 261,
+   "dayLow": 256.35,
+   "high52": 426.4,
+   "low52": 253.15,
+   "volume": 15277449,
+   "longName": "ITC Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 280.8
+    },
+    {
+     "date": "2026-07-23",
+     "close": 281.3
+    },
+    {
+     "date": "2026-07-24",
+     "close": 283.45
+    },
+    {
+     "date": "2026-07-27",
+     "close": 285.85
+    },
+    {
+     "date": "2026-07-28",
+     "close": 284.65
+    },
+    {
+     "date": "2026-07-29",
+     "close": 286.25
+    },
+    {
+     "date": "2026-07-30",
+     "close": 285.05
+    },
+    {
+     "date": "2026-07-31",
+     "close": 281
+    },
+    {
+     "date": "2026-08-03",
+     "close": 287
+    },
+    {
+     "date": "2026-08-04",
+     "close": 289
+    },
+    {
+     "date": "2026-08-05",
+     "close": 286.95
+    },
+    {
+     "date": "2026-08-06",
+     "close": 285.9
+    },
+    {
+     "date": "2026-08-07",
+     "close": 286.1
+    },
+    {
+     "date": "2026-08-10",
+     "close": 282.65
+    },
+    {
+     "date": "2026-08-11",
+     "close": 279
+    },
+    {
+     "date": "2026-08-12",
+     "close": 276.15
+    },
+    {
+     "date": "2026-08-13",
+     "close": 278.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 278.2
+    },
+    {
+     "date": "2026-08-17",
+     "close": 273.05
+    },
+    {
+     "date": "2026-08-18",
+     "close": 270
+    },
+    {
+     "date": "2026-08-19",
+     "close": 267.05
+    },
+    {
+     "date": "2026-08-20",
+     "close": 271.65
+    },
+    {
+     "date": "2026-08-21",
+     "close": 269.4
+    },
+    {
+     "date": "2026-08-24",
+     "close": 269.7
+    },
+    {
+     "date": "2026-08-25",
+     "close": 271.4
+    },
+    {
+     "date": "2026-08-26",
+     "close": 270.25
+    },
+    {
+     "date": "2026-08-27",
+     "close": 269
+    },
+    {
+     "date": "2026-08-28",
+     "close": 266
+    },
+    {
+     "date": "2026-08-31",
+     "close": 255.5
+    },
+    {
+     "date": "2026-09-01",
+     "close": 266.6
+    },
+    {
+     "date": "2026-09-02",
+     "close": 266.3
+    },
+    {
+     "date": "2026-09-03",
+     "close": 263
+    },
+    {
+     "date": "2026-09-04",
+     "close": 264.1
+    },
+    {
+     "date": "2026-09-07",
+     "close": 263.5
+    },
+    {
+     "date": "2026-09-08",
+     "close": 263.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 260.8
+    },
+    {
+     "date": "2026-09-10",
+     "close": 259.3
+    },
+    {
+     "date": "2026-09-11",
+     "close": 259.85
+    },
+    {
+     "date": "2026-09-15",
+     "close": 258
+    },
+    {
+     "date": "2026-09-16",
+     "close": 264.15
+    },
+    {
+     "date": "2026-09-17",
+     "close": 266.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 262.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 267
+    },
+    {
+     "date": "2026-09-22",
+     "close": 265.8
+    },
+    {
+     "date": "2026-09-23",
+     "close": 270.15
+    },
+    {
+     "date": "2026-09-24",
+     "close": 268
+    },
+    {
+     "date": "2026-09-25",
+     "close": 269
+    },
+    {
+     "date": "2026-09-28",
+     "close": 265.2
+    },
+    {
+     "date": "2026-09-29",
+     "close": 265.1
+    },
+    {
+     "date": "2026-09-30",
+     "close": 262.75
+    },
+    {
+     "date": "2026-10-01",
+     "close": 255.9
+    },
+    {
+     "date": "2026-10-05",
+     "close": 268.9
+    },
+    {
+     "date": "2026-10-06",
+     "close": 266.7
+    },
+    {
+     "date": "2026-10-07",
+     "close": 265.7
+    },
+    {
+     "date": "2026-10-08",
+     "close": 255
+    },
+    {
+     "date": "2026-10-09",
+     "close": 266
+    },
+    {
+     "date": "2026-10-12",
+     "close": 257.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 261
+    },
+    {
+     "date": "2026-10-14",
+     "close": 261.5
+    },
+    {
+     "date": "2026-10-15",
+     "close": 263.9
+    },
+    {
+     "date": "2026-10-16",
+     "close": 263.5
+    },
+    {
+     "date": "2026-10-19",
+     "close": 260.8
+    },
+    {
+     "date": "2026-10-21",
+     "close": 262
+    }
+   ],
+   "sector": null,
+   "industry": null
+  },
+  "JSWSTEEL": {
+   "price": 1220,
+   "prevClose": 1241.3,
+   "change": -21.3,
+   "changePct": -1.72,
+   "dayHigh": 1227.8,
+   "dayLow": 1200.3,
+   "high52": 1351,
+   "low52": 1073.2,
+   "volume": 1333154,
+   "longName": "JSW Steel Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1266.9
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1246.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1240.8
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1244.6
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1246.9
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1276.6
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1270.8
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1270
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1292.3
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1300
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1330
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1307.9
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1299.5
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1302
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1283.4
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1269.1
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1275
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1270
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1277.8
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1267.6
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1285.8
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1299.7
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1293.7
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1327
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1320.3
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1341
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1337.5
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1334.9
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1307.7
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1313.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1306
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1308
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1325
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1302
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1297.3
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1310
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1304
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1265
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1229.2
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1248.9
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1253.4
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1275.6
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1268.6
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1267
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1297.8
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1273.2
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1277
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1264.1
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1272.4
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1253.4
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1233
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1235.3
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1259.6
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1230
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1175.2
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1168
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1173
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1176.6
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1176.2
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1200.4
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1216.3
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1241.3
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1222.9
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Steel"
+  },
+  "KOTAKBANK": {
+   "price": 437,
+   "prevClose": 442.3,
+   "change": -5.3,
+   "changePct": -1.2,
+   "dayHigh": 442.5,
+   "dayLow": 433.75,
+   "high52": 453.1,
+   "low52": 345.5,
+   "volume": 16698413,
+   "longName": "Kotak Mahindra Bank Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 381.15
+    },
+    {
+     "date": "2026-07-23",
+     "close": 383.35
+    },
+    {
+     "date": "2026-07-24",
+     "close": 384.75
+    },
+    {
+     "date": "2026-07-27",
+     "close": 384.65
+    },
+    {
+     "date": "2026-07-28",
+     "close": 385.3
+    },
+    {
+     "date": "2026-07-29",
+     "close": 390.2
+    },
+    {
+     "date": "2026-07-30",
+     "close": 389.4
+    },
+    {
+     "date": "2026-07-31",
+     "close": 390.3
+    },
+    {
+     "date": "2026-08-03",
+     "close": 397.5
+    },
+    {
+     "date": "2026-08-04",
+     "close": 398
+    },
+    {
+     "date": "2026-08-05",
+     "close": 400
+    },
+    {
+     "date": "2026-08-06",
+     "close": 394
+    },
+    {
+     "date": "2026-08-07",
+     "close": 390.75
+    },
+    {
+     "date": "2026-08-10",
+     "close": 393.5
+    },
+    {
+     "date": "2026-08-11",
+     "close": 392.9
+    },
+    {
+     "date": "2026-08-12",
+     "close": 390.5
+    },
+    {
+     "date": "2026-08-13",
+     "close": 392.4
+    },
+    {
+     "date": "2026-08-14",
+     "close": 391.15
+    },
+    {
+     "date": "2026-08-17",
+     "close": 392.7
+    },
+    {
+     "date": "2026-08-18",
+     "close": 387.65
+    },
+    {
+     "date": "2026-08-19",
+     "close": 390.25
+    },
+    {
+     "date": "2026-08-20",
+     "close": 397.35
+    },
+    {
+     "date": "2026-08-21",
+     "close": 402.8
+    },
+    {
+     "date": "2026-08-24",
+     "close": 401.45
+    },
+    {
+     "date": "2026-08-25",
+     "close": 401.6
+    },
+    {
+     "date": "2026-08-26",
+     "close": 416.7
+    },
+    {
+     "date": "2026-08-27",
+     "close": 424.2
+    },
+    {
+     "date": "2026-08-28",
+     "close": 423.7
+    },
+    {
+     "date": "2026-08-31",
+     "close": 419.4
+    },
+    {
+     "date": "2026-09-01",
+     "close": 425
+    },
+    {
+     "date": "2026-09-02",
+     "close": 423.5
+    },
+    {
+     "date": "2026-09-03",
+     "close": 421.15
+    },
+    {
+     "date": "2026-09-04",
+     "close": 424.5
+    },
+    {
+     "date": "2026-09-07",
+     "close": 422.1
+    },
+    {
+     "date": "2026-09-08",
+     "close": 419.25
+    },
+    {
+     "date": "2026-09-09",
+     "close": 414
+    },
+    {
+     "date": "2026-09-10",
+     "close": 416.55
+    },
+    {
+     "date": "2026-09-11",
+     "close": 419
+    },
+    {
+     "date": "2026-09-15",
+     "close": 409.8
+    },
+    {
+     "date": "2026-09-16",
+     "close": 415
+    },
+    {
+     "date": "2026-09-17",
+     "close": 416.5
+    },
+    {
+     "date": "2026-09-18",
+     "close": 412.5
+    },
+    {
+     "date": "2026-09-21",
+     "close": 414.8
+    },
+    {
+     "date": "2026-09-22",
+     "close": 412.65
+    },
+    {
+     "date": "2026-09-23",
+     "close": 413.25
+    },
+    {
+     "date": "2026-09-24",
+     "close": 405
+    },
+    {
+     "date": "2026-09-25",
+     "close": 404
+    },
+    {
+     "date": "2026-09-28",
+     "close": 401.55
+    },
+    {
+     "date": "2026-09-29",
+     "close": 406
+    },
+    {
+     "date": "2026-09-30",
+     "close": 417
+    },
+    {
+     "date": "2026-10-01",
+     "close": 418.35
+    },
+    {
+     "date": "2026-10-05",
+     "close": 416
+    },
+    {
+     "date": "2026-10-06",
+     "close": 431.9
+    },
+    {
+     "date": "2026-10-07",
+     "close": 440
+    },
+    {
+     "date": "2026-10-08",
+     "close": 435
+    },
+    {
+     "date": "2026-10-09",
+     "close": 441
+    },
+    {
+     "date": "2026-10-12",
+     "close": 443.4
+    },
+    {
+     "date": "2026-10-13",
+     "close": 439
+    },
+    {
+     "date": "2026-10-14",
+     "close": 438.05
+    },
+    {
+     "date": "2026-10-15",
+     "close": 447.95
+    },
+    {
+     "date": "2026-10-16",
+     "close": 447.4
+    },
+    {
+     "date": "2026-10-19",
+     "close": 442.3
+    },
+    {
+     "date": "2026-10-21",
+     "close": 437.8
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  },
+  "LICI": {
+   "price": 387.5,
+   "prevClose": 393.35,
+   "change": -5.85,
+   "changePct": -1.49,
+   "dayHigh": 391,
+   "dayLow": 384.2,
+   "high52": 468.48,
+   "low52": 360.75,
+   "volume": 10469640,
+   "longName": "Life Insurance Corporation of India",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 423.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 421.4
+    },
+    {
+     "date": "2026-07-24",
+     "close": 421.3
+    },
+    {
+     "date": "2026-07-27",
+     "close": 424.35
+    },
+    {
+     "date": "2026-07-28",
+     "close": 427.15
+    },
+    {
+     "date": "2026-07-29",
+     "close": 423.9
+    },
+    {
+     "date": "2026-07-30",
+     "close": 422.85
+    },
+    {
+     "date": "2026-07-31",
+     "close": 424.7
+    },
+    {
+     "date": "2026-08-03",
+     "close": 428.5
+    },
+    {
+     "date": "2026-08-04",
+     "close": 391.3
+    },
+    {
+     "date": "2026-08-05",
+     "close": 393
+    },
+    {
+     "date": "2026-08-06",
+     "close": 387.55
+    },
+    {
+     "date": "2026-08-07",
+     "close": 394
+    },
+    {
+     "date": "2026-08-10",
+     "close": 393
+    },
+    {
+     "date": "2026-08-11",
+     "close": 406
+    },
+    {
+     "date": "2026-08-12",
+     "close": 417
+    },
+    {
+     "date": "2026-08-13",
+     "close": 412.15
+    },
+    {
+     "date": "2026-08-14",
+     "close": 413.5
+    },
+    {
+     "date": "2026-08-17",
+     "close": 410
+    },
+    {
+     "date": "2026-08-18",
+     "close": 410
+    },
+    {
+     "date": "2026-08-19",
+     "close": 413.1
+    },
+    {
+     "date": "2026-08-20",
+     "close": 419
+    },
+    {
+     "date": "2026-08-21",
+     "close": 422.25
+    },
+    {
+     "date": "2026-08-24",
+     "close": 421.85
+    },
+    {
+     "date": "2026-08-25",
+     "close": 424
+    },
+    {
+     "date": "2026-08-26",
+     "close": 415.3
+    },
+    {
+     "date": "2026-08-27",
+     "close": 413.95
+    },
+    {
+     "date": "2026-08-28",
+     "close": 422
+    },
+    {
+     "date": "2026-08-31",
+     "close": 418
+    },
+    {
+     "date": "2026-09-01",
+     "close": 412.15
+    },
+    {
+     "date": "2026-09-02",
+     "close": 408.25
+    },
+    {
+     "date": "2026-09-03",
+     "close": 416.9
+    },
+    {
+     "date": "2026-09-04",
+     "close": 415.35
+    },
+    {
+     "date": "2026-09-07",
+     "close": 411.5
+    },
+    {
+     "date": "2026-09-08",
+     "close": 410.75
+    },
+    {
+     "date": "2026-09-09",
+     "close": 407.5
+    },
+    {
+     "date": "2026-09-10",
+     "close": 405.6
+    },
+    {
+     "date": "2026-09-11",
+     "close": 404.1
+    },
+    {
+     "date": "2026-09-15",
+     "close": 391.5
+    },
+    {
+     "date": "2026-09-16",
+     "close": 395.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 400
+    },
+    {
+     "date": "2026-09-18",
+     "close": 407.7
+    },
+    {
+     "date": "2026-09-21",
+     "close": 400
+    },
+    {
+     "date": "2026-09-22",
+     "close": 404.55
+    },
+    {
+     "date": "2026-09-23",
+     "close": 407.5
+    },
+    {
+     "date": "2026-09-24",
+     "close": 406
+    },
+    {
+     "date": "2026-09-25",
+     "close": 409.05
+    },
+    {
+     "date": "2026-09-28",
+     "close": 400.65
+    },
+    {
+     "date": "2026-09-29",
+     "close": 390
+    },
+    {
+     "date": "2026-09-30",
+     "close": 395.2
+    },
+    {
+     "date": "2026-10-01",
+     "close": 391.85
+    },
+    {
+     "date": "2026-10-05",
+     "close": 388.7
+    },
+    {
+     "date": "2026-10-06",
+     "close": 390
+    },
+    {
+     "date": "2026-10-07",
+     "close": 386.3
+    },
+    {
+     "date": "2026-10-08",
+     "close": 379.25
+    },
+    {
+     "date": "2026-10-09",
+     "close": 394.25
+    },
+    {
+     "date": "2026-10-12",
+     "close": 391.5
+    },
+    {
+     "date": "2026-10-13",
+     "close": 394.05
+    },
+    {
+     "date": "2026-10-14",
+     "close": 394
+    },
+    {
+     "date": "2026-10-15",
+     "close": 394
+    },
+    {
+     "date": "2026-10-16",
+     "close": 397.75
+    },
+    {
+     "date": "2026-10-19",
+     "close": 393.35
+    },
+    {
+     "date": "2026-10-21",
+     "close": 392.05
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Insurance—Life"
+  },
+  "LT": {
+   "price": 3638.3,
+   "prevClose": 3661.9,
+   "change": -23.6,
+   "changePct": -0.64,
+   "dayHigh": 3689.9,
+   "dayLow": 3595,
+   "high52": 4440,
+   "low52": 3288.1,
+   "volume": 2631262,
+   "longName": "Larsen & Toubro Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 3817.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 3792.4
+    },
+    {
+     "date": "2026-07-24",
+     "close": 3785.6
+    },
+    {
+     "date": "2026-07-27",
+     "close": 3806
+    },
+    {
+     "date": "2026-07-28",
+     "close": 3832
+    },
+    {
+     "date": "2026-07-29",
+     "close": 3931.4
+    },
+    {
+     "date": "2026-07-30",
+     "close": 3937.7
+    },
+    {
+     "date": "2026-07-31",
+     "close": 3938.9
+    },
+    {
+     "date": "2026-08-03",
+     "close": 4025
+    },
+    {
+     "date": "2026-08-04",
+     "close": 3990
+    },
+    {
+     "date": "2026-08-05",
+     "close": 4057
+    },
+    {
+     "date": "2026-08-06",
+     "close": 4061.8
+    },
+    {
+     "date": "2026-08-07",
+     "close": 4056
+    },
+    {
+     "date": "2026-08-10",
+     "close": 4080
+    },
+    {
+     "date": "2026-08-11",
+     "close": 4037.4
+    },
+    {
+     "date": "2026-08-12",
+     "close": 4020
+    },
+    {
+     "date": "2026-08-13",
+     "close": 4070.7
+    },
+    {
+     "date": "2026-08-14",
+     "close": 4057
+    },
+    {
+     "date": "2026-08-17",
+     "close": 4086.7
+    },
+    {
+     "date": "2026-08-18",
+     "close": 4064.3
+    },
+    {
+     "date": "2026-08-19",
+     "close": 4041.3
+    },
+    {
+     "date": "2026-08-20",
+     "close": 4081
+    },
+    {
+     "date": "2026-08-21",
+     "close": 4093
+    },
+    {
+     "date": "2026-08-24",
+     "close": 4090
+    },
+    {
+     "date": "2026-08-25",
+     "close": 4119
+    },
+    {
+     "date": "2026-08-26",
+     "close": 4038.1
+    },
+    {
+     "date": "2026-08-27",
+     "close": 4027
+    },
+    {
+     "date": "2026-08-28",
+     "close": 4045.8
+    },
+    {
+     "date": "2026-08-31",
+     "close": 4044.9
+    },
+    {
+     "date": "2026-09-01",
+     "close": 3980.1
+    },
+    {
+     "date": "2026-09-02",
+     "close": 3981
+    },
+    {
+     "date": "2026-09-03",
+     "close": 3975
+    },
+    {
+     "date": "2026-09-04",
+     "close": 3964.1
+    },
+    {
+     "date": "2026-09-07",
+     "close": 3999
+    },
+    {
+     "date": "2026-09-08",
+     "close": 3946.1
+    },
+    {
+     "date": "2026-09-09",
+     "close": 3922.6
+    },
+    {
+     "date": "2026-09-10",
+     "close": 3955
+    },
+    {
+     "date": "2026-09-11",
+     "close": 3930.7
+    },
+    {
+     "date": "2026-09-15",
+     "close": 3850.7
+    },
+    {
+     "date": "2026-09-16",
+     "close": 3807.7
+    },
+    {
+     "date": "2026-09-17",
+     "close": 3836.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 3885
+    },
+    {
+     "date": "2026-09-21",
+     "close": 3904.8
+    },
+    {
+     "date": "2026-09-22",
+     "close": 3866.4
+    },
+    {
+     "date": "2026-09-23",
+     "close": 3929.9
+    },
+    {
+     "date": "2026-09-24",
+     "close": 3858.4
+    },
+    {
+     "date": "2026-09-25",
+     "close": 3876.2
+    },
+    {
+     "date": "2026-09-28",
+     "close": 3766.4
+    },
+    {
+     "date": "2026-09-29",
+     "close": 3749.1
+    },
+    {
+     "date": "2026-09-30",
+     "close": 3760
+    },
+    {
+     "date": "2026-10-01",
+     "close": 3693.4
+    },
+    {
+     "date": "2026-10-05",
+     "close": 3750
+    },
+    {
+     "date": "2026-10-06",
+     "close": 3770
+    },
+    {
+     "date": "2026-10-07",
+     "close": 3701.5
+    },
+    {
+     "date": "2026-10-08",
+     "close": 3625.1
+    },
+    {
+     "date": "2026-10-09",
+     "close": 3703.3
+    },
+    {
+     "date": "2026-10-12",
+     "close": 3627.5
+    },
+    {
+     "date": "2026-10-13",
+     "close": 3675
+    },
+    {
+     "date": "2026-10-14",
+     "close": 3642
+    },
+    {
+     "date": "2026-10-15",
+     "close": 3632
+    },
+    {
+     "date": "2026-10-16",
+     "close": 3627.1
+    },
+    {
+     "date": "2026-10-19",
+     "close": 3661.9
+    },
+    {
+     "date": "2026-10-21",
+     "close": 3636
+    }
+   ],
+   "sector": "Industrials",
+   "industry": "Engineering & Construction"
+  },
+  "M&M": {
+   "price": 2864.1,
+   "prevClose": 2907,
+   "change": -42.9,
+   "changePct": -1.48,
+   "dayHigh": 2873,
+   "dayLow": 2818.2,
+   "high52": 3839.9,
+   "low52": 2744.3,
+   "volume": 1756091,
+   "longName": "Mahindra & Mahindra Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 3175.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 3229.7
+    },
+    {
+     "date": "2026-07-24",
+     "close": 3161.4
+    },
+    {
+     "date": "2026-07-27",
+     "close": 3238.6
+    },
+    {
+     "date": "2026-07-28",
+     "close": 3271.2
+    },
+    {
+     "date": "2026-07-29",
+     "close": 3221.8
+    },
+    {
+     "date": "2026-07-30",
+     "close": 3283.7
+    },
+    {
+     "date": "2026-07-31",
+     "close": 3398.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 3428.6
+    },
+    {
+     "date": "2026-08-04",
+     "close": 3433
+    },
+    {
+     "date": "2026-08-05",
+     "close": 3455.4
+    },
+    {
+     "date": "2026-08-06",
+     "close": 3406
+    },
+    {
+     "date": "2026-08-07",
+     "close": 3502
+    },
+    {
+     "date": "2026-08-10",
+     "close": 3517
+    },
+    {
+     "date": "2026-08-11",
+     "close": 3460.1
+    },
+    {
+     "date": "2026-08-12",
+     "close": 3403.6
+    },
+    {
+     "date": "2026-08-13",
+     "close": 3428.2
+    },
+    {
+     "date": "2026-08-14",
+     "close": 3428.3
+    },
+    {
+     "date": "2026-08-17",
+     "close": 3390.4
+    },
+    {
+     "date": "2026-08-18",
+     "close": 3421.5
+    },
+    {
+     "date": "2026-08-19",
+     "close": 3415
+    },
+    {
+     "date": "2026-08-20",
+     "close": 3424.8
+    },
+    {
+     "date": "2026-08-21",
+     "close": 3412.2
+    },
+    {
+     "date": "2026-08-24",
+     "close": 3414.1
+    },
+    {
+     "date": "2026-08-25",
+     "close": 3443
+    },
+    {
+     "date": "2026-08-26",
+     "close": 3398.2
+    },
+    {
+     "date": "2026-08-27",
+     "close": 3330
+    },
+    {
+     "date": "2026-08-28",
+     "close": 3334
+    },
+    {
+     "date": "2026-08-31",
+     "close": 3282
+    },
+    {
+     "date": "2026-09-01",
+     "close": 3259
+    },
+    {
+     "date": "2026-09-02",
+     "close": 3190
+    },
+    {
+     "date": "2026-09-03",
+     "close": 3150
+    },
+    {
+     "date": "2026-09-04",
+     "close": 3170
+    },
+    {
+     "date": "2026-09-07",
+     "close": 3160
+    },
+    {
+     "date": "2026-09-08",
+     "close": 3160
+    },
+    {
+     "date": "2026-09-09",
+     "close": 3150
+    },
+    {
+     "date": "2026-09-10",
+     "close": 3123.8
+    },
+    {
+     "date": "2026-09-11",
+     "close": 3107
+    },
+    {
+     "date": "2026-09-15",
+     "close": 3029.5
+    },
+    {
+     "date": "2026-09-16",
+     "close": 3070
+    },
+    {
+     "date": "2026-09-17",
+     "close": 3076.5
+    },
+    {
+     "date": "2026-09-18",
+     "close": 3052
+    },
+    {
+     "date": "2026-09-21",
+     "close": 3055.3
+    },
+    {
+     "date": "2026-09-22",
+     "close": 3044.5
+    },
+    {
+     "date": "2026-09-23",
+     "close": 3035
+    },
+    {
+     "date": "2026-09-24",
+     "close": 2982.7
+    },
+    {
+     "date": "2026-09-25",
+     "close": 3035
+    },
+    {
+     "date": "2026-09-28",
+     "close": 2995
+    },
+    {
+     "date": "2026-09-29",
+     "close": 2947.8
+    },
+    {
+     "date": "2026-09-30",
+     "close": 2950
+    },
+    {
+     "date": "2026-10-01",
+     "close": 2860
+    },
+    {
+     "date": "2026-10-05",
+     "close": 2857.6
+    },
+    {
+     "date": "2026-10-06",
+     "close": 2855
+    },
+    {
+     "date": "2026-10-07",
+     "close": 2800
+    },
+    {
+     "date": "2026-10-08",
+     "close": 2751.2
+    },
+    {
+     "date": "2026-10-09",
+     "close": 2796.2
+    },
+    {
+     "date": "2026-10-12",
+     "close": 2813
+    },
+    {
+     "date": "2026-10-13",
+     "close": 2864.4
+    },
+    {
+     "date": "2026-10-14",
+     "close": 2793.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 2861.7
+    },
+    {
+     "date": "2026-10-16",
+     "close": 2920.9
+    },
+    {
+     "date": "2026-10-19",
+     "close": 2907
+    },
+    {
+     "date": "2026-10-21",
+     "close": 2889
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Auto Manufacturers"
+  },
+  "MARUTI": {
+   "price": 11170,
+   "prevClose": 11475,
+   "change": -305,
+   "changePct": -2.66,
+   "dayHigh": 11208,
+   "dayLow": 10985,
+   "high52": 17370,
+   "low52": 10985,
+   "volume": 407458,
+   "longName": "Maruti Suzuki India Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 13545
+    },
+    {
+     "date": "2026-07-23",
+     "close": 13403
+    },
+    {
+     "date": "2026-07-24",
+     "close": 13442
+    },
+    {
+     "date": "2026-07-27",
+     "close": 13730
+    },
+    {
+     "date": "2026-07-28",
+     "close": 13802
+    },
+    {
+     "date": "2026-07-29",
+     "close": 13948
+    },
+    {
+     "date": "2026-07-30",
+     "close": 14188
+    },
+    {
+     "date": "2026-07-31",
+     "close": 14234
+    },
+    {
+     "date": "2026-08-03",
+     "close": 14150
+    },
+    {
+     "date": "2026-08-04",
+     "close": 14168
+    },
+    {
+     "date": "2026-08-05",
+     "close": 14190
+    },
+    {
+     "date": "2026-08-06",
+     "close": 14080
+    },
+    {
+     "date": "2026-08-07",
+     "close": 14037
+    },
+    {
+     "date": "2026-08-10",
+     "close": 14097
+    },
+    {
+     "date": "2026-08-11",
+     "close": 13990
+    },
+    {
+     "date": "2026-08-12",
+     "close": 13875
+    },
+    {
+     "date": "2026-08-13",
+     "close": 13905
+    },
+    {
+     "date": "2026-08-14",
+     "close": 13834
+    },
+    {
+     "date": "2026-08-17",
+     "close": 13760
+    },
+    {
+     "date": "2026-08-18",
+     "close": 13691
+    },
+    {
+     "date": "2026-08-19",
+     "close": 13690
+    },
+    {
+     "date": "2026-08-20",
+     "close": 13809
+    },
+    {
+     "date": "2026-08-21",
+     "close": 13565
+    },
+    {
+     "date": "2026-08-24",
+     "close": 13620
+    },
+    {
+     "date": "2026-08-25",
+     "close": 13678
+    },
+    {
+     "date": "2026-08-26",
+     "close": 13520
+    },
+    {
+     "date": "2026-08-27",
+     "close": 13440
+    },
+    {
+     "date": "2026-08-28",
+     "close": 13376
+    },
+    {
+     "date": "2026-08-31",
+     "close": 13547
+    },
+    {
+     "date": "2026-09-01",
+     "close": 12950
+    },
+    {
+     "date": "2026-09-02",
+     "close": 12849
+    },
+    {
+     "date": "2026-09-03",
+     "close": 12857
+    },
+    {
+     "date": "2026-09-04",
+     "close": 12694
+    },
+    {
+     "date": "2026-09-07",
+     "close": 12760
+    },
+    {
+     "date": "2026-09-08",
+     "close": 12641
+    },
+    {
+     "date": "2026-09-09",
+     "close": 12618
+    },
+    {
+     "date": "2026-09-10",
+     "close": 12590
+    },
+    {
+     "date": "2026-09-11",
+     "close": 12400
+    },
+    {
+     "date": "2026-09-15",
+     "close": 12231
+    },
+    {
+     "date": "2026-09-16",
+     "close": 12166
+    },
+    {
+     "date": "2026-09-17",
+     "close": 12338
+    },
+    {
+     "date": "2026-09-18",
+     "close": 12103
+    },
+    {
+     "date": "2026-09-21",
+     "close": 12153
+    },
+    {
+     "date": "2026-09-22",
+     "close": 12190
+    },
+    {
+     "date": "2026-09-23",
+     "close": 12230
+    },
+    {
+     "date": "2026-09-24",
+     "close": 11990
+    },
+    {
+     "date": "2026-09-25",
+     "close": 12065
+    },
+    {
+     "date": "2026-09-28",
+     "close": 12008
+    },
+    {
+     "date": "2026-09-29",
+     "close": 11877
+    },
+    {
+     "date": "2026-09-30",
+     "close": 11967
+    },
+    {
+     "date": "2026-10-01",
+     "close": 11386
+    },
+    {
+     "date": "2026-10-05",
+     "close": 11532
+    },
+    {
+     "date": "2026-10-06",
+     "close": 11625
+    },
+    {
+     "date": "2026-10-07",
+     "close": 11450
+    },
+    {
+     "date": "2026-10-08",
+     "close": 11228
+    },
+    {
+     "date": "2026-10-09",
+     "close": 11420
+    },
+    {
+     "date": "2026-10-12",
+     "close": 11315
+    },
+    {
+     "date": "2026-10-13",
+     "close": 11245
+    },
+    {
+     "date": "2026-10-14",
+     "close": 11178
+    },
+    {
+     "date": "2026-10-15",
+     "close": 11445
+    },
+    {
+     "date": "2026-10-16",
+     "close": 11489
+    },
+    {
+     "date": "2026-10-19",
+     "close": 11475
+    },
+    {
+     "date": "2026-10-21",
+     "close": 11200
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Auto Manufacturers"
+  },
+  "NESTLEIND": {
+   "price": 1189.9,
+   "prevClose": 1242.7,
+   "change": -52.8,
+   "changePct": -4.25,
+   "dayHigh": 1210,
+   "dayLow": 1181.3,
+   "high52": 1553,
+   "low52": 1159.4,
+   "volume": 1993076,
+   "longName": "Nestlé India Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1493.6
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1447.9
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1443.5
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1446.1
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1491.8
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1503.3
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1520.7
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1509.6
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1530
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1520
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1520
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1535
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1540
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1528.6
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1493.2
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1507
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1506.9
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1499.1
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1470
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1462.5
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1465
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1458
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1477.1
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1471.3
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1479
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1451.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1450
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1454.6
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1496.5
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1438.2
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1425
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1416
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1410.5
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1398
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1400.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1393
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1386.2
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1383.3
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1362
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1384.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1370.6
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1372.4
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1385
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1363.9
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1387.2
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1351
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1362.6
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1346
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1345.7
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1310
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1307.7
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1297.1
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1341.4
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1324
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1319
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1333
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1324.7
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1334
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1383.2
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1275.8
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1265.5
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1242.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1223.9
+    }
+   ],
+   "sector": "Consumer Defensive",
+   "industry": "Packaged Foods"
+  },
+  "NHPC": {
+   "price": 72.38,
+   "prevClose": 70.7,
+   "change": 1.68,
+   "changePct": 2.38,
+   "dayHigh": 72.74,
+   "dayLow": 71.7,
+   "high52": 87.29,
+   "low52": 70.25,
+   "volume": 7046188,
+   "longName": "NHPC Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 80.28
+    },
+    {
+     "date": "2026-07-23",
+     "close": 80.25
+    },
+    {
+     "date": "2026-07-24",
+     "close": 79.39
+    },
+    {
+     "date": "2026-07-27",
+     "close": 79.72
+    },
+    {
+     "date": "2026-07-28",
+     "close": 78.28
+    },
+    {
+     "date": "2026-07-29",
+     "close": 77.9
+    },
+    {
+     "date": "2026-07-30",
+     "close": 78.07
+    },
+    {
+     "date": "2026-07-31",
+     "close": 78.73
+    },
+    {
+     "date": "2026-08-03",
+     "close": 79.25
+    },
+    {
+     "date": "2026-08-04",
+     "close": 80.5
+    },
+    {
+     "date": "2026-08-05",
+     "close": 78.6
+    },
+    {
+     "date": "2026-08-06",
+     "close": 77.5
+    },
+    {
+     "date": "2026-08-07",
+     "close": 76.92
+    },
+    {
+     "date": "2026-08-10",
+     "close": 77.2
+    },
+    {
+     "date": "2026-08-11",
+     "close": 76.95
+    },
+    {
+     "date": "2026-08-12",
+     "close": 76.85
+    },
+    {
+     "date": "2026-08-13",
+     "close": 77.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 76.9
+    },
+    {
+     "date": "2026-08-17",
+     "close": 76.6
+    },
+    {
+     "date": "2026-08-18",
+     "close": 76.73
+    },
+    {
+     "date": "2026-08-19",
+     "close": 76.17
+    },
+    {
+     "date": "2026-08-20",
+     "close": 76.35
+    },
+    {
+     "date": "2026-08-21",
+     "close": 76.15
+    },
+    {
+     "date": "2026-08-24",
+     "close": 76.65
+    },
+    {
+     "date": "2026-08-25",
+     "close": 76.62
+    },
+    {
+     "date": "2026-08-26",
+     "close": 76.24
+    },
+    {
+     "date": "2026-08-27",
+     "close": 76.55
+    },
+    {
+     "date": "2026-08-28",
+     "close": 74.82
+    },
+    {
+     "date": "2026-08-31",
+     "close": 76.72
+    },
+    {
+     "date": "2026-09-01",
+     "close": 76.3
+    },
+    {
+     "date": "2026-09-02",
+     "close": 75.65
+    },
+    {
+     "date": "2026-09-03",
+     "close": 76.45
+    },
+    {
+     "date": "2026-09-04",
+     "close": 76.25
+    },
+    {
+     "date": "2026-09-07",
+     "close": 76
+    },
+    {
+     "date": "2026-09-08",
+     "close": 75.9
+    },
+    {
+     "date": "2026-09-09",
+     "close": 76.69
+    },
+    {
+     "date": "2026-09-10",
+     "close": 76.35
+    },
+    {
+     "date": "2026-09-11",
+     "close": 76.38
+    },
+    {
+     "date": "2026-09-15",
+     "close": 76.04
+    },
+    {
+     "date": "2026-09-16",
+     "close": 75.41
+    },
+    {
+     "date": "2026-09-17",
+     "close": 75.2
+    },
+    {
+     "date": "2026-09-18",
+     "close": 76.95
+    },
+    {
+     "date": "2026-09-21",
+     "close": 75.8
+    },
+    {
+     "date": "2026-09-22",
+     "close": 76.01
+    },
+    {
+     "date": "2026-09-23",
+     "close": 76.74
+    },
+    {
+     "date": "2026-09-24",
+     "close": 76.25
+    },
+    {
+     "date": "2026-09-25",
+     "close": 76
+    },
+    {
+     "date": "2026-09-28",
+     "close": 74.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 73.32
+    },
+    {
+     "date": "2026-09-30",
+     "close": 72.81
+    },
+    {
+     "date": "2026-10-01",
+     "close": 71.75
+    },
+    {
+     "date": "2026-10-05",
+     "close": 72
+    },
+    {
+     "date": "2026-10-06",
+     "close": 73.11
+    },
+    {
+     "date": "2026-10-07",
+     "close": 72.5
+    },
+    {
+     "date": "2026-10-08",
+     "close": 71.65
+    },
+    {
+     "date": "2026-10-09",
+     "close": 72.99
+    },
+    {
+     "date": "2026-10-12",
+     "close": 73.4
+    },
+    {
+     "date": "2026-10-13",
+     "close": 73.49
+    },
+    {
+     "date": "2026-10-14",
+     "close": 73.72
+    },
+    {
+     "date": "2026-10-15",
+     "close": 72.7
+    },
+    {
+     "date": "2026-10-16",
+     "close": 71.44
+    },
+    {
+     "date": "2026-10-19",
+     "close": 70.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 72.65
+    }
+   ],
+   "sector": "Utilities",
+   "industry": "Utilities—Renewable"
+  },
+  "NTPC": {
+   "price": 302.6,
+   "prevClose": 309,
+   "change": -6.4,
+   "changePct": -2.07,
+   "dayHigh": 302.8,
+   "dayLow": 297.55,
+   "high52": 414.4,
+   "low52": 297.55,
+   "volume": 7540012,
+   "longName": "NTPC Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 350.5
+    },
+    {
+     "date": "2026-07-23",
+     "close": 348.6
+    },
+    {
+     "date": "2026-07-24",
+     "close": 347.2
+    },
+    {
+     "date": "2026-07-27",
+     "close": 350.8
+    },
+    {
+     "date": "2026-07-28",
+     "close": 343.75
+    },
+    {
+     "date": "2026-07-29",
+     "close": 343.5
+    },
+    {
+     "date": "2026-07-30",
+     "close": 344.85
+    },
+    {
+     "date": "2026-07-31",
+     "close": 347.25
+    },
+    {
+     "date": "2026-08-03",
+     "close": 350.9
+    },
+    {
+     "date": "2026-08-04",
+     "close": 343.65
+    },
+    {
+     "date": "2026-08-05",
+     "close": 349.9
+    },
+    {
+     "date": "2026-08-06",
+     "close": 345
+    },
+    {
+     "date": "2026-08-07",
+     "close": 342.5
+    },
+    {
+     "date": "2026-08-10",
+     "close": 340.45
+    },
+    {
+     "date": "2026-08-11",
+     "close": 338.45
+    },
+    {
+     "date": "2026-08-12",
+     "close": 339.45
+    },
+    {
+     "date": "2026-08-13",
+     "close": 344.25
+    },
+    {
+     "date": "2026-08-14",
+     "close": 340
+    },
+    {
+     "date": "2026-08-17",
+     "close": 337
+    },
+    {
+     "date": "2026-08-18",
+     "close": 337.1
+    },
+    {
+     "date": "2026-08-19",
+     "close": 336.55
+    },
+    {
+     "date": "2026-08-20",
+     "close": 337.5
+    },
+    {
+     "date": "2026-08-21",
+     "close": 340
+    },
+    {
+     "date": "2026-08-24",
+     "close": 339.5
+    },
+    {
+     "date": "2026-08-25",
+     "close": 339.85
+    },
+    {
+     "date": "2026-08-26",
+     "close": 334.6
+    },
+    {
+     "date": "2026-08-27",
+     "close": 330.9
+    },
+    {
+     "date": "2026-08-28",
+     "close": 330.05
+    },
+    {
+     "date": "2026-08-31",
+     "close": 327.4
+    },
+    {
+     "date": "2026-09-01",
+     "close": 327.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 330
+    },
+    {
+     "date": "2026-09-03",
+     "close": 330.9
+    },
+    {
+     "date": "2026-09-04",
+     "close": 332.5
+    },
+    {
+     "date": "2026-09-07",
+     "close": 332
+    },
+    {
+     "date": "2026-09-08",
+     "close": 330.8
+    },
+    {
+     "date": "2026-09-09",
+     "close": 334.5
+    },
+    {
+     "date": "2026-09-10",
+     "close": 335
+    },
+    {
+     "date": "2026-09-11",
+     "close": 333.4
+    },
+    {
+     "date": "2026-09-15",
+     "close": 329.5
+    },
+    {
+     "date": "2026-09-16",
+     "close": 327
+    },
+    {
+     "date": "2026-09-17",
+     "close": 329.6
+    },
+    {
+     "date": "2026-09-18",
+     "close": 323.65
+    },
+    {
+     "date": "2026-09-21",
+     "close": 326.4
+    },
+    {
+     "date": "2026-09-22",
+     "close": 327.8
+    },
+    {
+     "date": "2026-09-23",
+     "close": 326
+    },
+    {
+     "date": "2026-09-24",
+     "close": 326.6
+    },
+    {
+     "date": "2026-09-25",
+     "close": 326.6
+    },
+    {
+     "date": "2026-09-28",
+     "close": 321.1
+    },
+    {
+     "date": "2026-09-29",
+     "close": 323.5
+    },
+    {
+     "date": "2026-09-30",
+     "close": 322.75
+    },
+    {
+     "date": "2026-10-01",
+     "close": 315.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 321.8
+    },
+    {
+     "date": "2026-10-06",
+     "close": 321.45
+    },
+    {
+     "date": "2026-10-07",
+     "close": 316.75
+    },
+    {
+     "date": "2026-10-08",
+     "close": 309.7
+    },
+    {
+     "date": "2026-10-09",
+     "close": 312
+    },
+    {
+     "date": "2026-10-12",
+     "close": 310
+    },
+    {
+     "date": "2026-10-13",
+     "close": 311
+    },
+    {
+     "date": "2026-10-14",
+     "close": 313.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 314.65
+    },
+    {
+     "date": "2026-10-16",
+     "close": 315.15
+    },
+    {
+     "date": "2026-10-19",
+     "close": 309
+    },
+    {
+     "date": "2026-10-21",
+     "close": 303
+    }
+   ],
+   "sector": "Utilities",
+   "industry": "Utilities—Regulated Electric"
+  },
+  "ONGC": {
+   "price": 225,
+   "prevClose": 225,
+   "change": 0,
+   "changePct": 0,
+   "dayHigh": 226.2,
+   "dayLow": 224,
+   "high52": 307.5,
+   "low52": 218.53,
+   "volume": 9713001,
+   "longName": "Oil and Natural Gas Corporation Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 251.9
+    },
+    {
+     "date": "2026-07-23",
+     "close": 252.37
+    },
+    {
+     "date": "2026-07-24",
+     "close": 248.76
+    },
+    {
+     "date": "2026-07-27",
+     "close": 238.56
+    },
+    {
+     "date": "2026-07-28",
+     "close": 238.91
+    },
+    {
+     "date": "2026-07-29",
+     "close": 238.31
+    },
+    {
+     "date": "2026-07-30",
+     "close": 241.59
+    },
+    {
+     "date": "2026-07-31",
+     "close": 242.53
+    },
+    {
+     "date": "2026-08-03",
+     "close": 242
+    },
+    {
+     "date": "2026-08-04",
+     "close": 242
+    },
+    {
+     "date": "2026-08-05",
+     "close": 240.2
+    },
+    {
+     "date": "2026-08-06",
+     "close": 237.8
+    },
+    {
+     "date": "2026-08-07",
+     "close": 238.85
+    },
+    {
+     "date": "2026-08-10",
+     "close": 239.84
+    },
+    {
+     "date": "2026-08-11",
+     "close": 239.45
+    },
+    {
+     "date": "2026-08-12",
+     "close": 239.05
+    },
+    {
+     "date": "2026-08-13",
+     "close": 239.9
+    },
+    {
+     "date": "2026-08-14",
+     "close": 236.4
+    },
+    {
+     "date": "2026-08-17",
+     "close": 238.49
+    },
+    {
+     "date": "2026-08-18",
+     "close": 239.5
+    },
+    {
+     "date": "2026-08-19",
+     "close": 238
+    },
+    {
+     "date": "2026-08-20",
+     "close": 238.5
+    },
+    {
+     "date": "2026-08-21",
+     "close": 236.4
+    },
+    {
+     "date": "2026-08-24",
+     "close": 236.55
+    },
+    {
+     "date": "2026-08-25",
+     "close": 234
+    },
+    {
+     "date": "2026-08-26",
+     "close": 232.21
+    },
+    {
+     "date": "2026-08-27",
+     "close": 232
+    },
+    {
+     "date": "2026-08-28",
+     "close": 232.25
+    },
+    {
+     "date": "2026-08-31",
+     "close": 231.8
+    },
+    {
+     "date": "2026-09-01",
+     "close": 236.45
+    },
+    {
+     "date": "2026-09-02",
+     "close": 237.5
+    },
+    {
+     "date": "2026-09-03",
+     "close": 236
+    },
+    {
+     "date": "2026-09-04",
+     "close": 234.65
+    },
+    {
+     "date": "2026-09-07",
+     "close": 233.7
+    },
+    {
+     "date": "2026-09-08",
+     "close": 236
+    },
+    {
+     "date": "2026-09-09",
+     "close": 234.02
+    },
+    {
+     "date": "2026-09-10",
+     "close": 237.27
+    },
+    {
+     "date": "2026-09-11",
+     "close": 232.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 235.95
+    },
+    {
+     "date": "2026-09-16",
+     "close": 236.8
+    },
+    {
+     "date": "2026-09-17",
+     "close": 232.43
+    },
+    {
+     "date": "2026-09-18",
+     "close": 232.8
+    },
+    {
+     "date": "2026-09-21",
+     "close": 235.63
+    },
+    {
+     "date": "2026-09-22",
+     "close": 236.13
+    },
+    {
+     "date": "2026-09-23",
+     "close": 236.9
+    },
+    {
+     "date": "2026-09-24",
+     "close": 239
+    },
+    {
+     "date": "2026-09-25",
+     "close": 235.86
+    },
+    {
+     "date": "2026-09-28",
+     "close": 230
+    },
+    {
+     "date": "2026-09-29",
+     "close": 230
+    },
+    {
+     "date": "2026-09-30",
+     "close": 225.8
+    },
+    {
+     "date": "2026-10-01",
+     "close": 222.37
+    },
+    {
+     "date": "2026-10-05",
+     "close": 224.9
+    },
+    {
+     "date": "2026-10-06",
+     "close": 224.2
+    },
+    {
+     "date": "2026-10-07",
+     "close": 221.88
+    },
+    {
+     "date": "2026-10-08",
+     "close": 219.8
+    },
+    {
+     "date": "2026-10-09",
+     "close": 221.27
+    },
+    {
+     "date": "2026-10-12",
+     "close": 220
+    },
+    {
+     "date": "2026-10-13",
+     "close": 222.65
+    },
+    {
+     "date": "2026-10-14",
+     "close": 225.5
+    },
+    {
+     "date": "2026-10-15",
+     "close": 224.64
+    },
+    {
+     "date": "2026-10-16",
+     "close": 222
+    },
+    {
+     "date": "2026-10-19",
+     "close": 225
+    },
+    {
+     "date": "2026-10-21",
+     "close": 225.62
+    }
+   ],
+   "sector": "Energy",
+   "industry": "Oil & Gas Integrated"
+  },
+  "POWERGRID": {
+   "price": 248.4,
+   "prevClose": 250.35,
+   "change": -1.95,
+   "changePct": -0.78,
+   "dayHigh": 249.35,
+   "dayLow": 244.65,
+   "high52": 324.95,
+   "low52": 244.65,
+   "volume": 7028569,
+   "longName": "Power Grid Corporation of India Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 289.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 289.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 288.2
+    },
+    {
+     "date": "2026-07-27",
+     "close": 288.85
+    },
+    {
+     "date": "2026-07-28",
+     "close": 285.3
+    },
+    {
+     "date": "2026-07-29",
+     "close": 282.85
+    },
+    {
+     "date": "2026-07-30",
+     "close": 285.7
+    },
+    {
+     "date": "2026-07-31",
+     "close": 284.25
+    },
+    {
+     "date": "2026-08-03",
+     "close": 287
+    },
+    {
+     "date": "2026-08-04",
+     "close": 283.4
+    },
+    {
+     "date": "2026-08-05",
+     "close": 281.75
+    },
+    {
+     "date": "2026-08-06",
+     "close": 270.75
+    },
+    {
+     "date": "2026-08-07",
+     "close": 271.6
+    },
+    {
+     "date": "2026-08-10",
+     "close": 270.1
+    },
+    {
+     "date": "2026-08-11",
+     "close": 267.95
+    },
+    {
+     "date": "2026-08-12",
+     "close": 269.45
+    },
+    {
+     "date": "2026-08-13",
+     "close": 266.6
+    },
+    {
+     "date": "2026-08-14",
+     "close": 266.05
+    },
+    {
+     "date": "2026-08-17",
+     "close": 266.15
+    },
+    {
+     "date": "2026-08-18",
+     "close": 268
+    },
+    {
+     "date": "2026-08-19",
+     "close": 263.5
+    },
+    {
+     "date": "2026-08-20",
+     "close": 264.8
+    },
+    {
+     "date": "2026-08-21",
+     "close": 272.4
+    },
+    {
+     "date": "2026-08-24",
+     "close": 271.4
+    },
+    {
+     "date": "2026-08-25",
+     "close": 271
+    },
+    {
+     "date": "2026-08-26",
+     "close": 265.2
+    },
+    {
+     "date": "2026-08-27",
+     "close": 264.9
+    },
+    {
+     "date": "2026-08-28",
+     "close": 266.05
+    },
+    {
+     "date": "2026-08-31",
+     "close": 263.55
+    },
+    {
+     "date": "2026-09-01",
+     "close": 264.55
+    },
+    {
+     "date": "2026-09-02",
+     "close": 266.8
+    },
+    {
+     "date": "2026-09-03",
+     "close": 265.6
+    },
+    {
+     "date": "2026-09-04",
+     "close": 266
+    },
+    {
+     "date": "2026-09-07",
+     "close": 266.45
+    },
+    {
+     "date": "2026-09-08",
+     "close": 265.75
+    },
+    {
+     "date": "2026-09-09",
+     "close": 265.85
+    },
+    {
+     "date": "2026-09-10",
+     "close": 271.75
+    },
+    {
+     "date": "2026-09-11",
+     "close": 269.1
+    },
+    {
+     "date": "2026-09-15",
+     "close": 262.8
+    },
+    {
+     "date": "2026-09-16",
+     "close": 262.8
+    },
+    {
+     "date": "2026-09-17",
+     "close": 263.75
+    },
+    {
+     "date": "2026-09-18",
+     "close": 270.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 266.1
+    },
+    {
+     "date": "2026-09-22",
+     "close": 265.95
+    },
+    {
+     "date": "2026-09-23",
+     "close": 270.2
+    },
+    {
+     "date": "2026-09-24",
+     "close": 266.4
+    },
+    {
+     "date": "2026-09-25",
+     "close": 269.5
+    },
+    {
+     "date": "2026-09-28",
+     "close": 261.85
+    },
+    {
+     "date": "2026-09-29",
+     "close": 261.5
+    },
+    {
+     "date": "2026-09-30",
+     "close": 260.5
+    },
+    {
+     "date": "2026-10-01",
+     "close": 254.55
+    },
+    {
+     "date": "2026-10-05",
+     "close": 257
+    },
+    {
+     "date": "2026-10-06",
+     "close": 257.2
+    },
+    {
+     "date": "2026-10-07",
+     "close": 253.05
+    },
+    {
+     "date": "2026-10-08",
+     "close": 244.65
+    },
+    {
+     "date": "2026-10-09",
+     "close": 249.15
+    },
+    {
+     "date": "2026-10-12",
+     "close": 249
+    },
+    {
+     "date": "2026-10-13",
+     "close": 250.5
+    },
+    {
+     "date": "2026-10-14",
+     "close": 248.95
+    },
+    {
+     "date": "2026-10-15",
+     "close": 249.85
+    },
+    {
+     "date": "2026-10-16",
+     "close": 250.45
+    },
+    {
+     "date": "2026-10-19",
+     "close": 250.35
+    },
+    {
+     "date": "2026-10-21",
+     "close": 252.15
+    }
+   ],
+   "sector": "Utilities",
+   "industry": "Utilities—Regulated Electric"
+  },
+  "RELIANCE": {
+   "price": 1184.5,
+   "prevClose": 1202,
+   "change": -17.5,
+   "changePct": -1.46,
+   "dayHigh": 1208,
+   "dayLow": 1184.5,
+   "high52": 1611.8,
+   "low52": 1152.2,
+   "volume": 14931109,
+   "longName": "Reliance Industries Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1288.6
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1272.2
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1278
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1280
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1267.7
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1275.9
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1292.9
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1307.8
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1319
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1290.9
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1280
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1325
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1334.8
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1327.3
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1323.9
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1329
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1317
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1310
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1316
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1322
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1311
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1313.2
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1316
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1309.8
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1317
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1298
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1282.2
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1287
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1277
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1309
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1313.1
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1302.5
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1322
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1309.5
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1294.9
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1279
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1274
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1257.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1235.3
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1240
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1243.9
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1226.4
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1247.4
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1240.4
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1248
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1219.2
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1226
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1197.6
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1182
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1187
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1167.7
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1186.4
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1218
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1207.7
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1178
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1170.3
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1158.9
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1166.7
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1174.6
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1215
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1211.2
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1202
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1209
+    }
+   ],
+   "sector": "Energy",
+   "industry": "Oil & Gas Refining & Marketing"
+  },
+  "SBIN": {
+   "price": 970,
+   "prevClose": 973.7,
+   "change": -3.7,
+   "changePct": -0.38,
+   "dayHigh": 970.9,
+   "dayLow": 950.05,
+   "high52": 1234.7,
+   "low52": 900.95,
+   "volume": 5755456,
+   "longName": "State Bank of India",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1025
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1012.6
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1015
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1020.6
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1013.2
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1013.7
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1025.3
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1027.4
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1045
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1042.7
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1055
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1085
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1097.2
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1071
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1066
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1082
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1083
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1067.7
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1061.2
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1053
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1048.6
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1048
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1048.7
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1039.5
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1048
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1052
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1042.9
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1047.5
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1060
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1034.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1020.9
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1023.4
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1016.1
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1005.9
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1008
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1000.5
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1009.7
+    },
+    {
+     "date": "2026-09-11",
+     "close": 995.7
+    },
+    {
+     "date": "2026-09-15",
+     "close": 968
+    },
+    {
+     "date": "2026-09-16",
+     "close": 991.4
+    },
+    {
+     "date": "2026-09-17",
+     "close": 988.7
+    },
+    {
+     "date": "2026-09-18",
+     "close": 996.2
+    },
+    {
+     "date": "2026-09-21",
+     "close": 996
+    },
+    {
+     "date": "2026-09-22",
+     "close": 987
+    },
+    {
+     "date": "2026-09-23",
+     "close": 994.1
+    },
+    {
+     "date": "2026-09-24",
+     "close": 978.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 983
+    },
+    {
+     "date": "2026-09-28",
+     "close": 962
+    },
+    {
+     "date": "2026-09-29",
+     "close": 964.7
+    },
+    {
+     "date": "2026-09-30",
+     "close": 959.5
+    },
+    {
+     "date": "2026-10-01",
+     "close": 954.1
+    },
+    {
+     "date": "2026-10-05",
+     "close": 958
+    },
+    {
+     "date": "2026-10-06",
+     "close": 958.75
+    },
+    {
+     "date": "2026-10-07",
+     "close": 954
+    },
+    {
+     "date": "2026-10-08",
+     "close": 940
+    },
+    {
+     "date": "2026-10-09",
+     "close": 959.1
+    },
+    {
+     "date": "2026-10-12",
+     "close": 941
+    },
+    {
+     "date": "2026-10-13",
+     "close": 957
+    },
+    {
+     "date": "2026-10-14",
+     "close": 954.9
+    },
+    {
+     "date": "2026-10-15",
+     "close": 960
+    },
+    {
+     "date": "2026-10-16",
+     "close": 962.6
+    },
+    {
+     "date": "2026-10-19",
+     "close": 973.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 963
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  },
+  "SHRIRAMFIN": {
+   "price": 900.9,
+   "prevClose": 926.5,
+   "change": -25.6,
+   "changePct": -2.76,
+   "dayHigh": 905.6,
+   "dayLow": 885,
+   "high52": 1153.7,
+   "low52": 695.25,
+   "volume": 4312212,
+   "longName": "Shriram Finance Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1058.8
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1025.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1005.1
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1038.2
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1040.9
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1044.7
+    },
+    {
+     "date": "2026-07-30",
+     "close": 1027.2
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1046.7
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1090.2
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1087.3
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1122.4
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1141
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1115
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1137.8
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1129.9
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1117.2
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1132.3
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1122
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1122
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1108.4
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1106
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1128.2
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1130
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1119
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1138.5
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1117.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1101
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1086.9
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1109.9
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1059.1
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1047
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1044.2
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1041
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1037
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1029
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1029
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1038
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1028.6
+    },
+    {
+     "date": "2026-09-15",
+     "close": 979.8
+    },
+    {
+     "date": "2026-09-16",
+     "close": 979
+    },
+    {
+     "date": "2026-09-17",
+     "close": 995
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1010
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1011.8
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1006
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1010.8
+    },
+    {
+     "date": "2026-09-24",
+     "close": 990
+    },
+    {
+     "date": "2026-09-25",
+     "close": 994.1
+    },
+    {
+     "date": "2026-09-28",
+     "close": 976.3
+    },
+    {
+     "date": "2026-09-29",
+     "close": 971.5
+    },
+    {
+     "date": "2026-09-30",
+     "close": 982.7
+    },
+    {
+     "date": "2026-10-01",
+     "close": 945
+    },
+    {
+     "date": "2026-10-05",
+     "close": 971.4
+    },
+    {
+     "date": "2026-10-06",
+     "close": 965.05
+    },
+    {
+     "date": "2026-10-07",
+     "close": 948
+    },
+    {
+     "date": "2026-10-08",
+     "close": 917.25
+    },
+    {
+     "date": "2026-10-09",
+     "close": 940.45
+    },
+    {
+     "date": "2026-10-12",
+     "close": 929.4
+    },
+    {
+     "date": "2026-10-13",
+     "close": 988
+    },
+    {
+     "date": "2026-10-14",
+     "close": 950
+    },
+    {
+     "date": "2026-10-15",
+     "close": 943.8
+    },
+    {
+     "date": "2026-10-16",
+     "close": 939.95
+    },
+    {
+     "date": "2026-10-19",
+     "close": 926.5
+    },
+    {
+     "date": "2026-10-21",
+     "close": 904.95
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Credit Services"
+  },
+  "SOLARINDS": {
+   "price": 19010,
+   "prevClose": 19803,
+   "change": -793,
+   "changePct": -4,
+   "dayHigh": 19130,
+   "dayLow": 18569,
+   "high52": 22700,
+   "low52": 11646,
+   "volume": 136643,
+   "longName": "Solar Industries India Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 18856
+    },
+    {
+     "date": "2026-07-23",
+     "close": 18621
+    },
+    {
+     "date": "2026-07-24",
+     "close": 18494
+    },
+    {
+     "date": "2026-07-27",
+     "close": 18628
+    },
+    {
+     "date": "2026-07-28",
+     "close": 18244
+    },
+    {
+     "date": "2026-07-29",
+     "close": 18080
+    },
+    {
+     "date": "2026-07-30",
+     "close": 18053
+    },
+    {
+     "date": "2026-07-31",
+     "close": 18391
+    },
+    {
+     "date": "2026-08-03",
+     "close": 18659
+    },
+    {
+     "date": "2026-08-04",
+     "close": 18700
+    },
+    {
+     "date": "2026-08-05",
+     "close": 18400
+    },
+    {
+     "date": "2026-08-06",
+     "close": 18496
+    },
+    {
+     "date": "2026-08-07",
+     "close": 18650
+    },
+    {
+     "date": "2026-08-10",
+     "close": 18820
+    },
+    {
+     "date": "2026-08-11",
+     "close": 18770
+    },
+    {
+     "date": "2026-08-12",
+     "close": 18730
+    },
+    {
+     "date": "2026-08-13",
+     "close": 20324
+    },
+    {
+     "date": "2026-08-14",
+     "close": 19969
+    },
+    {
+     "date": "2026-08-17",
+     "close": 20000
+    },
+    {
+     "date": "2026-08-18",
+     "close": 20280
+    },
+    {
+     "date": "2026-08-19",
+     "close": 19721
+    },
+    {
+     "date": "2026-08-20",
+     "close": 19760
+    },
+    {
+     "date": "2026-08-21",
+     "close": 19900
+    },
+    {
+     "date": "2026-08-24",
+     "close": 19925
+    },
+    {
+     "date": "2026-08-25",
+     "close": 19800
+    },
+    {
+     "date": "2026-08-26",
+     "close": 20097
+    },
+    {
+     "date": "2026-08-27",
+     "close": 20580
+    },
+    {
+     "date": "2026-08-28",
+     "close": 20400
+    },
+    {
+     "date": "2026-08-31",
+     "close": 20108
+    },
+    {
+     "date": "2026-09-01",
+     "close": 20060
+    },
+    {
+     "date": "2026-09-02",
+     "close": 20600
+    },
+    {
+     "date": "2026-09-03",
+     "close": 21500
+    },
+    {
+     "date": "2026-09-04",
+     "close": 21445
+    },
+    {
+     "date": "2026-09-07",
+     "close": 21950
+    },
+    {
+     "date": "2026-09-08",
+     "close": 22455
+    },
+    {
+     "date": "2026-09-09",
+     "close": 22355
+    },
+    {
+     "date": "2026-09-10",
+     "close": 22370
+    },
+    {
+     "date": "2026-09-11",
+     "close": 22290
+    },
+    {
+     "date": "2026-09-15",
+     "close": 19250
+    },
+    {
+     "date": "2026-09-16",
+     "close": 18900
+    },
+    {
+     "date": "2026-09-17",
+     "close": 18815
+    },
+    {
+     "date": "2026-09-18",
+     "close": 18555
+    },
+    {
+     "date": "2026-09-21",
+     "close": 19265
+    },
+    {
+     "date": "2026-09-22",
+     "close": 19890
+    },
+    {
+     "date": "2026-09-23",
+     "close": 19730
+    },
+    {
+     "date": "2026-09-24",
+     "close": 19480
+    },
+    {
+     "date": "2026-09-25",
+     "close": 19745
+    },
+    {
+     "date": "2026-09-28",
+     "close": 19150
+    },
+    {
+     "date": "2026-09-29",
+     "close": 18650
+    },
+    {
+     "date": "2026-09-30",
+     "close": 19700
+    },
+    {
+     "date": "2026-10-01",
+     "close": 19400
+    },
+    {
+     "date": "2026-10-05",
+     "close": 19540
+    },
+    {
+     "date": "2026-10-06",
+     "close": 20071
+    },
+    {
+     "date": "2026-10-07",
+     "close": 20050
+    },
+    {
+     "date": "2026-10-08",
+     "close": 19870
+    },
+    {
+     "date": "2026-10-09",
+     "close": 20000
+    },
+    {
+     "date": "2026-10-12",
+     "close": 20334
+    },
+    {
+     "date": "2026-10-13",
+     "close": 20087
+    },
+    {
+     "date": "2026-10-14",
+     "close": 20170
+    },
+    {
+     "date": "2026-10-15",
+     "close": 19866
+    },
+    {
+     "date": "2026-10-16",
+     "close": 20011
+    },
+    {
+     "date": "2026-10-19",
+     "close": 19803
+    },
+    {
+     "date": "2026-10-21",
+     "close": 19259
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Specialty Chemicals"
+  },
+  "SOUTHBANK": {
+   "price": 55.75,
+   "prevClose": 54.26,
+   "change": 1.49,
+   "changePct": 2.75,
+   "dayHigh": 56.23,
+   "dayLow": 54.02,
+   "high52": 56.25,
+   "low52": 33.38,
+   "volume": 25751133,
+   "longName": "The South Indian Bank Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 48
+    },
+    {
+     "date": "2026-07-23",
+     "close": 47.5
+    },
+    {
+     "date": "2026-07-24",
+     "close": 46.52
+    },
+    {
+     "date": "2026-07-27",
+     "close": 47.9
+    },
+    {
+     "date": "2026-07-28",
+     "close": 47.13
+    },
+    {
+     "date": "2026-07-29",
+     "close": 46.49
+    },
+    {
+     "date": "2026-07-30",
+     "close": 46.89
+    },
+    {
+     "date": "2026-07-31",
+     "close": 46.7
+    },
+    {
+     "date": "2026-08-03",
+     "close": 47.07
+    },
+    {
+     "date": "2026-08-04",
+     "close": 46.86
+    },
+    {
+     "date": "2026-08-05",
+     "close": 46.92
+    },
+    {
+     "date": "2026-08-06",
+     "close": 47.43
+    },
+    {
+     "date": "2026-08-07",
+     "close": 47.17
+    },
+    {
+     "date": "2026-08-10",
+     "close": 46
+    },
+    {
+     "date": "2026-08-11",
+     "close": 45.81
+    },
+    {
+     "date": "2026-08-12",
+     "close": 46.22
+    },
+    {
+     "date": "2026-08-13",
+     "close": 45.66
+    },
+    {
+     "date": "2026-08-14",
+     "close": 45.74
+    },
+    {
+     "date": "2026-08-17",
+     "close": 45.22
+    },
+    {
+     "date": "2026-08-18",
+     "close": 45.09
+    },
+    {
+     "date": "2026-08-19",
+     "close": 45
+    },
+    {
+     "date": "2026-08-20",
+     "close": 45.16
+    },
+    {
+     "date": "2026-08-21",
+     "close": 44.97
+    },
+    {
+     "date": "2026-08-24",
+     "close": 45.16
+    },
+    {
+     "date": "2026-08-25",
+     "close": 45.35
+    },
+    {
+     "date": "2026-08-26",
+     "close": 46.32
+    },
+    {
+     "date": "2026-08-27",
+     "close": 45.73
+    },
+    {
+     "date": "2026-08-28",
+     "close": 45.37
+    },
+    {
+     "date": "2026-08-31",
+     "close": 45.66
+    },
+    {
+     "date": "2026-09-01",
+     "close": 45.91
+    },
+    {
+     "date": "2026-09-02",
+     "close": 45.74
+    },
+    {
+     "date": "2026-09-03",
+     "close": 47.7
+    },
+    {
+     "date": "2026-09-04",
+     "close": 47.29
+    },
+    {
+     "date": "2026-09-07",
+     "close": 46.54
+    },
+    {
+     "date": "2026-09-08",
+     "close": 46.82
+    },
+    {
+     "date": "2026-09-09",
+     "close": 46.41
+    },
+    {
+     "date": "2026-09-10",
+     "close": 46.08
+    },
+    {
+     "date": "2026-09-11",
+     "close": 46.18
+    },
+    {
+     "date": "2026-09-15",
+     "close": 45
+    },
+    {
+     "date": "2026-09-16",
+     "close": 45.19
+    },
+    {
+     "date": "2026-09-17",
+     "close": 45.88
+    },
+    {
+     "date": "2026-09-18",
+     "close": 46.07
+    },
+    {
+     "date": "2026-09-21",
+     "close": 45.52
+    },
+    {
+     "date": "2026-09-22",
+     "close": 45.23
+    },
+    {
+     "date": "2026-09-23",
+     "close": 47.08
+    },
+    {
+     "date": "2026-09-24",
+     "close": 49.9
+    },
+    {
+     "date": "2026-09-25",
+     "close": 49.95
+    },
+    {
+     "date": "2026-09-28",
+     "close": 48.64
+    },
+    {
+     "date": "2026-09-29",
+     "close": 48.71
+    },
+    {
+     "date": "2026-09-30",
+     "close": 48.24
+    },
+    {
+     "date": "2026-10-01",
+     "close": 47.44
+    },
+    {
+     "date": "2026-10-05",
+     "close": 48.54
+    },
+    {
+     "date": "2026-10-06",
+     "close": 47.23
+    },
+    {
+     "date": "2026-10-07",
+     "close": 47.47
+    },
+    {
+     "date": "2026-10-08",
+     "close": 46.39
+    },
+    {
+     "date": "2026-10-09",
+     "close": 47.91
+    },
+    {
+     "date": "2026-10-12",
+     "close": 49.01
+    },
+    {
+     "date": "2026-10-13",
+     "close": 49.13
+    },
+    {
+     "date": "2026-10-14",
+     "close": 49.64
+    },
+    {
+     "date": "2026-10-15",
+     "close": 51.48
+    },
+    {
+     "date": "2026-10-16",
+     "close": 51.45
+    },
+    {
+     "date": "2026-10-19",
+     "close": 54.26
+    },
+    {
+     "date": "2026-10-21",
+     "close": 54.97
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  },
+  "SUNPHARMA": {
+   "price": 1758,
+   "prevClose": 1743,
+   "change": 15,
+   "changePct": 0.86,
+   "dayHigh": 1758,
+   "dayLow": 1719.1,
+   "high52": 2046.9,
+   "low52": 1583.7,
+   "volume": 1778495,
+   "longName": "Sun Pharmaceutical Industries Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 1943
+    },
+    {
+     "date": "2026-07-23",
+     "close": 1954
+    },
+    {
+     "date": "2026-07-24",
+     "close": 1941.1
+    },
+    {
+     "date": "2026-07-27",
+     "close": 1973.7
+    },
+    {
+     "date": "2026-07-28",
+     "close": 1976.7
+    },
+    {
+     "date": "2026-07-29",
+     "close": 1989.9
+    },
+    {
+     "date": "2026-07-30",
+     "close": 2001.1
+    },
+    {
+     "date": "2026-07-31",
+     "close": 1990.5
+    },
+    {
+     "date": "2026-08-03",
+     "close": 1963.5
+    },
+    {
+     "date": "2026-08-04",
+     "close": 1964
+    },
+    {
+     "date": "2026-08-05",
+     "close": 1940
+    },
+    {
+     "date": "2026-08-06",
+     "close": 1951
+    },
+    {
+     "date": "2026-08-07",
+     "close": 1945
+    },
+    {
+     "date": "2026-08-10",
+     "close": 1944.4
+    },
+    {
+     "date": "2026-08-11",
+     "close": 1942
+    },
+    {
+     "date": "2026-08-12",
+     "close": 1944
+    },
+    {
+     "date": "2026-08-13",
+     "close": 1932
+    },
+    {
+     "date": "2026-08-14",
+     "close": 1930
+    },
+    {
+     "date": "2026-08-17",
+     "close": 1882
+    },
+    {
+     "date": "2026-08-18",
+     "close": 1875.1
+    },
+    {
+     "date": "2026-08-19",
+     "close": 1900
+    },
+    {
+     "date": "2026-08-20",
+     "close": 1904
+    },
+    {
+     "date": "2026-08-21",
+     "close": 1902.4
+    },
+    {
+     "date": "2026-08-24",
+     "close": 1910
+    },
+    {
+     "date": "2026-08-25",
+     "close": 1922
+    },
+    {
+     "date": "2026-08-26",
+     "close": 1899.5
+    },
+    {
+     "date": "2026-08-27",
+     "close": 1913.3
+    },
+    {
+     "date": "2026-08-28",
+     "close": 1920
+    },
+    {
+     "date": "2026-08-31",
+     "close": 1984.8
+    },
+    {
+     "date": "2026-09-01",
+     "close": 1929
+    },
+    {
+     "date": "2026-09-02",
+     "close": 1931.7
+    },
+    {
+     "date": "2026-09-03",
+     "close": 1916
+    },
+    {
+     "date": "2026-09-04",
+     "close": 1899
+    },
+    {
+     "date": "2026-09-07",
+     "close": 1895
+    },
+    {
+     "date": "2026-09-08",
+     "close": 1885.9
+    },
+    {
+     "date": "2026-09-09",
+     "close": 1864.9
+    },
+    {
+     "date": "2026-09-10",
+     "close": 1861
+    },
+    {
+     "date": "2026-09-11",
+     "close": 1840
+    },
+    {
+     "date": "2026-09-15",
+     "close": 1835
+    },
+    {
+     "date": "2026-09-16",
+     "close": 1853.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 1867.3
+    },
+    {
+     "date": "2026-09-18",
+     "close": 1837.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 1868.9
+    },
+    {
+     "date": "2026-09-22",
+     "close": 1846.4
+    },
+    {
+     "date": "2026-09-23",
+     "close": 1865
+    },
+    {
+     "date": "2026-09-24",
+     "close": 1849.9
+    },
+    {
+     "date": "2026-09-25",
+     "close": 1852.2
+    },
+    {
+     "date": "2026-09-28",
+     "close": 1838
+    },
+    {
+     "date": "2026-09-29",
+     "close": 1865
+    },
+    {
+     "date": "2026-09-30",
+     "close": 1816.6
+    },
+    {
+     "date": "2026-10-01",
+     "close": 1801
+    },
+    {
+     "date": "2026-10-05",
+     "close": 1779.7
+    },
+    {
+     "date": "2026-10-06",
+     "close": 1804.1
+    },
+    {
+     "date": "2026-10-07",
+     "close": 1781
+    },
+    {
+     "date": "2026-10-08",
+     "close": 1759.8
+    },
+    {
+     "date": "2026-10-09",
+     "close": 1760
+    },
+    {
+     "date": "2026-10-12",
+     "close": 1760
+    },
+    {
+     "date": "2026-10-13",
+     "close": 1770.7
+    },
+    {
+     "date": "2026-10-14",
+     "close": 1746.4
+    },
+    {
+     "date": "2026-10-15",
+     "close": 1764
+    },
+    {
+     "date": "2026-10-16",
+     "close": 1758.8
+    },
+    {
+     "date": "2026-10-19",
+     "close": 1743
+    },
+    {
+     "date": "2026-10-21",
+     "close": 1745.1
+    }
+   ],
+   "sector": "Healthcare",
+   "industry": "Drug Manufacturers—Specialty & Generic"
+  },
+  "SUZLON": {
+   "price": 38.57,
+   "prevClose": 40.38,
+   "change": -1.81,
+   "changePct": -4.48,
+   "dayHigh": 39.23,
+   "dayLow": 38.26,
+   "high52": 61.5,
+   "low52": 36.31,
+   "volume": 51295632,
+   "longName": "Suzlon Energy Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 53.01
+    },
+    {
+     "date": "2026-07-23",
+     "close": 52.39
+    },
+    {
+     "date": "2026-07-24",
+     "close": 52.28
+    },
+    {
+     "date": "2026-07-27",
+     "close": 53.15
+    },
+    {
+     "date": "2026-07-28",
+     "close": 48.02
+    },
+    {
+     "date": "2026-07-29",
+     "close": 47.45
+    },
+    {
+     "date": "2026-07-30",
+     "close": 47.4
+    },
+    {
+     "date": "2026-07-31",
+     "close": 48.01
+    },
+    {
+     "date": "2026-08-03",
+     "close": 48.1
+    },
+    {
+     "date": "2026-08-04",
+     "close": 48.01
+    },
+    {
+     "date": "2026-08-05",
+     "close": 48.15
+    },
+    {
+     "date": "2026-08-06",
+     "close": 48.1
+    },
+    {
+     "date": "2026-08-07",
+     "close": 48.15
+    },
+    {
+     "date": "2026-08-10",
+     "close": 47.5
+    },
+    {
+     "date": "2026-08-11",
+     "close": 47.5
+    },
+    {
+     "date": "2026-08-12",
+     "close": 47.35
+    },
+    {
+     "date": "2026-08-13",
+     "close": 47.61
+    },
+    {
+     "date": "2026-08-14",
+     "close": 47.1
+    },
+    {
+     "date": "2026-08-17",
+     "close": 49
+    },
+    {
+     "date": "2026-08-18",
+     "close": 47.78
+    },
+    {
+     "date": "2026-08-19",
+     "close": 46.77
+    },
+    {
+     "date": "2026-08-20",
+     "close": 47
+    },
+    {
+     "date": "2026-08-21",
+     "close": 46.71
+    },
+    {
+     "date": "2026-08-24",
+     "close": 47.05
+    },
+    {
+     "date": "2026-08-25",
+     "close": 46.75
+    },
+    {
+     "date": "2026-08-26",
+     "close": 46.94
+    },
+    {
+     "date": "2026-08-27",
+     "close": 46.81
+    },
+    {
+     "date": "2026-08-28",
+     "close": 46.79
+    },
+    {
+     "date": "2026-08-31",
+     "close": 47.52
+    },
+    {
+     "date": "2026-09-01",
+     "close": 46.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 45.46
+    },
+    {
+     "date": "2026-09-03",
+     "close": 46.03
+    },
+    {
+     "date": "2026-09-04",
+     "close": 45.35
+    },
+    {
+     "date": "2026-09-07",
+     "close": 45.55
+    },
+    {
+     "date": "2026-09-08",
+     "close": 45.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 45.45
+    },
+    {
+     "date": "2026-09-10",
+     "close": 44.22
+    },
+    {
+     "date": "2026-09-11",
+     "close": 44.12
+    },
+    {
+     "date": "2026-09-15",
+     "close": 42.9
+    },
+    {
+     "date": "2026-09-16",
+     "close": 42.15
+    },
+    {
+     "date": "2026-09-17",
+     "close": 42.54
+    },
+    {
+     "date": "2026-09-18",
+     "close": 43.14
+    },
+    {
+     "date": "2026-09-21",
+     "close": 43.34
+    },
+    {
+     "date": "2026-09-22",
+     "close": 43
+    },
+    {
+     "date": "2026-09-23",
+     "close": 42.39
+    },
+    {
+     "date": "2026-09-24",
+     "close": 40.74
+    },
+    {
+     "date": "2026-09-25",
+     "close": 40.8
+    },
+    {
+     "date": "2026-09-28",
+     "close": 39.66
+    },
+    {
+     "date": "2026-09-29",
+     "close": 39.5
+    },
+    {
+     "date": "2026-09-30",
+     "close": 39.49
+    },
+    {
+     "date": "2026-10-01",
+     "close": 38.91
+    },
+    {
+     "date": "2026-10-05",
+     "close": 38.92
+    },
+    {
+     "date": "2026-10-06",
+     "close": 39.16
+    },
+    {
+     "date": "2026-10-07",
+     "close": 38.34
+    },
+    {
+     "date": "2026-10-08",
+     "close": 36.43
+    },
+    {
+     "date": "2026-10-09",
+     "close": 37.6
+    },
+    {
+     "date": "2026-10-12",
+     "close": 39.57
+    },
+    {
+     "date": "2026-10-13",
+     "close": 40.19
+    },
+    {
+     "date": "2026-10-14",
+     "close": 40.8
+    },
+    {
+     "date": "2026-10-15",
+     "close": 40.95
+    },
+    {
+     "date": "2026-10-16",
+     "close": 42
+    },
+    {
+     "date": "2026-10-19",
+     "close": 40.38
+    },
+    {
+     "date": "2026-10-21",
+     "close": 39.4
+    }
+   ],
+   "sector": "Industrials",
+   "industry": "Specialty Industrial Machinery"
+  },
+  "TATASTEEL": {
+   "price": 172.33,
+   "prevClose": 174.04,
+   "change": -1.71,
+   "changePct": -0.98,
+   "dayHigh": 172.33,
+   "dayLow": 168.1,
+   "high52": 224.4,
+   "low52": 160.06,
+   "volume": 16692588,
+   "longName": "Tata Steel Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 186.53
+    },
+    {
+     "date": "2026-07-23",
+     "close": 184.23
+    },
+    {
+     "date": "2026-07-24",
+     "close": 182.67
+    },
+    {
+     "date": "2026-07-27",
+     "close": 184.25
+    },
+    {
+     "date": "2026-07-28",
+     "close": 182.63
+    },
+    {
+     "date": "2026-07-29",
+     "close": 187.27
+    },
+    {
+     "date": "2026-07-30",
+     "close": 186.92
+    },
+    {
+     "date": "2026-07-31",
+     "close": 189.69
+    },
+    {
+     "date": "2026-08-03",
+     "close": 191
+    },
+    {
+     "date": "2026-08-04",
+     "close": 190.95
+    },
+    {
+     "date": "2026-08-05",
+     "close": 192.99
+    },
+    {
+     "date": "2026-08-06",
+     "close": 189.3
+    },
+    {
+     "date": "2026-08-07",
+     "close": 187.55
+    },
+    {
+     "date": "2026-08-10",
+     "close": 190.24
+    },
+    {
+     "date": "2026-08-11",
+     "close": 188.25
+    },
+    {
+     "date": "2026-08-12",
+     "close": 186.2
+    },
+    {
+     "date": "2026-08-13",
+     "close": 184.85
+    },
+    {
+     "date": "2026-08-14",
+     "close": 183.5
+    },
+    {
+     "date": "2026-08-17",
+     "close": 186
+    },
+    {
+     "date": "2026-08-18",
+     "close": 185.5
+    },
+    {
+     "date": "2026-08-19",
+     "close": 184
+    },
+    {
+     "date": "2026-08-20",
+     "close": 183.5
+    },
+    {
+     "date": "2026-08-21",
+     "close": 183
+    },
+    {
+     "date": "2026-08-24",
+     "close": 186.3
+    },
+    {
+     "date": "2026-08-25",
+     "close": 186.94
+    },
+    {
+     "date": "2026-08-26",
+     "close": 188.01
+    },
+    {
+     "date": "2026-08-27",
+     "close": 186.8
+    },
+    {
+     "date": "2026-08-28",
+     "close": 186.5
+    },
+    {
+     "date": "2026-08-31",
+     "close": 184.35
+    },
+    {
+     "date": "2026-09-01",
+     "close": 184.07
+    },
+    {
+     "date": "2026-09-02",
+     "close": 183.85
+    },
+    {
+     "date": "2026-09-03",
+     "close": 184.2
+    },
+    {
+     "date": "2026-09-04",
+     "close": 188.79
+    },
+    {
+     "date": "2026-09-07",
+     "close": 185.61
+    },
+    {
+     "date": "2026-09-08",
+     "close": 184.15
+    },
+    {
+     "date": "2026-09-09",
+     "close": 188.75
+    },
+    {
+     "date": "2026-09-10",
+     "close": 186.78
+    },
+    {
+     "date": "2026-09-11",
+     "close": 183
+    },
+    {
+     "date": "2026-09-15",
+     "close": 183.65
+    },
+    {
+     "date": "2026-09-16",
+     "close": 183
+    },
+    {
+     "date": "2026-09-17",
+     "close": 187.29
+    },
+    {
+     "date": "2026-09-18",
+     "close": 185.54
+    },
+    {
+     "date": "2026-09-21",
+     "close": 183.4
+    },
+    {
+     "date": "2026-09-22",
+     "close": 184.97
+    },
+    {
+     "date": "2026-09-23",
+     "close": 190.82
+    },
+    {
+     "date": "2026-09-24",
+     "close": 188.02
+    },
+    {
+     "date": "2026-09-25",
+     "close": 187.97
+    },
+    {
+     "date": "2026-09-28",
+     "close": 186.3
+    },
+    {
+     "date": "2026-09-29",
+     "close": 188
+    },
+    {
+     "date": "2026-09-30",
+     "close": 184.3
+    },
+    {
+     "date": "2026-10-01",
+     "close": 178
+    },
+    {
+     "date": "2026-10-05",
+     "close": 178.14
+    },
+    {
+     "date": "2026-10-06",
+     "close": 178.69
+    },
+    {
+     "date": "2026-10-07",
+     "close": 175.64
+    },
+    {
+     "date": "2026-10-08",
+     "close": 171.96
+    },
+    {
+     "date": "2026-10-09",
+     "close": 173.8
+    },
+    {
+     "date": "2026-10-12",
+     "close": 172.24
+    },
+    {
+     "date": "2026-10-13",
+     "close": 175
+    },
+    {
+     "date": "2026-10-14",
+     "close": 174.49
+    },
+    {
+     "date": "2026-10-15",
+     "close": 176.4
+    },
+    {
+     "date": "2026-10-16",
+     "close": 175.5
+    },
+    {
+     "date": "2026-10-19",
+     "close": 174.04
+    },
+    {
+     "date": "2026-10-21",
+     "close": 172.45
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Steel"
+  },
+  "TCS": {
+   "price": 2506.9,
+   "prevClose": 2460.9,
+   "change": 46,
+   "changePct": 1.87,
+   "dayHigh": 2533,
+   "dayLow": 2479,
+   "high52": 3350,
+   "low52": 1976.8,
+   "volume": 4174647,
+   "longName": "Tata Consultancy Services Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 2208.3
+    },
+    {
+     "date": "2026-07-23",
+     "close": 2242.9
+    },
+    {
+     "date": "2026-07-24",
+     "close": 2254.3
+    },
+    {
+     "date": "2026-07-27",
+     "close": 2295.6
+    },
+    {
+     "date": "2026-07-28",
+     "close": 2398
+    },
+    {
+     "date": "2026-07-29",
+     "close": 2446.6
+    },
+    {
+     "date": "2026-07-30",
+     "close": 2431.8
+    },
+    {
+     "date": "2026-07-31",
+     "close": 2365.6
+    },
+    {
+     "date": "2026-08-03",
+     "close": 2473.7
+    },
+    {
+     "date": "2026-08-04",
+     "close": 2460
+    },
+    {
+     "date": "2026-08-05",
+     "close": 2413
+    },
+    {
+     "date": "2026-08-06",
+     "close": 2373
+    },
+    {
+     "date": "2026-08-07",
+     "close": 2452.7
+    },
+    {
+     "date": "2026-08-10",
+     "close": 2425.7
+    },
+    {
+     "date": "2026-08-11",
+     "close": 2445.7
+    },
+    {
+     "date": "2026-08-12",
+     "close": 2349.7
+    },
+    {
+     "date": "2026-08-13",
+     "close": 2375
+    },
+    {
+     "date": "2026-08-14",
+     "close": 2361
+    },
+    {
+     "date": "2026-08-17",
+     "close": 2313.2
+    },
+    {
+     "date": "2026-08-18",
+     "close": 2280
+    },
+    {
+     "date": "2026-08-19",
+     "close": 2289
+    },
+    {
+     "date": "2026-08-20",
+     "close": 2298
+    },
+    {
+     "date": "2026-08-21",
+     "close": 2302
+    },
+    {
+     "date": "2026-08-24",
+     "close": 2284.1
+    },
+    {
+     "date": "2026-08-25",
+     "close": 2296.2
+    },
+    {
+     "date": "2026-08-26",
+     "close": 2270
+    },
+    {
+     "date": "2026-08-27",
+     "close": 2248.4
+    },
+    {
+     "date": "2026-08-28",
+     "close": 2342
+    },
+    {
+     "date": "2026-08-31",
+     "close": 2399.3
+    },
+    {
+     "date": "2026-09-01",
+     "close": 2369
+    },
+    {
+     "date": "2026-09-02",
+     "close": 2348
+    },
+    {
+     "date": "2026-09-03",
+     "close": 2320.1
+    },
+    {
+     "date": "2026-09-04",
+     "close": 2304
+    },
+    {
+     "date": "2026-09-07",
+     "close": 2270
+    },
+    {
+     "date": "2026-09-08",
+     "close": 2255.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 2208
+    },
+    {
+     "date": "2026-09-10",
+     "close": 2204.1
+    },
+    {
+     "date": "2026-09-11",
+     "close": 2200.8
+    },
+    {
+     "date": "2026-09-15",
+     "close": 2251
+    },
+    {
+     "date": "2026-09-16",
+     "close": 2188.8
+    },
+    {
+     "date": "2026-09-17",
+     "close": 2190
+    },
+    {
+     "date": "2026-09-18",
+     "close": 2105
+    },
+    {
+     "date": "2026-09-21",
+     "close": 2128.7
+    },
+    {
+     "date": "2026-09-22",
+     "close": 2105
+    },
+    {
+     "date": "2026-09-23",
+     "close": 2089.6
+    },
+    {
+     "date": "2026-09-24",
+     "close": 2087
+    },
+    {
+     "date": "2026-09-25",
+     "close": 2082
+    },
+    {
+     "date": "2026-09-28",
+     "close": 2070.7
+    },
+    {
+     "date": "2026-09-29",
+     "close": 2032.4
+    },
+    {
+     "date": "2026-09-30",
+     "close": 2050.6
+    },
+    {
+     "date": "2026-10-01",
+     "close": 2075
+    },
+    {
+     "date": "2026-10-05",
+     "close": 2114.4
+    },
+    {
+     "date": "2026-10-06",
+     "close": 2100
+    },
+    {
+     "date": "2026-10-07",
+     "close": 2080.3
+    },
+    {
+     "date": "2026-10-08",
+     "close": 2076
+    },
+    {
+     "date": "2026-10-09",
+     "close": 2156
+    },
+    {
+     "date": "2026-10-12",
+     "close": 2125
+    },
+    {
+     "date": "2026-10-13",
+     "close": 2269.3
+    },
+    {
+     "date": "2026-10-14",
+     "close": 2304.9
+    },
+    {
+     "date": "2026-10-15",
+     "close": 2350
+    },
+    {
+     "date": "2026-10-16",
+     "close": 2465
+    },
+    {
+     "date": "2026-10-19",
+     "close": 2460.9
+    },
+    {
+     "date": "2026-10-21",
+     "close": 2529
+    }
+   ],
+   "sector": "Technology",
+   "industry": "Information Technology Services"
+  },
+  "TITAN": {
+   "price": 4350,
+   "prevClose": 4424.2,
+   "change": -74.2,
+   "changePct": -1.68,
+   "dayHigh": 4373.7,
+   "dayLow": 4300.1,
+   "high52": 5186.7,
+   "low52": 3667.3,
+   "volume": 426229,
+   "longName": "Titan Company Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 4711.6
+    },
+    {
+     "date": "2026-07-23",
+     "close": 4697.3
+    },
+    {
+     "date": "2026-07-24",
+     "close": 4677
+    },
+    {
+     "date": "2026-07-27",
+     "close": 4740.1
+    },
+    {
+     "date": "2026-07-28",
+     "close": 4849.7
+    },
+    {
+     "date": "2026-07-29",
+     "close": 4850.2
+    },
+    {
+     "date": "2026-07-30",
+     "close": 4850
+    },
+    {
+     "date": "2026-07-31",
+     "close": 4875.2
+    },
+    {
+     "date": "2026-08-03",
+     "close": 5000
+    },
+    {
+     "date": "2026-08-04",
+     "close": 4935
+    },
+    {
+     "date": "2026-08-05",
+     "close": 4912.4
+    },
+    {
+     "date": "2026-08-06",
+     "close": 4998
+    },
+    {
+     "date": "2026-08-07",
+     "close": 4941
+    },
+    {
+     "date": "2026-08-10",
+     "close": 5090
+    },
+    {
+     "date": "2026-08-11",
+     "close": 5128
+    },
+    {
+     "date": "2026-08-12",
+     "close": 5099
+    },
+    {
+     "date": "2026-08-13",
+     "close": 5063.7
+    },
+    {
+     "date": "2026-08-14",
+     "close": 5056.2
+    },
+    {
+     "date": "2026-08-17",
+     "close": 5068.5
+    },
+    {
+     "date": "2026-08-18",
+     "close": 5048.6
+    },
+    {
+     "date": "2026-08-19",
+     "close": 5068
+    },
+    {
+     "date": "2026-08-20",
+     "close": 5068
+    },
+    {
+     "date": "2026-08-21",
+     "close": 5086.1
+    },
+    {
+     "date": "2026-08-24",
+     "close": 5079
+    },
+    {
+     "date": "2026-08-25",
+     "close": 5124.8
+    },
+    {
+     "date": "2026-08-26",
+     "close": 5100
+    },
+    {
+     "date": "2026-08-27",
+     "close": 5139.3
+    },
+    {
+     "date": "2026-08-28",
+     "close": 5169.2
+    },
+    {
+     "date": "2026-08-31",
+     "close": 5102.4
+    },
+    {
+     "date": "2026-09-01",
+     "close": 5050
+    },
+    {
+     "date": "2026-09-02",
+     "close": 5074
+    },
+    {
+     "date": "2026-09-03",
+     "close": 5027
+    },
+    {
+     "date": "2026-09-04",
+     "close": 5020
+    },
+    {
+     "date": "2026-09-07",
+     "close": 4995
+    },
+    {
+     "date": "2026-09-08",
+     "close": 4987
+    },
+    {
+     "date": "2026-09-09",
+     "close": 5005
+    },
+    {
+     "date": "2026-09-10",
+     "close": 5021
+    },
+    {
+     "date": "2026-09-11",
+     "close": 5009.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 4856
+    },
+    {
+     "date": "2026-09-16",
+     "close": 4908.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 4841
+    },
+    {
+     "date": "2026-09-18",
+     "close": 4798.5
+    },
+    {
+     "date": "2026-09-21",
+     "close": 4875
+    },
+    {
+     "date": "2026-09-22",
+     "close": 4928.5
+    },
+    {
+     "date": "2026-09-23",
+     "close": 4880
+    },
+    {
+     "date": "2026-09-24",
+     "close": 4832.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 4884
+    },
+    {
+     "date": "2026-09-28",
+     "close": 4819.5
+    },
+    {
+     "date": "2026-09-29",
+     "close": 4675
+    },
+    {
+     "date": "2026-09-30",
+     "close": 4587
+    },
+    {
+     "date": "2026-10-01",
+     "close": 4515.7
+    },
+    {
+     "date": "2026-10-05",
+     "close": 4580
+    },
+    {
+     "date": "2026-10-06",
+     "close": 4550
+    },
+    {
+     "date": "2026-10-07",
+     "close": 4377
+    },
+    {
+     "date": "2026-10-08",
+     "close": 4359.5
+    },
+    {
+     "date": "2026-10-09",
+     "close": 4410
+    },
+    {
+     "date": "2026-10-12",
+     "close": 4400
+    },
+    {
+     "date": "2026-10-13",
+     "close": 4487
+    },
+    {
+     "date": "2026-10-14",
+     "close": 4444
+    },
+    {
+     "date": "2026-10-15",
+     "close": 4455.8
+    },
+    {
+     "date": "2026-10-16",
+     "close": 4444.8
+    },
+    {
+     "date": "2026-10-19",
+     "close": 4424.2
+    },
+    {
+     "date": "2026-10-21",
+     "close": 4380.9
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Luxury Goods"
+  },
+  "TORNTPHARM": {
+   "price": 4615.3,
+   "prevClose": 4558.7,
+   "change": 56.6,
+   "changePct": 1.24,
+   "dayHigh": 4649.6,
+   "dayLow": 4500.3,
+   "high52": 5250,
+   "low52": 3532.6,
+   "volume": 207982,
+   "longName": "Torrent Pharmaceuticals Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 5033.4
+    },
+    {
+     "date": "2026-07-23",
+     "close": 5065.2
+    },
+    {
+     "date": "2026-07-24",
+     "close": 4961.5
+    },
+    {
+     "date": "2026-07-27",
+     "close": 5019.5
+    },
+    {
+     "date": "2026-07-28",
+     "close": 4898.3
+    },
+    {
+     "date": "2026-07-29",
+     "close": 4878.5
+    },
+    {
+     "date": "2026-07-30",
+     "close": 4872.1
+    },
+    {
+     "date": "2026-07-31",
+     "close": 5122.8
+    },
+    {
+     "date": "2026-08-03",
+     "close": 5050
+    },
+    {
+     "date": "2026-08-04",
+     "close": 5030
+    },
+    {
+     "date": "2026-08-05",
+     "close": 5000
+    },
+    {
+     "date": "2026-08-06",
+     "close": 4956
+    },
+    {
+     "date": "2026-08-07",
+     "close": 4924
+    },
+    {
+     "date": "2026-08-10",
+     "close": 4924
+    },
+    {
+     "date": "2026-08-11",
+     "close": 4886
+    },
+    {
+     "date": "2026-08-12",
+     "close": 4893
+    },
+    {
+     "date": "2026-08-13",
+     "close": 4914.5
+    },
+    {
+     "date": "2026-08-14",
+     "close": 4833
+    },
+    {
+     "date": "2026-08-17",
+     "close": 4900
+    },
+    {
+     "date": "2026-08-18",
+     "close": 4971
+    },
+    {
+     "date": "2026-08-19",
+     "close": 5013
+    },
+    {
+     "date": "2026-08-20",
+     "close": 5005
+    },
+    {
+     "date": "2026-08-21",
+     "close": 4896.5
+    },
+    {
+     "date": "2026-08-24",
+     "close": 4886.5
+    },
+    {
+     "date": "2026-08-25",
+     "close": 4932
+    },
+    {
+     "date": "2026-08-26",
+     "close": 4890
+    },
+    {
+     "date": "2026-08-27",
+     "close": 4999
+    },
+    {
+     "date": "2026-08-28",
+     "close": 5050
+    },
+    {
+     "date": "2026-08-31",
+     "close": 5066
+    },
+    {
+     "date": "2026-09-01",
+     "close": 4965.5
+    },
+    {
+     "date": "2026-09-02",
+     "close": 5012
+    },
+    {
+     "date": "2026-09-03",
+     "close": 4905.5
+    },
+    {
+     "date": "2026-09-04",
+     "close": 4857
+    },
+    {
+     "date": "2026-09-07",
+     "close": 4914
+    },
+    {
+     "date": "2026-09-08",
+     "close": 4960
+    },
+    {
+     "date": "2026-09-09",
+     "close": 4930
+    },
+    {
+     "date": "2026-09-10",
+     "close": 4930
+    },
+    {
+     "date": "2026-09-11",
+     "close": 4965.5
+    },
+    {
+     "date": "2026-09-15",
+     "close": 4850
+    },
+    {
+     "date": "2026-09-16",
+     "close": 4812.5
+    },
+    {
+     "date": "2026-09-17",
+     "close": 4875
+    },
+    {
+     "date": "2026-09-18",
+     "close": 4840
+    },
+    {
+     "date": "2026-09-21",
+     "close": 4970
+    },
+    {
+     "date": "2026-09-22",
+     "close": 4935
+    },
+    {
+     "date": "2026-09-23",
+     "close": 4985
+    },
+    {
+     "date": "2026-09-24",
+     "close": 4928.5
+    },
+    {
+     "date": "2026-09-25",
+     "close": 4988.5
+    },
+    {
+     "date": "2026-09-28",
+     "close": 4869
+    },
+    {
+     "date": "2026-09-29",
+     "close": 4894
+    },
+    {
+     "date": "2026-09-30",
+     "close": 4800
+    },
+    {
+     "date": "2026-10-01",
+     "close": 4767.3
+    },
+    {
+     "date": "2026-10-05",
+     "close": 4772
+    },
+    {
+     "date": "2026-10-06",
+     "close": 4772
+    },
+    {
+     "date": "2026-10-07",
+     "close": 4716.2
+    },
+    {
+     "date": "2026-10-08",
+     "close": 4617.1
+    },
+    {
+     "date": "2026-10-09",
+     "close": 4656.9
+    },
+    {
+     "date": "2026-10-12",
+     "close": 4682
+    },
+    {
+     "date": "2026-10-13",
+     "close": 4642.9
+    },
+    {
+     "date": "2026-10-14",
+     "close": 4580
+    },
+    {
+     "date": "2026-10-15",
+     "close": 4584.1
+    },
+    {
+     "date": "2026-10-16",
+     "close": 4558.9
+    },
+    {
+     "date": "2026-10-19",
+     "close": 4558.7
+    },
+    {
+     "date": "2026-10-21",
+     "close": 4553.8
+    }
+   ],
+   "sector": "Healthcare",
+   "industry": "Drug Manufacturers—Specialty & Generic"
+  },
+  "TVSMOTOR": {
+   "price": 3974,
+   "prevClose": 4074,
+   "change": -100,
+   "changePct": -2.45,
+   "dayHigh": 4006.6,
+   "dayLow": 3915,
+   "high52": 4484.5,
+   "low52": 3228,
+   "volume": 610895,
+   "longName": "TVS Motor Company Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 3907.6
+    },
+    {
+     "date": "2026-07-23",
+     "close": 3919.8
+    },
+    {
+     "date": "2026-07-24",
+     "close": 3870.2
+    },
+    {
+     "date": "2026-07-27",
+     "close": 3876.4
+    },
+    {
+     "date": "2026-07-28",
+     "close": 3993.5
+    },
+    {
+     "date": "2026-07-29",
+     "close": 4075.6
+    },
+    {
+     "date": "2026-07-30",
+     "close": 4208.4
+    },
+    {
+     "date": "2026-07-31",
+     "close": 4313.1
+    },
+    {
+     "date": "2026-08-03",
+     "close": 4389
+    },
+    {
+     "date": "2026-08-04",
+     "close": 4360
+    },
+    {
+     "date": "2026-08-05",
+     "close": 4455.2
+    },
+    {
+     "date": "2026-08-06",
+     "close": 4375
+    },
+    {
+     "date": "2026-08-07",
+     "close": 4440.9
+    },
+    {
+     "date": "2026-08-10",
+     "close": 4466.2
+    },
+    {
+     "date": "2026-08-11",
+     "close": 4400
+    },
+    {
+     "date": "2026-08-12",
+     "close": 4375
+    },
+    {
+     "date": "2026-08-13",
+     "close": 4342.2
+    },
+    {
+     "date": "2026-08-14",
+     "close": 4307
+    },
+    {
+     "date": "2026-08-17",
+     "close": 4385.9
+    },
+    {
+     "date": "2026-08-18",
+     "close": 4356.8
+    },
+    {
+     "date": "2026-08-19",
+     "close": 4361.1
+    },
+    {
+     "date": "2026-08-20",
+     "close": 4390
+    },
+    {
+     "date": "2026-08-21",
+     "close": 4390
+    },
+    {
+     "date": "2026-08-24",
+     "close": 4363.5
+    },
+    {
+     "date": "2026-08-25",
+     "close": 4420
+    },
+    {
+     "date": "2026-08-26",
+     "close": 4464
+    },
+    {
+     "date": "2026-08-27",
+     "close": 4409.8
+    },
+    {
+     "date": "2026-08-28",
+     "close": 4304.2
+    },
+    {
+     "date": "2026-08-31",
+     "close": 4341.3
+    },
+    {
+     "date": "2026-09-01",
+     "close": 4203
+    },
+    {
+     "date": "2026-09-02",
+     "close": 4200
+    },
+    {
+     "date": "2026-09-03",
+     "close": 4200
+    },
+    {
+     "date": "2026-09-04",
+     "close": 4133.1
+    },
+    {
+     "date": "2026-09-07",
+     "close": 4132
+    },
+    {
+     "date": "2026-09-08",
+     "close": 4133.2
+    },
+    {
+     "date": "2026-09-09",
+     "close": 4151.1
+    },
+    {
+     "date": "2026-09-10",
+     "close": 4121.5
+    },
+    {
+     "date": "2026-09-11",
+     "close": 4125
+    },
+    {
+     "date": "2026-09-15",
+     "close": 4050
+    },
+    {
+     "date": "2026-09-16",
+     "close": 4033
+    },
+    {
+     "date": "2026-09-17",
+     "close": 4101.7
+    },
+    {
+     "date": "2026-09-18",
+     "close": 4171.3
+    },
+    {
+     "date": "2026-09-21",
+     "close": 4155
+    },
+    {
+     "date": "2026-09-22",
+     "close": 4140
+    },
+    {
+     "date": "2026-09-23",
+     "close": 4135
+    },
+    {
+     "date": "2026-09-24",
+     "close": 4091
+    },
+    {
+     "date": "2026-09-25",
+     "close": 4157.3
+    },
+    {
+     "date": "2026-09-28",
+     "close": 4095
+    },
+    {
+     "date": "2026-09-29",
+     "close": 4091.1
+    },
+    {
+     "date": "2026-09-30",
+     "close": 4106
+    },
+    {
+     "date": "2026-10-01",
+     "close": 4021
+    },
+    {
+     "date": "2026-10-05",
+     "close": 4031
+    },
+    {
+     "date": "2026-10-06",
+     "close": 3981
+    },
+    {
+     "date": "2026-10-07",
+     "close": 3926
+    },
+    {
+     "date": "2026-10-08",
+     "close": 3839.4
+    },
+    {
+     "date": "2026-10-09",
+     "close": 3866.8
+    },
+    {
+     "date": "2026-10-12",
+     "close": 3940.3
+    },
+    {
+     "date": "2026-10-13",
+     "close": 4011.5
+    },
+    {
+     "date": "2026-10-14",
+     "close": 3969.7
+    },
+    {
+     "date": "2026-10-15",
+     "close": 4020
+    },
+    {
+     "date": "2026-10-16",
+     "close": 4095.1
+    },
+    {
+     "date": "2026-10-19",
+     "close": 4074
+    },
+    {
+     "date": "2026-10-21",
+     "close": 3992.6
+    }
+   ],
+   "sector": "Consumer Cyclical",
+   "industry": "Auto Manufacturers"
+  },
+  "ULTRACEMCO": {
+   "price": 10958,
+   "prevClose": 10650,
+   "change": 308,
+   "changePct": 2.89,
+   "dayHigh": 10976,
+   "dayLow": 10651,
+   "high52": 13110,
+   "low52": 10325,
+   "volume": 172207,
+   "longName": "UltraTech Cement Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 11893
+    },
+    {
+     "date": "2026-07-23",
+     "close": 11908
+    },
+    {
+     "date": "2026-07-24",
+     "close": 11846
+    },
+    {
+     "date": "2026-07-27",
+     "close": 11881
+    },
+    {
+     "date": "2026-07-28",
+     "close": 11956
+    },
+    {
+     "date": "2026-07-29",
+     "close": 11998
+    },
+    {
+     "date": "2026-07-30",
+     "close": 11847
+    },
+    {
+     "date": "2026-07-31",
+     "close": 11903
+    },
+    {
+     "date": "2026-08-03",
+     "close": 12054
+    },
+    {
+     "date": "2026-08-04",
+     "close": 12050
+    },
+    {
+     "date": "2026-08-05",
+     "close": 12190
+    },
+    {
+     "date": "2026-08-06",
+     "close": 12075
+    },
+    {
+     "date": "2026-08-07",
+     "close": 12105
+    },
+    {
+     "date": "2026-08-10",
+     "close": 12038
+    },
+    {
+     "date": "2026-08-11",
+     "close": 11780
+    },
+    {
+     "date": "2026-08-12",
+     "close": 11891
+    },
+    {
+     "date": "2026-08-13",
+     "close": 11706
+    },
+    {
+     "date": "2026-08-14",
+     "close": 11619
+    },
+    {
+     "date": "2026-08-17",
+     "close": 11681
+    },
+    {
+     "date": "2026-08-18",
+     "close": 11499
+    },
+    {
+     "date": "2026-08-19",
+     "close": 11450
+    },
+    {
+     "date": "2026-08-20",
+     "close": 11575
+    },
+    {
+     "date": "2026-08-21",
+     "close": 11570
+    },
+    {
+     "date": "2026-08-24",
+     "close": 11504
+    },
+    {
+     "date": "2026-08-25",
+     "close": 11540
+    },
+    {
+     "date": "2026-08-26",
+     "close": 11717
+    },
+    {
+     "date": "2026-08-27",
+     "close": 11717
+    },
+    {
+     "date": "2026-08-28",
+     "close": 11589
+    },
+    {
+     "date": "2026-08-31",
+     "close": 11450
+    },
+    {
+     "date": "2026-09-01",
+     "close": 11400
+    },
+    {
+     "date": "2026-09-02",
+     "close": 11393
+    },
+    {
+     "date": "2026-09-03",
+     "close": 11275
+    },
+    {
+     "date": "2026-09-04",
+     "close": 11408
+    },
+    {
+     "date": "2026-09-07",
+     "close": 11175
+    },
+    {
+     "date": "2026-09-08",
+     "close": 11009
+    },
+    {
+     "date": "2026-09-09",
+     "close": 10900
+    },
+    {
+     "date": "2026-09-10",
+     "close": 10979
+    },
+    {
+     "date": "2026-09-11",
+     "close": 11000
+    },
+    {
+     "date": "2026-09-15",
+     "close": 10697
+    },
+    {
+     "date": "2026-09-16",
+     "close": 10700
+    },
+    {
+     "date": "2026-09-17",
+     "close": 10764
+    },
+    {
+     "date": "2026-09-18",
+     "close": 11014
+    },
+    {
+     "date": "2026-09-21",
+     "close": 11100
+    },
+    {
+     "date": "2026-09-22",
+     "close": 11000
+    },
+    {
+     "date": "2026-09-23",
+     "close": 11155
+    },
+    {
+     "date": "2026-09-24",
+     "close": 11056
+    },
+    {
+     "date": "2026-09-25",
+     "close": 11155
+    },
+    {
+     "date": "2026-09-28",
+     "close": 11025
+    },
+    {
+     "date": "2026-09-29",
+     "close": 10829
+    },
+    {
+     "date": "2026-09-30",
+     "close": 10956
+    },
+    {
+     "date": "2026-10-01",
+     "close": 10710
+    },
+    {
+     "date": "2026-10-05",
+     "close": 10850
+    },
+    {
+     "date": "2026-10-06",
+     "close": 10750
+    },
+    {
+     "date": "2026-10-07",
+     "close": 10658
+    },
+    {
+     "date": "2026-10-08",
+     "close": 10426
+    },
+    {
+     "date": "2026-10-09",
+     "close": 10675
+    },
+    {
+     "date": "2026-10-12",
+     "close": 10520
+    },
+    {
+     "date": "2026-10-13",
+     "close": 10750
+    },
+    {
+     "date": "2026-10-14",
+     "close": 10795
+    },
+    {
+     "date": "2026-10-15",
+     "close": 10862
+    },
+    {
+     "date": "2026-10-16",
+     "close": 10907
+    },
+    {
+     "date": "2026-10-19",
+     "close": 10650
+    },
+    {
+     "date": "2026-10-21",
+     "close": 10849
+    }
+   ],
+   "sector": "Basic Materials",
+   "industry": "Building Materials"
+  },
+  "WIPRO": {
+   "price": 190.41,
+   "prevClose": 182.14,
+   "change": 8.27,
+   "changePct": 4.54,
+   "dayHigh": 192.88,
+   "dayLow": 188.97,
+   "high52": 273.1,
+   "low52": 156.79,
+   "volume": 45942579,
+   "longName": "Wipro Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 174.44
+    },
+    {
+     "date": "2026-07-23",
+     "close": 174.82
+    },
+    {
+     "date": "2026-07-24",
+     "close": 177.12
+    },
+    {
+     "date": "2026-07-27",
+     "close": 178.53
+    },
+    {
+     "date": "2026-07-28",
+     "close": 181.12
+    },
+    {
+     "date": "2026-07-29",
+     "close": 183.61
+    },
+    {
+     "date": "2026-07-30",
+     "close": 186.33
+    },
+    {
+     "date": "2026-07-31",
+     "close": 183.65
+    },
+    {
+     "date": "2026-08-03",
+     "close": 188.66
+    },
+    {
+     "date": "2026-08-04",
+     "close": 186.3
+    },
+    {
+     "date": "2026-08-05",
+     "close": 186.99
+    },
+    {
+     "date": "2026-08-06",
+     "close": 186.12
+    },
+    {
+     "date": "2026-08-07",
+     "close": 187.53
+    },
+    {
+     "date": "2026-08-10",
+     "close": 185.5
+    },
+    {
+     "date": "2026-08-11",
+     "close": 184.6
+    },
+    {
+     "date": "2026-08-12",
+     "close": 183.94
+    },
+    {
+     "date": "2026-08-13",
+     "close": 183.1
+    },
+    {
+     "date": "2026-08-14",
+     "close": 184
+    },
+    {
+     "date": "2026-08-17",
+     "close": 181.9
+    },
+    {
+     "date": "2026-08-18",
+     "close": 178.06
+    },
+    {
+     "date": "2026-08-19",
+     "close": 179.55
+    },
+    {
+     "date": "2026-08-20",
+     "close": 181
+    },
+    {
+     "date": "2026-08-21",
+     "close": 180.79
+    },
+    {
+     "date": "2026-08-24",
+     "close": 181.31
+    },
+    {
+     "date": "2026-08-25",
+     "close": 180.09
+    },
+    {
+     "date": "2026-08-26",
+     "close": 177.35
+    },
+    {
+     "date": "2026-08-27",
+     "close": 176.4
+    },
+    {
+     "date": "2026-08-28",
+     "close": 180.95
+    },
+    {
+     "date": "2026-08-31",
+     "close": 184.5
+    },
+    {
+     "date": "2026-09-01",
+     "close": 181.7
+    },
+    {
+     "date": "2026-09-02",
+     "close": 177.09
+    },
+    {
+     "date": "2026-09-03",
+     "close": 175.72
+    },
+    {
+     "date": "2026-09-04",
+     "close": 176.4
+    },
+    {
+     "date": "2026-09-07",
+     "close": 172.8
+    },
+    {
+     "date": "2026-09-08",
+     "close": 171.5
+    },
+    {
+     "date": "2026-09-09",
+     "close": 167
+    },
+    {
+     "date": "2026-09-10",
+     "close": 166.3
+    },
+    {
+     "date": "2026-09-11",
+     "close": 167.4
+    },
+    {
+     "date": "2026-09-15",
+     "close": 170
+    },
+    {
+     "date": "2026-09-16",
+     "close": 166.89
+    },
+    {
+     "date": "2026-09-17",
+     "close": 166.4
+    },
+    {
+     "date": "2026-09-18",
+     "close": 166.83
+    },
+    {
+     "date": "2026-09-21",
+     "close": 164.55
+    },
+    {
+     "date": "2026-09-22",
+     "close": 166
+    },
+    {
+     "date": "2026-09-23",
+     "close": 164.9
+    },
+    {
+     "date": "2026-09-24",
+     "close": 163.64
+    },
+    {
+     "date": "2026-09-25",
+     "close": 164.02
+    },
+    {
+     "date": "2026-09-28",
+     "close": 161.56
+    },
+    {
+     "date": "2026-09-29",
+     "close": 156.79
+    },
+    {
+     "date": "2026-09-30",
+     "close": 158.5
+    },
+    {
+     "date": "2026-10-01",
+     "close": 159.35
+    },
+    {
+     "date": "2026-10-05",
+     "close": 162.14
+    },
+    {
+     "date": "2026-10-06",
+     "close": 161.84
+    },
+    {
+     "date": "2026-10-07",
+     "close": 159.6
+    },
+    {
+     "date": "2026-10-08",
+     "close": 158.38
+    },
+    {
+     "date": "2026-10-09",
+     "close": 162.57
+    },
+    {
+     "date": "2026-10-12",
+     "close": 161.8
+    },
+    {
+     "date": "2026-10-13",
+     "close": 169
+    },
+    {
+     "date": "2026-10-14",
+     "close": 170.92
+    },
+    {
+     "date": "2026-10-15",
+     "close": 174.05
+    },
+    {
+     "date": "2026-10-16",
+     "close": 184.4
+    },
+    {
+     "date": "2026-10-19",
+     "close": 182.14
+    },
+    {
+     "date": "2026-10-21",
+     "close": 189.17
+    }
+   ],
+   "sector": "Technology",
+   "industry": "Information Technology Services"
+  },
+  "YESBANK": {
+   "price": 16.05,
+   "prevClose": 16.88,
+   "change": -0.83,
+   "changePct": -4.92,
+   "dayHigh": 16.52,
+   "dayLow": 16.05,
+   "high52": 25.78,
+   "low52": 16.02,
+   "volume": 133611660,
+   "longName": "Yes Bank Limited",
+   "closes": [
+    {
+     "date": "2026-07-22",
+     "close": 23.24
+    },
+    {
+     "date": "2026-07-23",
+     "close": 22.93
+    },
+    {
+     "date": "2026-07-24",
+     "close": 22.95
+    },
+    {
+     "date": "2026-07-27",
+     "close": 22.94
+    },
+    {
+     "date": "2026-07-28",
+     "close": 22.81
+    },
+    {
+     "date": "2026-07-29",
+     "close": 22.84
+    },
+    {
+     "date": "2026-07-30",
+     "close": 22.54
+    },
+    {
+     "date": "2026-07-31",
+     "close": 22.77
+    },
+    {
+     "date": "2026-08-03",
+     "close": 23
+    },
+    {
+     "date": "2026-08-04",
+     "close": 23
+    },
+    {
+     "date": "2026-08-05",
+     "close": 22.97
+    },
+    {
+     "date": "2026-08-06",
+     "close": 22.68
+    },
+    {
+     "date": "2026-08-07",
+     "close": 22.69
+    },
+    {
+     "date": "2026-08-10",
+     "close": 22.75
+    },
+    {
+     "date": "2026-08-11",
+     "close": 22.75
+    },
+    {
+     "date": "2026-08-12",
+     "close": 22.98
+    },
+    {
+     "date": "2026-08-13",
+     "close": 22.98
+    },
+    {
+     "date": "2026-08-14",
+     "close": 22.67
+    },
+    {
+     "date": "2026-08-17",
+     "close": 22.92
+    },
+    {
+     "date": "2026-08-18",
+     "close": 22.46
+    },
+    {
+     "date": "2026-08-19",
+     "close": 22.74
+    },
+    {
+     "date": "2026-08-20",
+     "close": 22.74
+    },
+    {
+     "date": "2026-08-21",
+     "close": 22.8
+    },
+    {
+     "date": "2026-08-24",
+     "close": 22.6
+    },
+    {
+     "date": "2026-08-25",
+     "close": 22.5
+    },
+    {
+     "date": "2026-08-26",
+     "close": 22.38
+    },
+    {
+     "date": "2026-08-27",
+     "close": 22.26
+    },
+    {
+     "date": "2026-08-28",
+     "close": 22.1
+    },
+    {
+     "date": "2026-08-31",
+     "close": 22.83
+    },
+    {
+     "date": "2026-09-01",
+     "close": 22.1
+    },
+    {
+     "date": "2026-09-02",
+     "close": 22.15
+    },
+    {
+     "date": "2026-09-03",
+     "close": 22.54
+    },
+    {
+     "date": "2026-09-04",
+     "close": 22.5
+    },
+    {
+     "date": "2026-09-07",
+     "close": 22.42
+    },
+    {
+     "date": "2026-09-08",
+     "close": 22.52
+    },
+    {
+     "date": "2026-09-09",
+     "close": 22.42
+    },
+    {
+     "date": "2026-09-10",
+     "close": 22.3
+    },
+    {
+     "date": "2026-09-11",
+     "close": 23.48
+    },
+    {
+     "date": "2026-09-15",
+     "close": 23.07
+    },
+    {
+     "date": "2026-09-16",
+     "close": 23.4
+    },
+    {
+     "date": "2026-09-17",
+     "close": 23.13
+    },
+    {
+     "date": "2026-09-18",
+     "close": 22.72
+    },
+    {
+     "date": "2026-09-21",
+     "close": 23.17
+    },
+    {
+     "date": "2026-09-22",
+     "close": 23.2
+    },
+    {
+     "date": "2026-09-23",
+     "close": 23.24
+    },
+    {
+     "date": "2026-09-24",
+     "close": 22.44
+    },
+    {
+     "date": "2026-09-25",
+     "close": 22.5
+    },
+    {
+     "date": "2026-09-28",
+     "close": 21.18
+    },
+    {
+     "date": "2026-09-29",
+     "close": 20.71
+    },
+    {
+     "date": "2026-09-30",
+     "close": 20.95
+    },
+    {
+     "date": "2026-10-01",
+     "close": 20.75
+    },
+    {
+     "date": "2026-10-05",
+     "close": 21.06
+    },
+    {
+     "date": "2026-10-06",
+     "close": 20.86
+    },
+    {
+     "date": "2026-10-07",
+     "close": 20.79
+    },
+    {
+     "date": "2026-10-08",
+     "close": 20.45
+    },
+    {
+     "date": "2026-10-09",
+     "close": 20.5
+    },
+    {
+     "date": "2026-10-12",
+     "close": 20.44
+    },
+    {
+     "date": "2026-10-13",
+     "close": 20.85
+    },
+    {
+     "date": "2026-10-14",
+     "close": 21.2
+    },
+    {
+     "date": "2026-10-15",
+     "close": 18.12
+    },
+    {
+     "date": "2026-10-16",
+     "close": 17.5
+    },
+    {
+     "date": "2026-10-19",
+     "close": 16.88
+    },
+    {
+     "date": "2026-10-21",
+     "close": 16.41
+    }
+   ],
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
+  }
+ }
+}
+```
+
+### `src/shared/data/market.ts`
+
+```ts
+// Market data more than one flow uses (Stocks home, Market, F&O). Sample values, from the live app on 2026-10-17
+// (indices and today's top gainers updated from the live app on 2026-10-22).
+import { companyLogo } from '@l3/assets/company-logos'
+import asahiindiaLogo from '../assets/logos/asahiindia.png'
+import crisilLogo from '../assets/logos/crisil.png'
+import hoecLogo from '../assets/logos/hoec.png'
+import igilLogo from '../assets/logos/igil.png'
+import jindrillLogo from '../assets/logos/jindrill.png'
+import jublingreaLogo from '../assets/logos/jublingrea.png'
+import oilLogo from '../assets/logos/oil.png'
+import sagilityLogo from '../assets/logos/sagility.png'
+import ttmlLogo from '../assets/logos/ttml.png'
+
+export type MarketIndex = { id: string; name: string; value: number; changePct: number }
+
+export const indices: MarketIndex[] = [
+  { id: 'nifty-50', name: 'NIFTY 50', value: 22687.65, changePct: -0.54 },
+  { id: 'sensex', name: 'SENSEX', value: 73249.39, changePct: -0.62 },
+  { id: 'nifty-bank', name: 'NIFTY BANK', value: 49812.4, changePct: -0.21 },
+]
+
+/**
+ * A stock as lists show it. `logoUrl` comes from the API (the company logo); until it loads — and in this prototype —
+ * the L3 Avatar shows `initials`. Every stock with a logo in the design system (@l3/assets/company-logos — 50 large
+ * caps) gets it automatically; a few others use logos cut from the live app's screens (src/shared/assets/logos).
+ */
+export type Stock = { symbol: string; name: string; price: number; changePct: number; initials: string; logoUrl?: string }
+
+const stock = (symbol: string, name: string, price: number, changePct: number, initials: string, logoUrl?: string): Stock => ({ symbol, name, price, changePct, initials, logoUrl: logoUrl ?? companyLogo(symbol) })
+
+export const stocks = {
+  HBLENGINE: stock('HBLENGINE', 'HBL Engineering', 833.15, 17.27, 'HB'),
+  SHRIPISTON: stock('SHRIPISTON', 'Shriram Pistons & Rings', 4629.9, 6.85, 'SP'),
+  THANGAMAYL: stock('THANGAMAYL', 'Thangamayil Jewellery', 5098.05, 6.41, 'TJ'),
+  VAML: stock('VAML', 'Vedanta Aluminium', 371.85, 3.42, 'VA'),
+  WELCORP: stock('WELCORP', 'Welspun Corp', 2571.5, 3.4, 'WC'),
+  LINDEINDIA: stock('LINDEINDIA', 'Linde India', 6184.55, 3.11, 'LI'),
+  IEX: stock('IEX', 'Indian Energy Exchange', 139.42, -6.12, 'IE'),
+  ZOMATO: stock('ZOMATO', 'Zomato', 218.6, -4.85, 'ZO'),
+  PAYTM: stock('PAYTM', 'One 97 Communications', 712.3, -4.2, 'PT'),
+  DELHIVERY: stock('DELHIVERY', 'Delhivery', 341.75, -3.64, 'DL'),
+  NYKAA: stock('NYKAA', 'FSN E-Commerce (Nykaa)', 164.1, -3.08, 'NY'),
+  POLICYBZR: stock('POLICYBZR', 'PB Fintech', 1532.4, -2.71, 'PB'),
+  YESBANK: stock('YESBANK', 'Yes Bank', 18.42, 1.21, 'YB'),
+  IDEA: stock('IDEA', 'Vodafone Idea', 8.12, -0.98, 'VI'),
+  SUZLON: stock('SUZLON', 'Suzlon Energy', 54.2, 2.35, 'SZ'),
+  IRFC: stock('IRFC', 'Indian Railway Finance', 128.65, 0.84, 'IR'),
+  NHPC: stock('NHPC', 'NHPC', 78.9, 1.12, 'NH'),
+  SOUTHBANK: stock('SOUTHBANK', 'South Indian Bank', 24.35, -0.41, 'SB'),
+  NTPC: stock('NTPC', 'NTPC', 331.2, 0.62, 'NT'),
+  COALINDIA: stock('COALINDIA', 'Coal India', 381.45, 0.45, 'CI'),
+  HAL: stock('HAL', 'Hindustan Aeronautics', 4120.3, 1.08, 'HA'),
+  ONGC: stock('ONGC', 'ONGC', 236.9, -0.33, 'ON'),
+  SBIN: stock('SBIN', 'State Bank of India', 742.15, 0.27, 'SB'),
+  JINDALSTEL: stock('JINDALSTEL', 'Jindal Steel & Power', 862.4, 1.46, 'JS'),
+  COHANCE: stock('COHANCE', 'Cohance Lifesciences', 1084.6, 4.97, 'CL'),
+  OIL: stock('OIL', 'Oil India', 412.75, 0.88, 'OI', oilLogo),
+  IOC: stock('IOC', 'Indian Oil', 128.3, 0.36, 'IO'),
+  BPCL: stock('BPCL', 'Bharat Petroleum', 279.55, -0.52, 'BP'),
+  // Top gainers on the live app, 2026-10-22
+  TTML: stock('TTML', 'Tata Teleservices (Maharashtra)', 38.01, 18.56, 'TT', ttmlLogo),
+  IGIL: stock('IGIL', 'International Gemmological Institute', 353.2, 10.0, 'IG', igilLogo),
+  CRISIL: stock('CRISIL', 'CRISIL', 4777.2, 4.16, 'CR', crisilLogo),
+  SAGILITY: stock('SAGILITY', 'Sagility India', 45.39, 2.21, 'SA', sagilityLogo),
+  ASAHIINDIA: stock('ASAHIINDIA', 'Asahi India Glass', 913.55, 2.18, 'AI', asahiindiaLogo),
+  JUBLINGREA: stock('JUBLINGREA', 'Jubilant Ingrevia', 609.45, 2.09, 'JI', jublingreaLogo),
+  // "Oil Price Dependents" basket
+  JINDRILL: stock('JINDRILL', 'Jindal Drilling & Industries', 642.3, 1.12, 'JD', jindrillLogo),
+  HINDOILEXP: stock('HINDOILEXP', 'Hindustan Oil Exploration', 171.85, -0.64, 'HO', hoecLogo),
+  RELIANCE: stock('RELIANCE', 'Reliance Industries', 1302.4, 0.21, 'RE'),
+  TVTODAY: stock('TVTODAY', 'TV Today Network', 168.9, 0.48, 'TV'),
+} satisfies Record<string, Stock>
+```
+
+### `src/shared/data/us-market-snapshot.json`
+
+```json
+{
+ "source": "Yahoo Finance (public chart endpoint)",
+ "fetchedAt": "2026-11-17T06:54:42.102Z",
+ "symbols": [
+  "AAL",
+  "AAPL",
+  "ABB",
+  "ABBV",
+  "ABNB",
+  "ADBE",
+  "ADI",
+  "AEO",
+  "AMAT",
+  "AMC",
+  "AMD",
+  "AMZN",
+  "ANF",
+  "ARM",
+  "ASML",
+  "ASTS",
+  "AVGO",
+  "BA",
+  "BABA",
+  "BAC",
+  "BB",
+  "BBWI",
+  "BIDU",
+  "BIRK",
+  "BLNK",
+  "BOOT",
+  "BOTZ",
+  "BROS",
+  "BYND",
+  "CAKE",
+  "CAR",
+  "CAVA",
+  "CHPT",
+  "CHWY",
+  "CLOV",
+  "CMG",
+  "COIN",
+  "COLM",
+  "COP",
+  "COST",
+  "CPRI",
+  "CQQQ",
+  "CRM",
+  "CROX",
+  "CRWD",
+  "CSCO",
+  "CVX",
+  "CZR",
+  "DAL",
+  "DASH",
+  "DDOG",
+  "DELL",
+  "DIS",
+  "DXJ",
+  "EB",
+  "EBAY",
+  "ELF",
+  "EPI",
+  "ETSY",
+  "EWG",
+  "EWJ",
+  "EWU",
+  "EWY",
+  "EZU",
+  "F",
+  "FAS",
+  "FAZ",
+  "FEZ",
+  "FIVE",
+  "FLKR",
+  "FUBO",
+  "FXI",
+  "GAP",
+  "GE",
+  "GM",
+  "GOOG",
+  "GOOGL",
+  "GPRO",
+  "GRMN",
+  "GXC",
+  "HAS",
+  "HD",
+  "HEWJ",
+  "HOG",
+  "HOOD",
+  "HXSCL",
+  "IBB",
+  "IBM",
+  "IEUR",
+  "IHI",
+  "INDA",
+  "INDY",
+  "INTC",
+  "IRBT",
+  "ISRG",
+  "ITA",
+  "IYF",
+  "JBLU",
+  "JNJ",
+  "JPM",
+  "JPXN",
+  "KLAC",
+  "KO",
+  "KORU",
+  "KRE",
+  "KWEB",
+  "LAZR",
+  "LCID",
+  "LEVI",
+  "LLY",
+  "LMT",
+  "LRCX",
+  "LULU",
+  "LYFT",
+  "M",
+  "MA",
+  "MAR",
+  "MAT",
+  "MCD",
+  "MCHI",
+  "META",
+  "MRK",
+  "MRVL",
+  "MSFT",
+  "MU",
+  "MUFG",
+  "NET",
+  "NFLX",
+  "NIO",
+  "NKE",
+  "NOC",
+  "NVD",
+  "NVDA",
+  "NVDL",
+  "NVO",
+  "NXPI",
+  "OIH",
+  "OPEN",
+  "ORCL",
+  "PDD",
+  "PENN",
+  "PEP",
+  "PFE",
+  "PG",
+  "PLAY",
+  "PLNT",
+  "PLTR",
+  "PLUG",
+  "PTON",
+  "PYPL",
+  "QCOM",
+  "QQQ",
+  "QS",
+  "RBLX",
+  "RH",
+  "RIG",
+  "RIVN",
+  "RKLB",
+  "RTX",
+  "SAP",
+  "SBUX",
+  "SCJ",
+  "SHAK",
+  "SHOP",
+  "SIRI",
+  "SLB",
+  "SMH",
+  "SMIN",
+  "SNAP",
+  "SNBR",
+  "SNOW",
+  "SONO",
+  "SONY",
+  "SOUN",
+  "SOXL",
+  "SOXS",
+  "SPCE",
+  "SPOT",
+  "SPXL",
+  "SPXS",
+  "SPXU",
+  "SPY",
+  "SQQQ",
+  "SSNLF",
+  "TECL",
+  "TECS",
+  "TGT",
+  "TLRY",
+  "TM",
+  "TMUS",
+  "TQQQ",
+  "TRIP",
+  "TSLA",
+  "TSLL",
+  "TSLQ",
+  "TSM",
+  "TTD",
+  "TXN",
+  "U",
+  "UAL",
+  "UBER",
+  "UFO",
+  "UNH",
+  "UPRO",
+  "URBN",
+  "V",
+  "VDE",
+  "VFC",
+  "VFH",
+  "VGK",
+  "VHT",
+  "VIS",
+  "VTI",
+  "WEN",
+  "WFC",
+  "WING",
+  "WMT",
+  "WOOF",
+  "XLE",
+  "XLF",
+  "XLI",
+  "XLV",
+  "XOM",
+  "XOP",
+  "YANG",
+  "YETI",
+  "YINN",
+  "ZM"
+ ],
+ "quotes": {
+  "AAL": {
+   "name": "American Airlines Group Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 13.24,
+   "open": 13.12,
+   "prevClose": 13.17,
+   "change": 0.07,
+   "changePct": 0.53,
+   "dayHigh": 13.52,
+   "dayLow": 13.03,
+   "high52": 18.79,
+   "low52": 10.09,
+   "volume": 61857170,
+   "closes": [
+    11.68,
+    12.11,
+    12.24,
+    12.6,
+    12.11,
+    12.2,
+    12.61,
+    12.58,
+    12.78,
+    12.6,
+    13.08,
+    12.82,
+    13.63,
+    12.93,
+    13.18,
+    14.16,
+    14.11,
+    14.1,
+    13.31,
+    13.17,
+    13.24
+   ]
+  },
+  "AAPL": {
+   "name": "Apple Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 352.78,
+   "open": 357.13,
+   "prevClose": 356.27,
+   "change": -3.49,
+   "changePct": -0.98,
+   "dayHigh": 357.1,
+   "dayLow": 351.31,
+   "high52": 360.83,
+   "low52": 243.42,
+   "volume": 45013034,
+   "closes": [
+    342.94,
+    339.5,
+    343.99,
+    348.22,
+    347.73,
+    343.91,
+    347.1,
+    343.83,
+    348.91,
+    344.63,
+    338.32,
+    331.9,
+    349.51,
+    344.17,
+    342.37,
+    350.69,
+    348.51,
+    355.63,
+    354.88,
+    356.27,
+    352.78
+   ]
+  },
+  "ABBV": {
+   "name": "AbbVie Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 294.55,
+   "open": 299.98,
+   "prevClose": 295.03,
+   "change": -0.48,
+   "changePct": -0.16,
+   "dayHigh": 301.18,
+   "dayLow": 293.97,
+   "high52": 302.93,
+   "low52": 190.75,
+   "volume": 4707805,
+   "closes": [
+    282.68,
+    289.08,
+    284.8,
+    285.19,
+    285.64,
+    286.74,
+    286.39,
+    285.99,
+    290.79,
+    294.89,
+    288.84,
+    286,
+    294.83,
+    288.24,
+    291.31,
+    293.3,
+    293.89,
+    294.98,
+    294.45,
+    295.03,
+    294.55
+   ]
+  },
+  "ABNB": {
+   "name": "Airbnb, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 186.19,
+   "open": 184.28,
+   "prevClose": 186.78,
+   "change": -0.59,
+   "changePct": -0.32,
+   "dayHigh": 188.98,
+   "dayLow": 180.56,
+   "high52": 197.87,
+   "low52": 110.81,
+   "volume": 6510359,
+   "closes": [
+    175.46,
+    176.94,
+    173.69,
+    175.76,
+    172.01,
+    171.05,
+    168.82,
+    166.04,
+    166.45,
+    164.39,
+    171.11,
+    166.96,
+    176.37,
+    170.13,
+    189.99,
+    190.29,
+    186.9,
+    181.13,
+    181.13,
+    186.78,
+    186.19
+   ]
+  },
+  "ADBE": {
+   "name": "Adobe Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 246,
+   "open": 246.1,
+   "prevClose": 243.08,
+   "change": 2.92,
+   "changePct": 1.2,
+   "dayHigh": 251.34,
+   "dayLow": 242.84,
+   "high52": 362.71,
+   "low52": 190.12,
+   "volume": 3807979,
+   "closes": [
+    247.09,
+    256.73,
+    255.06,
+    270.55,
+    263.82,
+    258.62,
+    248.36,
+    249.76,
+    248.12,
+    250.23,
+    251.47,
+    246.14,
+    248.48,
+    246.44,
+    239.3,
+    237.32,
+    236.7,
+    237.6,
+    238.54,
+    243.08,
+    246
+   ]
+  },
+  "ADI": {
+   "name": "Analog Devices, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 383.17,
+   "open": 387.26,
+   "prevClose": 397.97,
+   "change": -14.8,
+   "changePct": -3.72,
+   "dayHigh": 389.35,
+   "dayLow": 380.89,
+   "high52": 445.91,
+   "low52": 224.25,
+   "volume": 3955658,
+   "closes": [
+    394.35,
+    397.05,
+    405.96,
+    385.76,
+    391.07,
+    407.93,
+    425.35,
+    428.27,
+    433.28,
+    417.11,
+    412.85,
+    419.79,
+    406.24,
+    361.01,
+    363.56,
+    394.66,
+    393.3,
+    409.08,
+    409.29,
+    397.97,
+    383.17
+   ]
+  },
+  "AEO": {
+   "name": "American Eagle Outfitters, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 21.26,
+   "open": 21.57,
+   "prevClose": 21.71,
+   "change": -0.45,
+   "changePct": -2.07,
+   "dayHigh": 21.74,
+   "dayLow": 20.64,
+   "high52": 28.46,
+   "low52": 14.1,
+   "volume": 3739250,
+   "closes": [
+    17.93,
+    17.81,
+    17.38,
+    17.89,
+    17.91,
+    18.81,
+    19.42,
+    19.46,
+    20.12,
+    19.61,
+    19.75,
+    19.54,
+    21.36,
+    20.37,
+    19.92,
+    21.75,
+    21.48,
+    21.55,
+    21.67,
+    21.71,
+    21.26
+   ]
+  },
+  "AMAT": {
+   "name": "Applied Materials, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 350.25,
+   "open": 348.49,
+   "prevClose": 370.5,
+   "change": -20.25,
+   "changePct": -5.47,
+   "dayHigh": 358.55,
+   "dayLow": 346.01,
+   "high52": 739.67,
+   "low52": 215.5,
+   "volume": 7027974,
+   "closes": [
+    413.11,
+    404.98,
+    408.94,
+    375.58,
+    377.24,
+    387.59,
+    395.93,
+    416,
+    421.66,
+    390.09,
+    374.53,
+    381.92,
+    369.4,
+    319.25,
+    332.72,
+    370.55,
+    372.53,
+    395.08,
+    380.95,
+    370.5,
+    350.25
+   ]
+  },
+  "AMC": {
+   "name": "AMC Entertainment Holdings, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 3.23,
+   "open": 3.17,
+   "prevClose": 3.25,
+   "change": -0.02,
+   "changePct": -0.62,
+   "dayHigh": 3.26,
+   "dayLow": 3.12,
+   "high52": 3.77,
+   "low52": 0.93,
+   "volume": 22250831,
+   "closes": [
+    2.98,
+    3.08,
+    3.04,
+    2.93,
+    2.9,
+    2.89,
+    2.99,
+    2.99,
+    3.08,
+    3.06,
+    3.19,
+    3.28,
+    3.52,
+    3.08,
+    3.14,
+    3.4,
+    3.46,
+    3.42,
+    3.34,
+    3.25,
+    3.23
+   ]
+  },
+  "AMD": {
+   "name": "Advanced Micro Devices, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 504.28,
+   "open": 503.45,
+   "prevClose": 534.06,
+   "change": -29.78,
+   "changePct": -5.58,
+   "dayHigh": 526.2,
+   "dayLow": 501.3,
+   "high52": 658.52,
+   "low52": 188.22,
+   "volume": 35785537,
+   "closes": [
+    538.05,
+    534.74,
+    552.72,
+    507.93,
+    516.79,
+    531.28,
+    560.26,
+    578.44,
+    566.42,
+    504.8,
+    466.84,
+    483.9,
+    488.78,
+    404.4,
+    449.04,
+    508.58,
+    515.21,
+    552.9,
+    585.3,
+    534.06,
+    504.28
+   ]
+  },
+  "AMZN": {
+   "name": "Amazon.com, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 257.75,
+   "open": 262.4,
+   "prevClose": 266.66,
+   "change": -8.91,
+   "changePct": -3.34,
+   "dayHigh": 262.92,
+   "dayLow": 256.68,
+   "high52": 287.2,
+   "low52": 196,
+   "volume": 47704999,
+   "closes": [
+    262.45,
+    262.63,
+    262.37,
+    250.38,
+    248,
+    249.09,
+    253.1,
+    254.6,
+    243.79,
+    240.35,
+    245.63,
+    250.69,
+    266.03,
+    260.21,
+    259.3,
+    266.93,
+    270.87,
+    266.17,
+    267.44,
+    266.66,
+    257.75
+   ]
+  },
+  "ANF": {
+   "name": "Abercrombie & Fitch Co.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 145.77,
+   "open": 149.93,
+   "prevClose": 148.88,
+   "change": -3.11,
+   "changePct": -2.09,
+   "dayHigh": 149.3,
+   "dayLow": 141.49,
+   "high52": 172,
+   "low52": 65.45,
+   "volume": 1096202,
+   "closes": [
+    162.01,
+    161.73,
+    159.64,
+    161.49,
+    155.82,
+    164.73,
+    165.38,
+    161.24,
+    165.77,
+    164.44,
+    164.17,
+    157.51,
+    171.09,
+    157.59,
+    149.54,
+    152.81,
+    154,
+    151.92,
+    150.49,
+    148.88,
+    145.77
+   ]
+  },
+  "ARM": {
+   "name": "Arm Holdings plc",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 175.05,
+   "open": 180.45,
+   "prevClose": 190.53,
+   "change": -15.48,
+   "changePct": -8.12,
+   "dayHigh": 181.73,
+   "dayLow": 174.64,
+   "high52": 452.7,
+   "low52": 100.02,
+   "volume": 5117569,
+   "closes": [
+    228.05,
+    221.06,
+    226.59,
+    210.1,
+    210.33,
+    223.35,
+    226.6,
+    235.9,
+    228.77,
+    205.97,
+    196.79,
+    202.49,
+    191.8,
+    166.72,
+    174.62,
+    186.3,
+    181.49,
+    203.36,
+    199.78,
+    190.53,
+    175.05
+   ]
+  },
+  "ASML": {
+   "name": "ASML Holding N.V.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 1406.79,
+   "open": 1436.64,
+   "prevClose": 1495.16,
+   "change": -88.37,
+   "changePct": -5.91,
+   "dayHigh": 1446.36,
+   "dayLow": 1404.06,
+   "high52": 1999.96,
+   "low52": 946.11,
+   "volume": 1587468,
+   "closes": [
+    1647.12,
+    1630.84,
+    1676.69,
+    1560.54,
+    1571.8,
+    1590.9,
+    1635.57,
+    1662.85,
+    1675.7,
+    1565.9,
+    1526.14,
+    1552.14,
+    1496.3,
+    1356.65,
+    1424.75,
+    1513.25,
+    1507.85,
+    1534.42,
+    1497.12,
+    1495.16,
+    1406.79
+   ]
+  },
+  "ASTS": {
+   "name": "AST SpaceMobile, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 28.58,
+   "open": 31.61,
+   "prevClose": 32.6,
+   "change": -4.02,
+   "changePct": -12.33,
+   "dayHigh": 32.04,
+   "dayLow": 28.3,
+   "high52": 133.86,
+   "low52": 27.58,
+   "volume": 21969769,
+   "closes": [
+    41.87,
+    41.13,
+    40.9,
+    38.77,
+    39.79,
+    39.45,
+    41.96,
+    42.3,
+    43.07,
+    40.97,
+    36.33,
+    37.15,
+    35.62,
+    30.2,
+    32.33,
+    36.89,
+    33.69,
+    36.62,
+    34.5,
+    32.6,
+    28.58
+   ]
+  },
+  "AVGO": {
+   "name": "Broadcom Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 333.4,
+   "open": 332.49,
+   "prevClose": 347.01,
+   "change": -13.61,
+   "changePct": -3.92,
+   "dayHigh": 337.74,
+   "dayLow": 327.8,
+   "high52": 495,
+   "low52": 289.77,
+   "volume": 25991305,
+   "closes": [
+    334.59,
+    334.37,
+    337.8,
+    323.24,
+    321.68,
+    329.17,
+    342.33,
+    351.81,
+    345,
+    326.08,
+    322.23,
+    332.13,
+    325.48,
+    291.53,
+    293.69,
+    319.48,
+    331.98,
+    345.22,
+    364.36,
+    347.01,
+    333.4
+   ]
+  },
+  "BA": {
+   "name": "The Boeing Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 165.22,
+   "open": 170.22,
+   "prevClose": 171.5,
+   "change": -6.28,
+   "changePct": -3.66,
+   "dayHigh": 170.5,
+   "dayLow": 164.71,
+   "high52": 254.35,
+   "low52": 164.71,
+   "volume": 7887498,
+   "closes": [
+    191.42,
+    190.47,
+    192.28,
+    187.55,
+    188.35,
+    188.31,
+    168.18,
+    167.14,
+    172.65,
+    171.55,
+    175.4,
+    173.31,
+    177,
+    172.5,
+    173.4,
+    172.38,
+    173.38,
+    174.54,
+    171.55,
+    171.5,
+    165.22
+   ]
+  },
+  "BABA": {
+   "name": "Alibaba Group Holding Limited",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 90.62,
+   "open": 92.23,
+   "prevClose": 94.38,
+   "change": -3.76,
+   "changePct": -3.98,
+   "dayHigh": 92.6,
+   "dayLow": 90.57,
+   "high52": 181.1,
+   "low52": 90.57,
+   "volume": 12339950,
+   "closes": [
+    108.57,
+    108.61,
+    104.41,
+    101.82,
+    99.64,
+    100.25,
+    100.24,
+    100.96,
+    99.54,
+    98.04,
+    101.5,
+    100.36,
+    105.29,
+    108.07,
+    109.45,
+    105.38,
+    102.72,
+    101.52,
+    94.36,
+    94.38,
+    90.62
+   ]
+  },
+  "BAC": {
+   "name": "Bank of America Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 50.08,
+   "open": 50.85,
+   "prevClose": 51.02,
+   "change": -0.94,
+   "changePct": -1.84,
+   "dayHigh": 50.9,
+   "dayLow": 49.63,
+   "high52": 65.23,
+   "low52": 46.12,
+   "volume": 30640814,
+   "closes": [
+    50.39,
+    50.64,
+    50.78,
+    51.08,
+    50.56,
+    50.52,
+    50.68,
+    50.85,
+    51.14,
+    50.01,
+    49.57,
+    49.66,
+    51.63,
+    49.76,
+    49.42,
+    50.55,
+    50.68,
+    50.67,
+    50.51,
+    51.02,
+    50.08
+   ]
+  },
+  "BB": {
+   "name": "BlackBerry Limited",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 8.77,
+   "open": 8.66,
+   "prevClose": 8.9,
+   "change": -0.13,
+   "changePct": -1.46,
+   "dayHigh": 8.9,
+   "dayLow": 8.55,
+   "high52": 13.59,
+   "low52": 3.12,
+   "volume": 8027854,
+   "closes": [
+    8.16,
+    8.87,
+    9.41,
+    8.59,
+    8.92,
+    9.19,
+    9.55,
+    9.4,
+    9.19,
+    8.42,
+    8.02,
+    8.19,
+    8.76,
+    8.37,
+    8.74,
+    9.22,
+    9.14,
+    9.4,
+    9.12,
+    8.9,
+    8.77
+   ]
+  },
+  "BBWI": {
+   "name": "Bath & Body Works, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 19.27,
+   "open": 21.2,
+   "prevClose": 21.39,
+   "change": -2.12,
+   "changePct": -9.91,
+   "dayHigh": 21.17,
+   "dayLow": 19.19,
+   "high52": 24.94,
+   "low52": 14.28,
+   "volume": 9043012,
+   "closes": [
+    19.84,
+    20.55,
+    20.42,
+    21.6,
+    20.95,
+    21.38,
+    21.95,
+    21.64,
+    22.78,
+    22.77,
+    23.19,
+    22.61,
+    23.54,
+    22.08,
+    21.36,
+    21.76,
+    21.65,
+    21.72,
+    21.08,
+    21.39,
+    19.27
+   ]
+  },
+  "BIDU": {
+   "name": "Baidu, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 73.94,
+   "open": 77.91,
+   "prevClose": 78.14,
+   "change": -4.2,
+   "changePct": -5.37,
+   "dayHigh": 78.7,
+   "dayLow": 73.63,
+   "high52": 165.3,
+   "low52": 73.63,
+   "volume": 4120579,
+   "closes": [
+    79.78,
+    80.5,
+    78.82,
+    77.98,
+    77.2,
+    77.85,
+    78.27,
+    79.5,
+    78.65,
+    76.4,
+    76.9,
+    76.97,
+    80.43,
+    79.48,
+    81.87,
+    81.03,
+    79.71,
+    79.76,
+    77.63,
+    78.14,
+    73.94
+   ]
+  },
+  "BIRK": {
+   "name": "Birkenstock Holding plc",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 35.61,
+   "open": 36.25,
+   "prevClose": 36.3,
+   "change": -0.69,
+   "changePct": -1.9,
+   "dayHigh": 36.41,
+   "dayLow": 35.16,
+   "high52": 50.73,
+   "low52": 29.93,
+   "volume": 1509859,
+   "closes": [
+    32.71,
+    32.78,
+    32.32,
+    33.68,
+    32.57,
+    32.61,
+    32.26,
+    31.59,
+    33.39,
+    33.43,
+    35.54,
+    35.53,
+    37.27,
+    37.1,
+    37.32,
+    38.72,
+    37.27,
+    36.61,
+    35.7,
+    36.3,
+    35.61
+   ]
+  },
+  "BLNK": {
+   "name": "Blink Charging Co.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 0.39,
+   "open": 0.41,
+   "prevClose": 0.42,
+   "change": -0.03,
+   "changePct": -7.14,
+   "dayHigh": 0.42,
+   "dayLow": 0.39,
+   "high52": 1.47,
+   "low52": 0.38,
+   "volume": 1709164,
+   "closes": [
+    0.42,
+    0.42,
+    0.42,
+    0.4,
+    0.38,
+    0.38,
+    0.38,
+    0.41,
+    0.41,
+    0.4,
+    0.43,
+    0.43,
+    0.45,
+    0.41,
+    0.51,
+    0.52,
+    0.48,
+    0.47,
+    0.45,
+    0.42,
+    0.39
+   ]
+  },
+  "BOOT": {
+   "name": "Boot Barn Holdings, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 134.78,
+   "open": 138.15,
+   "prevClose": 137.61,
+   "change": -2.83,
+   "changePct": -2.06,
+   "dayHigh": 140.67,
+   "dayLow": 133.03,
+   "high52": 210.25,
+   "low52": 110.53,
+   "volume": 933845,
+   "closes": [
+    119.36,
+    115.35,
+    116.09,
+    119.76,
+    115.18,
+    114.18,
+    111.69,
+    113.3,
+    130.48,
+    132.24,
+    137.32,
+    133.59,
+    145.56,
+    138.82,
+    130.96,
+    135.1,
+    134.42,
+    135.49,
+    133.67,
+    137.61,
+    134.78
+   ]
+  },
+  "BOTZ": {
+   "name": "Global X Robotics & Artificial Intelligence ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 30.12,
+   "open": 30.61,
+   "prevClose": 31.23,
+   "change": -1.11,
+   "changePct": -3.55,
+   "dayHigh": 30.63,
+   "dayLow": 30.08,
+   "high52": 41.71,
+   "low52": 30.08,
+   "volume": 815529,
+   "closes": [
+    33.35,
+    33.59,
+    33.59,
+    32.68,
+    33.02,
+    33.14,
+    33.48,
+    34.03,
+    33.42,
+    32.22,
+    32.27,
+    32.32,
+    32.81,
+    30.64,
+    31.05,
+    31.88,
+    31.57,
+    32.23,
+    31.42,
+    31.23,
+    30.12
+   ]
+  },
+  "BROS": {
+   "name": "Dutch Bros Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 35.66,
+   "open": 35.5,
+   "prevClose": 35.9,
+   "change": -0.24,
+   "changePct": -0.67,
+   "dayHigh": 37.45,
+   "dayLow": 35.12,
+   "high52": 74.02,
+   "low52": 33.17,
+   "volume": 6068446,
+   "closes": [
+    42.86,
+    43.82,
+    42.26,
+    41.75,
+    41.49,
+    42.02,
+    41.64,
+    42.93,
+    43.98,
+    42.87,
+    43.87,
+    43.58,
+    43.99,
+    34.57,
+    33.77,
+    36.01,
+    35.29,
+    35.01,
+    33.71,
+    35.9,
+    35.66
+   ]
+  },
+  "BYND": {
+   "name": "Beyond Meat, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 4.95,
+   "open": 5.25,
+   "prevClose": 5.38,
+   "change": -0.43,
+   "changePct": -7.99,
+   "dayHigh": 5.27,
+   "dayLow": 4.93,
+   "high52": 44.4,
+   "low52": 4.93,
+   "volume": 1680567,
+   "closes": [
+    6.57,
+    6.81,
+    6.82,
+    7.27,
+    7.15,
+    6.86,
+    7,
+    7.13,
+    7.38,
+    6.91,
+    7.05,
+    7.27,
+    7.15,
+    6.06,
+    6.03,
+    6.1,
+    5.65,
+    5.92,
+    5.41,
+    5.38,
+    4.95
+   ]
+  },
+  "CAKE": {
+   "name": "The Cheesecake Factory Incorporated",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 109.73,
+   "open": 108.69,
+   "prevClose": 109.11,
+   "change": 0.62,
+   "changePct": 0.57,
+   "dayHigh": 110.94,
+   "dayLow": 106.36,
+   "high52": 118.63,
+   "low52": 43.07,
+   "volume": 1696691,
+   "closes": [
+    116.18,
+    116.43,
+    114.39,
+    112.44,
+    108.37,
+    110.13,
+    108.47,
+    105.73,
+    113.12,
+    112.64,
+    112.96,
+    110.22,
+    115.39,
+    110.71,
+    106.76,
+    110.96,
+    108.8,
+    109.67,
+    106.2,
+    109.11,
+    109.73
+   ]
+  },
+  "CAR": {
+   "name": "Avis Budget Group, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 122.86,
+   "open": 125.53,
+   "prevClose": 125.45,
+   "change": -2.59,
+   "changePct": -2.06,
+   "dayHigh": 129.78,
+   "dayLow": 120.33,
+   "high52": 847.7,
+   "low52": 85.96,
+   "volume": 533144,
+   "closes": [
+    102.38,
+    102.45,
+    98.39,
+    101.55,
+    101.34,
+    101.86,
+    102.21,
+    101.74,
+    108.16,
+    107.99,
+    111.52,
+    109.34,
+    119.81,
+    120.44,
+    118.83,
+    127.65,
+    124.08,
+    127.32,
+    125.7,
+    125.45,
+    122.86
+   ]
+  },
+  "CAVA": {
+   "name": "CAVA Group, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 55.15,
+   "open": 57.77,
+   "prevClose": 58.23,
+   "change": -3.08,
+   "changePct": -5.29,
+   "dayHigh": 58.18,
+   "dayLow": 54.8,
+   "high52": 98.79,
+   "low52": 43.41,
+   "volume": 3075723,
+   "closes": [
+    57.9,
+    57.45,
+    55,
+    54.68,
+    53.48,
+    51.53,
+    51.86,
+    54.25,
+    59.21,
+    58.74,
+    62.05,
+    60.31,
+    61.98,
+    60.01,
+    59.15,
+    62.35,
+    60.39,
+    59.8,
+    57.35,
+    58.23,
+    55.15
+   ]
+  },
+  "CHPT": {
+   "name": "ChargePoint Holdings, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 10.25,
+   "open": 11.24,
+   "prevClose": 11.67,
+   "change": -1.42,
+   "changePct": -12.17,
+   "dayHigh": 11.3,
+   "dayLow": 9.99,
+   "high52": 12.97,
+   "low52": 4.44,
+   "volume": 1172278,
+   "closes": [
+    7.15,
+    7.83,
+    8.39,
+    8.21,
+    8.35,
+    8.24,
+    8.73,
+    9.22,
+    9.27,
+    9.54,
+    9.88,
+    10.79,
+    11.41,
+    10.96,
+    11.59,
+    12.39,
+    12.25,
+    12.51,
+    12.05,
+    11.67,
+    10.25
+   ]
+  },
+  "CHWY": {
+   "name": "Chewy, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 21.62,
+   "open": 22.46,
+   "prevClose": 22.52,
+   "change": -0.9,
+   "changePct": -4,
+   "dayHigh": 22.51,
+   "dayLow": 21.56,
+   "high52": 37.34,
+   "low52": 17.4,
+   "volume": 6124495,
+   "closes": [
+    20.53,
+    21.53,
+    21.33,
+    22.33,
+    21.93,
+    21.9,
+    21.52,
+    20.64,
+    20.83,
+    21.29,
+    22.27,
+    22.05,
+    23.4,
+    23,
+    22.56,
+    23.05,
+    22.86,
+    23.15,
+    22.6,
+    22.52,
+    21.62
+   ]
+  },
+  "CLOV": {
+   "name": "Clover Health Investments, Corp.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 4.95,
+   "open": 4.97,
+   "prevClose": 4.96,
+   "change": -0.01,
+   "changePct": -0.2,
+   "dayHigh": 5.07,
+   "dayLow": 4.87,
+   "high52": 5.59,
+   "low52": 1.58,
+   "volume": 4062379,
+   "closes": [
+    4.44,
+    4.8,
+    4.78,
+    4.73,
+    4.6,
+    4.56,
+    4.63,
+    4.79,
+    4.58,
+    4.46,
+    4.31,
+    4.29,
+    4.69,
+    4.48,
+    4.82,
+    4.83,
+    4.93,
+    4.97,
+    4.88,
+    4.96,
+    4.95
+   ]
+  },
+  "CMG": {
+   "name": "Chipotle Mexican Grill, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 35.94,
+   "open": 36.09,
+   "prevClose": 35.28,
+   "change": 0.66,
+   "changePct": 1.87,
+   "dayHigh": 36.36,
+   "dayLow": 35.28,
+   "high52": 41.42,
+   "low52": 27.31,
+   "volume": 12946834,
+   "closes": [
+    29.85,
+    29.65,
+    28.12,
+    28.14,
+    27.52,
+    28.41,
+    27.98,
+    28.73,
+    31.28,
+    31.89,
+    32.91,
+    33.26,
+    35.2,
+    35.4,
+    34.43,
+    35.74,
+    35.92,
+    36.64,
+    35.17,
+    35.28,
+    35.94
+   ]
+  },
+  "COIN": {
+   "name": "Coinbase Global, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 119.84,
+   "open": 119.31,
+   "prevClose": 127.65,
+   "change": -7.81,
+   "changePct": -6.12,
+   "dayHigh": 122.98,
+   "dayLow": 117.32,
+   "high52": 284.74,
+   "low52": 117.32,
+   "volume": 11186801,
+   "closes": [
+    168.45,
+    170.85,
+    177.08,
+    169.09,
+    164.45,
+    159.6,
+    161.09,
+    162.32,
+    160.59,
+    143.54,
+    137.83,
+    145.45,
+    151.5,
+    136.82,
+    134.76,
+    136.1,
+    132.13,
+    136.27,
+    130.67,
+    127.65,
+    119.84
+   ]
+  },
+  "COLM": {
+   "name": "Columbia Sportswear Company",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 75.63,
+   "open": 73.91,
+   "prevClose": 73.47,
+   "change": 2.16,
+   "changePct": 2.94,
+   "dayHigh": 75.72,
+   "dayLow": 73.45,
+   "high52": 75.72,
+   "low52": 49.57,
+   "volume": 1100504,
+   "closes": [
+    59.98,
+    61.1,
+    59.51,
+    62.07,
+    61.35,
+    60.82,
+    61.17,
+    60.9,
+    63.69,
+    67.54,
+    71.12,
+    70.06,
+    70.93,
+    69.12,
+    70.43,
+    72.45,
+    72.26,
+    72.19,
+    71.64,
+    73.47,
+    75.63
+   ]
+  },
+  "COP": {
+   "name": "ConocoPhillips",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 140.52,
+   "open": 140.11,
+   "prevClose": 142.28,
+   "change": -1.76,
+   "changePct": -1.24,
+   "dayHigh": 141.24,
+   "dayLow": 138.83,
+   "high52": 154.28,
+   "low52": 85.7,
+   "volume": 9181535,
+   "closes": [
+    145.24,
+    145.95,
+    145.67,
+    145.63,
+    150.8,
+    151.37,
+    147.96,
+    149.06,
+    150.03,
+    154.03,
+    146.84,
+    144.4,
+    136.94,
+    135.46,
+    136.27,
+    134.47,
+    135.59,
+    137.86,
+    140.06,
+    142.28,
+    140.52
+   ]
+  },
+  "COST": {
+   "name": "Costco Wholesale Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 1113.74,
+   "open": 1111.18,
+   "prevClose": 1106.21,
+   "change": 7.53,
+   "changePct": 0.68,
+   "dayHigh": 1117,
+   "dayLow": 1104.89,
+   "high52": 1117,
+   "low52": 844.06,
+   "volume": 2931424,
+   "closes": [
+    995.53,
+    994.61,
+    998.31,
+    1018.21,
+    1003.32,
+    1005.16,
+    992.13,
+    982.73,
+    996.08,
+    1012.28,
+    1040.55,
+    1019.26,
+    1046.47,
+    1065.59,
+    1053.56,
+    1066.18,
+    1066.14,
+    1087.61,
+    1092.21,
+    1106.21,
+    1113.74
+   ]
+  },
+  "CPRI": {
+   "name": "Capri Holdings Limited",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 20.55,
+   "open": 21.29,
+   "prevClose": 21.46,
+   "change": -0.91,
+   "changePct": -4.24,
+   "dayHigh": 21.29,
+   "dayLow": 20.51,
+   "high52": 28.27,
+   "low52": 12.4,
+   "volume": 3073915,
+   "closes": [
+    16.15,
+    16.51,
+    15.7,
+    16.36,
+    15.87,
+    15.57,
+    15.42,
+    15.29,
+    16.06,
+    18.68,
+    20.05,
+    20.06,
+    21.23,
+    21.13,
+    20.54,
+    21.38,
+    21.73,
+    20.89,
+    20.38,
+    21.46,
+    20.55
+   ]
+  },
+  "CQQQ": {
+   "name": "Invesco China Technology ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 37.01,
+   "open": 37.56,
+   "prevClose": 38.42,
+   "change": -1.41,
+   "changePct": -3.67,
+   "dayHigh": 37.69,
+   "dayLow": 36.96,
+   "high52": 58.92,
+   "low52": 36.96,
+   "volume": 1640352,
+   "closes": [
+    40.99,
+    41.53,
+    41.11,
+    39.93,
+    40.26,
+    40.03,
+    39.49,
+    39.79,
+    38.74,
+    37.78,
+    38.5,
+    37.8,
+    40.36,
+    40.29,
+    40.19,
+    39.87,
+    39.49,
+    39.81,
+    39.12,
+    38.42,
+    37.01
+   ]
+  },
+  "CRM": {
+   "name": "Salesforce, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 214.83,
+   "open": 217.92,
+   "prevClose": 217.84,
+   "change": -3.01,
+   "changePct": -1.38,
+   "dayHigh": 219.2,
+   "dayLow": 213.57,
+   "high52": 269.11,
+   "low52": 146.32,
+   "volume": 5295198,
+   "closes": [
+    242.45,
+    242.43,
+    241.78,
+    250.29,
+    248.57,
+    247.61,
+    240.89,
+    242.11,
+    230.9,
+    229.17,
+    226.18,
+    222.2,
+    227.11,
+    222.41,
+    213.65,
+    214.94,
+    213.48,
+    218.01,
+    217.57,
+    217.84,
+    214.83
+   ]
+  },
+  "CROX": {
+   "name": "Crocs, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 160.01,
+   "open": 163.72,
+   "prevClose": 163.72,
+   "change": -3.71,
+   "changePct": -2.27,
+   "dayHigh": 164.24,
+   "dayLow": 159.47,
+   "high52": 164.24,
+   "low52": 73.21,
+   "volume": 1440678,
+   "closes": [
+    120.18,
+    121.37,
+    118.49,
+    120.99,
+    119.23,
+    118.85,
+    119.5,
+    119.69,
+    150.26,
+    150.52,
+    153.13,
+    153.61,
+    159.84,
+    152.93,
+    151.86,
+    160.23,
+    159.66,
+    159.98,
+    156.88,
+    163.72,
+    160.01
+   ]
+  },
+  "CRWD": {
+   "name": "CrowdStrike Holdings, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 223.21,
+   "open": 223.8,
+   "prevClose": 226.61,
+   "change": -3.4,
+   "changePct": -1.5,
+   "dayHigh": 224.52,
+   "dayLow": 218.42,
+   "high52": 286.99,
+   "low52": 85.68,
+   "volume": 6198189,
+   "closes": [
+    228.1,
+    227.37,
+    239.34,
+    237.94,
+    257.57,
+    261.83,
+    268.02,
+    266.66,
+    261.15,
+    250.43,
+    241.81,
+    244.68,
+    241,
+    217.2,
+    216.9,
+    228.58,
+    225.76,
+    229.06,
+    229.87,
+    226.61,
+    223.21
+   ]
+  },
+  "CSCO": {
+   "name": "Cisco Systems, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 94.52,
+   "open": 94.49,
+   "prevClose": 95.64,
+   "change": -1.12,
+   "changePct": -1.17,
+   "dayHigh": 96.21,
+   "dayLow": 93.9,
+   "high52": 130.37,
+   "low52": 72.8,
+   "volume": 18545378,
+   "closes": [
+    106.5,
+    106.71,
+    107.26,
+    104.89,
+    106.5,
+    110.24,
+    111.38,
+    110.29,
+    108.59,
+    104.51,
+    101.61,
+    102.97,
+    103.61,
+    95.72,
+    93.85,
+    98.65,
+    98.15,
+    100.76,
+    102.01,
+    95.64,
+    94.52
+   ]
+  },
+  "CVX": {
+   "name": "Chevron Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 217.14,
+   "open": 220.03,
+   "prevClose": 219.89,
+   "change": -2.75,
+   "changePct": -1.25,
+   "dayHigh": 219.96,
+   "dayLow": 216.54,
+   "high52": 236.48,
+   "low52": 146.49,
+   "volume": 6118265,
+   "closes": [
+    224.37,
+    225.71,
+    226.78,
+    226.68,
+    233.21,
+    232.01,
+    228.23,
+    229.2,
+    231.46,
+    235.52,
+    227.77,
+    225.27,
+    216.96,
+    212.93,
+    212.61,
+    210.78,
+    211.22,
+    213.28,
+    216.35,
+    219.89,
+    217.14
+   ]
+  },
+  "CZR": {
+   "name": "Caesars Entertainment, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 29.37,
+   "open": 29.33,
+   "prevClose": 29.33,
+   "change": 0.04,
+   "changePct": 0.14,
+   "dayHigh": 29.37,
+   "dayLow": 29.28,
+   "high52": 30.88,
+   "low52": 17.86,
+   "volume": 1636886,
+   "closes": [
+    29.04,
+    29.09,
+    28.9,
+    29.07,
+    28.8,
+    28.99,
+    28.85,
+    28.57,
+    29.13,
+    29.09,
+    28.99,
+    29.06,
+    29.36,
+    29.18,
+    29.23,
+    29.28,
+    29.3,
+    29.28,
+    29.28,
+    29.33,
+    29.37
+   ]
+  },
+  "DAL": {
+   "name": "Delta Air Lines, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 86.6,
+   "open": 86,
+   "prevClose": 86.25,
+   "change": 0.35,
+   "changePct": 0.41,
+   "dayHigh": 88.1,
+   "dayLow": 85.62,
+   "high52": 95.68,
+   "low52": 55.27,
+   "volume": 4399710,
+   "closes": [
+    74.63,
+    76.66,
+    77.67,
+    79.26,
+    76.78,
+    79.16,
+    81.45,
+    80.35,
+    81.64,
+    80.15,
+    83.42,
+    83.28,
+    89.24,
+    85.36,
+    87.2,
+    91.8,
+    92.2,
+    91.32,
+    86.55,
+    86.25,
+    86.6
+   ]
+  },
+  "DASH": {
+   "name": "DoorDash, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 169.78,
+   "open": 170.58,
+   "prevClose": 171.51,
+   "change": -1.73,
+   "changePct": -1.01,
+   "dayHigh": 171.13,
+   "dayLow": 166.74,
+   "high52": 239,
+   "low52": 143.3,
+   "volume": 5242685,
+   "closes": [
+    193.53,
+    191.67,
+    184.45,
+    185.94,
+    179.38,
+    168.44,
+    170.56,
+    169.49,
+    179,
+    178.99,
+    190.07,
+    183.32,
+    198.59,
+    179.92,
+    179.67,
+    180.96,
+    178.25,
+    178.26,
+    172.58,
+    171.51,
+    169.78
+   ]
+  },
+  "DDOG": {
+   "name": "Datadog, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 172.86,
+   "open": 182.41,
+   "prevClose": 184.16,
+   "change": -11.3,
+   "changePct": -6.14,
+   "dayHigh": 182.41,
+   "dayLow": 172.39,
+   "high52": 300.68,
+   "low52": 98.01,
+   "volume": 3347058,
+   "closes": [
+    260.36,
+    256.43,
+    273.09,
+    257.75,
+    269.65,
+    280.24,
+    280.82,
+    278.41,
+    265.84,
+    235.27,
+    216.1,
+    220.52,
+    188.72,
+    174.6,
+    179.04,
+    179.62,
+    178.4,
+    184.38,
+    184.46,
+    184.16,
+    172.86
+   ]
+  },
+  "DELL": {
+   "name": "Dell Technologies Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 320.55,
+   "open": 329.58,
+   "prevClose": 344.53,
+   "change": -23.98,
+   "changePct": -6.96,
+   "dayHigh": 332.36,
+   "dayLow": 318.03,
+   "high52": 595.51,
+   "low52": 110.22,
+   "volume": 8349614,
+   "closes": [
+    455.44,
+    461.56,
+    485.88,
+    452.95,
+    456.44,
+    467.09,
+    501.96,
+    493.79,
+    475.51,
+    424.3,
+    392.78,
+    408.4,
+    372.36,
+    316.91,
+    328.53,
+    346.31,
+    334.38,
+    373.68,
+    371.17,
+    344.53,
+    320.55
+   ]
+  },
+  "DIS": {
+   "name": "The Walt Disney Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 118.7,
+   "open": 119.6,
+   "prevClose": 118.97,
+   "change": -0.27,
+   "changePct": -0.23,
+   "dayHigh": 119.54,
+   "dayLow": 117.78,
+   "high52": 120.8,
+   "low52": 92.19,
+   "volume": 12332259,
+   "closes": [
+    109.59,
+    111.67,
+    111.83,
+    113.13,
+    112.52,
+    110.4,
+    110.23,
+    109.04,
+    110.91,
+    110.94,
+    113.11,
+    114.18,
+    118.95,
+    117.22,
+    116.75,
+    119.12,
+    119.21,
+    119.65,
+    118.23,
+    118.97,
+    118.7
+   ]
+  },
+  "DXJ": {
+   "name": "WisdomTree Japan Hedged Equity Fund",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 58.16,
+   "open": 58.59,
+   "prevClose": 59.44,
+   "change": -1.28,
+   "changePct": -2.15,
+   "dayHigh": 58.79,
+   "dayLow": 58.15,
+   "high52": 61.55,
+   "low52": 44.78,
+   "volume": 851781,
+   "closes": [
+    59.86,
+    60.01,
+    60,
+    59.02,
+    58.64,
+    59.17,
+    59.89,
+    59.46,
+    59.59,
+    58.39,
+    58.89,
+    58.96,
+    59.72,
+    56.4,
+    56.4,
+    58.08,
+    57.89,
+    59.01,
+    59.14,
+    59.44,
+    58.16
+   ]
+  },
+  "EB": {
+   "name": null,
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": null,
+   "open": null,
+   "prevClose": null,
+   "change": null,
+   "changePct": null,
+   "dayHigh": null,
+   "dayLow": null,
+   "high52": null,
+   "low52": null,
+   "volume": null,
+   "closes": []
+  },
+  "EBAY": {
+   "name": "eBay Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 120.89,
+   "open": 120.8,
+   "prevClose": 120.92,
+   "change": -0.03,
+   "changePct": -0.02,
+   "dayHigh": 121.03,
+   "dayLow": 119.01,
+   "high52": 127.74,
+   "low52": 78.03,
+   "volume": 3775895,
+   "closes": [
+    120.47,
+    121.19,
+    122.9,
+    122.04,
+    121.41,
+    118.62,
+    117.83,
+    118.02,
+    121.19,
+    121.64,
+    120.93,
+    118.62,
+    125.15,
+    123.35,
+    121.96,
+    120.97,
+    123.52,
+    122.68,
+    120.14,
+    120.92,
+    120.89
+   ]
+  },
+  "ELF": {
+   "name": "e.l.f. Beauty, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 115.95,
+   "open": 116.58,
+   "prevClose": 117.98,
+   "change": -2.03,
+   "changePct": -1.72,
+   "dayHigh": 118.04,
+   "dayLow": 114.05,
+   "high52": 123.13,
+   "low52": 48.82,
+   "volume": 1185550,
+   "closes": [
+    113.48,
+    114.74,
+    113.78,
+    114.99,
+    114.24,
+    112.94,
+    113.17,
+    115.41,
+    112.95,
+    111.69,
+    110.68,
+    111.5,
+    113.63,
+    109.85,
+    116.14,
+    119.35,
+    118.51,
+    118.46,
+    113.53,
+    117.98,
+    115.95
+   ]
+  },
+  "EPI": {
+   "name": "WisdomTree India Earnings Fund",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 44.12,
+   "open": 44.04,
+   "prevClose": 44.13,
+   "change": -0.01,
+   "changePct": -0.02,
+   "dayHigh": 44.22,
+   "dayLow": 44.04,
+   "high52": 46.83,
+   "low52": 39.36,
+   "volume": 381748,
+   "closes": [
+    41.1,
+    41.46,
+    40.99,
+    41.03,
+    40.14,
+    40.31,
+    40.32,
+    40.33,
+    40.78,
+    40.97,
+    41.69,
+    41.66,
+    42.92,
+    42.81,
+    43.44,
+    43.99,
+    44.24,
+    44.3,
+    44.18,
+    44.13,
+    44.12
+   ]
+  },
+  "ETSY": {
+   "name": "Etsy, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 85,
+   "open": 88.43,
+   "prevClose": 89,
+   "change": -4,
+   "changePct": -4.49,
+   "dayHigh": 88.98,
+   "dayLow": 84.95,
+   "high52": 97.85,
+   "low52": 44,
+   "volume": 2155820,
+   "closes": [
+    85.26,
+    87.41,
+    87.23,
+    90.82,
+    86.93,
+    85.43,
+    87.66,
+    92.35,
+    91.59,
+    88.96,
+    92.45,
+    89.86,
+    96.24,
+    91.53,
+    89.93,
+    88.44,
+    86.5,
+    88.35,
+    88.29,
+    89,
+    85
+   ]
+  },
+  "EWG": {
+   "name": "iShares MSCI Germany ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 42.32,
+   "open": 42.73,
+   "prevClose": 42.9,
+   "change": -0.58,
+   "changePct": -1.35,
+   "dayHigh": 42.82,
+   "dayLow": 42.27,
+   "high52": 44.85,
+   "low52": 37.98,
+   "volume": 812642,
+   "closes": [
+    41.04,
+    41.43,
+    41.7,
+    41.35,
+    40.94,
+    41.24,
+    41.52,
+    41.8,
+    42.41,
+    41.88,
+    42.16,
+    42.06,
+    43.5,
+    42.75,
+    41.58,
+    42.99,
+    42.95,
+    43.02,
+    42.81,
+    42.9,
+    42.32
+   ]
+  },
+  "EWJ": {
+   "name": "iShares MSCI Japan ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 89.85,
+   "open": 90.73,
+   "prevClose": 91.76,
+   "change": -1.91,
+   "changePct": -2.08,
+   "dayHigh": 90.84,
+   "dayLow": 89.82,
+   "high52": 99.98,
+   "low52": 79.48,
+   "volume": 2623991,
+   "closes": [
+    94.99,
+    95.43,
+    95.72,
+    94.6,
+    94.1,
+    94.28,
+    95.25,
+    94.99,
+    94.94,
+    92.91,
+    92.84,
+    92.59,
+    93.86,
+    88.26,
+    88.26,
+    91.48,
+    90.39,
+    92.12,
+    91.47,
+    91.76,
+    89.85
+   ]
+  },
+  "EWU": {
+   "name": "iShares MSCI United Kingdom ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 47.58,
+   "open": 48.14,
+   "prevClose": 47.97,
+   "change": -0.39,
+   "changePct": -0.81,
+   "dayHigh": 48.22,
+   "dayLow": 47.54,
+   "high52": 49.39,
+   "low52": 41.33,
+   "volume": 815485,
+   "closes": [
+    47.34,
+    47.76,
+    47.69,
+    47.84,
+    47.52,
+    47.61,
+    47.19,
+    47.29,
+    47.7,
+    47.83,
+    48.03,
+    47.3,
+    48.93,
+    47.89,
+    47.22,
+    48.32,
+    47.96,
+    47.82,
+    47.76,
+    47.97,
+    47.58
+   ]
+  },
+  "EWY": {
+   "name": "iShares MSCI South Korea ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 136.55,
+   "open": 138.67,
+   "prevClose": 142.78,
+   "change": -6.23,
+   "changePct": -4.36,
+   "dayHigh": 139.56,
+   "dayLow": 136.2,
+   "high52": 220.89,
+   "low52": 86.9,
+   "volume": 14560195,
+   "closes": [
+    156.58,
+    153.99,
+    156.88,
+    149.06,
+    151.26,
+    152.72,
+    157.46,
+    165.91,
+    161.83,
+    152.89,
+    151.62,
+    155.06,
+    152.12,
+    131.65,
+    137.01,
+    142.1,
+    139.18,
+    147.81,
+    145.38,
+    142.78,
+    136.55
+   ]
+  },
+  "EZU": {
+   "name": "iShares MSCI Eurozone ETF",
+   "exchange": "Cboe US",
+   "type": "ETF",
+   "price": 66.24,
+   "open": 67.41,
+   "prevClose": 67.29,
+   "change": -1.05,
+   "changePct": -1.56,
+   "dayHigh": 67.41,
+   "dayLow": 66.22,
+   "high52": 72.2,
+   "low52": 59.92,
+   "volume": 807900,
+   "closes": [
+    65.13,
+    65.62,
+    66.08,
+    65.04,
+    64.63,
+    64.93,
+    65.59,
+    65.72,
+    66.23,
+    65.16,
+    65.71,
+    65.6,
+    67.54,
+    66.16,
+    65.43,
+    67.82,
+    67.81,
+    67.83,
+    67.23,
+    67.29,
+    66.24
+   ]
+  },
+  "F": {
+   "name": "Ford Motor Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 11.57,
+   "open": 11.89,
+   "prevClose": 11.91,
+   "change": -0.34,
+   "changePct": -2.85,
+   "dayHigh": 11.92,
+   "dayLow": 11.48,
+   "high52": 17.78,
+   "low52": 11.11,
+   "volume": 42638451,
+   "closes": [
+    12.18,
+    12.15,
+    11.9,
+    11.94,
+    11.6,
+    11.58,
+    11.71,
+    11.95,
+    12.36,
+    12.25,
+    12.6,
+    12.31,
+    12.67,
+    12.53,
+    12.44,
+    12.52,
+    12.28,
+    12.25,
+    11.9,
+    11.91,
+    11.57
+   ]
+  },
+  "FAS": {
+   "name": "Direxion Daily Financial Bull 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 177.07,
+   "open": 182.24,
+   "prevClose": 181.54,
+   "change": -4.47,
+   "changePct": -2.46,
+   "dayHigh": 182.97,
+   "dayLow": 174.49,
+   "high52": 195.77,
+   "low52": 106.91,
+   "volume": 259998,
+   "closes": [
+    153.12,
+    158.21,
+    160.9,
+    166.19,
+    159.63,
+    160.58,
+    159.24,
+    161.15,
+    168.21,
+    164.8,
+    173.22,
+    169.9,
+    187.4,
+    171.89,
+    168.67,
+    175.62,
+    178.5,
+    181.49,
+    177.66,
+    181.54,
+    177.07
+   ]
+  },
+  "FAZ": {
+   "name": "Direxion Daily Financial Bear 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 30.45,
+   "open": 29.57,
+   "prevClose": 29.66,
+   "change": 0.79,
+   "changePct": 2.66,
+   "dayHigh": 30.86,
+   "dayLow": 29.44,
+   "high52": 56.37,
+   "low52": 27.75,
+   "volume": 1483664,
+   "closes": [
+    36.25,
+    34.97,
+    34.4,
+    33.3,
+    34.58,
+    34.38,
+    34.69,
+    34.29,
+    32.78,
+    33.49,
+    31.74,
+    32.34,
+    29.09,
+    31.41,
+    32.05,
+    30.68,
+    30.21,
+    29.69,
+    30.33,
+    29.66,
+    30.45
+   ]
+  },
+  "FEZ": {
+   "name": "State Street SPDR EURO STOXX 50 ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 66.05,
+   "open": 66.79,
+   "prevClose": 67.17,
+   "change": -1.12,
+   "changePct": -1.67,
+   "dayHigh": 66.9,
+   "dayLow": 66.03,
+   "high52": 72.36,
+   "low52": 59.57,
+   "volume": 864475,
+   "closes": [
+    65.11,
+    65.61,
+    66.12,
+    65.06,
+    64.56,
+    64.76,
+    65.37,
+    65.5,
+    66.05,
+    65.03,
+    65.39,
+    65.22,
+    67.38,
+    65.91,
+    65.03,
+    67.39,
+    67.46,
+    67.5,
+    67.08,
+    67.17,
+    66.05
+   ]
+  },
+  "FIVE": {
+   "name": "Five Below, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 241.56,
+   "open": 250.69,
+   "prevClose": 246.68,
+   "change": -5.12,
+   "changePct": -2.08,
+   "dayHigh": 250.69,
+   "dayLow": 239.46,
+   "high52": 263.88,
+   "low52": 144.19,
+   "volume": 551963,
+   "closes": [
+    225.61,
+    223.8,
+    224.1,
+    225.87,
+    223.24,
+    230,
+    231.25,
+    234.47,
+    245.5,
+    240.96,
+    238.97,
+    236.19,
+    252.01,
+    241.26,
+    240.3,
+    253.76,
+    253.51,
+    250.74,
+    247.16,
+    246.68,
+    241.56
+   ]
+  },
+  "FLKR": {
+   "name": "Franklin FTSE South Korea ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 45.38,
+   "open": 46.05,
+   "prevClose": 47.36,
+   "change": -1.98,
+   "changePct": -4.18,
+   "dayHigh": 46.29,
+   "dayLow": 45.28,
+   "high52": 72.49,
+   "low52": 29.06,
+   "volume": 362227,
+   "closes": [
+    51.94,
+    51.16,
+    51.77,
+    49.45,
+    50.15,
+    50.45,
+    51.86,
+    54.59,
+    53.18,
+    50.42,
+    49.99,
+    51.12,
+    50.3,
+    44.04,
+    45.47,
+    47.18,
+    46.13,
+    48.75,
+    48.07,
+    47.36,
+    45.38
+   ]
+  },
+  "FUBO": {
+   "name": "FuboTV Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 7.39,
+   "open": 7.52,
+   "prevClose": 7.57,
+   "change": -0.18,
+   "changePct": -2.38,
+   "dayHigh": 7.68,
+   "dayLow": 7.26,
+   "high52": 43.68,
+   "low52": 7.26,
+   "volume": 2015007,
+   "closes": [
+    8.05,
+    8.22,
+    8.12,
+    8.16,
+    7.93,
+    7.79,
+    7.8,
+    7.98,
+    7.96,
+    7.62,
+    7.61,
+    7.64,
+    8.23,
+    7.69,
+    7.6,
+    8.04,
+    7.85,
+    7.87,
+    7.67,
+    7.57,
+    7.39
+   ]
+  },
+  "FXI": {
+   "name": "iShares China Large-Cap ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 33.32,
+   "open": 33.56,
+   "prevClose": 33.48,
+   "change": -0.16,
+   "changePct": -0.48,
+   "dayHigh": 33.66,
+   "dayLow": 33.3,
+   "high52": 41.17,
+   "low52": 31.19,
+   "volume": 20286050,
+   "closes": [
+    33.53,
+    33.51,
+    32.94,
+    32.45,
+    32.31,
+    32.51,
+    32.5,
+    32.46,
+    32.69,
+    33.08,
+    33.21,
+    33.19,
+    34.59,
+    34.94,
+    34.95,
+    34.66,
+    34.41,
+    33.92,
+    33.48,
+    33.48,
+    33.32
+   ]
+  },
+  "GAP": {
+   "name": "The Gap, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 19.76,
+   "open": 21.11,
+   "prevClose": 21.07,
+   "change": -1.31,
+   "changePct": -6.22,
+   "dayHigh": 21.12,
+   "dayLow": 19.7,
+   "high52": 29.36,
+   "low52": 18.11,
+   "volume": 9687089,
+   "closes": [
+    23.54,
+    23.47,
+    22.69,
+    22.91,
+    22.32,
+    22.26,
+    21.7,
+    22,
+    22.89,
+    22.32,
+    22.22,
+    21.99,
+    23.75,
+    22.41,
+    21.48,
+    22.23,
+    21.97,
+    21.53,
+    21.25,
+    21.07,
+    19.76
+   ]
+  },
+  "GE": {
+   "name": "GE Aerospace",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 325.18,
+   "open": 331.21,
+   "prevClose": 331.81,
+   "change": -6.63,
+   "changePct": -2,
+   "dayHigh": 333.48,
+   "dayLow": 323.89,
+   "high52": 388.84,
+   "low52": 268.91,
+   "volume": 3554019,
+   "closes": [
+    311.28,
+    299.87,
+    295.88,
+    293.54,
+    285.64,
+    288.43,
+    297.66,
+    301.13,
+    313.05,
+    301.8,
+    315.78,
+    320.67,
+    329.45,
+    314.73,
+    323.24,
+    335.54,
+    337.91,
+    342.75,
+    330.86,
+    331.81,
+    325.18
+   ]
+  },
+  "GM": {
+   "name": "General Motors Company",
+   "exchange": "Nasdaq",
+   "type": "EQUITY",
+   "price": 83.67,
+   "open": 86,
+   "prevClose": 86,
+   "change": -2.33,
+   "changePct": -2.71,
+   "dayHigh": 86.22,
+   "dayLow": 83.08,
+   "high52": 93.7,
+   "low52": 67.06,
+   "volume": 5347528,
+   "closes": [
+    82.75,
+    77.09,
+    76.11,
+    77.21,
+    75.92,
+    76.31,
+    80.54,
+    82.48,
+    85.72,
+    87.4,
+    89.94,
+    88.34,
+    92.43,
+    89.33,
+    86.16,
+    89.65,
+    88.69,
+    88.9,
+    86.25,
+    86,
+    83.67
+   ]
+  },
+  "GOOG": {
+   "name": "Alphabet Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 281.26,
+   "open": 290.55,
+   "prevClose": 292.52,
+   "change": -11.26,
+   "changePct": -3.85,
+   "dayHigh": 290.75,
+   "dayLow": 280.48,
+   "high52": 404.47,
+   "low52": 271.54,
+   "volume": 21086145,
+   "closes": [
+    340.16,
+    336.4,
+    330.95,
+    320.76,
+    317.28,
+    314.19,
+    316.83,
+    321.89,
+    282.32,
+    278.22,
+    278.04,
+    278.27,
+    287.3,
+    281.74,
+    283.93,
+    286.01,
+    284.92,
+    290.63,
+    295.35,
+    292.52,
+    281.26
+   ]
+  },
+  "GOOGL": {
+   "name": "Alphabet Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 283.72,
+   "open": 293.81,
+   "prevClose": 295.77,
+   "change": -12.05,
+   "changePct": -4.07,
+   "dayHigh": 294.13,
+   "dayLow": 282.96,
+   "high52": 408.61,
+   "low52": 272.11,
+   "volume": 34077805,
+   "closes": [
+    344.18,
+    340.28,
+    334.76,
+    324.22,
+    320.21,
+    316.8,
+    320.58,
+    324.89,
+    283.82,
+    279.84,
+    278.99,
+    280.03,
+    288.93,
+    282.57,
+    284.78,
+    288.15,
+    287.38,
+    293.45,
+    298.7,
+    295.77,
+    283.72
+   ]
+  },
+  "GPRO": {
+   "name": "GoPro, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 0.61,
+   "open": 0.63,
+   "prevClose": 0.63,
+   "change": -0.02,
+   "changePct": -3.17,
+   "dayHigh": 0.65,
+   "dayLow": 0.61,
+   "high52": 2.05,
+   "low52": 0.57,
+   "volume": 7748637,
+   "closes": [
+    1.04,
+    1.1,
+    1.07,
+    1.02,
+    1.01,
+    1.03,
+    1.02,
+    1.03,
+    1,
+    0.93,
+    0.95,
+    0.96,
+    0.94,
+    0.86,
+    0.9,
+    0.88,
+    0.84,
+    0.69,
+    0.67,
+    0.63,
+    0.61
+   ]
+  },
+  "GRMN": {
+   "name": "Garmin Ltd.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 279.67,
+   "open": 282.11,
+   "prevClose": 283.03,
+   "change": -3.36,
+   "changePct": -1.19,
+   "dayHigh": 286.29,
+   "dayLow": 278.15,
+   "high52": 314.28,
+   "low52": 186.67,
+   "volume": 658344,
+   "closes": [
+    286.16,
+    290.35,
+    291.13,
+    295.4,
+    293.74,
+    292.92,
+    289.34,
+    272.51,
+    279.94,
+    272.67,
+    274.29,
+    271.44,
+    289.15,
+    286.4,
+    285.57,
+    291.8,
+    288.66,
+    293.93,
+    286.18,
+    283.03,
+    279.67
+   ]
+  },
+  "GXC": {
+   "name": "State Street SPDR S&P China ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 80.19,
+   "open": 80.94,
+   "prevClose": 81.11,
+   "change": -0.92,
+   "changePct": -1.13,
+   "dayHigh": 80.9,
+   "dayLow": 80.18,
+   "high52": 105,
+   "low52": 80.18,
+   "volume": 27916,
+   "closes": [
+    83.81,
+    84.12,
+    82.99,
+    81.14,
+    81.21,
+    81.44,
+    81.13,
+    81.11,
+    80.82,
+    80.79,
+    81.41,
+    81.26,
+    84.64,
+    84.71,
+    84.87,
+    84.46,
+    83.47,
+    82.91,
+    81.63,
+    81.11,
+    80.19
+   ]
+  },
+  "HAS": {
+   "name": "Hasbro, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 121.02,
+   "open": 121.15,
+   "prevClose": 120.55,
+   "change": 0.47,
+   "changePct": 0.39,
+   "dayHigh": 121.67,
+   "dayLow": 119.8,
+   "high52": 124.62,
+   "low52": 74.78,
+   "volume": 1395583,
+   "closes": [
+    98.49,
+    109.52,
+    114,
+    117.23,
+    117.44,
+    117.96,
+    118.33,
+    118.68,
+    119.57,
+    119.09,
+    118.36,
+    117.97,
+    121.58,
+    119.54,
+    118.91,
+    120.92,
+    121.82,
+    124.02,
+    121.48,
+    120.55,
+    121.02
+   ]
+  },
+  "HD": {
+   "name": "The Home Depot, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 347.51,
+   "open": 348.52,
+   "prevClose": 348.69,
+   "change": -1.18,
+   "changePct": -0.34,
+   "dayHigh": 349.73,
+   "dayLow": 346.13,
+   "high52": 397.63,
+   "low52": 277.15,
+   "volume": 5681155,
+   "closes": [
+    309.88,
+    315.11,
+    314.14,
+    327.73,
+    319.83,
+    319.38,
+    318.5,
+    317.56,
+    328.98,
+    329.2,
+    341.15,
+    333.66,
+    355.44,
+    349.94,
+    343.47,
+    353.42,
+    351,
+    351.31,
+    348.26,
+    348.69,
+    347.51
+   ]
+  },
+  "HEWJ": {
+   "name": "iShares Currency Hedged MSCI Japan ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 61.16,
+   "open": 61.94,
+   "prevClose": 62.7,
+   "change": -1.54,
+   "changePct": -2.46,
+   "dayHigh": 61.92,
+   "dayLow": 61.16,
+   "high52": 67.27,
+   "low52": 51.98,
+   "volume": 62740,
+   "closes": [
+    64.27,
+    64.42,
+    64.61,
+    63.2,
+    62.87,
+    63.38,
+    63.73,
+    64.01,
+    63.98,
+    62.44,
+    62.54,
+    62.67,
+    63.53,
+    59.4,
+    59.71,
+    61.67,
+    61.33,
+    62.93,
+    62.57,
+    62.7,
+    61.16
+   ]
+  },
+  "HOG": {
+   "name": "Harley-Davidson, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 33.22,
+   "open": 32.38,
+   "prevClose": 32.38,
+   "change": 0.84,
+   "changePct": 2.59,
+   "dayHigh": 33.32,
+   "dayLow": 32.25,
+   "high52": 34.84,
+   "low52": 17.09,
+   "volume": 1781870,
+   "closes": [
+    26.73,
+    27.19,
+    27.34,
+    29.11,
+    28.96,
+    28.85,
+    29.44,
+    29.52,
+    30.33,
+    31.22,
+    33.07,
+    33.32,
+    34.59,
+    32.58,
+    32.66,
+    34.2,
+    34.22,
+    33.96,
+    32.44,
+    32.38,
+    33.22
+   ]
+  },
+  "HOOD": {
+   "name": "Robinhood Markets, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 72.06,
+   "open": 73.94,
+   "prevClose": 77.86,
+   "change": -5.8,
+   "changePct": -7.45,
+   "dayHigh": 75.55,
+   "dayLow": 70.83,
+   "high52": 139.75,
+   "low52": 63.52,
+   "volume": 27699364,
+   "closes": [
+    96.52,
+    98.21,
+    101.93,
+    96.58,
+    95.07,
+    92.84,
+    94.56,
+    91.43,
+    91.59,
+    84.99,
+    83.84,
+    85.68,
+    87.41,
+    78.39,
+    80.91,
+    83.32,
+    81.33,
+    84.58,
+    81.35,
+    77.86,
+    72.06
+   ]
+  },
+  "IBB": {
+   "name": "iShares Biotechnology ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 207.98,
+   "open": 213,
+   "prevClose": 212.5,
+   "change": -4.52,
+   "changePct": -2.13,
+   "dayHigh": 214.06,
+   "dayLow": 207.62,
+   "high52": 222.29,
+   "low52": 159.68,
+   "volume": 2289292,
+   "closes": [
+    204.06,
+    210.5,
+    211.55,
+    209.54,
+    207.74,
+    208.69,
+    212.2,
+    216.35,
+    217.86,
+    217.61,
+    213.79,
+    215.47,
+    221.13,
+    209.99,
+    213.63,
+    219.57,
+    217.18,
+    218.14,
+    213.43,
+    212.5,
+    207.98
+   ]
+  },
+  "IBM": {
+   "name": "International Business Machines Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 242.51,
+   "open": 246.95,
+   "prevClose": 247.13,
+   "change": -4.62,
+   "changePct": -1.87,
+   "dayHigh": 247.01,
+   "dayLow": 241.37,
+   "high52": 332.46,
+   "low52": 199.19,
+   "volume": 5055102,
+   "closes": [
+    236.39,
+    241.92,
+    251.46,
+    252.11,
+    253.56,
+    253.44,
+    250.25,
+    253.22,
+    258.28,
+    257.81,
+    252.51,
+    250.04,
+    254.32,
+    247.11,
+    245,
+    246.11,
+    244.53,
+    248.22,
+    244.67,
+    247.13,
+    242.51
+   ]
+  },
+  "IEUR": {
+   "name": "iShares Core MSCI Europe ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 74.73,
+   "open": 75.52,
+   "prevClose": 75.63,
+   "change": -0.9,
+   "changePct": -1.19,
+   "dayHigh": 75.63,
+   "dayLow": 74.71,
+   "high52": 78.9,
+   "low52": 66.45,
+   "volume": 507071,
+   "closes": [
+    73.36,
+    74.01,
+    74.3,
+    73.71,
+    73.3,
+    73.49,
+    73.91,
+    74.1,
+    74.85,
+    74.4,
+    74.79,
+    74.34,
+    76.57,
+    74.98,
+    74.16,
+    76.38,
+    76.13,
+    76,
+    75.49,
+    75.63,
+    74.73
+   ]
+  },
+  "IHI": {
+   "name": "iShares U.S. Medical Devices ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 57.55,
+   "open": 58.26,
+   "prevClose": 58.02,
+   "change": -0.47,
+   "changePct": -0.81,
+   "dayHigh": 58.54,
+   "dayLow": 57.47,
+   "high52": 64.71,
+   "low52": 47.37,
+   "volume": 1901778,
+   "closes": [
+    53.76,
+    54.27,
+    53.42,
+    54.87,
+    54.92,
+    55.04,
+    54.53,
+    54.64,
+    55.69,
+    54.59,
+    56.51,
+    56.43,
+    60.22,
+    59.03,
+    57.59,
+    58.57,
+    58.07,
+    58.17,
+    57.46,
+    58.02,
+    57.55
+   ]
+  },
+  "INDA": {
+   "name": "iShares MSCI India ETF",
+   "exchange": "Cboe US",
+   "type": "ETF",
+   "price": 51.56,
+   "open": 51.51,
+   "prevClose": 51.45,
+   "change": 0.11,
+   "changePct": 0.21,
+   "dayHigh": 51.66,
+   "dayLow": 51.51,
+   "high52": 55.1,
+   "low52": 45.21,
+   "volume": 5822150,
+   "closes": [
+    47.4,
+    47.78,
+    47.27,
+    47.36,
+    46.46,
+    46.59,
+    46.74,
+    46.79,
+    47.41,
+    47.72,
+    48.45,
+    48.7,
+    50.03,
+    50.02,
+    50.89,
+    51.41,
+    51.72,
+    51.59,
+    51.55,
+    51.45,
+    51.56
+   ]
+  },
+  "INDY": {
+   "name": "iShares India 50 ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 46.06,
+   "open": 46.01,
+   "prevClose": 45.79,
+   "change": 0.27,
+   "changePct": 0.59,
+   "dayHigh": 46.16,
+   "dayLow": 46.01,
+   "high52": 54.13,
+   "low52": 39.9,
+   "volume": 84634,
+   "closes": [
+    41.85,
+    42.15,
+    41.88,
+    42.08,
+    41.41,
+    41.47,
+    41.44,
+    41.47,
+    41.97,
+    42.53,
+    43.17,
+    43.34,
+    44.61,
+    44.6,
+    45.69,
+    45.99,
+    46.21,
+    46.05,
+    45.96,
+    45.79,
+    46.06
+   ]
+  },
+  "INTC": {
+   "name": "Intel Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 55.47,
+   "open": 56.71,
+   "prevClose": 59.66,
+   "change": -4.19,
+   "changePct": -7.02,
+   "dayHigh": 57.2,
+   "dayLow": 54.9,
+   "high52": 142.35,
+   "low52": 32.89,
+   "volume": 100803088,
+   "closes": [
+    92.03,
+    91.69,
+    92.96,
+    85.49,
+    86.96,
+    90.47,
+    93.74,
+    95.53,
+    92.07,
+    65.76,
+    59.97,
+    60.55,
+    58.27,
+    52.25,
+    56.28,
+    59.37,
+    58.13,
+    62.5,
+    61.2,
+    59.66,
+    55.47
+   ]
+  },
+  "IRBT": {
+   "name": null,
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": null,
+   "open": null,
+   "prevClose": null,
+   "change": null,
+   "changePct": null,
+   "dayHigh": null,
+   "dayLow": null,
+   "high52": null,
+   "low52": null,
+   "volume": null,
+   "closes": []
+  },
+  "ISRG": {
+   "name": "Intuitive Surgical, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 437.75,
+   "open": 444.38,
+   "prevClose": 443.59,
+   "change": -5.84,
+   "changePct": -1.32,
+   "dayHigh": 446.2,
+   "dayLow": 436.72,
+   "high52": 603.88,
+   "low52": 328.57,
+   "volume": 1819286,
+   "closes": [
+    433.18,
+    438,
+    428.12,
+    443.85,
+    452.29,
+    451.63,
+    445.88,
+    444.18,
+    448.76,
+    432.01,
+    436.87,
+    440.75,
+    482.1,
+    468.52,
+    452.8,
+    460.56,
+    450.04,
+    449.53,
+    439.89,
+    443.59,
+    437.75
+   ]
+  },
+  "ITA": {
+   "name": "iShares U.S. Aerospace & Defense ETF",
+   "exchange": "Cboe US",
+   "type": "ETF",
+   "price": 69.75,
+   "open": 70.84,
+   "prevClose": 71.51,
+   "change": -1.76,
+   "changePct": -2.46,
+   "dayHigh": 71.42,
+   "dayLow": 69.45,
+   "high52": 85.53,
+   "low52": 65.24,
+   "volume": 2013300,
+   "closes": [
+    69.25,
+    68.72,
+    68.6,
+    68.16,
+    67.41,
+    69.05,
+    68.74,
+    69.25,
+    71.43,
+    69.91,
+    71.56,
+    72.06,
+    70.95,
+    68.11,
+    68.98,
+    71.67,
+    72.35,
+    73.24,
+    71.73,
+    71.51,
+    69.75
+   ]
+  },
+  "IYF": {
+   "name": "iShares U.S. Financials ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 134.5,
+   "open": 135.87,
+   "prevClose": 135.85,
+   "change": -1.35,
+   "changePct": -0.99,
+   "dayHigh": 135.97,
+   "dayLow": 133.85,
+   "high52": 139.09,
+   "low52": 113.62,
+   "volume": 109224,
+   "closes": [
+    127.84,
+    129.52,
+    130.28,
+    131.71,
+    130.23,
+    130.43,
+    130.25,
+    130.71,
+    132.22,
+    130.94,
+    132.97,
+    132.31,
+    136.71,
+    132.85,
+    131.99,
+    134.31,
+    135.08,
+    135.78,
+    134.93,
+    135.85,
+    134.5
+   ]
+  },
+  "JBLU": {
+   "name": "JetBlue Airways Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 3.72,
+   "open": 3.62,
+   "prevClose": 3.76,
+   "change": -0.04,
+   "changePct": -1.06,
+   "dayHigh": 3.77,
+   "dayLow": 3.58,
+   "high52": 6.62,
+   "low52": 2.16,
+   "volume": 22728863,
+   "closes": [
+    2.91,
+    2.91,
+    2.93,
+    2.65,
+    2.63,
+    2.37,
+    2.82,
+    2.85,
+    3.05,
+    2.85,
+    3.17,
+    3.18,
+    3.56,
+    3.49,
+    3.67,
+    3.94,
+    4,
+    4.02,
+    3.81,
+    3.76,
+    3.72
+   ]
+  },
+  "JNJ": {
+   "name": "Johnson & Johnson",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 282.55,
+   "open": 288.99,
+   "prevClose": 285.75,
+   "change": -3.2,
+   "changePct": -1.12,
+   "dayHigh": 290.25,
+   "dayLow": 282.33,
+   "high52": 290.25,
+   "low52": 195.9,
+   "volume": 7941138,
+   "closes": [
+    253.79,
+    259.36,
+    257.78,
+    267.61,
+    263.81,
+    266.3,
+    268.73,
+    271.04,
+    275.2,
+    273.2,
+    270.56,
+    266.17,
+    276.32,
+    272.32,
+    276.22,
+    282.11,
+    280.78,
+    280.41,
+    283.52,
+    285.75,
+    282.55
+   ]
+  },
+  "JPM": {
+   "name": "JPMorgan Chase & Co.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 338.21,
+   "open": 345.57,
+   "prevClose": 346.19,
+   "change": -7.98,
+   "changePct": -2.31,
+   "dayHigh": 346.51,
+   "dayLow": 336.67,
+   "high52": 366.5,
+   "low52": 279.1,
+   "volume": 7219618,
+   "closes": [
+    333.53,
+    335.26,
+    335.19,
+    336.54,
+    331.58,
+    334.04,
+    335.79,
+    339.3,
+    343.58,
+    337.04,
+    340.58,
+    337.98,
+    352.11,
+    337.34,
+    334.49,
+    342.08,
+    342.07,
+    343.39,
+    342.82,
+    346.19,
+    338.21
+   ]
+  },
+  "JPXN": {
+   "name": "iShares JPX-Nikkei 400 ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 98.11,
+   "open": 98.97,
+   "prevClose": 99.89,
+   "change": -1.78,
+   "changePct": -1.78,
+   "dayHigh": 98.96,
+   "dayLow": 98.11,
+   "high52": 105.69,
+   "low52": 83.87,
+   "volume": 1758,
+   "closes": [
+    102.43,
+    102.98,
+    103.11,
+    102.44,
+    101.93,
+    102.2,
+    102.89,
+    102.13,
+    101.85,
+    100.31,
+    100.58,
+    100.36,
+    101.68,
+    96.46,
+    95.86,
+    99.59,
+    98.31,
+    99.61,
+    99.39,
+    99.89,
+    98.11
+   ]
+  },
+  "KLAC": {
+   "name": "KLA Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 143.96,
+   "open": 144.41,
+   "prevClose": 152.32,
+   "change": -8.36,
+   "changePct": -5.49,
+   "dayHigh": 147.78,
+   "dayLow": 142.21,
+   "high52": 307.37,
+   "low52": 107.2,
+   "volume": 10332249,
+   "closes": [
+    166.4,
+    161.74,
+    163.43,
+    147.83,
+    145.61,
+    149.21,
+    153.66,
+    158.77,
+    167.43,
+    157.91,
+    153.11,
+    156.2,
+    149.79,
+    129.8,
+    138.49,
+    151.38,
+    152.99,
+    161.01,
+    157.3,
+    152.32,
+    143.96
+   ]
+  },
+  "KO": {
+   "name": "The Coca-Cola Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 99.48,
+   "open": 100.01,
+   "prevClose": 99.25,
+   "change": 0.23,
+   "changePct": 0.23,
+   "dayHigh": 100.56,
+   "dayLow": 99.08,
+   "high52": 100.56,
+   "low52": 67.27,
+   "volume": 18570029,
+   "closes": [
+    93.42,
+    93.49,
+    92.68,
+    95.34,
+    92.71,
+    92.7,
+    91.18,
+    91.73,
+    92.82,
+    94.08,
+    95.83,
+    94.8,
+    95.8,
+    95.73,
+    95.67,
+    96.03,
+    96.91,
+    97.57,
+    97.44,
+    99.25,
+    99.48
+   ]
+  },
+  "KORU": {
+   "name": "Direxion Daily South Korea Bull 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 6.67,
+   "open": 7,
+   "prevClose": 7.68,
+   "change": -1.01,
+   "changePct": -13.15,
+   "dayHigh": 7.15,
+   "dayLow": 6.61,
+   "high52": 63.99,
+   "low52": 6.28,
+   "volume": 35815588,
+   "closes": [
+    11.92,
+    11.34,
+    11.94,
+    10.19,
+    10.58,
+    10.89,
+    11.86,
+    13.78,
+    12.73,
+    10.63,
+    10.37,
+    11.01,
+    10.43,
+    6.53,
+    6.91,
+    7.69,
+    7.21,
+    8.54,
+    8.12,
+    7.68,
+    6.67
+   ]
+  },
+  "KRE": {
+   "name": "State Street SPDR S&P Regional Banking ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 72.19,
+   "open": 72.83,
+   "prevClose": 72.74,
+   "change": -0.55,
+   "changePct": -0.76,
+   "dayHigh": 73.01,
+   "dayLow": 71.7,
+   "high52": 78.35,
+   "low52": 58.2,
+   "volume": 16143006,
+   "closes": [
+    69.26,
+    70.62,
+    70.62,
+    72.41,
+    72.46,
+    72.73,
+    72.58,
+    72.11,
+    72.86,
+    72.01,
+    73.73,
+    72.88,
+    74.13,
+    72.31,
+    72.2,
+    73.45,
+    73.09,
+    72.95,
+    72.52,
+    72.74,
+    72.19
+   ]
+  },
+  "KWEB": {
+   "name": "KraneShares CSI China Internet ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 22.56,
+   "open": 22.8,
+   "prevClose": 22.93,
+   "change": -0.37,
+   "changePct": -1.61,
+   "dayHigh": 23.01,
+   "dayLow": 22.56,
+   "high52": 38.45,
+   "low52": 22.54,
+   "volume": 19274728,
+   "closes": [
+    24.28,
+    24.35,
+    23.74,
+    23.21,
+    23.14,
+    23.2,
+    23.13,
+    22.99,
+    22.79,
+    22.74,
+    23.35,
+    23.28,
+    24.32,
+    24.76,
+    24.88,
+    24.31,
+    24.06,
+    23.67,
+    22.91,
+    22.93,
+    22.56
+   ]
+  },
+  "LAZR": {
+   "name": "Tema Photonics & Optical ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 27.03,
+   "open": 27.55,
+   "prevClose": 29.25,
+   "change": -2.22,
+   "changePct": -7.59,
+   "dayHigh": 27.5,
+   "dayLow": 26.77,
+   "high52": 50.82,
+   "low52": 25.78,
+   "volume": 322394,
+   "closes": [
+    37.17,
+    36.76,
+    37.54,
+    33.44,
+    33.65,
+    34.96,
+    36.33,
+    37.91,
+    37.1,
+    34.09,
+    32.02,
+    32.07,
+    30.44,
+    25.87,
+    26.75,
+    29.11,
+    28.81,
+    31.73,
+    30.66,
+    29.25,
+    27.03
+   ]
+  },
+  "LCID": {
+   "name": "Lucid Group, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 2.8,
+   "open": 2.86,
+   "prevClose": 2.95,
+   "change": -0.15,
+   "changePct": -5.08,
+   "dayHigh": 2.9,
+   "dayLow": 2.65,
+   "high52": 14.26,
+   "low52": 2.37,
+   "volume": 14682753,
+   "closes": [
+    3.1,
+    3.27,
+    3.21,
+    3.46,
+    3.52,
+    3.4,
+    3.31,
+    3.41,
+    3.2,
+    3.02,
+    3,
+    3.02,
+    3.37,
+    2.98,
+    3.29,
+    3.6,
+    3.77,
+    3.67,
+    3.26,
+    2.95,
+    2.8
+   ]
+  },
+  "LEVI": {
+   "name": "Levi Strauss & Co.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 24.37,
+   "open": 24.3,
+   "prevClose": 24.29,
+   "change": 0.08,
+   "changePct": 0.33,
+   "dayHigh": 24.44,
+   "dayLow": 23.94,
+   "high52": 25.7,
+   "low52": 17.72,
+   "volume": 3232974,
+   "closes": [
+    20.63,
+    20.85,
+    20.93,
+    21.36,
+    21.13,
+    21.84,
+    21.78,
+    21.63,
+    22.61,
+    22.5,
+    23.03,
+    22.87,
+    23.8,
+    23.1,
+    22.87,
+    24.1,
+    24.39,
+    24.09,
+    24.04,
+    24.29,
+    24.37
+   ]
+  },
+  "LLY": {
+   "name": "Eli Lilly and Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 1431.67,
+   "open": 1453.75,
+   "prevClose": 1443.5,
+   "change": -11.83,
+   "changePct": -0.82,
+   "dayHigh": 1475.25,
+   "dayLow": 1427.66,
+   "high52": 1475.25,
+   "low52": 850.51,
+   "volume": 3074386,
+   "closes": [
+    1240.34,
+    1283.66,
+    1270.75,
+    1306.69,
+    1273.46,
+    1279.14,
+    1281.91,
+    1288.3,
+    1373.7,
+    1417.54,
+    1410.99,
+    1409.38,
+    1417.99,
+    1364.73,
+    1354,
+    1411.95,
+    1432.29,
+    1437.29,
+    1427.28,
+    1443.5,
+    1431.67
+   ]
+  },
+  "LMT": {
+   "name": "Lockheed Martin Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 585.21,
+   "open": 599.92,
+   "prevClose": 596.04,
+   "change": -10.83,
+   "changePct": -1.82,
+   "dayHigh": 598.69,
+   "dayLow": 581.22,
+   "high52": 692,
+   "low52": 437.25,
+   "volume": 1115610,
+   "closes": [
+    548.23,
+    548.71,
+    551.51,
+    589.91,
+    604.18,
+    635.2,
+    622.99,
+    629.75,
+    643.59,
+    636.95,
+    643.15,
+    639,
+    595.04,
+    576.16,
+    567.08,
+    588.19,
+    603.12,
+    610.05,
+    604.09,
+    596.04,
+    585.21
+   ]
+  },
+  "LRCX": {
+   "name": "Lam Research Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 210.83,
+   "open": 214.33,
+   "prevClose": 225.92,
+   "change": -15.09,
+   "changePct": -6.68,
+   "dayHigh": 216.83,
+   "dayLow": 209.89,
+   "high52": 438.5,
+   "low52": 135.5,
+   "volume": 12162081,
+   "closes": [
+    272.2,
+    263.45,
+    260.81,
+    230.15,
+    230.1,
+    237.5,
+    240.85,
+    253.82,
+    254.39,
+    239.11,
+    227.56,
+    230.72,
+    221.43,
+    185.2,
+    200.44,
+    221.31,
+    222.39,
+    235.88,
+    233.78,
+    225.92,
+    210.83
+   ]
+  },
+  "LULU": {
+   "name": "lululemon athletica inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 105.46,
+   "open": 106.5,
+   "prevClose": 105.65,
+   "change": -0.19,
+   "changePct": -0.18,
+   "dayHigh": 107.59,
+   "dayLow": 104.48,
+   "high52": 225.98,
+   "low52": 90.38,
+   "volume": 2522643,
+   "closes": [
+    97.76,
+    99.94,
+    96.53,
+    104.06,
+    99.01,
+    102.91,
+    104.59,
+    105.22,
+    109.82,
+    107.24,
+    107.83,
+    106.95,
+    112.06,
+    111.77,
+    110.79,
+    112.53,
+    110.37,
+    107.45,
+    104.46,
+    105.65,
+    105.46
+   ]
+  },
+  "LYFT": {
+   "name": "Lyft, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 16.84,
+   "open": 17.11,
+   "prevClose": 16.98,
+   "change": -0.14,
+   "changePct": -0.82,
+   "dayHigh": 17.65,
+   "dayLow": 16.82,
+   "high52": 23.33,
+   "low52": 12.46,
+   "volume": 11249224,
+   "closes": [
+    16.99,
+    17.25,
+    16.79,
+    17.43,
+    16.94,
+    17.06,
+    16.79,
+    16.34,
+    16.41,
+    16.16,
+    16.62,
+    16.67,
+    18.74,
+    17.84,
+    17.09,
+    16.76,
+    17.02,
+    17.29,
+    16.61,
+    16.98,
+    16.84
+   ]
+  },
+  "M": {
+   "name": "Macy's, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 23.89,
+   "open": 24.56,
+   "prevClose": 24.7,
+   "change": -0.81,
+   "changePct": -3.28,
+   "dayHigh": 24.61,
+   "dayLow": 23.56,
+   "high52": 26.59,
+   "low52": 16.69,
+   "volume": 5562494,
+   "closes": [
+    23.6,
+    23.41,
+    23.43,
+    24.17,
+    24.1,
+    23.59,
+    23.86,
+    23.74,
+    24.72,
+    24.11,
+    24.33,
+    23.88,
+    25.7,
+    24.19,
+    23.08,
+    24.95,
+    25.08,
+    24.85,
+    24.33,
+    24.7,
+    23.89
+   ]
+  },
+  "MA": {
+   "name": "Mastercard Incorporated",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 661.71,
+   "open": 667,
+   "prevClose": 661.19,
+   "change": 0.52,
+   "changePct": 0.08,
+   "dayHigh": 668.1,
+   "dayLow": 659.48,
+   "high52": 681.99,
+   "low52": 464.52,
+   "volume": 2349251,
+   "closes": [
+    616.4,
+    620.42,
+    622.62,
+    633.21,
+    623.6,
+    613.5,
+    609.85,
+    610.31,
+    635.7,
+    638.01,
+    658.1,
+    647.18,
+    672.68,
+    655.92,
+    652.7,
+    655.81,
+    658.84,
+    660.73,
+    652.6,
+    661.19,
+    661.71
+   ]
+  },
+  "MAR": {
+   "name": "Marriott International, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 425.7,
+   "open": 426.15,
+   "prevClose": 423.16,
+   "change": 2.54,
+   "changePct": 0.6,
+   "dayHigh": 430.6,
+   "dayLow": 424.25,
+   "high52": 433.3,
+   "low52": 280.99,
+   "volume": 1594906,
+   "closes": [
+    390.7,
+    397.31,
+    404,
+    396.8,
+    390.71,
+    394.75,
+    390.23,
+    394.4,
+    399.65,
+    399.3,
+    416.3,
+    416.38,
+    424.87,
+    417.28,
+    416.47,
+    417.16,
+    428.26,
+    429.18,
+    424.66,
+    423.16,
+    425.7
+   ]
+  },
+  "MAT": {
+   "name": "Mattel, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 15.23,
+   "open": 15.17,
+   "prevClose": 15.12,
+   "change": 0.11,
+   "changePct": 0.73,
+   "dayHigh": 15.37,
+   "dayLow": 14.95,
+   "high52": 22.48,
+   "low52": 12.4,
+   "volume": 3923708,
+   "closes": [
+    16.88,
+    16.99,
+    16.95,
+    16.94,
+    16.41,
+    15.82,
+    15.43,
+    15.28,
+    15.48,
+    15.42,
+    15.53,
+    15.29,
+    15.57,
+    14.97,
+    15.35,
+    15.59,
+    16,
+    16.08,
+    15.53,
+    15.12,
+    15.23
+   ]
+  },
+  "MCD": {
+   "name": "McDonald's Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 274.67,
+   "open": 277,
+   "prevClose": 271.97,
+   "change": 2.7,
+   "changePct": 0.99,
+   "dayHigh": 277.95,
+   "dayLow": 274.34,
+   "high52": 341.75,
+   "low52": 229.2,
+   "volume": 5723717,
+   "closes": [
+    242.67,
+    246.52,
+    246.25,
+    252.63,
+    248.46,
+    250.83,
+    249.47,
+    250.5,
+    257.38,
+    258.12,
+    265.64,
+    263.04,
+    280.22,
+    278.04,
+    276.52,
+    281.44,
+    282.17,
+    274.8,
+    273.63,
+    271.97,
+    274.67
+   ]
+  },
+  "MCHI": {
+   "name": "iShares MSCI China ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 49.05,
+   "open": 49.4,
+   "prevClose": 49.57,
+   "change": -0.52,
+   "changePct": -1.05,
+   "dayHigh": 49.55,
+   "dayLow": 49.01,
+   "high52": 64.91,
+   "low52": 48.65,
+   "volume": 2075235,
+   "closes": [
+    50.87,
+    50.96,
+    50.05,
+    49.02,
+    49,
+    49.12,
+    49.08,
+    49.04,
+    48.96,
+    49.07,
+    49.59,
+    49.4,
+    51.56,
+    52.04,
+    51.89,
+    51.52,
+    51.1,
+    50.69,
+    49.75,
+    49.57,
+    49.05
+   ]
+  },
+  "META": {
+   "name": "Meta Platforms, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 626.41,
+   "open": 640,
+   "prevClose": 641.69,
+   "change": -15.28,
+   "changePct": -2.38,
+   "dayHigh": 640.7,
+   "dayLow": 620.14,
+   "high52": 779.82,
+   "low52": 520.26,
+   "volume": 11508404,
+   "closes": [
+    705.44,
+    694.25,
+    697.52,
+    648.85,
+    642.62,
+    630.56,
+    620.19,
+    612.49,
+    624.52,
+    614.99,
+    606.73,
+    621.03,
+    630,
+    605.08,
+    610.15,
+    641.37,
+    641.39,
+    628.77,
+    623.61,
+    641.69,
+    626.41
+   ]
+  },
+  "MRK": {
+   "name": "Merck & Co., Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 144.46,
+   "open": 147.9,
+   "prevClose": 147.76,
+   "change": -3.3,
+   "changePct": -2.23,
+   "dayHigh": 149.23,
+   "dayLow": 144.25,
+   "high52": 156.92,
+   "low52": 92.11,
+   "volume": 8604372,
+   "closes": [
+    143.63,
+    148.3,
+    149.88,
+    147.24,
+    145.27,
+    140.61,
+    141.82,
+    140.93,
+    146.33,
+    149.52,
+    148.36,
+    144.67,
+    150.36,
+    146.94,
+    146.73,
+    148.76,
+    148.05,
+    147.18,
+    146.95,
+    147.76,
+    144.46
+   ]
+  },
+  "MRVL": {
+   "name": "Marvell Technology, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 145.36,
+   "open": 147.56,
+   "prevClose": 156.76,
+   "change": -11.4,
+   "changePct": -7.27,
+   "dayHigh": 149.17,
+   "dayLow": 144.04,
+   "high52": 329.88,
+   "low52": 70.69,
+   "volume": 21280267,
+   "closes": [
+    237.09,
+    240.42,
+    244.76,
+    223.47,
+    228.51,
+    233.78,
+    243.57,
+    251.65,
+    218.34,
+    196.4,
+    171.41,
+    171.97,
+    159.8,
+    133.55,
+    141.2,
+    154.6,
+    154.39,
+    168.8,
+    164.45,
+    156.76,
+    145.36
+   ]
+  },
+  "MSFT": {
+   "name": "Microsoft Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 517.99,
+   "open": 525.09,
+   "prevClose": 523.88,
+   "change": -5.89,
+   "changePct": -1.12,
+   "dayHigh": 527.95,
+   "dayLow": 516.83,
+   "high52": 559.15,
+   "low52": 349.2,
+   "volume": 29564193,
+   "closes": [
+    533.52,
+    531.87,
+    532.95,
+    521.08,
+    524.51,
+    532.6,
+    531.33,
+    531.01,
+    530.14,
+    521.91,
+    507.12,
+    520.99,
+    555.8,
+    535.93,
+    530.61,
+    545.18,
+    533.16,
+    521.13,
+    523,
+    523.88,
+    517.99
+   ]
+  },
+  "MU": {
+   "name": "Micron Technology, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 719.02,
+   "open": 734.16,
+   "prevClose": 778.31,
+   "change": -59.29,
+   "changePct": -7.62,
+   "dayHigh": 739.12,
+   "dayLow": 716.38,
+   "high52": 1255,
+   "low52": 192.59,
+   "volume": 26594903,
+   "closes": [
+    904.9,
+    896.07,
+    913.67,
+    856.49,
+    877.55,
+    903.7,
+    928.76,
+    983.23,
+    934.27,
+    884.74,
+    833.59,
+    855.1,
+    795.23,
+    656.39,
+    690,
+    733.15,
+    725.11,
+    811.3,
+    798.44,
+    778.31,
+    719.02
+   ]
+  },
+  "MUFG": {
+   "name": "Mitsubishi UFJ Financial Group, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 21.2,
+   "open": 21.48,
+   "prevClose": 21.83,
+   "change": -0.63,
+   "changePct": -2.89,
+   "dayHigh": 21.61,
+   "dayLow": 21.14,
+   "high52": 24.26,
+   "low52": 14.88,
+   "volume": 2963264,
+   "closes": [
+    21.66,
+    21.46,
+    21.77,
+    21.41,
+    21.07,
+    21.09,
+    21.48,
+    21.46,
+    21.94,
+    21.56,
+    21.45,
+    21.27,
+    21.97,
+    21.14,
+    20.97,
+    21.7,
+    21.65,
+    21.94,
+    21.75,
+    21.83,
+    21.2
+   ]
+  },
+  "NET": {
+   "name": "Cloudflare, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 293.59,
+   "open": 298.41,
+   "prevClose": 305.81,
+   "change": -12.22,
+   "changePct": -4,
+   "dayHigh": 301.07,
+   "dayLow": 290.36,
+   "high52": 370.35,
+   "low52": 158.83,
+   "volume": 3291918,
+   "closes": [
+    297.58,
+    291.69,
+    307.22,
+    303.61,
+    325.73,
+    331.86,
+    327.8,
+    318.72,
+    310.3,
+    280.7,
+    265.17,
+    273.62,
+    266.58,
+    244.51,
+    268.75,
+    293.75,
+    305.8,
+    315,
+    318.5,
+    305.81,
+    293.59
+   ]
+  },
+  "NFLX": {
+   "name": "Netflix, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 60.75,
+   "open": 62.89,
+   "prevClose": 62.15,
+   "change": -1.4,
+   "changePct": -2.25,
+   "dayHigh": 62.98,
+   "dayLow": 60.48,
+   "high52": 115.25,
+   "low52": 60.48,
+   "volume": 35762374,
+   "closes": [
+    69.85,
+    68.69,
+    65.04,
+    67.05,
+    65.85,
+    63.9,
+    62.52,
+    61.99,
+    62.05,
+    62.08,
+    62.34,
+    63.42,
+    66.39,
+    65.56,
+    63.41,
+    63.95,
+    63.26,
+    64.54,
+    62.69,
+    62.15,
+    60.75
+   ]
+  },
+  "NIO": {
+   "name": "NIO Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 2.72,
+   "open": 2.86,
+   "prevClose": 2.9,
+   "change": -0.18,
+   "changePct": -6.21,
+   "dayHigh": 2.87,
+   "dayLow": 2.71,
+   "high52": 7,
+   "low52": 2.71,
+   "volume": 82860082,
+   "closes": [
+    3.39,
+    3.43,
+    3.36,
+    3.31,
+    3.29,
+    3.26,
+    3.29,
+    3.32,
+    3.32,
+    3.21,
+    3.19,
+    3.19,
+    3.3,
+    3.2,
+    3.39,
+    3.41,
+    3.28,
+    3.24,
+    3.05,
+    2.9,
+    2.72
+   ]
+  },
+  "NKE": {
+   "name": "NIKE, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 38.26,
+   "open": 38.34,
+   "prevClose": 37.99,
+   "change": 0.27,
+   "changePct": 0.71,
+   "dayHigh": 38.71,
+   "dayLow": 37.79,
+   "high52": 69.14,
+   "low52": 31.97,
+   "volume": 18840349,
+   "closes": [
+    37.21,
+    37.88,
+    37.53,
+    38.32,
+    37.3,
+    37.91,
+    37.56,
+    37.15,
+    38.42,
+    38.67,
+    39.12,
+    38.48,
+    40.49,
+    39.56,
+    38.59,
+    39.88,
+    38.67,
+    38.32,
+    37.76,
+    37.99,
+    38.26
+   ]
+  },
+  "NOC": {
+   "name": "Northrop Grumman Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 545.65,
+   "open": 553.98,
+   "prevClose": 550.43,
+   "change": -4.78,
+   "changePct": -0.87,
+   "dayHigh": 554.96,
+   "dayLow": 542.96,
+   "high52": 774,
+   "low52": 470.06,
+   "volume": 830853,
+   "closes": [
+    510.65,
+    534,
+    539.31,
+    552.35,
+    551.44,
+    565.41,
+    551.23,
+    552.77,
+    562.36,
+    557.54,
+    555.32,
+    550.3,
+    525.35,
+    525.25,
+    525.01,
+    539.07,
+    548.61,
+    550.96,
+    549.13,
+    550.43,
+    545.65
+   ]
+  },
+  "NVD": {
+   "name": "Graniteshares 2x Short NVDA Daily ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 7.2,
+   "open": 6.98,
+   "prevClose": 6.65,
+   "change": 0.55,
+   "changePct": 8.27,
+   "dayHigh": 7.3,
+   "dayLow": 6.68,
+   "high52": 9.76,
+   "low52": 3.19,
+   "volume": 80553866,
+   "closes": [
+    3.98,
+    4.02,
+    3.82,
+    4.15,
+    4.19,
+    3.99,
+    3.93,
+    4.01,
+    4.09,
+    4.43,
+    4.54,
+    4.33,
+    4.61,
+    5.47,
+    5.17,
+    5.62,
+    6.23,
+    5.87,
+    6.4,
+    6.65,
+    7.2
+   ]
+  },
+  "NVDA": {
+   "name": "NVIDIA Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 156.14,
+   "open": 159.02,
+   "prevClose": 162.85,
+   "change": -6.71,
+   "changePct": -4.12,
+   "dayHigh": 163,
+   "dayLow": 155.01,
+   "high52": 243.37,
+   "low52": 148.8,
+   "volume": 329959344,
+   "closes": [
+    217.09,
+    216.47,
+    221.97,
+    212.21,
+    210.96,
+    216,
+    217.94,
+    215.38,
+    213.66,
+    204.64,
+    202.06,
+    206.69,
+    200.13,
+    181.6,
+    186.64,
+    178.67,
+    168.89,
+    173.73,
+    166.19,
+    162.85,
+    156.14
+   ]
+  },
+  "NVDL": {
+   "name": "GraniteShares 2x Long NVDA Daily ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 16.35,
+   "open": 16.97,
+   "prevClose": 17.83,
+   "change": -1.48,
+   "changePct": -8.3,
+   "dayHigh": 17.76,
+   "dayLow": 16.11,
+   "high52": 43.27,
+   "low52": 14.54,
+   "volume": 42032806,
+   "closes": [
+    32.87,
+    32.66,
+    34.3,
+    31.32,
+    30.91,
+    32.37,
+    32.92,
+    32.15,
+    31.6,
+    28.97,
+    28.24,
+    29.43,
+    27.64,
+    22.5,
+    23.71,
+    21.64,
+    19.28,
+    20.4,
+    18.57,
+    17.83,
+    16.35
+   ]
+  },
+  "NVO": {
+   "name": "Novo Nordisk A/S",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 41.6,
+   "open": 42.05,
+   "prevClose": 41.63,
+   "change": -0.03,
+   "changePct": -0.07,
+   "dayHigh": 42.3,
+   "dayLow": 41.44,
+   "high52": 64.16,
+   "low52": 35.12,
+   "volume": 15989016,
+   "closes": [
+    38.42,
+    39.35,
+    39.06,
+    39.43,
+    39.05,
+    39.13,
+    38.67,
+    38.29,
+    39.14,
+    40,
+    40.45,
+    40.19,
+    42.18,
+    40.3,
+    40.31,
+    41.38,
+    40.7,
+    41.09,
+    40.65,
+    41.63,
+    41.6
+   ]
+  },
+  "NXPI": {
+   "name": "NXP Semiconductors N.V.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 254.19,
+   "open": 261.47,
+   "prevClose": 265.09,
+   "change": -10.9,
+   "changePct": -4.11,
+   "dayHigh": 262.12,
+   "dayLow": 253.51,
+   "high52": 339.95,
+   "low52": 183,
+   "volume": 4707255,
+   "closes": [
+    230.19,
+    237.6,
+    242.36,
+    237.79,
+    234.92,
+    245.83,
+    253.5,
+    251.69,
+    266,
+    259.61,
+    257.24,
+    262.79,
+    265.01,
+    244.43,
+    248.29,
+    256.42,
+    261.56,
+    269.51,
+    267.29,
+    265.09,
+    254.19
+   ]
+  },
+  "OIH": {
+   "name": "VanEck Oil Services ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 361.14,
+   "open": 369.46,
+   "prevClose": 375.55,
+   "change": -14.41,
+   "changePct": -3.84,
+   "dayHigh": 370.78,
+   "dayLow": 359.86,
+   "high52": 459.28,
+   "low52": 270.55,
+   "volume": 230461,
+   "closes": [
+    385.12,
+    384.89,
+    393.58,
+    377,
+    397.36,
+    402.4,
+    408.87,
+    409.1,
+    407.9,
+    411.57,
+    389.03,
+    385.11,
+    366.06,
+    347.65,
+    356.15,
+    360.58,
+    359.33,
+    369.54,
+    369.14,
+    375.55,
+    361.14
+   ]
+  },
+  "OPEN": {
+   "name": "Opendoor Technologies Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 1.13,
+   "open": 1.14,
+   "prevClose": 1.19,
+   "change": -0.06,
+   "changePct": -5.04,
+   "dayHigh": 1.21,
+   "dayLow": 1.09,
+   "high52": 8.26,
+   "low52": 1.09,
+   "volume": 42773403,
+   "closes": [
+    2.05,
+    2.06,
+    1.95,
+    2.02,
+    1.98,
+    1.93,
+    1.91,
+    1.91,
+    1.9,
+    1.8,
+    1.8,
+    1.74,
+    1.98,
+    1.79,
+    1.4,
+    1.41,
+    1.31,
+    1.37,
+    1.24,
+    1.19,
+    1.13
+   ]
+  },
+  "ORCL": {
+   "name": "Oracle Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 119.09,
+   "open": 122.78,
+   "prevClose": 125.35,
+   "change": -6.26,
+   "changePct": -4.99,
+   "dayHigh": 123.14,
+   "dayLow": 118.27,
+   "high52": 250.25,
+   "low52": 109.21,
+   "volume": 20002041,
+   "closes": [
+    129.59,
+    131.14,
+    129.13,
+    125.54,
+    126.16,
+    126.06,
+    130.53,
+    144.54,
+    139.56,
+    130.67,
+    119.22,
+    126.19,
+    123.73,
+    115.16,
+    116.1,
+    119.79,
+    117.98,
+    128.38,
+    127.11,
+    125.35,
+    119.09
+   ]
+  },
+  "PDD": {
+   "name": "PDD Holdings Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 78.11,
+   "open": 79.1,
+   "prevClose": 78.97,
+   "change": -0.86,
+   "changePct": -1.09,
+   "dayHigh": 79.88,
+   "dayLow": 77.79,
+   "high52": 131.57,
+   "low52": 71.94,
+   "volume": 4816375,
+   "closes": [
+    81.39,
+    81.63,
+    78.72,
+    79.17,
+    79.04,
+    78.13,
+    78.4,
+    77.47,
+    79.28,
+    78.61,
+    81.68,
+    80.17,
+    82.15,
+    83.95,
+    83.03,
+    80.5,
+    79.4,
+    79.01,
+    77.53,
+    78.97,
+    78.11
+   ]
+  },
+  "PENN": {
+   "name": "PENN Entertainment, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 17.78,
+   "open": 17.45,
+   "prevClose": 17.5,
+   "change": 0.28,
+   "changePct": 1.6,
+   "dayHigh": 17.79,
+   "dayLow": 17.23,
+   "high52": 22.36,
+   "low52": 11.65,
+   "volume": 2021128,
+   "closes": [
+    14.71,
+    14.96,
+    14.89,
+    15.46,
+    14.5,
+    14.9,
+    14.83,
+    14.72,
+    15.33,
+    15.89,
+    17.02,
+    17.07,
+    17.44,
+    17.34,
+    17.43,
+    18.54,
+    18.45,
+    18.15,
+    17.53,
+    17.5,
+    17.78
+   ]
+  },
+  "PEP": {
+   "name": "PepsiCo, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 146.43,
+   "open": 146.73,
+   "prevClose": 145.44,
+   "change": 0.99,
+   "changePct": 0.68,
+   "dayHigh": 148.25,
+   "dayLow": 146.18,
+   "high52": 171.48,
+   "low52": 123.47,
+   "volume": 10593689,
+   "closes": [
+    133.57,
+    134.02,
+    134.7,
+    138.83,
+    135.77,
+    135.46,
+    133.5,
+    132.63,
+    133.79,
+    137.34,
+    140.42,
+    137.27,
+    142.42,
+    142.71,
+    141.34,
+    141.88,
+    143.61,
+    143.94,
+    142.26,
+    145.44,
+    146.43
+   ]
+  },
+  "PFE": {
+   "name": "Pfizer Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 28.86,
+   "open": 29.23,
+   "prevClose": 28.89,
+   "change": -0.03,
+   "changePct": -0.1,
+   "dayHigh": 29.28,
+   "dayLow": 28.81,
+   "high52": 31.44,
+   "low52": 23.62,
+   "volume": 30818817,
+   "closes": [
+    29.44,
+    30.11,
+    29.85,
+    30.42,
+    30.03,
+    29.79,
+    29.8,
+    29.45,
+    29.95,
+    30.52,
+    30.67,
+    30,
+    30.79,
+    29.88,
+    29.39,
+    29.23,
+    29.36,
+    29.45,
+    28.83,
+    28.89,
+    28.86
+   ]
+  },
+  "PG": {
+   "name": "The Procter & Gamble Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 173.02,
+   "open": 172.16,
+   "prevClose": 169.8,
+   "change": 3.22,
+   "changePct": 1.9,
+   "dayHigh": 173.57,
+   "dayLow": 171.93,
+   "high52": 173.57,
+   "low52": 137.62,
+   "volume": 13095927,
+   "closes": [
+    157.69,
+    159.32,
+    156.84,
+    165.59,
+    161.02,
+    159.92,
+    159.23,
+    158.26,
+    160.59,
+    161.57,
+    163.56,
+    162.06,
+    167.32,
+    167.1,
+    165.4,
+    168.32,
+    168.66,
+    167.67,
+    168.03,
+    169.8,
+    173.02
+   ]
+  },
+  "PLAY": {
+   "name": "Dave & Buster's Entertainment, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 7.52,
+   "open": 7.9,
+   "prevClose": 8.02,
+   "change": -0.5,
+   "changePct": -6.23,
+   "dayHigh": 8.06,
+   "dayLow": 7.47,
+   "high52": 22.1,
+   "low52": 6.26,
+   "volume": 1033557,
+   "closes": [
+    7.71,
+    7.79,
+    7.23,
+    7.46,
+    6.96,
+    7.07,
+    7.58,
+    7.71,
+    8.13,
+    7.83,
+    8.51,
+    8.22,
+    8.78,
+    8.15,
+    7.81,
+    8.19,
+    8.06,
+    8.03,
+    7.85,
+    8.02,
+    7.52
+   ]
+  },
+  "PLNT": {
+   "name": "Planet Fitness, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 61.36,
+   "open": 61.23,
+   "prevClose": 61.18,
+   "change": 0.18,
+   "changePct": 0.29,
+   "dayHigh": 61.88,
+   "dayLow": 60.9,
+   "high52": 114.26,
+   "low52": 37.03,
+   "volume": 1158040,
+   "closes": [
+    52.89,
+    52.96,
+    51.69,
+    53.27,
+    52.52,
+    52.44,
+    52.26,
+    52.63,
+    53.72,
+    53.58,
+    55.65,
+    55.03,
+    57.34,
+    60.07,
+    60.31,
+    61.11,
+    61.34,
+    61.19,
+    60.15,
+    61.18,
+    61.36
+   ]
+  },
+  "PLTR": {
+   "name": "Palantir Technologies Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 160.39,
+   "open": 165.76,
+   "prevClose": 167.99,
+   "change": -7.6,
+   "changePct": -4.52,
+   "dayHigh": 166.09,
+   "dayLow": 158.68,
+   "high52": 212.94,
+   "low52": 106.37,
+   "volume": 17586678,
+   "closes": [
+    194.15,
+    192.6,
+    201.72,
+    196.19,
+    196.75,
+    198.84,
+    198.73,
+    196.81,
+    196.42,
+    184.11,
+    178.34,
+    175.4,
+    171.7,
+    154.99,
+    160.38,
+    169.2,
+    168.82,
+    172.4,
+    171.58,
+    167.99,
+    160.39
+   ]
+  },
+  "PLUG": {
+   "name": "Plug Power Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 1.07,
+   "open": 1.1,
+   "prevClose": 1.11,
+   "change": -0.04,
+   "changePct": -3.6,
+   "dayHigh": 1.12,
+   "dayLow": 1.05,
+   "high52": 4.33,
+   "low52": 1.05,
+   "volume": 30158668,
+   "closes": [
+    1.37,
+    1.4,
+    1.41,
+    1.38,
+    1.38,
+    1.37,
+    1.4,
+    1.42,
+    1.42,
+    1.37,
+    1.31,
+    1.41,
+    1.46,
+    1.35,
+    1.45,
+    1.5,
+    1.37,
+    1.36,
+    1.24,
+    1.11,
+    1.07
+   ]
+  },
+  "PTON": {
+   "name": "Peloton Interactive, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 5.33,
+   "open": 5.65,
+   "prevClose": 5.7,
+   "change": -0.37,
+   "changePct": -6.49,
+   "dayHigh": 5.78,
+   "dayLow": 5.31,
+   "high52": 7.42,
+   "low52": 3.65,
+   "volume": 11682594,
+   "closes": [
+    5.23,
+    5.45,
+    5.24,
+    5.46,
+    5.37,
+    5.25,
+    5.3,
+    5.27,
+    5.28,
+    5.12,
+    5.3,
+    5.31,
+    5.46,
+    5.66,
+    5.61,
+    5.95,
+    5.81,
+    5.72,
+    5.53,
+    5.7,
+    5.33
+   ]
+  },
+  "PYPL": {
+   "name": "PayPal Holdings, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 58.83,
+   "open": 59.38,
+   "prevClose": 59.28,
+   "change": -0.45,
+   "changePct": -0.76,
+   "dayHigh": 59.67,
+   "dayLow": 58.5,
+   "high52": 63.93,
+   "low52": 38.46,
+   "volume": 8722115,
+   "closes": [
+    56.51,
+    57.14,
+    57.2,
+    57.53,
+    57.02,
+    54.99,
+    56.09,
+    56.55,
+    56.95,
+    57.01,
+    58.78,
+    58.21,
+    60.2,
+    58.96,
+    59.24,
+    60.05,
+    58.78,
+    59.48,
+    58.3,
+    59.28,
+    58.83
+   ]
+  },
+  "QCOM": {
+   "name": "QUALCOMM Incorporated",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 168.52,
+   "open": 169.24,
+   "prevClose": 172.47,
+   "change": -3.95,
+   "changePct": -2.29,
+   "dayHigh": 172.92,
+   "dayLow": 168.14,
+   "high52": 259.92,
+   "low52": 121.99,
+   "volume": 11804113,
+   "closes": [
+    173.53,
+    175.71,
+    177.96,
+    172.83,
+    175.91,
+    179.6,
+    184.17,
+    182.97,
+    185.41,
+    164.79,
+    162.08,
+    164.43,
+    173.19,
+    156.75,
+    165.41,
+    171.47,
+    173.53,
+    176.57,
+    177.14,
+    172.47,
+    168.52
+   ]
+  },
+  "QQQ": {
+   "name": "Invesco QQQ Trust",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 661.75,
+   "open": 671.04,
+   "prevClose": 679.89,
+   "change": -18.14,
+   "changePct": -2.67,
+   "dayHigh": 672.14,
+   "dayLow": 660.48,
+   "high52": 762.86,
+   "low52": 555.6,
+   "volume": 41810606,
+   "closes": [
+    718.36,
+    717.63,
+    725.2,
+    704.47,
+    704.4,
+    712.2,
+    721.25,
+    725.61,
+    715.34,
+    690.49,
+    681.09,
+    685.28,
+    691.95,
+    647.05,
+    656.1,
+    679.35,
+    674.76,
+    690.38,
+    688.17,
+    679.89,
+    661.75
+   ]
+  },
+  "QS": {
+   "name": "QuantumScape Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 3.43,
+   "open": 3.58,
+   "prevClose": 3.68,
+   "change": -0.25,
+   "changePct": -6.79,
+   "dayHigh": 3.6,
+   "dayLow": 3.4,
+   "high52": 13.8,
+   "low52": 3.4,
+   "volume": 15162693,
+   "closes": [
+    3.89,
+    3.98,
+    3.98,
+    4.15,
+    4.03,
+    3.9,
+    4.18,
+    4.24,
+    4.2,
+    4.06,
+    4.02,
+    4.12,
+    4.43,
+    4.11,
+    4.28,
+    4.57,
+    4.45,
+    4.21,
+    3.88,
+    3.68,
+    3.43
+   ]
+  },
+  "RBLX": {
+   "name": "Roblox Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 46.12,
+   "open": 49.13,
+   "prevClose": 49.91,
+   "change": -3.79,
+   "changePct": -7.59,
+   "dayHigh": 49.14,
+   "dayLow": 45.55,
+   "high52": 103.78,
+   "low52": 33.88,
+   "volume": 8977803,
+   "closes": [
+    50.75,
+    52.35,
+    52.55,
+    53.96,
+    52.89,
+    54.37,
+    54.47,
+    53.28,
+    52.46,
+    42.99,
+    42.88,
+    45.45,
+    49.31,
+    47.65,
+    49.3,
+    51.6,
+    51.19,
+    52.61,
+    51.42,
+    49.91,
+    46.12
+   ]
+  },
+  "RH": {
+   "name": "RH",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 126.16,
+   "open": 127.45,
+   "prevClose": 129.39,
+   "change": -3.23,
+   "changePct": -2.5,
+   "dayHigh": 127.63,
+   "dayLow": 124.41,
+   "high52": 239.4,
+   "low52": 106.3,
+   "volume": 686977,
+   "closes": [
+    114.03,
+    119.74,
+    128.01,
+    140.15,
+    137.43,
+    135.72,
+    140.76,
+    145.06,
+    150.79,
+    146.66,
+    146.52,
+    134.13,
+    144.9,
+    137.43,
+    130.96,
+    136.61,
+    134.82,
+    135.9,
+    129.17,
+    129.39,
+    126.16
+   ]
+  },
+  "RIG": {
+   "name": "Transocean Ltd.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 5.22,
+   "open": 5.42,
+   "prevClose": 5.54,
+   "change": -0.32,
+   "changePct": -5.78,
+   "dayHigh": 5.51,
+   "dayLow": 5.19,
+   "high52": 7.66,
+   "low52": 3.68,
+   "volume": 31190780,
+   "closes": [
+    5.89,
+    5.82,
+    6.04,
+    6.08,
+    6.41,
+    6.53,
+    6.46,
+    6.71,
+    6.69,
+    6.94,
+    6.23,
+    5.9,
+    5.45,
+    5.1,
+    5.24,
+    5.17,
+    5.18,
+    5.31,
+    5.32,
+    5.54,
+    5.22
+   ]
+  },
+  "RIVN": {
+   "name": "Rivian Automotive, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 12.1,
+   "open": 12.06,
+   "prevClose": 12.18,
+   "change": -0.08,
+   "changePct": -0.66,
+   "dayHigh": 12.38,
+   "dayLow": 11.96,
+   "high52": 22.69,
+   "low52": 11.38,
+   "volume": 34976459,
+   "closes": [
+    12.34,
+    12.43,
+    12.46,
+    12.06,
+    11.83,
+    11.43,
+    11.82,
+    11.67,
+    11.45,
+    12.16,
+    13.19,
+    13.29,
+    14.06,
+    13.29,
+    13.61,
+    14.01,
+    13.7,
+    13.54,
+    12.8,
+    12.18,
+    12.1
+   ]
+  },
+  "RKLB": {
+   "name": "Rocket Lab Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 57.37,
+   "open": 59.65,
+   "prevClose": 61.53,
+   "change": -4.16,
+   "changePct": -6.76,
+   "dayHigh": 61.9,
+   "dayLow": 57.16,
+   "high52": 151,
+   "low52": 37.57,
+   "volume": 13641185,
+   "closes": [
+    51.36,
+    50.9,
+    53.67,
+    51.22,
+    52.6,
+    53.82,
+    58.31,
+    58.6,
+    59.1,
+    54.73,
+    52.07,
+    54.43,
+    52.37,
+    45.99,
+    53.07,
+    58.86,
+    62.71,
+    66.15,
+    64.07,
+    61.53,
+    57.37
+   ]
+  },
+  "RTX": {
+   "name": "RTX Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 194.89,
+   "open": 199.67,
+   "prevClose": 198.58,
+   "change": -3.69,
+   "changePct": -1.86,
+   "dayHigh": 200,
+   "dayLow": 194.21,
+   "high52": 226.88,
+   "low52": 166.74,
+   "volume": 3582467,
+   "closes": [
+    192.11,
+    193.34,
+    191.6,
+    194.71,
+    191.01,
+    197.48,
+    194.6,
+    195.84,
+    199.4,
+    199.8,
+    202.79,
+    203.82,
+    198.43,
+    191.88,
+    189.53,
+    196.31,
+    200.27,
+    201.29,
+    198.36,
+    198.58,
+    194.89
+   ]
+  },
+  "SAP": {
+   "name": "SAP SE",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 233.83,
+   "open": 235.47,
+   "prevClose": 234.9,
+   "change": -1.07,
+   "changePct": -0.46,
+   "dayHigh": 236.26,
+   "dayLow": 233.21,
+   "high52": 255.9,
+   "low52": 144.97,
+   "volume": 1355653,
+   "closes": [
+    226.03,
+    228.98,
+    232.73,
+    240.59,
+    238.14,
+    238.55,
+    235.8,
+    236.93,
+    234.07,
+    235.02,
+    233.62,
+    230.31,
+    240.04,
+    243.53,
+    233.45,
+    237.42,
+    233.74,
+    234.1,
+    234.06,
+    234.9,
+    233.83
+   ]
+  },
+  "SBUX": {
+   "name": "Starbucks Corporation",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 108.72,
+   "open": 107.69,
+   "prevClose": 106.44,
+   "change": 2.28,
+   "changePct": 2.14,
+   "dayHigh": 110.11,
+   "dayLow": 107.59,
+   "high52": 111.5,
+   "low52": 81.97,
+   "volume": 7934540,
+   "closes": [
+    97.87,
+    99.37,
+    99.08,
+    101.91,
+    100.8,
+    102.69,
+    103.04,
+    103.2,
+    105.51,
+    103.67,
+    104.4,
+    104.77,
+    109.7,
+    106.16,
+    105.41,
+    109.44,
+    109.95,
+    109.89,
+    107.26,
+    106.44,
+    108.72
+   ]
+  },
+  "SCJ": {
+   "name": "iShares MSCI Japan Small-Cap ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 104.25,
+   "open": 105.06,
+   "prevClose": 106.08,
+   "change": -1.83,
+   "changePct": -1.73,
+   "dayHigh": 105.12,
+   "dayLow": 104.25,
+   "high52": 111.44,
+   "low52": 88.54,
+   "volume": 29409,
+   "closes": [
+    107.75,
+    107.43,
+    107.55,
+    106.89,
+    106.25,
+    106.77,
+    107.76,
+    106.79,
+    106.78,
+    105.3,
+    105.98,
+    105.54,
+    107.08,
+    101.69,
+    100.99,
+    104.43,
+    104.8,
+    105.41,
+    105.35,
+    106.08,
+    104.25
+   ]
+  },
+  "SHAK": {
+   "name": "Shake Shack Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 73.15,
+   "open": 74.47,
+   "prevClose": 74.98,
+   "change": -1.83,
+   "changePct": -2.44,
+   "dayHigh": 75.34,
+   "dayLow": 71.71,
+   "high52": 107.46,
+   "low52": 51.6,
+   "volume": 992165,
+   "closes": [
+    71.87,
+    69.74,
+    67.84,
+    67.88,
+    65.16,
+    64.89,
+    64.54,
+    67.22,
+    70.51,
+    70.48,
+    72.46,
+    70.14,
+    72.82,
+    69.82,
+    71.89,
+    77.15,
+    75.9,
+    75.04,
+    72.68,
+    74.98,
+    73.15
+   ]
+  },
+  "SHOP": {
+   "name": "Shopify Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 147.81,
+   "open": 145.16,
+   "prevClose": 147.09,
+   "change": 0.72,
+   "changePct": 0.49,
+   "dayHigh": 150.33,
+   "dayLow": 141.56,
+   "high52": 180.88,
+   "low52": 94,
+   "volume": 6565358,
+   "closes": [
+    171.06,
+    173.48,
+    174.29,
+    168.81,
+    168.68,
+    168.18,
+    165.81,
+    168.22,
+    166.89,
+    157.49,
+    156.22,
+    142.57,
+    153.03,
+    143.75,
+    148.91,
+    152.06,
+    146.61,
+    149.26,
+    146.78,
+    147.09,
+    147.81
+   ]
+  },
+  "SIRI": {
+   "name": "Sirius XM Holdings Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 31.98,
+   "open": 31.99,
+   "prevClose": 31.85,
+   "change": 0.13,
+   "changePct": 0.41,
+   "dayHigh": 32.16,
+   "dayLow": 31.47,
+   "high52": 33.76,
+   "low52": 19.77,
+   "volume": 2813958,
+   "closes": [
+    26.84,
+    27.16,
+    26.96,
+    27.54,
+    27.63,
+    27.42,
+    27.25,
+    27.32,
+    28.67,
+    29.01,
+    29.57,
+    30.8,
+    33.4,
+    33.22,
+    32.4,
+    32.67,
+    32.24,
+    32.26,
+    31.74,
+    31.85,
+    31.98
+   ]
+  },
+  "SLB": {
+   "name": "SLB N.V.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 50.08,
+   "open": 50.99,
+   "prevClose": 51.67,
+   "change": -1.59,
+   "changePct": -3.08,
+   "dayHigh": 51.21,
+   "dayLow": 49.88,
+   "high52": 60.46,
+   "low52": 34.65,
+   "volume": 10239159,
+   "closes": [
+    49.09,
+    49.98,
+    51.1,
+    49.55,
+    53.06,
+    53.08,
+    54.08,
+    53.75,
+    53.81,
+    53.74,
+    52.31,
+    52.13,
+    51.56,
+    49.64,
+    49.92,
+    50.38,
+    49.9,
+    50.96,
+    50.91,
+    51.67,
+    50.08
+   ]
+  },
+  "SMH": {
+   "name": "VanEck Semiconductor ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 461.9,
+   "open": 468.71,
+   "prevClose": 486.75,
+   "change": -24.85,
+   "changePct": -5.11,
+   "dayHigh": 473.32,
+   "dayLow": 460.66,
+   "high52": 671.83,
+   "low52": 315.05,
+   "volume": 9819112,
+   "closes": [
+    548.46,
+    546.36,
+    556.7,
+    523.35,
+    527.2,
+    541.62,
+    557.98,
+    567.67,
+    561.67,
+    522.49,
+    508.31,
+    518.52,
+    504.27,
+    447.73,
+    463.96,
+    487.41,
+    483.63,
+    506.96,
+    501.73,
+    486.75,
+    461.9
+   ]
+  },
+  "SMIN": {
+   "name": "iShares MSCI India Small-Cap ETF",
+   "exchange": "Cboe US",
+   "type": "ETF",
+   "price": 70.42,
+   "open": 70.59,
+   "prevClose": 71.13,
+   "change": -0.71,
+   "changePct": -1,
+   "dayHigh": 70.73,
+   "dayLow": 70.33,
+   "high52": 74.17,
+   "low52": 57.78,
+   "volume": 46214,
+   "closes": [
+    68.51,
+    68.93,
+    67.39,
+    67.07,
+    65.22,
+    65.57,
+    66.74,
+    66.81,
+    67.47,
+    66.76,
+    67.84,
+    67.59,
+    69.7,
+    69.17,
+    69.22,
+    70.57,
+    70.85,
+    70.82,
+    71.26,
+    71.13,
+    70.42
+   ]
+  },
+  "SNAP": {
+   "name": "Snap Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 5.09,
+   "open": 5.11,
+   "prevClose": 5.26,
+   "change": -0.17,
+   "changePct": -3.23,
+   "dayHigh": 5.17,
+   "dayLow": 4.99,
+   "high52": 9.07,
+   "low52": 3.81,
+   "volume": 46689125,
+   "closes": [
+    6.27,
+    6.38,
+    6.35,
+    6.35,
+    6.34,
+    6.34,
+    6.08,
+    5.96,
+    5.68,
+    5.34,
+    5.45,
+    5.59,
+    5.92,
+    5.09,
+    4.96,
+    5.05,
+    5,
+    5.34,
+    5.22,
+    5.26,
+    5.09
+   ]
+  },
+  "SNBR": {
+   "name": null,
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": null,
+   "open": null,
+   "prevClose": null,
+   "change": null,
+   "changePct": null,
+   "dayHigh": null,
+   "dayLow": null,
+   "high52": null,
+   "low52": null,
+   "volume": null,
+   "closes": []
+  },
+  "SNOW": {
+   "name": "Snowflake Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 280.54,
+   "open": 285,
+   "prevClose": 291,
+   "change": -10.46,
+   "changePct": -3.59,
+   "dayHigh": 286.64,
+   "dayLow": 278.69,
+   "high52": 384.56,
+   "low52": 118.3,
+   "volume": 2499793,
+   "closes": [
+    315.35,
+    319.61,
+    322.73,
+    313.96,
+    325.43,
+    334.95,
+    337.42,
+    339.91,
+    330.27,
+    306.08,
+    290.68,
+    295.04,
+    290.6,
+    269.54,
+    275.88,
+    291.14,
+    295.76,
+    301.22,
+    298.7,
+    291,
+    280.54
+   ]
+  },
+  "SONO": {
+   "name": "Sonos, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 17.42,
+   "open": 18.19,
+   "prevClose": 17.97,
+   "change": -0.55,
+   "changePct": -3.06,
+   "dayHigh": 18.35,
+   "dayLow": 17.33,
+   "high52": 19.82,
+   "low52": 12.44,
+   "volume": 1838146,
+   "closes": [
+    16.93,
+    17.37,
+    17.47,
+    17.71,
+    17.54,
+    17.59,
+    17.87,
+    17.75,
+    17.46,
+    16.17,
+    15.73,
+    15.94,
+    16.77,
+    16.33,
+    16.41,
+    17.01,
+    16.89,
+    19.06,
+    18.11,
+    17.97,
+    17.42
+   ]
+  },
+  "SONY": {
+   "name": "Sony Group Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 27.04,
+   "open": 27.15,
+   "prevClose": 27.07,
+   "change": -0.03,
+   "changePct": -0.11,
+   "dayHigh": 27.19,
+   "dayLow": 26.9,
+   "high52": 29.41,
+   "low52": 19.32,
+   "volume": 3714444,
+   "closes": [
+    24.77,
+    25.21,
+    25.1,
+    26.2,
+    26.08,
+    26.03,
+    25.64,
+    25.22,
+    25.47,
+    25.3,
+    25.51,
+    25.39,
+    25.95,
+    27.54,
+    27,
+    27.06,
+    26.71,
+    26.49,
+    26.66,
+    27.07,
+    27.04
+   ]
+  },
+  "SOUN": {
+   "name": "SoundHound AI, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 3.23,
+   "open": 3.38,
+   "prevClose": 3.49,
+   "change": -0.26,
+   "changePct": -7.45,
+   "dayHigh": 3.39,
+   "dayLow": 3.2,
+   "high52": 13.19,
+   "low52": 3.2,
+   "volume": 19760291,
+   "closes": [
+    4.65,
+    4.7,
+    4.61,
+    4.5,
+    4.43,
+    4.24,
+    4.37,
+    4.44,
+    4.36,
+    4.22,
+    4.09,
+    4.12,
+    4.32,
+    4.26,
+    4.11,
+    4.05,
+    3.87,
+    3.91,
+    3.6,
+    3.49,
+    3.23
+   ]
+  },
+  "SOXL": {
+   "name": "Direxion Daily Semiconductor Bull 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 48.76,
+   "open": 51.1,
+   "prevClose": 58.32,
+   "change": -9.56,
+   "changePct": -16.39,
+   "dayHigh": 52.65,
+   "dayLow": 48.37,
+   "high52": 302,
+   "low52": 28.12,
+   "volume": 179418130,
+   "closes": [
+    98.65,
+    97.55,
+    103.24,
+    82.11,
+    83.56,
+    90.5,
+    101.08,
+    107.35,
+    102.39,
+    77.05,
+    68.17,
+    73.12,
+    66.68,
+    40.87,
+    45.97,
+    56.2,
+    56.06,
+    66.03,
+    65.53,
+    58.32,
+    48.76
+   ]
+  },
+  "SOXS": {
+   "name": "Direxion Daily Semiconductor Bear 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 59.18,
+   "open": 57.18,
+   "prevClose": 50.78,
+   "change": 8.4,
+   "changePct": 16.54,
+   "dayHigh": 59.42,
+   "dayLow": 55.71,
+   "high52": 1030,
+   "low52": 28.46,
+   "volume": 86611143,
+   "closes": [
+    46.63,
+    47.13,
+    44.29,
+    53.45,
+    52.46,
+    47.98,
+    42.5,
+    39.78,
+    41.68,
+    52.08,
+    58.09,
+    53.64,
+    58.34,
+    81.22,
+    70.95,
+    55.15,
+    55.36,
+    45.32,
+    45.72,
+    50.78,
+    59.18
+   ]
+  },
+  "SPCE": {
+   "name": "Virgin Galactic Holdings, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 1.56,
+   "open": 1.85,
+   "prevClose": 1.84,
+   "change": -0.28,
+   "changePct": -15.22,
+   "dayHigh": 1.86,
+   "dayLow": 1.56,
+   "high52": 8.9,
+   "low52": 1.56,
+   "volume": 22959225,
+   "closes": [
+    2.34,
+    2.37,
+    2.44,
+    2.42,
+    2.46,
+    2.56,
+    2.69,
+    2.66,
+    2.73,
+    2.58,
+    2.47,
+    2.5,
+    2.51,
+    2.38,
+    2.77,
+    2.87,
+    2.79,
+    2.87,
+    2.67,
+    1.84,
+    1.56
+   ]
+  },
+  "SPOT": {
+   "name": "Spotify Technology S.A.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 611.73,
+   "open": 618.56,
+   "prevClose": 612.63,
+   "change": -0.9,
+   "changePct": -0.15,
+   "dayHigh": 619.06,
+   "dayLow": 598.56,
+   "high52": 644.57,
+   "low52": 405,
+   "volume": 954516,
+   "closes": [
+    518.76,
+    526.08,
+    525.34,
+    583.66,
+    584.22,
+    572.36,
+    555.45,
+    538.4,
+    557.24,
+    593.44,
+    594.04,
+    600.09,
+    627.66,
+    614.41,
+    603.01,
+    609.1,
+    606.22,
+    609.12,
+    598.51,
+    612.63,
+    611.73
+   ]
+  },
+  "SPXL": {
+   "name": "Direxion Daily S&P500 Bull 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 250.09,
+   "open": 260.15,
+   "prevClose": 265.1,
+   "change": -15.01,
+   "changePct": -5.66,
+   "dayHigh": 260.28,
+   "dayLow": 247.98,
+   "high52": 303.18,
+   "low52": 168.04,
+   "volume": 2380077,
+   "closes": [
+    283.62,
+    286.27,
+    290.87,
+    280.41,
+    275.63,
+    281.52,
+    286.21,
+    288.95,
+    285.67,
+    270.35,
+    266.32,
+    268.76,
+    281.79,
+    244.98,
+    246.75,
+    264.01,
+    261.05,
+    271.18,
+    268.38,
+    265.1,
+    250.09
+   ]
+  },
+  "SPXS": {
+   "name": "Direxion Daily S&P 500 Bear 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 26.93,
+   "open": 25.96,
+   "prevClose": 25.48,
+   "change": 1.45,
+   "changePct": 5.69,
+   "dayHigh": 27.14,
+   "dayLow": 25.95,
+   "high52": 44.83,
+   "low52": 23.04,
+   "volume": 13229119,
+   "closes": [
+    24.5,
+    24.27,
+    23.91,
+    24.78,
+    25.2,
+    24.67,
+    24.27,
+    24.01,
+    24.3,
+    25.63,
+    26.01,
+    25.79,
+    24.53,
+    27.78,
+    27.55,
+    25.62,
+    25.9,
+    24.89,
+    25.15,
+    25.48,
+    26.93
+   ]
+  },
+  "SPXU": {
+   "name": "ProShares UltraPro Short S&P500",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 37.84,
+   "open": 36.48,
+   "prevClose": 35.79,
+   "change": 2.05,
+   "changePct": 5.73,
+   "dayHigh": 38.13,
+   "dayLow": 36.47,
+   "high52": 62.85,
+   "low52": 32.38,
+   "volume": 8508921,
+   "closes": [
+    34.43,
+    34.11,
+    33.59,
+    34.79,
+    35.41,
+    34.66,
+    34.07,
+    33.73,
+    34.15,
+    36,
+    36.54,
+    36.23,
+    34.46,
+    39.01,
+    38.72,
+    36,
+    36.41,
+    34.99,
+    35.36,
+    35.79,
+    37.84
+   ]
+  },
+  "SPY": {
+   "name": "State Street SPDR S&P 500 ETF Trust",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 739.95,
+   "open": 749.66,
+   "prevClose": 754.37,
+   "change": -14.42,
+   "changePct": -1.91,
+   "dayHigh": 749.82,
+   "dayLow": 738.07,
+   "high52": 781.62,
+   "low52": 629.28,
+   "volume": 67827833,
+   "closes": [
+    766.48,
+    769.05,
+    773.09,
+    763.96,
+    759.97,
+    765.37,
+    769.66,
+    772.31,
+    769.36,
+    755.72,
+    752.1,
+    754.35,
+    766.81,
+    733,
+    735.29,
+    752.69,
+    749.92,
+    759.81,
+    757.12,
+    754.37,
+    739.95
+   ]
+  },
+  "SQQQ": {
+   "name": "ProShares UltraPro Short QQQ",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 45.9,
+   "open": 44.16,
+   "prevClose": 42.46,
+   "change": 3.44,
+   "changePct": 8.1,
+   "dayHigh": 46.12,
+   "dayLow": 43.95,
+   "high52": 90.72,
+   "low52": 31.42,
+   "volume": 50598835,
+   "closes": [
+    37.52,
+    37.68,
+    36.48,
+    39.6,
+    39.68,
+    38.38,
+    36.93,
+    36.28,
+    37.83,
+    41.83,
+    43.55,
+    42.75,
+    41.56,
+    49.55,
+    47.7,
+    42.79,
+    43.56,
+    40.55,
+    40.93,
+    42.46,
+    45.9
+   ]
+  },
+  "SSNLF": {
+   "name": "Samsung Electronics Co., Ltd.",
+   "exchange": "OTC Markets OTCPK",
+   "type": "EQUITY",
+   "price": 65.21,
+   "open": 65.21,
+   "prevClose": 65.21,
+   "change": 0,
+   "changePct": 0,
+   "dayHigh": 40.6,
+   "dayLow": 40.6,
+   "high52": 65.21,
+   "low52": 40.6,
+   "volume": 200,
+   "closes": [
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21,
+    65.21
+   ]
+  },
+  "TECL": {
+   "name": "Direxion Daily Technology Bull 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 127.76,
+   "open": 132.85,
+   "prevClose": 141.65,
+   "change": -13.89,
+   "changePct": -9.81,
+   "dayHigh": 135.32,
+   "dayLow": 126.52,
+   "high52": 275.4,
+   "low52": 75.16,
+   "volume": 1012544,
+   "closes": [
+    195.97,
+    194.53,
+    204.27,
+    183.81,
+    186.65,
+    196,
+    205.69,
+    210.37,
+    203.18,
+    173.11,
+    157.78,
+    163.95,
+    163.69,
+    124.62,
+    129.91,
+    144.35,
+    139.25,
+    152.62,
+    150.95,
+    141.65,
+    127.76
+   ]
+  },
+  "TECS": {
+   "name": "Direxion Daily Technology Bear 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 79.21,
+   "open": 77.1,
+   "prevClose": 72.48,
+   "change": 6.73,
+   "changePct": 9.29,
+   "dayHigh": 79.99,
+   "dayLow": 75.93,
+   "high52": 240.4,
+   "low52": 46.4,
+   "volume": 388670,
+   "closes": [
+    60.09,
+    60.54,
+    57.52,
+    63.26,
+    62.35,
+    59.23,
+    56.07,
+    55.05,
+    56.94,
+    65,
+    71.2,
+    68.19,
+    68.29,
+    84.7,
+    81.12,
+    72.27,
+    74.86,
+    67.51,
+    68,
+    72.48,
+    79.21
+   ]
+  },
+  "TGT": {
+   "name": "Target Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 160.32,
+   "open": 161.59,
+   "prevClose": 161.45,
+   "change": -1.13,
+   "changePct": -0.7,
+   "dayHigh": 161.93,
+   "dayLow": 158.71,
+   "high52": 170.75,
+   "low52": 83.44,
+   "volume": 4964609,
+   "closes": [
+    153.29,
+    154,
+    152.38,
+    158.11,
+    152.76,
+    148.53,
+    148.01,
+    148.96,
+    151.82,
+    154.38,
+    158.38,
+    154.4,
+    163.1,
+    157.95,
+    158.41,
+    165.9,
+    161.78,
+    162.7,
+    160.9,
+    161.45,
+    160.32
+   ]
+  },
+  "TLRY": {
+   "name": "Tilray Brands, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 2.34,
+   "open": 2.4,
+   "prevClose": 2.43,
+   "change": -0.09,
+   "changePct": -3.7,
+   "dayHigh": 2.4,
+   "dayLow": 2.33,
+   "high52": 15.7,
+   "low52": 2.33,
+   "volume": 4212704,
+   "closes": [
+    3.03,
+    3.03,
+    2.92,
+    2.93,
+    2.81,
+    2.72,
+    2.77,
+    2.69,
+    2.64,
+    2.53,
+    2.55,
+    2.65,
+    2.96,
+    2.81,
+    2.92,
+    2.85,
+    2.65,
+    2.61,
+    2.49,
+    2.43,
+    2.34
+   ]
+  },
+  "TM": {
+   "name": "Toyota Motor Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 213.85,
+   "open": 215.06,
+   "prevClose": 212.43,
+   "change": 1.42,
+   "changePct": 0.67,
+   "dayHigh": 215.85,
+   "dayLow": 213.07,
+   "high52": 248.9,
+   "low52": 166.1,
+   "volume": 298214,
+   "closes": [
+    194.06,
+    196.53,
+    194.86,
+    198.22,
+    196.79,
+    197.64,
+    196.56,
+    194.85,
+    196.63,
+    195.71,
+    195.83,
+    193,
+    199.46,
+    218.11,
+    216.19,
+    218.51,
+    214.78,
+    213,
+    209.68,
+    212.43,
+    213.85
+   ]
+  },
+  "TMUS": {
+   "name": "T-Mobile US, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 170.01,
+   "open": 171.87,
+   "prevClose": 169.95,
+   "change": 0.06,
+   "changePct": 0.04,
+   "dayHigh": 172.68,
+   "dayLow": 169.66,
+   "high52": 224.75,
+   "low52": 143.75,
+   "volume": 3976493,
+   "closes": [
+    156.09,
+    157.75,
+    153.75,
+    158.79,
+    146.54,
+    146.93,
+    146.83,
+    148.08,
+    147.29,
+    156.44,
+    160.15,
+    154.41,
+    159.17,
+    160.59,
+    162.01,
+    168.71,
+    169.08,
+    172.16,
+    171.03,
+    169.95,
+    170.01
+   ]
+  },
+  "TQQQ": {
+   "name": "ProShares UltraPro QQQ",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 53.03,
+   "open": 55.39,
+   "prevClose": 57.68,
+   "change": -4.65,
+   "changePct": -8.06,
+   "dayHigh": 55.67,
+   "dayLow": 52.72,
+   "high52": 88.09,
+   "low52": 37.32,
+   "volume": 83998746,
+   "closes": [
+    70.64,
+    70.41,
+    72.61,
+    66.42,
+    66.29,
+    68.43,
+    71.04,
+    72.36,
+    69.26,
+    62.01,
+    59.46,
+    60.55,
+    62.24,
+    50.47,
+    52.25,
+    57.58,
+    56.56,
+    60.44,
+    59.88,
+    57.68,
+    53.03
+   ]
+  },
+  "TRIP": {
+   "name": "Tripadvisor, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 6.98,
+   "open": 7.2,
+   "prevClose": 7.24,
+   "change": -0.26,
+   "changePct": -3.59,
+   "dayHigh": 7.2,
+   "dayLow": 6.87,
+   "high52": 15.73,
+   "low52": 6.78,
+   "volume": 8540321,
+   "closes": [
+    9.27,
+    9.51,
+    9.44,
+    9.67,
+    9.41,
+    9.24,
+    8.98,
+    8.94,
+    9.22,
+    9.22,
+    9.44,
+    9.44,
+    10.2,
+    7.38,
+    7,
+    7.12,
+    7.09,
+    7.47,
+    7.26,
+    7.24,
+    6.98
+   ]
+  },
+  "TSLA": {
+   "name": "Tesla, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 379.74,
+   "open": 387,
+   "prevClose": 390.22,
+   "change": -10.48,
+   "changePct": -2.69,
+   "dayHigh": 389.8,
+   "dayLow": 375.63,
+   "high52": 498.83,
+   "low52": 297.38,
+   "volume": 30080721,
+   "closes": [
+    368.06,
+    373.71,
+    386.47,
+    374.58,
+    372.22,
+    391.62,
+    407.46,
+    404.22,
+    403.3,
+    399.81,
+    403.82,
+    398.5,
+    385.19,
+    343.69,
+    358.22,
+    378.05,
+    379.78,
+    390.84,
+    397.45,
+    390.22,
+    379.74
+   ]
+  },
+  "TSLL": {
+   "name": "Direxion Daily TSLA Bull 2X Shares",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 9.8,
+   "open": 10.21,
+   "prevClose": 10.37,
+   "change": -0.57,
+   "changePct": -5.5,
+   "dayHigh": 10.35,
+   "dayLow": 9.6,
+   "high52": 23.74,
+   "low52": 6.7,
+   "volume": 31782942,
+   "closes": [
+    9.57,
+    9.86,
+    10.52,
+    9.88,
+    9.76,
+    10.76,
+    11.63,
+    11.45,
+    11.39,
+    11.17,
+    11.39,
+    11.07,
+    10.37,
+    8.1,
+    8.8,
+    9.76,
+    9.85,
+    10.42,
+    10.77,
+    10.37,
+    9.8
+   ]
+  },
+  "TSLQ": {
+   "name": "Tradr 2X Short TSLA Daily ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 15.51,
+   "open": 15,
+   "prevClose": 14.71,
+   "change": 0.8,
+   "changePct": 5.44,
+   "dayHigh": 15.82,
+   "dayLow": 14.77,
+   "high52": 29.76,
+   "low52": 13.71,
+   "volume": 5528851,
+   "closes": [
+    17.77,
+    17.23,
+    16.06,
+    17.04,
+    17.26,
+    15.46,
+    14.24,
+    14.44,
+    14.53,
+    14.78,
+    14.5,
+    14.9,
+    15.86,
+    19.31,
+    17.69,
+    15.73,
+    15.6,
+    14.7,
+    14.18,
+    14.71,
+    15.51
+   ]
+  },
+  "TSM": {
+   "name": "Taiwan Semiconductor Manufacturing Company Limited",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 373.45,
+   "open": 379.59,
+   "prevClose": 398.73,
+   "change": -25.28,
+   "changePct": -6.34,
+   "dayHigh": 385.47,
+   "dayLow": 372.46,
+   "high52": 487.47,
+   "low52": 266.82,
+   "volume": 19424679,
+   "closes": [
+    420.22,
+    425.08,
+    431.89,
+    412.35,
+    418.51,
+    424.37,
+    436.87,
+    439.51,
+    431.81,
+    406.13,
+    398.63,
+    404.8,
+    395.75,
+    353.1,
+    375.44,
+    388.62,
+    396.48,
+    413.35,
+    405.49,
+    398.73,
+    373.45
+   ]
+  },
+  "TTD": {
+   "name": "The Trade Desk, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 14.83,
+   "open": 15.51,
+   "prevClose": 15.68,
+   "change": -0.85,
+   "changePct": -5.42,
+   "dayHigh": 15.59,
+   "dayLow": 14.75,
+   "high52": 41.91,
+   "low52": 11.62,
+   "volume": 18383725,
+   "closes": [
+    12.26,
+    12.65,
+    12.59,
+    13.16,
+    13,
+    12.77,
+    12.7,
+    12.76,
+    13.06,
+    12.29,
+    12.55,
+    12.86,
+    13.23,
+    12.81,
+    12.93,
+    14.93,
+    15.42,
+    15.98,
+    15.47,
+    15.68,
+    14.83
+   ]
+  },
+  "TXN": {
+   "name": "Texas Instruments Incorporated",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 294.21,
+   "open": 294.47,
+   "prevClose": 303.6,
+   "change": -9.39,
+   "changePct": -3.09,
+   "dayHigh": 298.35,
+   "dayLow": 289.59,
+   "high52": 334.03,
+   "low52": 152.73,
+   "volume": 6735260,
+   "closes": [
+    276.15,
+    277.78,
+    284.65,
+    279.5,
+    284.69,
+    298.12,
+    308.91,
+    309.83,
+    312.94,
+    300.84,
+    302.02,
+    312.49,
+    311.49,
+    278.15,
+    277.36,
+    295.73,
+    300.52,
+    309.81,
+    312.48,
+    303.6,
+    294.21
+   ]
+  },
+  "U": {
+   "name": "Unity Software Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 51.88,
+   "open": 52.37,
+   "prevClose": 52.81,
+   "change": -0.93,
+   "changePct": -1.76,
+   "dayHigh": 53.78,
+   "dayLow": 51.73,
+   "high52": 54.27,
+   "low52": 16.78,
+   "volume": 10362187,
+   "closes": [
+    40.58,
+    40.16,
+    41.21,
+    40.27,
+    40.79,
+    40.33,
+    40.1,
+    39.5,
+    39.27,
+    37.7,
+    38.87,
+    40.48,
+    42.46,
+    48.8,
+    51.49,
+    51.43,
+    50.34,
+    49.65,
+    50.18,
+    52.81,
+    51.88
+   ]
+  },
+  "UAL": {
+   "name": "United Airlines Holdings, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 110.76,
+   "open": 108.37,
+   "prevClose": 109.31,
+   "change": 1.45,
+   "changePct": 1.33,
+   "dayHigh": 113.24,
+   "dayLow": 108.75,
+   "high52": 138.77,
+   "low52": 84.64,
+   "volume": 5784313,
+   "closes": [
+    95.6,
+    97.77,
+    101.67,
+    102,
+    97.93,
+    100.69,
+    104.71,
+    103.43,
+    105.21,
+    104.24,
+    109.24,
+    107.21,
+    115.76,
+    110.49,
+    112.74,
+    120.38,
+    120.56,
+    118.37,
+    111.25,
+    109.31,
+    110.76
+   ]
+  },
+  "UBER": {
+   "name": "Uber Technologies, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 69.99,
+   "open": 70,
+   "prevClose": 69.69,
+   "change": 0.3,
+   "changePct": 0.43,
+   "dayHigh": 70.89,
+   "dayLow": 69.46,
+   "high52": 92.92,
+   "low52": 64.04,
+   "volume": 14299717,
+   "closes": [
+    69.96,
+    68.94,
+    67.62,
+    69.07,
+    66.7,
+    66.13,
+    65.78,
+    65.27,
+    65.74,
+    65.25,
+    66.71,
+    66.6,
+    69.87,
+    68.78,
+    68.59,
+    71.17,
+    70.05,
+    70.68,
+    69.12,
+    69.69,
+    69.99
+   ]
+  },
+  "UFO": {
+   "name": "Procure Space ETF",
+   "exchange": "NASDAQ",
+   "type": "ETF",
+   "price": 39.54,
+   "open": 40.23,
+   "prevClose": 40.69,
+   "change": -1.15,
+   "changePct": -2.83,
+   "dayHigh": 40.47,
+   "dayLow": 39.32,
+   "high52": 68.21,
+   "low52": 30.89,
+   "volume": 136398,
+   "closes": [
+    39.45,
+    39.44,
+    40.64,
+    39.42,
+    39.86,
+    40.42,
+    41.13,
+    41.28,
+    41.72,
+    40.24,
+    39.89,
+    40.57,
+    39.41,
+    37.21,
+    39.01,
+    41.57,
+    41.73,
+    42.17,
+    41.12,
+    40.69,
+    39.54
+   ]
+  },
+  "UNH": {
+   "name": "UnitedHealth Group Incorporated",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 412.02,
+   "open": 412,
+   "prevClose": 407.46,
+   "change": 4.56,
+   "changePct": 1.12,
+   "dayHigh": 415.19,
+   "dayLow": 409.03,
+   "high52": 461.62,
+   "low52": 255.97,
+   "volume": 4400735,
+   "closes": [
+    406.88,
+    419.26,
+    417,
+    424.98,
+    418.09,
+    410.7,
+    410.39,
+    407.1,
+    410.91,
+    406.97,
+    400.44,
+    404.44,
+    409.38,
+    395.72,
+    394.15,
+    397.62,
+    405.12,
+    402.94,
+    405.13,
+    407.46,
+    412.02
+   ]
+  },
+  "UPRO": {
+   "name": "ProShares UltraPro S&P500",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 130.68,
+   "open": 135.96,
+   "prevClose": 138.5,
+   "change": -7.82,
+   "changePct": -5.65,
+   "dayHigh": 136.03,
+   "dayLow": 129.57,
+   "high52": 158.63,
+   "low52": 88.15,
+   "volume": 3419402,
+   "closes": [
+    148.27,
+    149.58,
+    152.01,
+    146.53,
+    144.04,
+    147.05,
+    149.55,
+    151.14,
+    149.35,
+    141.21,
+    139.14,
+    140.41,
+    147.26,
+    127.87,
+    128.94,
+    137.91,
+    136.37,
+    141.7,
+    140.23,
+    138.5,
+    130.68
+   ]
+  },
+  "URBN": {
+   "name": "Urban Outfitters, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 83.56,
+   "open": 86.47,
+   "prevClose": 86.34,
+   "change": -2.78,
+   "changePct": -3.22,
+   "dayHigh": 86.8,
+   "dayLow": 83,
+   "high52": 93.64,
+   "low52": 59.54,
+   "volume": 1260670,
+   "closes": [
+    86.83,
+    87.32,
+    86.96,
+    88.29,
+    86.55,
+    90.59,
+    90.73,
+    89.35,
+    92.19,
+    90.72,
+    88.94,
+    86.72,
+    91.78,
+    87.57,
+    84.7,
+    88.27,
+    86.97,
+    86,
+    84.8,
+    86.34,
+    83.56
+   ]
+  },
+  "V": {
+   "name": "Visa Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 426.46,
+   "open": 429.65,
+   "prevClose": 425.76,
+   "change": 0.7,
+   "changePct": 0.16,
+   "dayHigh": 430.99,
+   "dayLow": 425.2,
+   "high52": 442.23,
+   "low52": 293.89,
+   "volume": 7390924,
+   "closes": [
+    402.92,
+    406.57,
+    407.85,
+    414.34,
+    407.92,
+    404.16,
+    401.86,
+    400.6,
+    410.54,
+    413.59,
+    425.51,
+    420.42,
+    436.57,
+    422.59,
+    422.65,
+    422.16,
+    423,
+    425.55,
+    420.31,
+    425.76,
+    426.46
+   ]
+  },
+  "VDE": {
+   "name": "Vanguard Energy Index Fund ETF Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 176.98,
+   "open": 179.42,
+   "prevClose": 180.61,
+   "change": -3.63,
+   "changePct": -2.01,
+   "dayHigh": 179.63,
+   "dayLow": 176.5,
+   "high52": 195.8,
+   "low52": 122.79,
+   "volume": 452485,
+   "closes": [
+    189.03,
+    189.18,
+    189.9,
+    187.96,
+    192.98,
+    194.32,
+    190.43,
+    191.2,
+    192.01,
+    195.46,
+    187.38,
+    185.8,
+    176.42,
+    171.07,
+    171.28,
+    172.27,
+    173.03,
+    176.34,
+    179.02,
+    180.61,
+    176.98
+   ]
+  },
+  "VFC": {
+   "name": "V.F. Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 20.15,
+   "open": 20.94,
+   "prevClose": 20.68,
+   "change": -0.53,
+   "changePct": -2.56,
+   "dayHigh": 21,
+   "dayLow": 20.04,
+   "high52": 22.27,
+   "low52": 12.46,
+   "volume": 9764972,
+   "closes": [
+    17.14,
+    17.46,
+    17.15,
+    17.48,
+    17.26,
+    16.95,
+    17.03,
+    17.23,
+    18.33,
+    18.3,
+    19.39,
+    20.04,
+    20.93,
+    20.32,
+    20.35,
+    20.88,
+    20.74,
+    20.64,
+    20.03,
+    20.68,
+    20.15
+   ]
+  },
+  "VFH": {
+   "name": "Vanguard Financials Index Fund ETF Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 140.62,
+   "open": 141.99,
+   "prevClose": 141.79,
+   "change": -1.17,
+   "changePct": -0.83,
+   "dayHigh": 142.16,
+   "dayLow": 139.95,
+   "high52": 145.5,
+   "low52": 116.67,
+   "volume": 527864,
+   "closes": [
+    133.73,
+    135.38,
+    136.04,
+    137.66,
+    135.89,
+    136.14,
+    135.89,
+    136.35,
+    138.36,
+    137.32,
+    139.82,
+    138.89,
+    143.44,
+    139.43,
+    138.59,
+    140.71,
+    141.24,
+    141.89,
+    140.76,
+    141.79,
+    140.62
+   ]
+  },
+  "VGK": {
+   "name": "Vanguard FTSE Europe ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 88.04,
+   "open": 88.92,
+   "prevClose": 89.04,
+   "change": -1,
+   "changePct": -1.12,
+   "dayHigh": 89.07,
+   "dayLow": 88,
+   "high52": 93.29,
+   "low52": 77.87,
+   "volume": 1694557,
+   "closes": [
+    86.43,
+    87.18,
+    87.58,
+    86.8,
+    86.25,
+    86.55,
+    87.04,
+    87.31,
+    88.14,
+    87.54,
+    88.06,
+    87.54,
+    90.24,
+    88.42,
+    87.31,
+    89.99,
+    89.65,
+    89.46,
+    88.91,
+    89.04,
+    88.04
+   ]
+  },
+  "VHT": {
+   "name": "Vanguard Health Care Index Fund ETF Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 345.56,
+   "open": 350.49,
+   "prevClose": 347.93,
+   "change": -2.37,
+   "changePct": -0.68,
+   "dayHigh": 352.03,
+   "dayLow": 345.05,
+   "high52": 354.83,
+   "low52": 264.97,
+   "volume": 212579,
+   "closes": [
+    325.94,
+    333.6,
+    332.24,
+    336.26,
+    332.53,
+    332.71,
+    333.16,
+    334.46,
+    341.93,
+    342.33,
+    341.27,
+    340.8,
+    351.23,
+    341.2,
+    341.23,
+    348.11,
+    348.81,
+    349.35,
+    346.45,
+    347.93,
+    345.56
+   ]
+  },
+  "VIS": {
+   "name": "Vanguard Industrials Index Fund ETF Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 318.08,
+   "open": 321.91,
+   "prevClose": 324.07,
+   "change": -5.99,
+   "changePct": -1.85,
+   "dayHigh": 323.23,
+   "dayLow": 317.41,
+   "high52": 362.21,
+   "low52": 282.03,
+   "volume": 68262,
+   "closes": [
+    318.66,
+    319.09,
+    321.89,
+    318.48,
+    314.8,
+    319.06,
+    321.15,
+    322.13,
+    326.04,
+    320.75,
+    325.48,
+    328.54,
+    324.91,
+    310.98,
+    312.49,
+    325.09,
+    324.56,
+    328.71,
+    325.39,
+    324.07,
+    318.08
+   ]
+  },
+  "VTI": {
+   "name": "Vanguard Morningstar Total Stock Market ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 364.3,
+   "open": 368.94,
+   "prevClose": 371.11,
+   "change": -6.81,
+   "changePct": -1.84,
+   "dayHigh": 369.25,
+   "dayLow": 363.35,
+   "high52": 385.12,
+   "low52": 310.4,
+   "volume": 3627114,
+   "closes": [
+    375.54,
+    377.09,
+    379.15,
+    374.9,
+    373.01,
+    375.59,
+    377.92,
+    379.17,
+    378.24,
+    371.57,
+    370,
+    371.21,
+    376.92,
+    360.52,
+    361.93,
+    370.9,
+    369.55,
+    374.25,
+    372.62,
+    371.11,
+    364.3
+   ]
+  },
+  "WEN": {
+   "name": "The Wendy's Company",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 8.47,
+   "open": 8.28,
+   "prevClose": 8.28,
+   "change": 0.19,
+   "changePct": 2.29,
+   "dayHigh": 8.49,
+   "dayLow": 8.23,
+   "high52": 9.45,
+   "low52": 5.94,
+   "volume": 5941535,
+   "closes": [
+    6.68,
+    6.52,
+    6.28,
+    6.57,
+    6.22,
+    6.19,
+    6.14,
+    7.07,
+    7.17,
+    7.21,
+    7.26,
+    7.27,
+    7.65,
+    7.94,
+    8.15,
+    8.3,
+    8.34,
+    8.34,
+    8.18,
+    8.28,
+    8.47
+   ]
+  },
+  "WFC": {
+   "name": "Wells Fargo & Company",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 84.84,
+   "open": 86.09,
+   "prevClose": 86.05,
+   "change": -1.21,
+   "changePct": -1.41,
+   "dayHigh": 86.35,
+   "dayLow": 84.05,
+   "high52": 97.76,
+   "low52": 72.78,
+   "volume": 9138810,
+   "closes": [
+    81.8,
+    82.2,
+    82.42,
+    83.01,
+    82.39,
+    82.65,
+    82.66,
+    83.67,
+    84.81,
+    83.4,
+    85.89,
+    85.53,
+    87.43,
+    84.8,
+    83.94,
+    85.49,
+    85.76,
+    85.8,
+    85.76,
+    86.05,
+    84.84
+   ]
+  },
+  "WING": {
+   "name": "Wingstop Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 151.73,
+   "open": 158.7,
+   "prevClose": 158.86,
+   "change": -7.13,
+   "changePct": -4.49,
+   "dayHigh": 159.22,
+   "dayLow": 150.5,
+   "high52": 302.8,
+   "low52": 95.82,
+   "volume": 802793,
+   "closes": [
+    132.75,
+    130.31,
+    119.95,
+    120.87,
+    119.54,
+    122.88,
+    123.52,
+    138.57,
+    145.39,
+    149.73,
+    163.04,
+    161.57,
+    167.62,
+    165.73,
+    163.28,
+    176.98,
+    169.58,
+    166.73,
+    159.26,
+    158.86,
+    151.73
+   ]
+  },
+  "WMT": {
+   "name": "Walmart Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 128.41,
+   "open": 129.83,
+   "prevClose": 128.09,
+   "change": 0.32,
+   "changePct": 0.25,
+   "dayHigh": 129.85,
+   "dayLow": 127.88,
+   "high52": 135.16,
+   "low52": 99.68,
+   "volume": 17393214,
+   "closes": [
+    118.7,
+    117.85,
+    117.8,
+    121.12,
+    119.89,
+    120.29,
+    119.32,
+    118.77,
+    121.25,
+    123.51,
+    127.69,
+    124.86,
+    129.17,
+    127.72,
+    125.52,
+    125.66,
+    125.55,
+    125.67,
+    126.19,
+    128.09,
+    128.41
+   ]
+  },
+  "WOOF": {
+   "name": "Petco Health and Wellness Company, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 2.76,
+   "open": 2.83,
+   "prevClose": 2.85,
+   "change": -0.09,
+   "changePct": -3.16,
+   "dayHigh": 2.84,
+   "dayLow": 2.74,
+   "high52": 3.78,
+   "low52": 2.14,
+   "volume": 3554648,
+   "closes": [
+    2.34,
+    2.33,
+    2.31,
+    2.53,
+    2.45,
+    2.49,
+    2.48,
+    2.51,
+    2.59,
+    2.61,
+    2.74,
+    2.69,
+    3.14,
+    2.98,
+    2.96,
+    3.1,
+    2.93,
+    2.88,
+    2.87,
+    2.85,
+    2.76
+   ]
+  },
+  "XLE": {
+   "name": "State Street Energy Select Sector SPDR ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 63.69,
+   "open": 64.52,
+   "prevClose": 64.96,
+   "change": -1.27,
+   "changePct": -1.96,
+   "dayHigh": 64.69,
+   "dayLow": 63.5,
+   "high52": 70.15,
+   "low52": 43.77,
+   "volume": 30598712,
+   "closes": [
+    67.8,
+    67.97,
+    68.16,
+    67.57,
+    69.33,
+    69.64,
+    68.21,
+    68.45,
+    68.71,
+    70.02,
+    67.25,
+    66.68,
+    63.52,
+    61.63,
+    61.62,
+    61.94,
+    62.21,
+    63.37,
+    64.33,
+    64.96,
+    63.69
+   ]
+  },
+  "XLF": {
+   "name": "State Street Financial Select Sector SPDR ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 58.18,
+   "open": 58.74,
+   "prevClose": 58.68,
+   "change": -0.5,
+   "changePct": -0.85,
+   "dayHigh": 58.81,
+   "dayLow": 57.89,
+   "high52": 60.04,
+   "low52": 47.67,
+   "volume": 37953682,
+   "closes": [
+    55.06,
+    55.72,
+    56.04,
+    56.65,
+    55.9,
+    56.02,
+    55.88,
+    56.13,
+    56.94,
+    56.51,
+    57.56,
+    57.19,
+    59.2,
+    57.5,
+    57.16,
+    57.99,
+    58.29,
+    58.63,
+    58.21,
+    58.68,
+    58.18
+   ]
+  },
+  "XLI": {
+   "name": "State Street Industrial Select Sector SPDR ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 165.66,
+   "open": 167.72,
+   "prevClose": 168.78,
+   "change": -3.12,
+   "changePct": -1.85,
+   "dayHigh": 168.48,
+   "dayLow": 165.32,
+   "high52": 188.19,
+   "low52": 147.14,
+   "volume": 9056783,
+   "closes": [
+    166.68,
+    166.8,
+    168.31,
+    166.73,
+    164.62,
+    166.96,
+    167.92,
+    168.49,
+    170.13,
+    167.4,
+    169.71,
+    171.32,
+    169.46,
+    162.47,
+    162.67,
+    168.89,
+    168.73,
+    170.97,
+    169.44,
+    168.78,
+    165.66
+   ]
+  },
+  "XLV": {
+   "name": "State Street Health Care Select Sector SPDR ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 187.88,
+   "open": 190.51,
+   "prevClose": 188.85,
+   "change": -0.97,
+   "changePct": -0.51,
+   "dayHigh": 191.33,
+   "dayLow": 187.6,
+   "high52": 192.32,
+   "low52": 141.97,
+   "volume": 9651914,
+   "closes": [
+    175.65,
+    179.82,
+    178.94,
+    181.3,
+    179.28,
+    179.28,
+    179.18,
+    179.72,
+    184.04,
+    184.87,
+    184.6,
+    184.02,
+    189.66,
+    184.91,
+    184.8,
+    188.33,
+    188.88,
+    188.95,
+    187.83,
+    188.85,
+    187.88
+   ]
+  },
+  "XOM": {
+   "name": "ExxonMobil Holdings Corporation",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 166.87,
+   "open": 169.53,
+   "prevClose": 170.59,
+   "change": -3.72,
+   "changePct": -2.18,
+   "dayHigh": 170.25,
+   "dayLow": 166.48,
+   "high52": 188.5,
+   "low52": 114.19,
+   "volume": 12664654,
+   "closes": [
+    178.28,
+    177.86,
+    178.09,
+    178.23,
+    183.21,
+    184.54,
+    179.91,
+    182.02,
+    183.29,
+    187.25,
+    179.67,
+    177.46,
+    169.27,
+    165.3,
+    165.87,
+    164.73,
+    164.47,
+    166.71,
+    169.78,
+    170.59,
+    166.87
+   ]
+  },
+  "XOP": {
+   "name": "State Street SPDR S&P Oil & Gas Exploration & Production ETF",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 179.98,
+   "open": 182.59,
+   "prevClose": 184.8,
+   "change": -4.82,
+   "changePct": -2.61,
+   "dayHigh": 182.84,
+   "dayLow": 179.49,
+   "high52": 206.05,
+   "low52": 123.16,
+   "volume": 2016817,
+   "closes": [
+    199.47,
+    200.05,
+    199.02,
+    196.87,
+    201.69,
+    204.86,
+    200.01,
+    200.37,
+    199.52,
+    203.76,
+    193.56,
+    191.52,
+    179.29,
+    174.1,
+    173.77,
+    174.15,
+    175.52,
+    180.14,
+    183.11,
+    184.8,
+    179.98
+   ]
+  },
+  "YANG": {
+   "name": "Direxion Daily FTSE China Bear 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 33.71,
+   "open": 33.02,
+   "prevClose": 33.18,
+   "change": 0.53,
+   "changePct": 1.6,
+   "dayHigh": 33.78,
+   "dayLow": 32.72,
+   "high52": 42.22,
+   "low52": 19.94,
+   "volume": 562983,
+   "closes": [
+    33.32,
+    33.31,
+    35.06,
+    36.69,
+    37.24,
+    36.58,
+    36.61,
+    36.7,
+    35.98,
+    34.67,
+    34.39,
+    34.46,
+    30.11,
+    29.27,
+    29.23,
+    29.95,
+    30.57,
+    31.93,
+    33.18,
+    33.18,
+    33.71
+   ]
+  },
+  "YETI": {
+   "name": "YETI Holdings, Inc.",
+   "exchange": "NYSE",
+   "type": "EQUITY",
+   "price": 38.53,
+   "open": 39.19,
+   "prevClose": 39.42,
+   "change": -0.89,
+   "changePct": -2.26,
+   "dayHigh": 39.85,
+   "dayLow": 38.26,
+   "high52": 53.99,
+   "low52": 34.9,
+   "volume": 2692591,
+   "closes": [
+    42.12,
+    42.55,
+    42.77,
+    44.03,
+    42.79,
+    43.57,
+    42.25,
+    42.91,
+    44.19,
+    43.66,
+    45.42,
+    44.85,
+    48.33,
+    46.95,
+    44.97,
+    45.83,
+    44.77,
+    42.79,
+    38.3,
+    39.42,
+    38.53
+   ]
+  },
+  "YINN": {
+   "name": "Direxion Daily FTSE China Bull 3X Shares",
+   "exchange": "NYSE ARCA",
+   "type": "ETF",
+   "price": 22.78,
+   "open": 23.33,
+   "prevClose": 23.15,
+   "change": -0.37,
+   "changePct": -1.6,
+   "dayHigh": 23.47,
+   "dayLow": 22.74,
+   "high52": 51.78,
+   "low52": 20.69,
+   "volume": 1826016,
+   "closes": [
+    23.63,
+    23.63,
+    22.4,
+    21.37,
+    21.07,
+    21.45,
+    21.4,
+    21.33,
+    21.79,
+    22.59,
+    22.8,
+    22.74,
+    25.64,
+    26.35,
+    26.37,
+    25.69,
+    25.19,
+    24.1,
+    23.13,
+    23.15,
+    22.78
+   ]
+  },
+  "ZM": {
+   "name": "Zoom Communications, Inc.",
+   "exchange": "NASDAQ",
+   "type": "EQUITY",
+   "price": 96.18,
+   "open": 99.16,
+   "prevClose": 99.8,
+   "change": -3.62,
+   "changePct": -3.63,
+   "dayHigh": 99.75,
+   "dayLow": 96.1,
+   "high52": 114.74,
+   "low52": 70.7,
+   "volume": 2799237,
+   "closes": [
+    97.59,
+    97.46,
+    99.44,
+    96.2,
+    95.77,
+    98.04,
+    97.4,
+    100.26,
+    97.66,
+    95.5,
+    91.98,
+    91.84,
+    91.84,
+    88.82,
+    89.88,
+    91.71,
+    90.91,
+    98.08,
+    97.7,
+    99.8,
+    96.18
+   ]
+  }
+ },
+ "indices": {
+  "sp-500": {
+   "symbol": "^GSPC",
+   "price": 7416.59,
+   "open": 7513.98,
+   "prevClose": 7561.67,
+   "change": -145.08,
+   "changePct": -1.92,
+   "dayHigh": 7515.6,
+   "dayLow": 7400.15,
+   "high52": 7844.52,
+   "low52": 6316.91
+  },
+  "nasdaq": {
+   "symbol": "^IXIC",
+   "price": 24509.76,
+   "open": 24853.35,
+   "prevClose": 25136.27,
+   "change": -626.51,
+   "changePct": -2.49,
+   "dayHigh": 24882.04,
+   "dayLow": 24460.28,
+   "high52": 27722.75,
+   "low52": 20690.25
+  },
+  "dow-jones": {
+   "symbol": "^DJI",
+   "price": 51608.17,
+   "open": 52267.06,
+   "prevClose": 52347.55,
+   "change": -739.38,
+   "changePct": -1.41,
+   "dayHigh": 52324,
+   "dayLow": 51511.56,
+   "high52": 54744.33,
+   "low52": 45057.28
+  }
+ },
+ "fx": {
+  "usdInr": {
+   "symbol": "USDINR=X",
+   "price": 93.56,
+   "open": 93.91,
+   "prevClose": 94.24,
+   "change": -0.68,
+   "changePct": -0.72,
+   "dayHigh": 93.92,
+   "dayLow": 93.45,
+   "high52": 97.05,
+   "low52": 85.86
+  }
+ }
+}
+```
+
+### `src/shared/data/usStocks.ts`
+
+```ts
+// US stocks — data more than one flow uses (the US Stocks flow, the Stocks home's US tab, the Market tab's US list).
+// Prices are real: us-market-snapshot.json, from Yahoo Finance by `npm run us:snapshot` (scripts/us-market-snapshot.mjs),
+// overrides the catalogue's numbers below and adds every other stock / ETF the app shows. `live.ts` makes them tick.
+// Near-live, not live: the bundled copy is used at first, then the app re-reads ./us-market-snapshot.json (published by
+// the build, refreshed every 15 minutes in US market hours by the site repo's Action, scripts/site-workflow-us.yml) on
+// load and every 5 minutes, and updates the numbers below in place.
+// Logos are in src/shared/assets/us-logos: full-colour SVGs (scripts/us-logos.mjs), PNGs for the few without one (L3 has company logos for Indian stocks only).
+import { useSyncExternalStore } from 'react'
+import bundled from './us-market-snapshot.json'
+import { nudgeLive } from './live'
+
+export type UsStock = {
+  sym: string
+  name: string
+  price: number
+  /** Day change, %. */
+  change: number
+  exchange: string
+  /** Logo path (asset()) — overrides the catalogue logo. */
+  logo?: string
+  /** Logo plate colour behind a transparent logo. */
+  plate?: string
+}
+
+export const catalogue: Record<string, Omit<UsStock, 'sym'>> = {
+  NVDA: { name: 'NVIDIA Corp', price: 188.42, change: 1.24, exchange: 'NASDAQ' },
+  AAPL: { name: 'Apple Inc', price: 262.82, change: 0.89, exchange: 'NASDAQ' },
+  MSFT: { name: 'Microsoft Corp', price: 523.61, change: -0.42, exchange: 'NASDAQ' },
+  GOOGL: { name: 'Alphabet Inc', price: 251.46, change: 0.92, exchange: 'NASDAQ' },
+  GOOG: { name: 'Alphabet Inc', price: 252.03, change: 0.9, exchange: 'NASDAQ' },
+  TSLA: { name: 'Tesla Inc', price: 433.72, change: 2.15, exchange: 'NASDAQ' },
+  AMZN: { name: 'Amazon.com Inc', price: 224.21, change: -0.37, exchange: 'NASDAQ' },
+  META: { name: 'Meta Platforms', price: 734, change: 0.64, exchange: 'NASDAQ' },
+  NFLX: { name: 'Netflix Inc', price: 1187, change: -1.12, exchange: 'NASDAQ' },
+  NKE: { name: 'Nike Inc', price: 64.3, change: 0.48, exchange: 'NYSE' },
+  MCD: { name: 'McDonald’s Corp', price: 301.55, change: -0.21, exchange: 'NYSE' },
+  KO: { name: 'Coca-Cola Co', price: 69.42, change: 0.18, exchange: 'NYSE' },
+  SBUX: { name: 'Starbucks Corp', price: 84.1, change: -0.66, exchange: 'NASDAQ' },
+  V: { name: 'Visa Inc', price: 344.7, change: 0.37, exchange: 'NYSE' },
+  UBER: { name: 'Uber Technologies', price: 96.2, change: 1.05, exchange: 'NYSE' },
+  AMD: { name: 'Advanced Micro Devices', price: 214.9, change: 3.12, exchange: 'NASDAQ' },
+  AVGO: { name: 'Broadcom Inc', price: 342.37, change: 2.87, exchange: 'NASDAQ' },
+  MU: { name: 'Micron Technology', price: 192.4, change: 1.4, exchange: 'NASDAQ' },
+  LULU: { name: 'Lululemon Athletica', price: 168.3, change: -1.6, exchange: 'NASDAQ' },
+  JPM: { name: 'JPMorgan Chase', price: 296.2, change: 0.31, exchange: 'NYSE' },
+  // Mid and small caps — so the Market tab's cap filters have stocks in every tier.
+  LYFT: { name: 'Lyft Inc', price: 22.4, change: 1.8, exchange: 'NASDAQ' },
+  ETSY: { name: 'Etsy Inc', price: 61.2, change: -0.9, exchange: 'NASDAQ' },
+  SONO: { name: 'Sonos Inc', price: 14.1, change: -1.3, exchange: 'NASDAQ' },
+}
+
+type SnapshotQuote = { name: string | null; exchange: string | null; price: number; changePct: number; open?: number | null; prevClose: number; dayHigh: number | null; dayLow: number | null; high52: number | null; low52: number | null; volume: number | null; closes: number[] }
+type IndexQuote = { price: number; changePct: number }
+type Snapshot = { source: string; fetchedAt: string; quotes: Record<string, SnapshotQuote>; indices: Record<string, IndexQuote>; fx?: { usdInr?: { price: number } } }
+
+// The numbers in use now — the bundled snapshot's, replaced in place when a fresher one is read (see the runtime refresh).
+const quotes: Record<string, SnapshotQuote> = { ...(bundled.quotes as unknown as Record<string, SnapshotQuote>) }
+const indices: Record<string, IndexQuote> = { ...(bundled.indices as Record<string, IndexQuote>) }
+const current = { fetchedAt: bundled.fetchedAt, source: bundled.source, usdInr: (bundled as unknown as Snapshot).fx?.usdInr?.price }
+
+/** "Apple Inc." → "Apple Inc", "Airbnb, Inc." → "Airbnb Inc": the snapshot's legal names, as the app writes them. */
+const tidyName = (name: string) => name.replace(/,? (Inc|Corp|Corporation|Co|Ltd|Plc|N\.V|S\.A)\.?$/i, (m) => ' ' + m.replace(/[,.]/g, '').trim()).replace(/\s+/g, ' ').trim()
+
+// The snapshot's real price, day change and exchange for every symbol in it; the catalogue's own names stay.
+function applyQuotes() {
+  for (const [sym, q] of Object.entries(quotes)) {
+    if (q.price == null) continue
+    const known = catalogue[sym]
+    catalogue[sym] = { name: known?.name ?? tidyName(q.name ?? sym), price: q.price, change: q.changePct, exchange: q.exchange ?? known?.exchange ?? 'NASDAQ' }
+  }
+}
+applyQuotes()
+
+/** When the US prices were taken (ISO time). */
+export const usSnapshotAt = (): string => current.fetchedAt
+
+/** The snapshot's full quote of a symbol (day range, 52-week range, volume, a month of closes), if it has one. */
+export const usQuote = (symbol: string): SnapshotQuote | undefined => quotes[symbol]
+
+/** Today's value of a US index (`sp-500`, `nasdaq`, `dow-jones`) from the snapshot. */
+export const usIndexQuote = (id: string): IndexQuote | undefined => indices[id]
+
+/** ₹ per $ in the snapshot (USDINR=X), or undefined if it has none. */
+export const usdInrSnapshot = (): number | undefined => current.usdInr
+
+// ── Runtime refresh ──────────────────────────────────────────────────────────────────────────────────────────────
+const listeners = new Set<() => void>()
+
+function apply(next: Snapshot) {
+  if (!(next.fetchedAt > current.fetchedAt)) return // ISO strings sort by time; never go back to older data
+  // A symbol the published file doesn't have yet (added to the app after the site's copy) keeps the numbers we have.
+  Object.assign(quotes, next.quotes)
+  Object.assign(indices, next.indices)
+  Object.assign(current, { fetchedAt: next.fetchedAt, source: next.source, usdInr: next.fx?.usdInr?.price ?? current.usdInr })
+  applyQuotes()
+  listeners.forEach((l) => l())
+  nudgeLive() // every ticking price re-renders now, not at the next tick
+}
+
+/** Re-read the published US snapshot (same origin — no API call). Fails quietly: the numbers we have stay. */
+export async function refreshUsMarket() {
+  try {
+    const res = await fetch('us-market-snapshot.json', { cache: 'no-cache' })
+    if (res.ok) apply(await res.json())
+  } catch { /* offline, or the file isn't there — keep what we have */ }
+}
+
+const REFRESH_MS = 5 * 60 * 1000
+if (typeof window !== 'undefined') {
+  refreshUsMarket()
+  setInterval(() => { if (document.visibilityState === 'visible') refreshUsMarket() }, REFRESH_MS)
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshUsMarket() })
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener)
+  return () => { listeners.delete(listener) }
+}
+
+/** Re-renders the calling component when fresher US data arrives; returns its `fetchedAt`. */
+export function useUsMarketSnapshot(): string {
+  return useSyncExternalStore(subscribe, () => current.fetchedAt)
+}
+
+// A full-colour SVG (the mark on its brand colour, edge to edge — scripts/us-logos.mjs) wins over the older PNG (a mark on
+// transparent, which shows on the L3 Avatar's grey); the PNG stays for the few symbols that have no SVG.
+const logoFiles = import.meta.glob('../assets/us-logos/*.{png,svg}', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
+const symbolOf = (path: string) => path.slice(path.lastIndexOf('/') + 1, path.lastIndexOf('.'))
+const logoBySymbol = new Map(
+  Object.entries(logoFiles)
+    .sort(([a], [b]) => Number(a.endsWith('.svg')) - Number(b.endsWith('.svg')))
+    .map(([path, url]) => [symbolOf(path), url]),
+)
+
+/** Symbols that have a logo file in src/shared/assets/us-logos. */
+export const usLogoSymbols: string[] = [...logoBySymbol.keys()].sort()
+
+/** The logo of a US company (SVG or PNG URL), or undefined (show initials). */
+export const usLogo = (symbol: string): string | undefined => logoBySymbol.get(symbol)
+
+// Logos from financialmodelingprep.com (2 Nov, ETF holdings) are transparent marks drawn for a white page: they sit on
+// a static white plate so dark marks (Intuitive Surgical, Rocket Lab, Sony) show in dark mode too; the white marks
+// (Lockheed Martin, Northrop Grumman, Samsung) sit on black.
+const PLATED_WHITE = new Set('ABB ADI AMAT ASML ASTS BABA BIDU COP GE GRMN HXSCL ISRG KLAC LRCX MRVL MUFG NVO NXPI PDD RKLB RTX SAP SONY TM TSM TXN'.split(' '))
+const PLATED_BLACK = new Set(['LMT', 'NOC', 'SSNLF'])
+/** The plate a US logo needs inside an Avatar ('white' / 'black'), or undefined when the file brings its own. */
+export const usLogoPlate = (symbol: string): 'white' | 'black' | undefined =>
+  PLATED_BLACK.has(symbol) ? 'black' : PLATED_WHITE.has(symbol) ? 'white' : undefined
+
+// The stock being looked at: a list (Market tab, Search …) sets it, the stock page reads it.
+let viewed: string | undefined
+
+/** Remember which US stock the stock page should open. */
+export const viewUsStock = (symbol: string) => { viewed = symbol }
+
+/** The symbol set by the last `viewUsStock`, or undefined if none yet. */
+export const viewedUsStock = () => viewed
 ```
 
 ### `src/shared/prototype.ts`
@@ -1569,10 +26523,35 @@ export type Preview = {
   go: (id: string) => void
   /** The screen being shown — a new id gives the sheet a fresh mount while the page behind it stays put. */
   screenId?: string
+  /** Back to the screen shown before this one in the prototype (any flow); false when there's none to go back to. */
+  back?: () => boolean
+  /** The screen was reached by going back (a back button, or a screen earlier in the app) — a page can come back as it was left. */
+  cameBack?: boolean
+  /** An `over` screen (a sheet over the screen the user is on): the screen under it — closing the sheet goes there. */
+  under?: string
 }
 
 export const PreviewContext = createContext<Preview>({ interactive: false, go: () => {} })
 export const usePreview = () => useContext(PreviewContext)
+
+// ---- Which way the next move goes ------------------------------------------------------------------------------------
+// The preview guesses a move's direction (a screen visited before, or one earlier in the same flow, is "back"). A tap can
+// say it instead: Deposit opens Add money (listed earlier in the flow) as a page going forward; a back button's fallback
+// (nothing in the history) is back, and replaces the page instead of adding to the history.
+let intent: { id: string; direction: 'forward' | 'back' } | null = null
+
+/** Say the move to screen `id` that is about to happen is forward (a page opening) or back. */
+export const markMove = (id: string, direction: 'forward' | 'back') => {
+  intent = { id, direction }
+}
+
+/** The preview: the direction said for a move to `id`, if any. */
+export const moveIntent = (id: string) => (intent?.id === id ? intent.direction : undefined)
+
+/** The preview: the move happened. */
+export const clearMoveIntent = () => {
+  intent = null
+}
 
 /** Prototype only: after `ms`, go to `next` (loaders, "Verifying…"). */
 export function useAutoAdvance(next: string | undefined, ms: number) {
@@ -1738,6 +26717,15 @@ export function IlliquidSheet({ copy, onClose }: { copy: IlliquidSheetCopy; onCl
   overflow: clip; /* clip, not hidden: a sheet taking focus while it slides in can't scroll the screen */
   background: var(--l3-surface-default);
   color: var(--l3-content-primary);
+  /* An app, not a page: swiping and long-pressing never select text (fields still do — see below). */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.screen :is(input, textarea, [contenteditable='true']) {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .page {
@@ -1771,7 +26759,16 @@ export function IlliquidSheet({ copy, onClose }: { copy: IlliquidSheetCopy; onCl
   min-height: 0;
   overflow-x: hidden; /* a screen never scrolls sideways — only rails inside it do */
   overflow-y: auto;
+  padding-bottom: var(--app-body-end);
 }
+
+/* The body owns the page's end spacing: whatever comes last adds none of its own (no 24 + 24). */
+.body > :last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+/* A page's last block nested deeper (inside tabs or a panel) is marked data-page-end so it adds none either. */
+.body [data-page-end] { padding-bottom: 0; margin-bottom: 0; }
 
 /* Floating toast: sits on the bottom edge of the body, above the dock / navbar (L3 Aerobar rule). */
 .toast {
@@ -1854,6 +26851,11 @@ export function Screen({ top, bottom, toast, sheet, children, className }: Scree
   flex-direction: column;
   max-height: calc(100% - var(--l3-size-48));
 }
+
+/* A top sheet (placement="top") hangs from the top edge instead. */
+.dock[data-placement='top'] {
+  inset: 0 0 auto;
+}
 ```
 
 ### `src/shared/ui/Sheet.tsx`
@@ -1881,6 +26883,8 @@ type SheetProps = {
   onClose?: () => void
   /** A screen's own styling hook on the sheet surface (e.g. a sheet that brings its own layout and no padding). */
   className?: string
+  /** 'top' (L3 isBottom=False): drops from the top of the screen, for menus tied to the top (a market or sort picker). */
+  placement?: 'bottom' | 'top'
 }
 
 type Publish = (id: string, sheet: SheetProps | null) => void
@@ -1904,12 +26908,12 @@ export function Sheet(props: SheetProps) {
   useLayoutEffect(() => (hosted ? () => publish(id, null) : undefined), [hosted, publish, id])
 
   if (hosted) return null
-  const { header, children, footer, labelledBy, label, className } = props
+  const { header, children, footer, labelledBy, label, className, placement = 'bottom' } = props
   return (
     <>
       <Overlay open className={styles.scrim} />
-      <div className={styles.dock} role="dialog" aria-labelledby={labelledBy} aria-label={label}>
-        <BottomSheetSurface header={header} footer={footer} className={className}>{children}</BottomSheetSurface>
+      <div className={styles.dock} data-placement={placement} role="dialog" aria-labelledby={labelledBy} aria-label={label}>
+        <BottomSheetSurface header={header} footer={footer} className={className} placement={placement}>{children}</BottomSheetSurface>
       </div>
     </>
   )
@@ -1945,6 +26949,7 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
           aria-labelledby={shown.sheet.labelledBy}
           aria-label={shown.sheet.label}
           className={shown.sheet.className}
+          placement={shown.sheet.placement}
         >
           {shown.sheet.children}
         </BottomSheet>
