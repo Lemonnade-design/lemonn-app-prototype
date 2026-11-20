@@ -1,6 +1,6 @@
 {
  "source": "Yahoo Finance (public chart + search endpoints)",
- "fetchedAt": "2026-11-20T12:41:44.540Z",
+ "fetchedAt": "2026-11-20T18:17:01.106Z",
  "symbols": [
   "ADANIENT",
   "ADANIGREEN",
@@ -14797,8 +14797,8 @@
      "close": 185.7
     }
    ],
-   "sector": null,
-   "industry": null
+   "sector": "Technology",
+   "industry": "Information Technology Services"
   },
   "YESBANK": {
    "price": 17.91,
