@@ -1,6 +1,6 @@
 {
  "source": "Yahoo Finance (public chart + search endpoints)",
- "fetchedAt": "2026-11-23T13:42:07.482Z",
+ "fetchedAt": "2026-11-23T14:17:24.122Z",
  "symbols": [
   "ADANIENT",
   "ADANIGREEN",
@@ -9561,8 +9561,8 @@
      "close": 14010
     }
    ],
-   "sector": "Consumer Cyclical",
-   "industry": "Auto Manufacturers"
+   "sector": null,
+   "industry": null
   },
   "NESTLEIND": {
    "price": 1305.9,
