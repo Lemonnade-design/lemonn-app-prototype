@@ -335,9 +335,9 @@ sample signals in `data.ts` (`zingSignals`, `SignalFilter`, `matchesFilter`).
 - Product tabs: Equity → fno-01, Commodities → fno-08, Strategies → fno-15. The header and tabs don't move; only the content below slides (forward = from the right, back = from the left). On scroll the tabs stick right under the top bar (`position: sticky` in the page — they sit mid-page under the overview, so not in the Actionbar's bottom slot); a tab switch while scrolled lines the new content up under them. Once stuck, the tab row takes the scrolled top bar's colour (surface/primary, not the active tab's gradient); the active tab stays as it is.
 - **Shortcuts** Gold · Silver · Crude Oil · Natural Gas (artwork, name, day change in up / down colour) → Gold Summary (fno-12).
 - **Expiring This Week** (`ExpiringThisWeek`, between the shortcuts and the chart): a sideways rail of contracts expiring soon (`expiringThisWeek` in `commodities/data.ts`), in three variants (`kind`): **option**, **future** (one GOLDM future sits second, for testing) and **event** (third), snapping to the 16 inset. Each card: the symbol (GOLDM) over the expiry as plain description text (12) — option “OPT Expiry Today / Tomorrow / <weekday>”, future “FUT Expiry 3 Dec” (no Tag; the future's expiry line is not shown); on the right the trend read-out (`TrendBadge`, the same component as the chart's header: Strong Uptrend / Downtrend in up / down colour over “Since 3:25 PM” (description 12 here, 10 in the chart), double arrow); a hairline; then two columns, label (description 12) over value — the ATM option (₹ premium + change) — or LTP (₹ + change) for a future — left, Margin Per Lot right. Action footer (no fill, 16 under the details like the other parts): ScalpPro (secondary, Medium) → fno-05 and Buy (primary, Medium) → the contract sheet. A tap on the card → the contract's asset page (fno-21). The trend read-out (the whole top right — label, since, the i, the arrow; hit area grown 12 around it) → the **trend info sheet** (`TrendInfoSheet`, live app reference 2026-11-17): no header; the trend on the left (arrow first, text left-aligned) and the symbol with its day change on the right over a hairline, Dash's two bullets on what's behind the trend (`trendNotes` in `commodities/data.ts`), a grey disclaimer (warning icon, “Disclaimer:”), a dashed rule, “Analyzed by Dash” with the Dash orb (24), then Okay (Large). The event card's Bullish read-out has the i too and opens the same sheet. The read-out is a `role="button"` span, not a button, because the card body is already a button; its tap doesn't open the card. The commodity art is hidden (`SHOW_ART = false`, kept). Prototype setting “Expiring card buttons” (Commodities, toggle, default Shown) hides the whole button footer; on a phone (app mode) a floating “BTN ON / BTN OFF” switch on the Commodities home (fno-08 … 10) flips it in one tap.
-- **Expiring This Week, Version 2** (`ExpiringCalendar`; prototype setting “Expiring This Week”, Commodities, Version 1 = the card rail above; Version 4 is the default): the same section as a short calendar. The calendar's first 3 entries (`expiryPreview(3)` in `commodities/data.ts`) on their days, drawn like the calendar page (`CalendarDay`, shared with fno-38): the grey date block left (today not marked, not sticky here), one card per day, so it's three rows on one day or spread over two or three days. Within a day events come first (they're timed) and stay short (name over time, then the asset cards; the readings are on the calendar page). Contract rows as on fno-38: kind under the name, option chain (options) → fno-17 and ScalpPro → fno-05, row → asset page fno-21. View all → the Commodity calendar (fno-38).
+- **Expiring This Week, Version 2** (`ExpiringCalendar`; prototype setting “Expiring This Week”, Commodities, Version 1 = the card rail above; Version 4 is the default): the same section as a short calendar. The calendar's first 3 entries (`expiryPreview(3)` in `commodities/data.ts`) on their days, drawn like the calendar page (`CalendarDay`, shared with fno-38): the grey date block left (today not marked, not sticky here), one card per contract or event (8 apart), days 16 apart, so it's three rows on one day or spread over two or three days. Within a day events come first (they're timed) and stay short (name over time, then the asset cards; the readings are on the calendar page). Contract rows as on fno-38: kind under the name, option chain (options) → fno-17 and ScalpPro → fno-05, row → asset page fno-21. View all → the Commodity calendar (fno-38).
 - **Expiring This Week, Version 3** (`ExpiringCalendarCard`): Version 2's three entries in **one card**. Each day is a band: the date (weekday over the number, every date the same weight) as the card's grey left column, attached edge to edge and as tall as that day's rows, the rows beside it. Hairlines between days (across the date column too) and between a day's rows. Rows behave as in Version 2; View all → fno-38.
-- **Expiring This Week, Version 4** (`ExpiringDayPicker`, **default**): a day picker over the next month (31 days) of the real MCX calendar. A row of small date cards (weekday over the number, 48 wide), only days that have something; it scrolls sideways and runs edge to edge (the screen's 16 inset as padding inside the row), fading at an end only while there's more to scroll that way (CSS mask, `data-more-before` / `-after`). Weeks run Monday to Sunday; each later week starts with a thin grey pill the cards' height, its text turned 90° in 8 upper case: “NEXT WEEK”, then the week's Monday (“7 DEC”). Each date card has a small tag in its bottom-right corner with how many things expire that day (label-08 on surface/tertiary, only the top-left corner rounded 6, the card's corner rounds the rest). The selected day (first, to start) has a dark border on grey. Under the row, that day's contracts (option chain + ScalpPro) and events (on one line), one card each, 8 apart. View all (a Ghost Small button with a calendar icon before the label, `ExpiringHeader`, shared by all versions) → fno-38.
+- **Expiring This Week, Version 4** (`ExpiringDayPicker`, **default**): a day picker over the next month (31 days) of the real MCX calendar. A row of small date cards (weekday over the number, 48 wide, 10 apart), only days that have something; it scrolls sideways and runs edge to edge (the screen's 16 inset as padding inside the row), fading at an end only while there's more to scroll that way (CSS mask, `data-more-before` / `-after`). Weeks run Monday to Sunday; each later week starts with a thin grey pill the cards' height (18 after the last day, 10 before the next), its text turned 90° in 8 upper case: “NEXT WEEK”, then the week's Monday (“7 DEC”). The selected day (first, to start) has a dark border on grey. Under the row, that day's contracts (option chain + ScalpPro) and events (on one line), one card each, 8 apart. View all (a Ghost Small button with a calendar icon before the label, `ExpiringHeader`, shared by all versions) → fno-38.
   - **Event card** (third; data from the user's reference card, its layout kept to the option card's): a market event
     on the contract's commodity today. NATGASMINI over “NG storage · Today 9:00 PM”; the trend read-out says the outlook
     (“Bullish” over “Smaller build”, up arrow, no info icon); hairline; then the ATM option (305 CE ATM ₹7.40 +4.20%) and Margin Per Lot (₹1,850), and
@@ -549,7 +549,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - Outlined Buy / Sell buttons (Quick Trade): L3 Button has filled Buy / Sell only; the flow tints Secondary with the up / down tokens.
 - Payoff sketch on strategy cards: no L3 mini payoff chart; drawn as a small SVG on L3 tokens.
 - Weekday result dots (Zing Trades): no L3 component; 16 circles on the up / down light surfaces.
-- Date strip (Expiring This Week V4): L3 has no date picker / day strip; drawn from buttons on L3 tokens (`.dayPicker*` in `Commodities.module.css`), with a hand-made edge fade (mask) and the turned week pill and count tag at 8 (`--l3-text-label-08` / `--l3-font-size-local-08`; L3 has no 8 description or caption style).
+- Date strip (Expiring This Week V4): L3 has no date picker / day strip; drawn from buttons on L3 tokens (`.dayPicker*` in `Commodities.module.css`), with a hand-made edge fade (mask) and the turned week pill at 8 (`--l3-text-label-08` / `--l3-font-size-local-08`; L3 has no 8 description or caption style).
 - Section header with a leading-icon View all: L3 SectionHeader's `view-all` takes only a chevron after the label, so Expiring This Week puts a Ghost Small button (calendar icon left) beside the header (`ExpiringHeader`).
 - Divider: L3 has no divider component or border-width token; the month line on fno-38 is a 2 border-top with the local token `--app-week-divider`.
 - Section header size: L3 SectionHeader's title is heading-14 with no size option; fno-38's month titles are set to heading-20 locally (`.calendarMonthHead h2`).
@@ -567,6 +567,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - 23 Nov 2026 — F&O sub-nav (floating V2): the chosen F&O icon is black and white, like the main nav's.
 - 23 Nov 2026 — Home shortcuts (Trade Calls · Watchlist · Smart Invest · Referral) drawn as the Stocks Home's: 40 circles with a green-edged wash and green icons (lightbulb, bookmark, smart toy, redeem — Home's icons for these features), names in secondary text, via the new shared part src/shared/ui/ShortcutCircles. The old outlined tertiary buttons and their SVG art are no longer used (assets kept).
 
+- 2026-11-24 — Expiring This Week V4: the day count tag is removed; date cards 10 apart, 8 more before each week pill. V2: one card per contract or event (8 apart), days 16 apart.
 - 2026-11-24 — Commodity calendar (fno-38): the week-section view is archived; the page is the month and day list again, one card per contract or event (8 apart), days 32 apart, month titles at 20 (12 above and below, sticky), a 2 line edge to edge between months (24 above and below). Expiring This Week V4: the selected day's contracts and events are separate cards too.
 - 2026-11-24 — Expiring This Week Version 4 (now the default): a day picker over the next month (week pills “NEXT WEEK” / “7 DEC”, edge-to-edge row with fading ends, a count tag on each day) and the selected day's card. In V4 the calendar page (fno-38) shows week sections (“November 23 – 29”) each with its own day picker, a 2 line edge to edge between them.
 - 2026-11-24 — Expiring This Week: View all has a calendar icon before its label (all versions); real MCX data everywhere — the “Calendar days” sample weeks are archived (`commodities/archive/expiryPreviewSamples.ts`). Calendar event icons are content/primary.
@@ -3116,7 +3117,7 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
 .calendarAvatar::after { box-shadow: none; }
 .calendarAvatar.calendarAvatar > span { color: var(--l3-content-primary); } /* the event icon in content-primary (user, 2026-11-24): L3 Avatar draws icons in a faded secondary */
 /* Expiring This Week, version 2 (home): the first days of the calendar, 12 between days. */
-.expiryCalendarPreview { display: flex; flex-direction: column; gap: var(--l3-spacing-12); }
+.expiryCalendarPreview { display: flex; flex-direction: column; gap: var(--l3-spacing-16); } /* 16 between two days */
 /* Expiring This Week, version 3 (home): the same days in ONE card. Each day is a band: the date as the card's grey
    left column (full height of the day, attached edge to edge), the day's rows beside it; hairlines between days
    (full width, across the date column too) and between rows (rows only). Every date has the same weight (no today marker). */
@@ -3139,7 +3140,7 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
    size), 08 apart, scrolling sideways; the selected one border-dark on surface-secondary, the others border-light. L3 has no
    date strip / day chip — L3 gap. Under it the selected day's card (.calendarCard). */
 /* Full bleed: the row runs to the screen edges (out through the section's 16 inset), the first and last day still 16 in. */
-.dayPicker { display: flex; gap: var(--l3-spacing-08); margin-inline: calc(-1 * var(--l3-spacing-16)); padding-inline: var(--l3-spacing-16); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.dayPicker { display: flex; gap: var(--l3-spacing-10); margin-inline: calc(-1 * var(--l3-spacing-16)); padding-inline: var(--l3-spacing-16); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
 .dayPicker::-webkit-scrollbar { display: none; }
 /* Fades at the ends of the day row, only on a side with more to scroll to (ExpiringDayPicker sets data-more-before /
    data-more-after as it scrolls): the cards melt out instead of being cut. A mask, so it works on any background; black
@@ -3151,14 +3152,11 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
 .dayPickerDay[aria-selected='true'] { border-color: var(--l3-border-dark); background: var(--l3-surface-secondary); } /* selected: dark border, grey fill */
 @media (hover: hover) { .dayPickerDay[aria-selected='false']:hover { background: var(--l3-surface-secondary); } }
 .dayPickerDay:focus-visible { outline: 2px solid var(--l3-border-dark); outline-offset: 2px; }
-/* The day's count (how many things expire that day), tucked in the bottom-right corner: grey, only the top-left corner
-   rounded — the card's own corner (overflow hidden) rounds the bottom-right. Surface tertiary on every card, selected or not. */
-.dayPickerCount { position: absolute; right: 0; bottom: 0; min-width: var(--l3-spacing-12); padding: var(--l3-spacing-02) var(--l3-spacing-04); border-radius: var(--l3-radius-06) 0 0 0; background: var(--l3-surface-tertiary); font: var(--l3-text-label-08); text-align: center; color: var(--l3-content-primary); }
 .expiringViewAll.expiringViewAll { flex: none; } /* View all keeps its full label; the SectionHeader (width 100%) gives way */
 /* V4: the pill that opens each later week ("NEXT WEEK", "7 DEC"), after the reference's month pill: grey
    (surface-secondary), fully rounded, as tall as the date cards, the text turned 90° (bottom to top), 8 upper
    case (Description 10 at L3's local 8 size), content-primary — a thin pill. */
-.dayPickerWeek { flex: none; display: flex; align-items: center; justify-content: center; padding: 0 var(--l3-spacing-04); border-radius: var(--l3-radius-full); background: var(--l3-surface-secondary); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; text-transform: uppercase; font: var(--l3-text-description-10); font-size: var(--l3-font-size-local-08); line-height: 1; letter-spacing: 0.04em; color: var(--l3-content-primary); }
+.dayPickerWeek { flex: none; margin-left: var(--l3-spacing-08); /* 8 more before a new week (18 from the last day) */ display: flex; align-items: center; justify-content: center; padding: 0 var(--l3-spacing-04); border-radius: var(--l3-radius-full); background: var(--l3-surface-secondary); writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; text-transform: uppercase; font: var(--l3-text-description-10); font-size: var(--l3-font-size-local-08); line-height: 1; letter-spacing: 0.04em; color: var(--l3-content-primary); }
 /* Commodity calendar V4 (fno-38): week sections split by a 2 line (border-light) running edge to edge — out through the
    page's 16 inset — with 24 on either side of it (the Stack's 24 above, this 24 below): 48 between two weeks. */
 /* archived (archive/DayPickerByWeek.tsx) */ .weekSection + .weekSection { margin-inline: calc(-1 * var(--l3-spacing-16)); padding: var(--l3-spacing-24) var(--l3-spacing-16) 0; border-top: var(--app-week-divider) solid var(--l3-border-light); }
@@ -3291,7 +3289,7 @@ import styles from './Commodities.module.css'
 
 /**
  * Expiring This Week, version 2 — the Commodities home section as a short calendar instead of the card rail: the
- * calendar's first 3 entries (`expiryPreview`), on their days (the grey date block on the left, one card per day), so
+ * calendar's first 3 entries (`expiryPreview`), on their days (the grey date block on the left, one card per contract or event, 8 apart), so
  * it's three rows on one day or spread over two or three days. Events first within a day and on one line (time ·
  * country, impact); contracts as on the calendar page (option chain + ScalpPro, row → asset page). View all → the
  * Commodity calendar (fno-38) with everything. Prototype setting "Expiring This Week" picks Version 1 (cards) or 2.
@@ -3300,7 +3298,7 @@ export function ExpiringCalendar({ onAsset, onOptionChain, onScalper, onViewAll 
   return <section className={parts.contractSection} aria-label={t('expiring.title')}>
     <ExpiringHeader onViewAll={onViewAll} />
     <div className={styles.expiryCalendarPreview}>
-      {expiryPreview(3, expiryCalendarAll).map((day) => <CalendarDay key={day.inDays} day={day} showKind sticky={false} eventDetails={false} onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
+      {expiryPreview(3, expiryCalendarAll).map((day) => <CalendarDay key={day.inDays} day={day} showKind sticky={false} eventDetails={false} separate onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />)}
     </div>
   </section>
 }
@@ -3380,7 +3378,7 @@ function weekLabel(week: number) {
  * have something, so every card leads somewhere) as a row of small date cards, scrolling sideways. Weeks run Monday to
  * Sunday; each week after this one starts with a thin grey pill, its text turned 90° (bottom to top, upper case, 8):
  * "NEXT WEEK", then the week's Monday ("7 DEC"). The selected day has a dark border on grey; the first day is selected
- * first; its bottom-right corner shows how many things expire that day (a small grey tag). Under the row, that day's contracts and events, one card each (8 apart).
+ * first (no count tag — removed 24 Nov). Under the row, that day's contracts and events, one card each (8 apart).
  */
 export function DayPicker({ days, weekPills = true, showKind, eventDetails, onAsset, onOptionChain, onScalper }: {
   days: ExpiryDay[]
@@ -3422,7 +3420,6 @@ export function DayPicker({ days, weekPills = true, showKind, eventDetails, onAs
             onClick={() => setSelected(d.inDays)}>
             <span className={styles.calendarWeekday}>{date.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
             <span className={styles.calendarDay}>{date.getDate()}</span>
-            <span className={styles.dayPickerCount} aria-label={t('expiring.dayCount', { count: d.entries.length })}>{d.entries.length}</span>
           </button>
         })}
       </Fragment>)}
@@ -7193,7 +7190,6 @@ function addMinutes(start: string, add: number) {
   "settings.apply": "Apply",
   "expiring.title": "Expiring This Week",
   "expiring.days": "Days with expiries",
-  "expiring.dayCount": "{count} expiring",
   "expiring.nextWeek": "Next week",
   "expiring.weekRange": "{from} – {to}",
   "expiring.tag": "OPT Expiry {day}",
