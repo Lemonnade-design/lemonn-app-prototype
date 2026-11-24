@@ -497,8 +497,6 @@
     "src/shared/ui/CenteredTabs.tsx",
     "src/shared/ui/DepositProgressSheet.module.css",
     "src/shared/ui/DepositProgressSheet.tsx",
-    "src/shared/ui/Diwali.module.css",
-    "src/shared/ui/Diwali.tsx",
     "src/shared/ui/Flag.module.css",
     "src/shared/ui/Flag.tsx",
     "src/shared/ui/FloatingNav.module.css",
