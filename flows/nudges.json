@@ -4,7 +4,7 @@
   "description": "Journey-aware P&L limit and TP/SL prompts: silent help on the order pad, and one nudge sheet when the revenge flag and the journey engine agree.",
   "designSystem": {
     "name": "Lemonnade V3 (L3)",
-    "commit": "6de43c8",
+    "commit": "ed10506",
     "docs": "https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt"
   },
   "prototype": {
@@ -24,7 +24,7 @@
       "id": "nudges-02",
       "name": "Nudge · from settings",
       "figma": "",
-      "note": "The one nudge sheet, filled by the case and data state picked in the settings. Try all 17 cases × A / B / C and the draft’s two guardrail buttons.",
+      "note": "The one nudge sheet — the risk meter — filled by the case and data state picked in the settings. Pills on the floating switcher: Meter (4f Soft dial · 4g Blocks), Risk level, Meter layout, Meter fill, Case, State.",
       "goesTo": [],
       "figmaUrl": ""
     },
@@ -32,7 +32,7 @@
       "id": "nudges-03",
       "name": "Nudge · generic",
       "figma": "",
-      "note": "Fires on Positions with the revenge flag when no single behaviour stands out, or the trader is too new to compare (state D). No bars; the group line. Dismiss says just “Not now” (no order in hand).",
+      "note": "Fires on Positions with the revenge flag when no single behaviour stands out, or the trader is too new to compare (state D). The meter and its own fact under it. Dismiss says just “Not now” (no order in hand).",
       "goesTo": [],
       "figmaUrl": ""
     },
@@ -40,7 +40,7 @@
       "id": "nudges-04",
       "name": "Nudge · size-up · A (own loss)",
       "figma": "",
-      "note": "Bars: this order vs the trade he lost (2X). Enough history and his last size-up lost: the line is his own loss, on a red strip.",
+      "note": "Size-up after a loss, own history and last loss (A): the meter at high risk, “You are placing a bigger order right after a loss”.",
       "goesTo": [],
       "figmaUrl": ""
     },
@@ -48,7 +48,7 @@
       "id": "nudges-05",
       "name": "Nudge · orders today · B",
       "figma": "",
-      "note": "Bars: his usual day vs today (3X). Last time didn’t lose: the line is the group (7 in 10 lost more).",
+      "note": "Orders today, own history (B): the meter, and the fact “3X more orders than usual today” under it.",
       "goesTo": [],
       "figmaUrl": ""
     },
@@ -56,7 +56,7 @@
       "id": "nudges-06",
       "name": "Nudge · orders today · C (thin history)",
       "figma": "",
-      "note": "Too few past sessions for “your usual”: the headline becomes today’s raw fact (“14 orders today”), no bars.",
+      "note": "Too few past sessions for “your usual”: the fact under the meter is today’s raw fact (“14 orders today”), no multiple.",
       "goesTo": [],
       "figmaUrl": ""
     },
@@ -64,7 +64,7 @@
       "id": "nudges-07",
       "name": "Nudge · averaging down (TP/SL first)",
       "figma": "",
-      "note": "A case whose main button is TP/SL and whose fact isn’t a multiple: no bars: headline + the group line.",
+      "note": "Averaging down: the main button is TP/SL; the fact under the meter is the case\\",
       "goesTo": [],
       "figmaUrl": ""
     },
@@ -103,6 +103,17 @@
   ],
   "files": [
     "src/flows/nudges/README.md",
+    "src/flows/nudges/assets/protect/arrow-up.svg",
+    "src/flows/nudges/assets/protect/calendar.png",
+    "src/flows/nudges/assets/protect/candles.png",
+    "src/flows/nudges/assets/protect/pnl-protect.svg",
+    "src/flows/nudges/assets/protect/shield.svg",
+    "src/flows/nudges/assets/protect/tpsl-candle.svg",
+    "src/flows/nudges/assets/protect/tpsl-sl.svg",
+    "src/flows/nudges/assets/protect/tpsl-tp.svg",
+    "src/flows/nudges/assets/protect/trend-down.svg",
+    "src/flows/nudges/assets/protect/warning-glyph.svg",
+    "src/flows/nudges/assets/protect/warning.png",
     "src/flows/nudges/components/SheetSwitcher.module.css",
     "src/flows/nudges/components/SheetSwitcher.tsx",
     "src/flows/nudges/copy.json",
@@ -112,12 +123,19 @@
     "src/flows/nudges/options.ts",
     "src/flows/nudges/screens/OrderPad.module.css",
     "src/flows/nudges/screens/OrderPad.tsx",
+    "src/flows/nudges/sheets/BlockDial.module.css",
+    "src/flows/nudges/sheets/BlockDial.tsx",
+    "src/flows/nudges/sheets/GaugeMeter.module.css",
+    "src/flows/nudges/sheets/GaugeMeter.tsx",
     "src/flows/nudges/sheets/GuardrailSheets.module.css",
     "src/flows/nudges/sheets/GuardrailSheets.tsx",
     "src/flows/nudges/sheets/NudgeSheet.module.css",
     "src/flows/nudges/sheets/NudgeSheet.tsx",
-    "src/flows/nudges/sheets/RiskVisuals.module.css",
-    "src/flows/nudges/sheets/RiskVisuals.tsx"
+    "src/flows/nudges/sheets/SoftDial.module.css",
+    "src/flows/nudges/sheets/SoftDial.tsx",
+    "src/flows/nudges/sheets/TradeProtectSheet.module.css",
+    "src/flows/nudges/sheets/TradeProtectSheet.tsx",
+    "src/flows/nudges/sheets/gaugeArt.ts"
   ],
   "shared": [
     "src/shared/copy.ts",

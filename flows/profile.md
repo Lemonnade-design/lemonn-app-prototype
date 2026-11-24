@@ -1,6 +1,6 @@
 # Flow: Profile & settings (`profile`)
 
-> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `6de43c8` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `ed10506` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Your account, app settings (biometric, dark mode, accessibility), help, and logout.
 
@@ -124,6 +124,7 @@ platform's string table (Flutter ARB, iOS Localizable.strings).
   (`components/SettingCard`).
 
 ### Changelog
+- 23 Nov 2026 — INSTANT_BALANCE (₹149) moved to src/shared/data/user.ts so the INR wallet's instant-balance card shows the same offer; profile/data.ts re-exports it.
 
 - 2026-10-22 — first version (6 screens): Profile and Settings replicated from the live app with L3 parts;
   Accessibility (4 states) from the PM proposal.
@@ -358,15 +359,12 @@ export const t = makeCopy('profile', copy)
 ```ts
 // Sample data for Profile & settings. FICTIONAL — the live screenshots show a real customer's name and balance; never
 // copy them. The person is the app's sample user (src/shared/data/user.ts).
-import { bankAccount, user } from '../../shared/data/user'
+import { INSTANT_BALANCE, bankAccount, user } from '../../shared/data/user'
 
-export { bankAccount, user }
+export { INSTANT_BALANCE, bankAccount, user }
 
 /** The trading balance (₹). Can be negative when charges are due — shown as "−₹…". */
 export const balance = -245.3
-
-/** The instant-balance offer (₹, for intraday, MTF and F&O). */
-export const INSTANT_BALANCE = 149
 
 /** The app version shown under About. */
 export const APP_VERSION = '7.2.38 (3)'
@@ -996,6 +994,9 @@ export const linkedBanks: LinkedBank[] = [
  * accounts: Three" and "SBI only" add it, to show the US Stocks bank step with an account it can't use.
  */
 export const otherBank: LinkedBank = { id: 'sbi', bank: 'State Bank of India', accountNumber: '38201945520', ifsc: 'SBIN0000300', type: 'Savings', branch: 'Fort, Mumbai', logoSymbol: 'SBIN', last4: '5520' }
+
+/** The instant-balance offer (₹, for intraday, MTF and F&O): Profile's row and the Indian wallet's card show it. */
+export const INSTANT_BALANCE = 149
 ```
 
 ### `src/shared/prototype.ts`
@@ -1081,11 +1082,39 @@ export function setFlowOption(flow: string, option: string, fallback: string, va
 
 const memory = new Map<string, string>()
 
+/**
+ * Showcase links (20 Nov): `?showcase` shows one screen as it is shared (e.g. the risk-meter page for leadership) — no
+ * prototype controls over it. `?o=nudges.meter:soft,nudges.meterFill:split` sets options for this page only (never
+ * stored, so several showcase frames side by side can each show their own version).
+ */
+// A showcase frame can't always carry a query (a packed, single-file page loads the app from a blob: URL), so its
+// settings can also come in the frame's name: "showcase:?showcase&theme=dark&o=…".
+export const linkParams = (() => {
+  try {
+    const named = window.name.startsWith('showcase:') ? window.name.slice('showcase:'.length) : ''
+    return new URLSearchParams(named || location.search)
+  } catch { return new URLSearchParams() }
+})()
+export const SHOWCASE = linkParams.has('showcase')
+// A showcase frame sits in a page of phones: the app focusing its sheet must never scroll that page to it.
+if (SHOWCASE) {
+  const focus = HTMLElement.prototype.focus
+  HTMLElement.prototype.focus = function (options?: FocusOptions) { focus.call(this, { ...options, preventScroll: true }) }
+}
+const linkOptions = new Map((linkParams.get('o') ?? '').split(',').filter(Boolean).map((pair) => {
+  const [key, value = ''] = pair.split(':')
+  return [key, value] as const
+}))
+const picked = (flow: string, option: string, fallback: string) => {
+  const key = optionKey(flow, option, fallback)
+  return linkOptions.get(`${flow}.${option}`) ?? memory.get(key) ?? readOption(key)
+}
+
 /** A flow's prototype option: the picked value, or `fallback` (the option's default) when none is picked. */
 export function useFlowOption(flow: string, option: string, fallback: string) {
   return useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
-    () => memory.get(optionKey(flow, option, fallback)) ?? readOption(optionKey(flow, option, fallback)) ?? fallback,
+    () => picked(flow, option, fallback) ?? fallback,
   )
 }
 
@@ -1096,8 +1125,7 @@ export function useFlowOptionValues(flow: { id: string; options?: OptionLike[] }
   const snap = useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
     () => JSON.stringify(Object.fromEntries((flow.options ?? []).map((o) => {
-      const key = optionKey(flow.id, o.id, o.default)
-      return [o.id, memory.get(key) ?? readOption(key) ?? o.default]
+      return [o.id, picked(flow.id, o.id, o.default) ?? o.default]
     }))),
   )
   return JSON.parse(snap)
@@ -1122,8 +1150,7 @@ export function useFlowOptionsChanged(flow: { id: string; options?: { id: string
   return useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
     () => (flow.options ?? []).filter((o) => {
-      const key = optionKey(flow.id, o.id, o.default)
-      return (memory.get(key) ?? readOption(key) ?? o.default) !== o.default
+      return (picked(flow.id, o.id, o.default) ?? o.default) !== o.default
     }).length,
   )
 }
@@ -1179,6 +1206,8 @@ export const applySavedTextSize = () => apply(largeText.get())
   overflow: clip; /* clip, not hidden: a sheet taking focus while it slides in can't scroll the screen */
   background: var(--l3-surface-default);
   color: var(--l3-content-primary);
+  /* A size container: a sheet can be a share of the phone screen's height (cqh), in the mockup and on a phone alike. */
+  container: app-screen / size;
   /* An app, not a page: swiping and long-pressing never select text (fields still do — see below). */
   user-select: none;
   -webkit-user-select: none;
@@ -1222,6 +1251,12 @@ export const applySavedTextSize = () => apply(largeText.get())
   overflow-x: hidden; /* a screen never scrolls sideways — only rails inside it do */
   overflow-y: auto;
   padding-bottom: var(--app-body-end);
+}
+
+/* Bottom navbar V2 (floating, shared/ui/FloatingNav): the body runs on behind the pill; its end clears the pill
+   (14 up + 56 tall) plus the usual 24. */
+.page:has(> [data-floating-nav]) .body {
+  padding-bottom: calc(var(--app-body-end) + var(--l3-spacing-14) + var(--l3-size-56));
 }
 
 /* The body owns the page's end spacing: whatever comes last adds none of its own (no 24 + 24). */

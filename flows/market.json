@@ -4,7 +4,7 @@
   "description": "The Market tab — Indian and US stock lists (all, gainers, losers, under 100 / 500) and Filters.",
   "designSystem": {
     "name": "Lemonnade V3 (L3)",
-    "commit": "6de43c8",
+    "commit": "ed10506",
     "docs": "https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt"
   },
   "prototype": {
@@ -16,7 +16,7 @@
       "id": "market-01",
       "name": "Market · All",
       "figma": "",
-      "note": "The filter bar shows \"Apply filters\" until something is applied.",
+      "note": "The filter bar names the list and its count (\"All (56)\"); with filters applied, \"Filtered stocks (n)\". Opens on the market Home was last on (IN / US).",
       "goesTo": [
         "search-24",
         "us-stocks-13",
@@ -100,7 +100,7 @@
       "id": "market-08",
       "name": "Market · filters applied",
       "figma": "",
-      "note": "One removable chip per pick; the filter button gets a dot.",
+      "note": "The title reads \"Filtered stocks (n)\"; the filter button gets a red dot.",
       "goesTo": [
         "search-24",
         "us-stocks-13",
@@ -131,6 +131,66 @@
         "stocks-32"
       ],
       "figmaUrl": ""
+    },
+    {
+      "id": "market-11",
+      "name": "Watchlist",
+      "figma": "",
+      "note": "An L2 page built like Market: the IN / US picker at the left of pill tabs, one per watchlist (each market has its own). Opens on the market of the Home tab it was opened from (IND → Indian lists, US → US lists). \"+ New\" opens Create watchlist; a swipe or a tab moves between lists. Under the tabs, the list\\",
+      "goesTo": [],
+      "figmaUrl": ""
+    },
+    {
+      "id": "market-12",
+      "name": "Watchlist · US",
+      "figma": "",
+      "note": "Opened from Home\\",
+      "goesTo": [],
+      "figmaUrl": ""
+    },
+    {
+      "id": "market-13",
+      "name": "Watchlist · another list",
+      "figma": "",
+      "note": "The second tab (Banking Giants) picked.",
+      "goesTo": [],
+      "figmaUrl": ""
+    },
+    {
+      "id": "market-14",
+      "name": "Create watchlist",
+      "figma": "",
+      "note": "From \"+ New\": the name field (typing, keyboard up) and Create, off until something is typed. Create adds the list as the last tab and opens it.",
+      "goesTo": [],
+      "figmaUrl": ""
+    },
+    {
+      "id": "market-15",
+      "name": "Sort by",
+      "figma": "",
+      "note": "From the header\\",
+      "goesTo": [],
+      "figmaUrl": ""
+    },
+    {
+      "id": "market-16",
+      "name": "Edit watchlist",
+      "figma": "",
+      "note": "From the header\\",
+      "goesTo": [
+        "market-11"
+      ],
+      "figmaUrl": ""
+    },
+    {
+      "id": "market-17",
+      "name": "Edit · delete watchlist",
+      "figma": "",
+      "note": "Delete watchlist asks first: a sheet with the large header (a bin icon, \"Delete Momentum Plays?\" and what happens), then Cancel · Delete.",
+      "goesTo": [
+        "market-11"
+      ],
+      "figmaUrl": ""
     }
   ],
   "files": [
@@ -142,18 +202,20 @@
     "src/flows/market/copy.ts",
     "src/flows/market/data.ts",
     "src/flows/market/index.tsx",
+    "src/flows/market/screens/EditWatchlist.module.css",
+    "src/flows/market/screens/EditWatchlist.tsx",
     "src/flows/market/screens/Market.module.css",
     "src/flows/market/screens/Market.tsx",
+    "src/flows/market/screens/Watchlist.module.css",
+    "src/flows/market/screens/Watchlist.tsx",
+    "src/flows/market/sheets/CreateWatchlistSheet.module.css",
+    "src/flows/market/sheets/CreateWatchlistSheet.tsx",
     "src/flows/market/sheets/FilterSheet.module.css",
-    "src/flows/market/sheets/FilterSheet.tsx"
+    "src/flows/market/sheets/FilterSheet.tsx",
+    "src/flows/market/sheets/SortWatchlistSheet.module.css",
+    "src/flows/market/sheets/SortWatchlistSheet.tsx"
   ],
   "shared": [
-    "src/shared/assets/flags/china.svg",
-    "src/shared/assets/flags/europe.svg",
-    "src/shared/assets/flags/india.svg",
-    "src/shared/assets/flags/japan.svg",
-    "src/shared/assets/flags/korea.svg",
-    "src/shared/assets/flags/us.svg",
     "src/shared/assets/logos/asahiindia.png",
     "src/shared/assets/logos/crisil.png",
     "src/shared/assets/logos/hoec.png",
@@ -181,15 +243,29 @@
     "src/shared/ui/CenteredTabs.tsx",
     "src/shared/ui/Flag.module.css",
     "src/shared/ui/Flag.tsx",
+    "src/shared/ui/FloatingNav.module.css",
+    "src/shared/ui/FloatingNav.tsx",
+    "src/shared/ui/MainNav.module.css",
     "src/shared/ui/MainNav.tsx",
     "src/shared/ui/Screen.module.css",
     "src/shared/ui/Screen.tsx",
     "src/shared/ui/Sheet.module.css",
     "src/shared/ui/Sheet.tsx",
+    "src/shared/ui/Spot.module.css",
+    "src/shared/ui/Spot.tsx",
     "src/shared/ui/StockListCard.module.css",
     "src/shared/ui/StockListCard.tsx",
+    "src/shared/ui/TextKeyboard.module.css",
+    "src/shared/ui/TextKeyboard.tsx",
     "src/shared/ui/TopBarAction.module.css",
     "src/shared/ui/TopBarAction.tsx",
+    "src/shared/ui/assets/floating-nav/fno-selected.svg",
+    "src/shared/ui/assets/floating-nav/fno.svg",
+    "src/shared/ui/assets/floating-nav/market-selected.svg",
+    "src/shared/ui/assets/floating-nav/market.svg",
+    "src/shared/ui/assets/floating-nav/mutual-fund.svg",
+    "src/shared/ui/assets/floating-nav/portfolio.svg",
+    "src/shared/ui/assets/floating-nav/stocks.svg",
     "src/shared/ui/useSwipeBetween.ts",
     "src/shared/userStatus.ts"
   ]

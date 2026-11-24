@@ -4,7 +4,7 @@
   "description": "Equity F&O home: P&L, indices, chart metrics, watchlists, Smart Options, Futures Heatmap and Smart Futures.",
   "designSystem": {
     "name": "Lemonnade V3 (L3)",
-    "commit": "6de43c8",
+    "commit": "ed10506",
     "docs": "https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt"
   },
   "prototype": {
@@ -88,7 +88,7 @@
       "id": "fno-35",
       "name": "Break Even · position + breakeven line",
       "figma": "11756:78739",
-      "note": "Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.",
+      "note": "Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the solid warning-light breakeven line with a boxed “Breakeven ⓘ” tag on it, 8 left of the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.",
       "goesTo": [
         "dash-20"
       ],
@@ -98,7 +98,7 @@
       "id": "fno-36",
       "name": "Break Even · How breakeven works (sheet)",
       "figma": "11783:5569",
-      "note": "Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.",
+      "note": "Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven line?” (no description; “price” → “line”, 19 Nov), the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card loops (a tap replays it): every play opens with the “Introducing Breakeven Line” intro (2.5 s), then a 9.3 s chart copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top with the chart’s “Breakeven” tag (text only, no price), an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills; it holds, then plays again from the intro. “I understand” is locked until the chart has played once (intro + chart, 11.8 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.",
       "goesTo": [
         "dash-20"
       ],
@@ -113,6 +113,96 @@
         "dash-20"
       ],
       "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11754-69563"
+    },
+    {
+      "id": "fno-39",
+      "name": "Zing signals · All signals",
+      "figma": "6900:23855",
+      "note": "From the Active chip at the tool row’s right end (Zing). Figma: file 9r61YQp7QQZAQovDyz8hLF (Enrich signal filter), old Lemonn design system, rebuilt in L3. Top row: filter button | All Signals (4) · Win rate ≥ 50% · Commodity · Nifty · Sensex (L3 pill tabs, Small; counts are worked out from the signals). Active signals (n) with Total P&L, then a card per signal: avatar, strategy, market + win rate tags (or a P&L tag), View; under a line Buy Call 23950 • RR • the rule. A chip with no signals shows the L3 empty state. Filter → fno-40.",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-23855"
+    },
+    {
+      "id": "fno-40",
+      "name": "Zing signals · Filter · Indices",
+      "figma": "6900:26203",
+      "note": "The filter takes the signals sheet over in place, in the Scalper’s Settings sheet look: L3 Side nav Indices · Win rate · Call/Put · Strategies, the white panel with its Heading/16 title row and Clear All, card rows with a checkbox (Indices, Strategies) or radio (Win rate, Call/Put; the chosen one tinted blue), the picks as pills over Cancel / Apply (primary). Cancel or a scrim tap brings the signals back; Apply saves them as Your filter (→ fno-45).",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-26203"
+    },
+    {
+      "id": "fno-41",
+      "name": "Zing signals · Filter · Indices picked",
+      "figma": "6900:29666",
+      "note": "NIFTY 50 and SENSEX ticked (All Indices unticks itself; untick both and it’s back). The side tab shows how many it picked (Figma: a red 1 — L3 Side nav’s corner flag, in blue). The picks sit as chips over Cancel / Apply; ✕ takes one off.",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-29666"
+    },
+    {
+      "id": "fno-42",
+      "name": "Zing signals · Filter · Win rate",
+      "figma": "6900:27042",
+      "note": "Win rate: All · ≥ 50% · ≥ 30% (pick one).",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-27042"
+    },
+    {
+      "id": "fno-43",
+      "name": "Zing signals · Filter · Call/Put",
+      "figma": "6900:27889",
+      "note": "Call/Put: All · Call · Put (pick one).",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-27889"
+    },
+    {
+      "id": "fno-44",
+      "name": "Zing signals · Filter · Strategies",
+      "figma": "6900:28736",
+      "note": "Strategies: one row per Zing strategy with its picture (L3 Avatar 24), pick several. A long name is cut at 140 in its chip (Figma dev note).",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-28736"
+    },
+    {
+      "id": "fno-45",
+      "name": "Zing signals · Your filter saved (tip)",
+      "figma": "6900:30528",
+      "note": "Right after Apply: Your filter (n) comes in first, selected, with ✕ to remove it; the filter button gets a red dot; a blue tooltip “Filter applied & saved for quick access” with ✕ points at it once (Figma’s colour on the L3 tooltip). Figma keeps All Signals selected; here the saved filter is, so the list shows what it picked.",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-30528"
+    },
+    {
+      "id": "fno-46",
+      "name": "Zing signals · Your filter saved",
+      "figma": "6900:24637",
+      "note": "The same without the tip: next time the sheet opens, Your filter is one tap away.",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-24637"
+    },
+    {
+      "id": "fno-47",
+      "name": "Zing signals · All Signals (plain)",
+      "figma": "6900:25420",
+      "note": "Figma’s plain look: an “All Signals” header and every signal. Figma’s ← back is left out: L3 gives the first sheet over a screen no back button.",
+      "goesTo": [
+        "dash-20"
+      ],
+      "figmaUrl": "https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-25420"
     },
     {
       "id": "fno-08",
@@ -366,12 +456,23 @@
     "src/flows/fno/README.md",
     "src/flows/fno/archive/BreakevenExplainerV2.module.css",
     "src/flows/fno/archive/BreakevenExplainerV2.tsx",
+    "src/flows/fno/assets/breakeven-info.svg",
+    "src/flows/fno/assets/breakeven-tile-arrow.svg",
     "src/flows/fno/assets/commodities.svg",
     "src/flows/fno/assets/downtrend.svg",
     "src/flows/fno/assets/equity.svg",
     "src/flows/fno/assets/option-chain.svg",
     "src/flows/fno/assets/referral.svg",
     "src/flows/fno/assets/scalppro.svg",
+    "src/flows/fno/assets/shortcuts/analysis.svg",
+    "src/flows/fno/assets/shortcuts/ipo.svg",
+    "src/flows/fno/assets/shortcuts/referral.svg",
+    "src/flows/fno/assets/shortcuts/watchlist.svg",
+    "src/flows/fno/assets/signals/booming.png",
+    "src/flows/fno/assets/signals/gold-bars.png",
+    "src/flows/fno/assets/signals/lemon.png",
+    "src/flows/fno/assets/signals/neeraj.png",
+    "src/flows/fno/assets/signals/zing-mark.svg",
     "src/flows/fno/assets/smart-invest.svg",
     "src/flows/fno/assets/strategies.svg",
     "src/flows/fno/assets/trade-calls.svg",
@@ -455,6 +556,10 @@
     "src/flows/fno/sheets/HomeSheets.tsx",
     "src/flows/fno/sheets/IlliquidSheet.tsx",
     "src/flows/fno/sheets/IndicatorDetailsSheet.tsx",
+    "src/flows/fno/sheets/SignalStrip.module.css",
+    "src/flows/fno/sheets/SignalStrip.tsx",
+    "src/flows/fno/sheets/SignalsSheet.module.css",
+    "src/flows/fno/sheets/SignalsSheet.tsx",
     "src/flows/fno/strategies/components/Strategies.module.css",
     "src/flows/fno/strategies/components/StrategiesFeed.tsx",
     "src/flows/fno/strategies/data.ts"
@@ -466,6 +571,8 @@
     "src/shared/prototype.ts",
     "src/shared/ui/Diwali.module.css",
     "src/shared/ui/Diwali.tsx",
+    "src/shared/ui/FloatingNav.module.css",
+    "src/shared/ui/FloatingNav.tsx",
     "src/shared/ui/IlliquidSheet.module.css",
     "src/shared/ui/IlliquidSheet.tsx",
     "src/shared/ui/Rail.module.css",
@@ -474,10 +581,19 @@
     "src/shared/ui/Screen.tsx",
     "src/shared/ui/Sheet.module.css",
     "src/shared/ui/Sheet.tsx",
+    "src/shared/ui/ShortcutCircles.module.css",
+    "src/shared/ui/ShortcutCircles.tsx",
     "src/shared/ui/Splash.module.css",
     "src/shared/ui/Splash.tsx",
     "src/shared/ui/TopBarAction.module.css",
     "src/shared/ui/TopBarAction.tsx",
+    "src/shared/ui/assets/floating-nav/fno-selected.svg",
+    "src/shared/ui/assets/floating-nav/fno.svg",
+    "src/shared/ui/assets/floating-nav/market-selected.svg",
+    "src/shared/ui/assets/floating-nav/market.svg",
+    "src/shared/ui/assets/floating-nav/mutual-fund.svg",
+    "src/shared/ui/assets/floating-nav/portfolio.svg",
+    "src/shared/ui/assets/floating-nav/stocks.svg",
     "src/shared/ui/copy.json",
     "src/shared/ui/dash/DashEntry.module.css",
     "src/shared/ui/dash/DashEntry.tsx",
@@ -487,6 +603,7 @@
     "src/shared/ui/dash/assets/leaf-front.svg",
     "src/shared/ui/dash/assets/orb-fill.svg",
     "src/shared/ui/dash/assets/orb-ring.svg",
-    "src/shared/ui/useSwipeBetween.ts"
+    "src/shared/ui/useSwipeBetween.ts",
+    "src/shared/userStatus.ts"
   ]
 }

@@ -1,6 +1,6 @@
 # Flow: F&O (`fno`)
 
-> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `6de43c8` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `ed10506` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 Equity F&O home: P&L, indices, chart metrics, watchlists, Smart Options, Futures Heatmap and Smart Futures.
 
@@ -18,9 +18,18 @@ Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/fno · mach
 | `fno-05` | Scalper | — | `dash-20` | From ScalpPro on F&O home, the Expiring cards, the Expiry calendar or the Scalper bottom-nav tab — always a new page in from the right; back returns to the page it was opened from. The chart-tools sheet groups personal DASH AI indicators separately from Lemon indicators. |
 | `fno-06` | Scalper · DASH indicator | — | `dash-20` | From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list. |
 | `fno-07` | Scalper · indicator applied | — | `dash-20` | With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles. |
-| `fno-35` | Break Even · position + breakeven line | [11756:78739](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11756-78739) | `dash-20` | Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large. |
-| `fno-36` | Break Even · How breakeven works (sheet) | [11783:5569](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11783-5569) | `dash-20` | Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx. |
+| `fno-35` | Break Even · position + breakeven line | [11756:78739](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11756-78739) | `dash-20` | Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the solid warning-light breakeven line with a boxed “Breakeven ⓘ” tag on it, 8 left of the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large. |
+| `fno-36` | Break Even · How breakeven works (sheet) | [11783:5569](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11783-5569) | `dash-20` | Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven line?” (no description; “price” → “line”, 19 Nov), the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card loops (a tap replays it): every play opens with the “Introducing Breakeven Line” intro (2.5 s), then a 9.3 s chart copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top with the chart’s “Breakeven” tag (text only, no price), an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills; it holds, then plays again from the intro. “I understand” is locked until the chart has played once (intro + chart, 11.8 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx. |
 | `fno-37` | Break Even · chart settings (breakeven line) | [11754:69563](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=11754-69563) | `dash-20` | The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here. |
+| `fno-39` | Zing signals · All signals | [6900:23855](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-23855) | `dash-20` | From the Active chip at the tool row’s right end (Zing). Figma: file 9r61YQp7QQZAQovDyz8hLF (Enrich signal filter), old Lemonn design system, rebuilt in L3. Top row: filter button | All Signals (4) · Win rate ≥ 50% · Commodity · Nifty · Sensex (L3 pill tabs, Small; counts are worked out from the signals). Active signals (n) with Total P&L, then a card per signal: avatar, strategy, market + win rate tags (or a P&L tag), View; under a line Buy Call 23950 • RR • the rule. A chip with no signals shows the L3 empty state. Filter → fno-40. |
+| `fno-40` | Zing signals · Filter · Indices | [6900:26203](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-26203) | `dash-20` | The filter takes the signals sheet over in place, in the Scalper’s Settings sheet look: L3 Side nav Indices · Win rate · Call/Put · Strategies, the white panel with its Heading/16 title row and Clear All, card rows with a checkbox (Indices, Strategies) or radio (Win rate, Call/Put; the chosen one tinted blue), the picks as pills over Cancel / Apply (primary). Cancel or a scrim tap brings the signals back; Apply saves them as Your filter (→ fno-45). |
+| `fno-41` | Zing signals · Filter · Indices picked | [6900:29666](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-29666) | `dash-20` | NIFTY 50 and SENSEX ticked (All Indices unticks itself; untick both and it’s back). The side tab shows how many it picked (Figma: a red 1 — L3 Side nav’s corner flag, in blue). The picks sit as chips over Cancel / Apply; ✕ takes one off. |
+| `fno-42` | Zing signals · Filter · Win rate | [6900:27042](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-27042) | `dash-20` | Win rate: All · ≥ 50% · ≥ 30% (pick one). |
+| `fno-43` | Zing signals · Filter · Call/Put | [6900:27889](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-27889) | `dash-20` | Call/Put: All · Call · Put (pick one). |
+| `fno-44` | Zing signals · Filter · Strategies | [6900:28736](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-28736) | `dash-20` | Strategies: one row per Zing strategy with its picture (L3 Avatar 24), pick several. A long name is cut at 140 in its chip (Figma dev note). |
+| `fno-45` | Zing signals · Your filter saved (tip) | [6900:30528](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-30528) | `dash-20` | Right after Apply: Your filter (n) comes in first, selected, with ✕ to remove it; the filter button gets a red dot; a blue tooltip “Filter applied & saved for quick access” with ✕ points at it once (Figma’s colour on the L3 tooltip). Figma keeps All Signals selected; here the saved filter is, so the list shows what it picked. |
+| `fno-46` | Zing signals · Your filter saved | [6900:24637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-24637) | `dash-20` | The same without the tip: next time the sheet opens, Your filter is one tap away. |
+| `fno-47` | Zing signals · All Signals (plain) | [6900:25420](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6900-25420) | `dash-20` | Figma’s plain look: an “All Signals” header and every signal. Figma’s ← back is left out: L3 gives the first sheet over a screen no back button. |
 | `fno-08` | Commodities home | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The Commodities product tab. Gold / Silver / Crude Oil / Natural Gas shortcuts open the Lot summary (Gold Summary). The chart’s instrument selector (“Gold”) opens the contract picker. Popular commodities: Options ⇕ Futures switch; Futures Heatmap: Bullion / Energy / Metals. |
 | `fno-09` | Commodities · heatmap & Smart Futures | [6754:63637](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-63637) | — | The same long screen, scrolled to the Futures Heatmap. |
 | `fno-10` | Contract picker · Commodities | [6754:65111](https://www.figma.com/design/nLs24dTJdPz9A5pu3AWMbe/?node-id=6754-65111) | — | From the chart’s “Gold ⇕”. Equity / Commodities tabs in the sheet header’s bottom slot, commodity chips (All, Gold, Silver …) under them; contracts grouped by commodity as radio rows (Gold Mini tagged “Lowest Margin”). Picking one updates the chart and closes the sheet. |
@@ -75,6 +84,15 @@ The F&O tab, implemented with Lemonnade V3 components from Figma [F&O Home → E
 | fno-35 | Scalper, a position open: TP / entry / SL pills and the breakeven line (version C, Boxed chip) | 11756:78739 |
 | fno-36 | Break Even · How breakeven works (animated explainer sheet) | 11783:5569 (dark 11783:6220) |
 | fno-37 | Chart tools sheet on Settings | 11754:69563 (dark 11783:9335) |
+| fno-39 | Zing signals (Scalper → Active chip): quick chips, Active signals, signal cards | 6900:23855 (file 9r61YQp7QQZAQovDyz8hLF) |
+| fno-40 | Zing signals · filter on Indices (chart tools layout) | 6900:26203 |
+| fno-41 | Filter · Indices with NIFTY 50 + SENSEX picked | 6900:29666 |
+| fno-42 | Filter · Win rate | 6900:27042 |
+| fno-43 | Filter · Call/Put | 6900:27889 |
+| fno-44 | Filter · Strategies | 6900:28736 |
+| fno-45 | Your filter saved, with the "saved for quick access" tip | 6900:30528 |
+| fno-46 | Your filter saved | 6900:24637 |
+| fno-47 | All Signals, plain (heading + every signal) | 6900:25420 |
 | fno-08 | Commodities home | 6754:63637 |
 | fno-09 | Commodities home, at Futures Heatmap | 6754:63637 |
 | fno-10 | Contract picker sheet, Commodities tab | 6754:65111 |
@@ -160,9 +178,9 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
   - **SL pill**: ⠿ · red Tag "SL Qty:65" · the P&L if it fills · ✕ · Add Trail (toggles; "✓ Trailing" when on);
   - **dragging** a ⠿ (or focusing it and ↑ / ↓, Shift = ×20) moves TP / SL in ₹0.05 ticks. TP stays above the last
     price and SL below it, both at least 30 px clear of the entry row and 12 px inside the plot. The P&L updates live;
-  - **the breakeven line**: yellow dashed (`border-accent-warning-default`) at the breakeven price, ending in the
-    boxed chip "Breakeven ⓘ" (Figma reads "B/E 105.55"; spelled out without the price, designer's call 2026-11-03 — its accessible label keeps the price) flush to the price axis (Figma 11756:79332: warning-light surface and edge, no right
-    edge, left corners 4, Label/10 in warning, 12 ⓘ). Tap → How breakeven works. Hidden when Settings → Breakeven
+  - **the breakeven line**: solid 1px `border-accent-warning-light` at the breakeven price (Figma 11756:79330), with the
+    boxed tag "Breakeven ⓘ" on it (Figma reads "B/E 105.55"; spelled out without the price, designer's call 2026-11-03 — its accessible label keeps the price) 8 left of the price axis (Figma 11756:79332: warning-light surface and 1px
+    edge all round, radius 4, Label/10 in warning, 16 tall, Figma's 12 info_outline tinted in the text colour). Tap → How breakeven works. Hidden when Settings → Breakeven
     line is off.
 - **Breakeven price** (`data.ts` `breakevenPrice`): entry + the round trip's charges ÷ quantity, rounded **up** to the
   ₹0.05 tick, so selling at it is never a loss. Charges (`optionCharges`): brokerage ₹20 × 2 orders, STT 0.1% of the
@@ -186,8 +204,8 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
   (≈₹0.26) up to the next tick = ₹100.30, sold ₹102, the price path's five turns.
 
   **Versions** (F&O setting "Breakeven sheet", also a floating card beside the phone on fno-36; 2026-11-16):
-  **Version 2** (default) — heading "What is breakeven price?" with a one-line description under it (L3 sheet header
-  `description`), the example, then the charges table; the two info lines are hidden. **Version 1** — the sheet as it
+  **Version 2** (default) — heading "What is breakeven line?" (was "… price?" with a description
+  under it; both changed 19 Nov), the example, then the charges table; the two info lines are hidden. **Version 1** — the sheet as it
   first shipped: heading "How breakeven works", the example, then the two info lines; no table.
   **Charges table** (under the example card, `ChargesTable` in the sheet; 2026-11-16): the same trade as a calculation,
   on a secondary-surface card (radius 12, no edge, no lines inside) so it stands out on the sheet (no heading): compact
@@ -223,13 +241,18 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
   | 1550 | the bands fill up one every 350 (STT, transaction, stamp duty, SEBI, then brokerage): each grows up from the one below (300, ease-out) as its tag fades in rising 4 → 0 with its leader; the last is in by 3600 |
   | 4100 | zoom out (600, ease-in-out); the leaders fade (150); the whole zone fades in over the bands, closing their gaps; the tags slide to the zone's label spot (8.5 in, 10.5 under B/E), top tag first, each 30 later (450, ease-in-out), stacking up |
   | 4600 | the stacked tags cross-fade (150) into one white "Order charges" tag in the charges orange; 4950 its pill fades (250), leaving the label |
-  | 4750 | B/E line draws left → right along the zone's top (450, ease-in-out); 5200 its chip fades and scales 0.9 → 1 (200) |
+  | 4750 | B/E line draws left → right along the zone's top (450, ease-in-out); 5200 its "Breakeven" tag (text only, as on the chart) fades and scales 0.9 → 1 (200) |
   | 5550 | LTP bubble pops in at ₹100.00 (150) |
   | 5800 | the price line draws at a steady pace to ₹102 (2150); the bubble rides its head showing the last turn passed (cross-fades 100 ms at each); at B/E a ringed marker appears and pulses (r 7.5 → 14, fading, 400 ms) |
   | 7950 | the line ends: a green ring; 8000 the bubble fades (150), the green dot pops in (200), 8200 it pulses (500) |
   | 8250 | "Sold at ₹102" fades in sliding 6 → 0 from the right (150) |
   | 8450 | net-profit zone grows up from B/E to ₹102 (550, ease-out); 9150 "Net Profit" fades in (150) |
-  | 9300 | it stops on the finished chart. A tap (or Enter / Space) plays it again from 0. The recording's intro (11750: the Breakeven mark, INTRODUCING, Breakeven Line, the one-liner; 15000: fade and loop) is kept in the code but not reached |
+  | 9300 | it holds on the finished chart (2.2 s), then the next play starts with the intro, on loop. A tap (or Enter / Space) after the first play starts it again from the intro |
+
+  **Every play opens with the intro** (19 Nov): for 2.5 s before the chart's t = 0 — the Breakeven mark, INTRODUCING,
+  Breakeven Line, the one-liner (Figma's reveal), fading (300) into the blank chart — on open, on each loop and on a tap.
+  The times above are the chart's own, from when the intro has gone. "I understand" unlocks when the chart first
+  finishes (2.5 + 9.3 s).
 
   **V2 — archived 2026-11-04, not in the app** (`archive/BreakevenExplainerV2.tsx` + its CSS, with the steps to bring it
   back): starts zoomed in, the line rises from the bottom to the buy at ₹100 over a blue ₹0 → ₹100 fill, the charges
@@ -248,6 +271,64 @@ Figma: "Scalper screen · C · Boxed chip" (the yellow chip version; A / B are n
 - **Auto TP/SL mark** (`components/AutoTpSlIcon`) — Figma's motion (11756:79819 / 79827 / 79835): 1.198 s, played
   forward then back. Candle: opacity 0 → 1 and scaleY 0.15 → 1 by 29%, ease-out. TP bar: from 25% to 46% it fades in
   (ease-out) and slides 5 → 0 (cubic-bezier(0.2, 0, 0.2, 1.3), a slight overshoot). SL bar: the same from 38% to 58%.
+
+#### Zing signals (fno-39 … 47)
+
+From the Active chip at the right end of the Scalper's tool row (Zing). Figma: "Enrich signal filter" 6900:23853 in file
+`9r61YQp7QQZAQovDyz8hLF` (drawn in the old Lemonn design system), rebuilt in L3, light and dark. `sheets/SignalsSheet.tsx`;
+sample signals in `data.ts` (`zingSignals`, `SignalFilter`, `matchesFilter`).
+
+- **Signals sheet.** 75% of the phone screen's height whatever the number of signals (the list scrolls inside). In the header's place a chip row: the filter button (Tertiary Small, a red dot once a filter is
+  saved) | L3 pill tabs (Small): Your filter (n) ✕ once saved · All Signals (n) · 🔥 Win rate ≥ 50% (n) · Commodity ·
+  Nifty · Sensex. Counts are worked out from the signals. Body: "Active signals (n)" (Heading/14) with a Total P&L tag,
+  then one L3 Card per signal: Avatar 32, strategy (Heading/12, secondary), tags (market · Win rate n% in green, or a
+  P&L tag), View (Small primary); under a hairline the trade in Label/12: Buy Call 23950 • RR 1.4 • the rule (EMA 9 >
+  EMA 21, Price ≥ EMA 9, PCR 1.55). A chip with no signals shows the L3 empty state.
+- **Filter** (filter button): the sheet turns into the filter in place, in the Scalper's Settings sheet look (chart tools
+  → Settings; it reuses `ChartToolsSheet.module.css`): the 96 L3 Side nav (Indices · Win rate · Call/Put · Strategies),
+  the white panel with its sticky Heading/16 title row over a hairline (Clear All on the right empties the group), 48
+  card rows 8 apart. Checkboxes for Indices (All Indices, NIFTY 50, SENSEX, BANKNIFTY, F&O Stocks, Commodity — All
+  Indices = none picked) and Strategies (with the strategy's avatar); radios for Win rate (All, ≥ 50%, ≥ 30%) and
+  Call/Put (All, Call, Put), the chosen one in the discover tint like Stop Loss Preference. A group that narrows the
+  list shows how many it picked in the tile's corner. Shorter than Settings: the list area is 412; the picks sit under
+  it in Figma's 44 strip as pills (surface-primary, border-light, Label/12 secondary, ⊗ 16; ✕ removes one; long names
+  cut at 140); then the dock: Cancel (secondary) · Apply (primary, black — Settings' Apply is brand).
+- **Apply** saves the choices as Your filter: it comes in first and selected, with an L3 tooltip "Filter applied &
+  saved for quick access" (✕) once. Applying nothing removes it. Cancel (or a scrim tap) drops the changes. ✕ on Your
+  filter removes it and goes back to All Signals.
+- **Commodity signals** (20 Nov review, settled 24 Nov): users couldn't tell an MCX signal from an index one. The sheet
+  starts with the filter button | the chips — All Signals · Win rate ≥ 50% · Nifty · Sensex · F&O Stocks · Commodities
+  (sideways scroll) — and a line under them (no segment tabs: removed 24 Nov). A commodity card's tag is amber, with the
+  commodity's logo and name (index and stock cards keep the grey tag), and the nudge strip sits over it. The other
+  versions tried on 20 Nov (grey tag, MCX tag, logo on the avatar, segment tabs, commodity picture, header with tabs)
+  were removed on 24 Nov.
+- **Commodity nudge strip** (setting "Commodity nudge strip", Figma 6946:42446, 24 Nov): commodity cards still didn't
+  stand out, so a 28 strip peeks out from behind a commodity card's top edge with a reason to look (data: `nudge` on the
+  signal — how many traded it today, today's move). It's the sheet's only setting; Off hides it.
+  Motion: once the sheet is up the strip slides out from behind the card (0 → 28, 400 ms, decelerate; one card after
+  another, 250 ms apart), its line rises in, then a light shimmer sweeps left → right every 3 s. Switched on while the
+  sheet is up, it comes out at once; switched off, it reverses — the line fades, the strip tucks back behind the card
+  (400 ms) and the ring fades, the card sliding up with it (the card itself never changes size). Switching between
+  versions keeps the strip out; only its picture and line rise in anew. Reduced motion: none.
+  On a phone, a floating S0 … S4 bubble (left, over the chart) flips it.
+  1. Gold glow (Figma, default) — the strip warm in its top-left corner (halfway zing light → honey 200) fading to zing
+     light 64 across, a 1 gold ring round strip and card (zing light → honey 300 at the bottom; Figma 6947:45037, 24
+     Nov), the gold bars (18; other commodities: their logo) on a soft white glow, "**2.1K+ people** have traded on gold
+     today" (Heading/10 + Label/10, honey 800). Versions 2 and 3 use the same shape in their own colours.
+  2. Colour per commodity — as 1, in the commodity's colour (gold honey, crude oil / silver grey, natural gas
+     tangerine), its logo, and a pulsing green Live dot on the right.
+  3. Dark ticker — the inverted surface, an orange flame, "**Trending on MCX** · 2.1K+ traded today" in honey.
+  4. Rotating facts — 1's strip, without the shimmer; the line and its picture turn over every 5 s (rising in together): traded today ·
+     "**Trending on MCX** · 2.1K+ traded today" with the orange flame (as 3) · "Gold is +1.2% today" with a trend arrow
+     (up or down, in the strip's brown text colour) · "MCX is open till 11:30 PM". The soft white glow sits only under the gold bars
+     (no glow under logos or icons, in every version).
+  (The grouped-list version was removed, 20 Nov. Setting values stay v1, v2, v3, v5, v6, v7, v8.)
+  Chips not picked read in text secondary (all versions).
+  The setting is a dropdown (desktop panel and phone settings); on a phone (app mode) a floating V1 … V7 bubble on the
+  signals sheet screens (fno-39, 45, 46, 47) steps to the next version in one tap. It starts on the chart, above the
+  sheet (`quickSwitch.spot`), and can be dragged.
+ · fno-40 … 44 the filter on each group (41: NIFTY 50 + SENSEX picked; 44: plus a
+  strategy) · fno-45 / 46 Your filter saved (with / without the tip) · fno-47 the plain All Signals look.
 
 #### Commodities (fno-08 … 14)
 
@@ -426,6 +507,35 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
   (`--app-be-profit-top`).
 - Stack has no 20 gap.
 
+#### Zing signals vs Figma (6900:23853)
+
+- Old design system → L3: chips are L3 pill tabs, Medium (32 tall, 8 padding, Label/12 — Figma's size); the filter
+  button is a Tertiary Small button made round; tags are L3 Small tertiary tags; View is L3 Small primary, 60 wide as
+  in Figma.
+- The filter follows the Scalper's Settings sheet (user's call, 20 Nov), not Figma 6900:28736: it takes the signals
+  sheet over in place (Figma stacks it), L3 Side nav tiles at their own size (Figma 78 × 68), the white panel (Figma
+  grey), 48 rows (Figma 44), 412 + picks + dock tall (Figma 492). Kept from Figma: the picks strip and the black Apply.
+- The tooltip is Figma's (6900:31347): L3 Tooltip in the discover blue, white Label/12 on one line, pointing at Your
+  filter. L3's tooltip is dark with Description/12 — L3 gap: no discover tone.
+- Figma keeps All Signals selected after Apply; here Your filter is selected, so the list shows what the filter picked.
+- The side tab's count is the number picked in that group (Figma shows a red "1" for two picks), in L3 Side nav's corner
+  flag colour (blue).
+- Figma's "← All Signals" back arrow is left out: L3 gives the first sheet over a screen no back button.
+- Sample data made consistent across frames: Booming Bulls trades on SENSEX (Figma shows it as NIFTY, Gold and SILVER
+  100 in different frames), so the Sensex and Indices filters have something to show; no signal is on a commodity yet,
+  so Commodity shows the empty state. Prime scalper EMA has no win rate (Figma shows its P&L), so Win rate filters leave
+  it out. Counts are computed (Figma's "Win rate ≥ 50% (1)" reads 2 with these signals).
+- The lemon mascot avatar is rendered from Figma's vector parts to a 128px PNG (`assets/signals/lemon.png`); Figma
+  only exports the component at 16. Neeraj's photo and the Booming Bulls logo are Figma's images.
+
+#### L3 gaps (Zing signals)
+
+- No dividers inside a Tabs row: Figma's separators between the filter button, the main chips and the market chips are
+  one hairline after the filter button here.
+- No removable (input) chip: the picks over Cancel / Apply are Secondary Small buttons with a ⊗ icon; Your filter's ✕
+  is an icon inside the pill tab, caught by where the tap lands (the tab's press layer covers its icons).
+- Side nav has no count badge, only the corner flag.
+
 #### L3 gaps (Commodities & Strategies)
 
 - Avatar has no borderless option: fno-38 hides its 1px edge locally (`.calendarAvatar`).
@@ -440,7 +550,36 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - Weekday result dots (Zing Trades): no L3 component; 16 circles on the up / down light surfaces.
 
 ### Changelog
+- 24 Nov 2026 — Zing signals: no shimmer on nudge strip 4 (Rotating facts).
+- 24 Nov 2026 — Zing signals: the nudge strip animates out when switched off (tucks back behind the card) and comes out at once when switched on with the sheet up.
+- 24 Nov 2026 — Zing signals: nudge strip gradient from Figma 6947:45037 — warm top-left corner fading across, and a gold ring round strip and card.
+- 24 Nov 2026 — Zing signals: Rotating facts turns every 5 s (was 3), the picture comes in with its line, the move line has a trend arrow; the glow only under the gold bars.
+- 24 Nov 2026 — Zing signals: nudge strip 4 (Rotating facts) adds the trending line with the flame.
+- 24 Nov 2026 — Zing signals: the All · Index · Stocks · Commodities tabs are removed; the sheet starts with the filter button | chips and a line under them.
+- 24 Nov 2026 — Zing signals: the Commodity signals versions are removed; the sheet keeps the segment tabs and the commodity logo tag, and the nudge strip versions are its only setting.
+- 24 Nov 2026 — Zing signals: Commodity nudge strip (Figma 6946:42446) — a strip over commodity cards with an entry slide and a shimmer; four versions + Off (setting, S0 … S4 bubble). L3 gaps: no text token on the zing / orange light tints (honey 800), no shimmer highlight, no 29 glow size.
+- 24 Nov: Equity shortcuts copy Figma 6754:62886 — Analysis · IPO · Watchlist · Referral, 40 discs (surface primary, 1px subtle edge, soft glow) with Figma's two-tone green icons (assets/shortcuts), no card round each. Commodities shortcuts back in one row of four (their own Inset + 4-column Grid). FLAG (L3 gap): the disc glow is raw; the two-tone icons are artwork, not L3 icons.
+- 23 Nov 2026 — F&O sub-nav (floating V2): the chosen F&O icon is black and white, like the main nav's.
+- 23 Nov 2026 — Home shortcuts (Trade Calls · Watchlist · Smart Invest · Referral) drawn as the Stocks Home's: 40 circles with a green-edged wash and green icons (lightbulb, bookmark, smart toy, redeem — Home's icons for these features), names in secondary text, via the new shared part src/shared/ui/ShortcutCircles. The old outlined tertiary buttons and their SVG art are no longer used (assets kept).
 
+- 2026-11-20 — Zing signals: the sheet is 75% of the screen's height (Screen is a size container, cqh).
+- 2026-11-20 — Zing signals: under the tabs' All, more chips (Nifty, Sensex, F&O Stocks, Commodities); version 7's header has no line and a shadow once the list scrolls.
+- 2026-11-20 — Zing signals: version 7, Header with tabs (Active signals + Total P&L in the sheet header, tabs and chips under it).
+- 2026-11-20 — Zing signals: Commodity signals is a dropdown; a floating V1 … V6 bubble on the signals sheet screens (phone). Preview: a quick switch can set its starting spot (`quickSwitch.spot`).
+- 2026-11-20 — Zing signals: signal cards get a smooth drop shadow (L3 elevation low + soft).
+- 2026-11-20 — Zing signals: strategy names in text primary; grey tags (market, win rate) in text secondary; Commodity picture's tag grey.
+- 2026-11-20 — Zing signals: grouped list removed; Logo on avatar's tag is the name alone; no icon on the Commodities tab; Commodity picture puts the logo on a circle (colour per commodity, or grey — new setting).
+- 2026-11-20 — Zing signals: segment tabs 16 below the top edge, 16 from their text to the line and selected bar.
+- 2026-11-20 — Zing signals: Segment tabs get 20 above them and chips per tab (Index: Nifty · Sensex · Bank Nifty; Stocks: Win rate ≥ 50% · ≥ 25%; Commodities: Gold · Silver · Crude Oil · Natural Gas); unpicked chips in text secondary; versions 6 (logo tag, no tabs) and 7 (commodity picture); sample feed adds Bank Nifty and Natural Gas signals.
+- 2026-11-20 — Zing signals: the sheet is 512 tall (under 60% of the screen), the list scrolls inside it.
+- 2026-11-20 — Zing signals: Segment tabs (version 5) is the default.
+- 2026-11-20 — Zing signals: five ways to tell commodity signals apart (setting "Commodity signals"); sample feed adds Gold, Crude Oil and a Reliance signal.
+- 2026-11-20 — Zing signals: the sheet keeps Figma's height with one or two signals; the saved-filter tip in Figma's blue, pointing at Your filter.
+- 2026-11-20 — Zing signals filter in the Scalper's Settings sheet look (side nav, white panel, title row, 48 rows, tinted chosen radio); list area 412, picks strip and black Apply kept.
+- 2026-11-20 — Zing signals filter to Figma 6900:28736: 492 tall, Figma side tabs and spacing on the secondary panel, the picks strip as Figma's pills, Apply primary (black).
+- 2026-11-20 — Zing signals filter on the chart tools sheet's layout (side nav, Heading/16 title row, card rows, Cancel / Apply dock), in place of the stacked sheet.
+- 2026-11-20 — Zing signals: chips at Figma's size (L3 Medium pills, 32 / Label/12), round filter button and picks, View 60 wide, side tabs and sheet heights as Figma; the filter sheet opens inside the phone on desktop (it covered the whole page).
+- 2026-11-20 — Zing signals sheet (fno-39 … 47) from Figma 6900:23853, in L3, light and dark: the Active chip on the Scalper opens it; quick chips, signal cards, the filter sheet (Indices · Win rate · Call/Put · Strategies) and the saved "Your filter".
 - 2026-11-17 — Expiring This Week: events card third in the rail (EIA natural gas storage today on NATGASMINI: outlook, ATM option, margin — like the other cards; the readings stay on the calendar); the calendar's gas report moved to today with the same readings.
 - 2026-11-17 — Event assets: the arrow tags are the only version; the earlier cards (Bullish / Bearish over the name) and the "Event assets" setting are archived (removed).
 - 2026-11-17 — Event assets: one per commodity (no Mini alongside the full size); natural gas storage moves Natural Gas, Crude Oil; crude inventories Crude Oil, Natural Gas, Gold.
@@ -495,6 +634,14 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - 2026-11-17 — Prototype setting “Calendar days” for Expiring This Week v2 / v3: 3 today · 2 today + 1 tomorrow · 1 a day.
 - 2026-11-17 — Calendar days: “2 today · 1 tomorrow” is the default.
 - 2026-11-17 — Calendar today: on the calendar page (fno-38) today's date block is inverted (surface-inverted, content-inverted text) instead of ringed; the home's short calendar no longer marks today.
+- 2026-11-18 — The profile avatar in the top bar has its 1px indigo ring back (only the user's profile; other avatars and logos stay borderless).
+- 2026-11-19 — Break Even · How breakeven works: the example opens every play with the "Introducing Breakeven Line" intro (2.5 s, fading into the chart) — on open, on each loop and on a tap — then the chart, which holds 2.2 s and loops (it had stopped on the chart, the intro unreached, since 4 Nov). "I understand" unlocks when the chart first finishes (11.8 s).
+- 2026-11-19 — Breakeven icon in the "Introducing Breakeven Line" intro matches Figma (11989:36412): Figma's own arrow (`assets/breakeven-tile-arrow.svg`, lime gradient) in a 48 tile, radius 12, 12 padding, a dark gradient with a soft lift at the top — and the same colours in light and dark mode (fixed base neutrals, not theme tokens).
+- 2026-11-19 — Breakeven tag and line on the chart match Figma (11756:79332 / 79330) in light and dark: the line is solid 1px border/accent-warning-light (was a dashed warning line); the tag is boxed on all four sides (radius 4, 1px warning-light border, warning-light fill, Label/10 warning text, 16 tall), 8 left of the price axis (was flush, open on the right), with Figma's own info_outline (12) tinted in the text colour. All L3 theme tokens, so dark mode follows.
+- 2026-11-19 — How breakeven works · example: the "B/E ₹100.30" chip on the animated breakeven line is now the chart's own "Breakeven" tag — text only, no price (warning-light fill and edge, radius 4, Label/10 warning text, 16 tall), in light and dark.
+- 2026-11-19 — Breakeven sheet Version 2: the description under "What is breakeven price?" is gone (heading only). Copy `breakeven.descriptionV2` is kept, unused.
+- 2026-11-19 — Breakeven sheet Version 2 heading: "What is breakeven line?" (was "What is breakeven price?").
+- 2026-11-20 · Zing signals version 6 · Commodity picture now also carries version 2's amber "MCX · Gold" tag (was the commodity name in grey): the commodity's picture and the MCX tag together.
 
 
 ## Source — this flow
@@ -1423,6 +1570,36 @@ function useWidth(ref: React.RefObject<HTMLElement | null>, fallback: number) {
 }
 ```
 
+### `src/flows/fno/assets/breakeven-info.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="D2 &#226;&#134;&#146; info_outline">
+<path id="Vector" d="M5.5 3.5H6.5V4.5H5.5V3.5ZM6 8.5C6.275 8.5 6.5 8.275 6.5 8V6C6.5 5.725 6.275 5.5 6 5.5C5.725 5.5 5.5 5.725 5.5 6V8C5.5 8.275 5.725 8.5 6 8.5ZM6 1C3.24 1 1 3.24 1 6C1 8.76 3.24 11 6 11C8.76 11 11 8.76 11 6C11 3.24 8.76 1 6 1ZM6 10C3.795 10 2 8.205 2 6C2 3.795 3.795 2 6 2C8.205 2 10 3.795 10 6C10 8.205 8.205 10 6 10Z" fill="#9F7502" style="fill:#9F7502;fill:color(display-p3 0.6235 0.4593 0.0078);fill-opacity:1;"/>
+</g>
+</svg>
+```
+
+### `src/flows/fno/assets/breakeven-tile-arrow.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Frame">
+<g id="Union">
+<use xlink:href="#stroke0_0_4" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+<use xlink:href="#stroke0_0_4" fill="url(#paint0_linear_0_4)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_4" x1="12.0001" y1="3.00098" x2="12.0001" y2="22.9896" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EDFBBF" style="stop-color:#EDFBBF;stop-color:color(display-p3 0.9294 0.9843 0.7490);stop-opacity:1;"/>
+<stop offset="1" stop-color="#B1E50E" style="stop-color:#B1E50E;stop-color:color(display-p3 0.6941 0.8980 0.0549);stop-opacity:1;"/>
+</linearGradient>
+<path id="stroke0_0_4" d="M11.9728 2.00098C12.2803 2.00098 12.5498 2.11606 12.7804 2.34668L18.0499 7.62793C18.2805 7.85851 18.3925 8.13119 18.3849 8.44629C18.3772 8.76147 18.2581 9.035 18.0275 9.26562C17.7969 9.48087 17.5274 9.59192 17.2199 9.59961C16.9124 9.6073 16.6429 9.49623 16.4122 9.26562L13.1261 5.97852V14.3066H14.3058C14.9426 14.3066 15.459 14.8232 15.4591 15.46C15.4591 16.0968 14.9426 16.6133 14.3058 16.6133H13.1261V20.8359C13.1261 21.151 13.0149 21.4237 12.7921 21.6543C12.5692 21.8849 12.2957 21.9969 11.9728 21.9893C11.6501 21.9815 11.3773 21.8695 11.1544 21.6543C10.9316 21.4391 10.8205 21.1664 10.8205 20.8359V16.6133H9.6935C9.05678 16.6131 8.54018 16.0967 8.54018 15.46C8.54027 14.8233 9.05683 14.3068 9.6935 14.3066H10.8205V5.97852L7.53334 9.26562C7.30286 9.49592 7.03394 9.60725 6.7267 9.59961C6.41925 9.59192 6.14969 9.48082 5.91908 9.26562C5.68078 9.035 5.55763 8.76147 5.54994 8.44629C5.5423 8.13119 5.65434 7.85851 5.8849 7.62793L11.1662 2.34668C11.3967 2.11616 11.6655 2.00107 11.9728 2.00098ZM6.23451 14.3066C6.87126 14.3067 7.38774 14.8232 7.38783 15.46C7.38783 16.0968 6.87132 16.6132 6.23451 16.6133H1.62221C0.985364 16.6133 0.468889 16.0968 0.468889 15.46C0.468981 14.8232 0.985421 14.3066 1.62221 14.3066H6.23451ZM22.3781 14.3066C23.0148 14.3067 23.5313 14.8232 23.5314 15.46C23.5314 16.0968 23.0149 16.6132 22.3781 16.6133H17.7658C17.1289 16.6133 16.6124 16.0968 16.6124 15.46C16.6125 14.8232 17.129 14.3066 17.7658 14.3066H22.3781Z"/>
+</defs>
+</svg>
+```
+
 ### `src/flows/fno/assets/commodities.svg`
 
 ```tsx
@@ -1499,6 +1676,255 @@ function useWidth(ref: React.RefObject<HTMLElement | null>, fallback: number) {
 <g id="score_24dp_E3E3E3_FILL0_wght300_GRAD0_opsz24">
 <path id="Vector" d="M4.09507 17.5C3.64934 17.5 3.27206 17.3456 2.96324 17.0368C2.65441 16.7279 2.5 16.3507 2.5 15.9049V4.09507C2.5 3.64934 2.65441 3.27206 2.96324 2.96324C3.27206 2.65441 3.64934 2.5 4.09507 2.5H15.9049C16.3507 2.5 16.7279 2.65441 17.0368 2.96324C17.3456 3.27206 17.5 3.64934 17.5 4.09507V15.9049C17.5 16.3507 17.3456 16.7279 17.0368 17.0368C16.7279 17.3456 16.3507 17.5 15.9049 17.5H4.09507ZM10.8824 14.3101L16.1765 9.01596V4.09507C16.1765 4.02713 16.1482 3.96493 16.0915 3.90846C16.0351 3.85184 15.9729 3.82353 15.9049 3.82353H4.09507C4.02713 3.82353 3.96493 3.85184 3.90846 3.90846C3.85184 3.96493 3.82353 4.02713 3.82353 4.09507V14.3101L6.79463 11.3387C6.95419 11.1793 7.14029 11.0996 7.35294 11.0996C7.56559 11.0996 7.75169 11.1793 7.91125 11.3387L10.8824 14.3101ZM7.35294 12.4774L3.82353 16.0068C3.82912 16.0351 3.85596 16.0704 3.90404 16.1129C3.95213 16.1553 4.01581 16.1765 4.09507 16.1765H15.9049C15.9729 16.1765 16.0351 16.1482 16.0915 16.0915C16.1482 16.0351 16.1765 15.9729 16.1765 15.9049V10.7127L11.4407 15.4485C11.2811 15.6081 11.095 15.6879 10.8824 15.6879C10.6697 15.6879 10.4836 15.6081 10.324 15.4485L7.35294 12.4774ZM3.82353 15.9049V16.1765V3.82353V15.9049Z" fill="white" style="fill:white;fill-opacity:1;"/>
 <path id="Vector_2" d="M9.03272 8.62368L7.79858 8.56247C7.66228 8.55572 7.56538 8.49097 7.50789 8.36825C7.45033 8.24559 7.46385 8.13082 7.54845 8.02394L10.3947 4.35662C10.4531 4.28357 10.5253 4.2352 10.6115 4.21154C10.6976 4.18794 10.7856 4.19466 10.8756 4.23169C10.9655 4.26865 11.0297 4.32747 11.0682 4.40816C11.1067 4.48884 11.1182 4.57426 11.1028 4.66443L10.6766 7.09345L12.19 7.1685C12.3346 7.17567 12.4333 7.2449 12.4863 7.3762C12.5392 7.50743 12.5159 7.62611 12.4163 7.73225L9.30455 11.0741C9.24237 11.1403 9.16839 11.1814 9.08259 11.1976C8.9968 11.2137 8.91452 11.2014 8.83574 11.1609C8.75696 11.1203 8.69719 11.0613 8.65643 10.9839C8.61568 10.9064 8.60302 10.8226 8.61848 10.7325L9.03272 8.62368Z" fill="white" style="fill:white;fill-opacity:1;"/>
+</g>
+</svg>
+```
+
+### `src/flows/fno/assets/shortcuts/analysis.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="19.8232" height="19.8213" viewBox="0 0 19.8232 19.8213" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ai-smart-assistant-square--ai-smart-assistant-square-intelligence-helper">
+<path id="Subtract" d="M9.11459 3.48246C8.78715 3.9418 8.60119 4.5007 8.60119 5.0896C8.60119 6.14081 9.19585 7.09496 10.1246 7.5617L10.3144 7.6482L12.0847 8.37643C12.1507 8.4037 12.2061 8.4504 12.2452 8.50896L12.2786 8.57034L13.0069 10.3407C13.4337 11.3774 14.379 11.5777 15.5001 11.5777C16.0892 11.5777 16.1249 11.5777 16.3393 11.5777V17.7682C16.3393 18.5572 15.6997 19.1967 14.9107 19.1967H2.05357C1.26459 19.1967 0.625 18.5572 0.625 17.7682V4.91103C0.625 4.12206 1.26459 3.48246 2.05357 3.48246H9.11459Z" fill="#DEF4EA" style="fill:#DEF4EA;fill:color(display-p3 0.8706 0.9569 0.9176);fill-opacity:1;"/>
+<g id="Vector 6273">
+<path id="Vector 6269_3" d="M13.7585 2.55993L14.4872 0.790156C14.5284 0.690243 14.6258 0.625035 14.7338 0.625035C14.8418 0.625035 14.9392 0.690243 14.9804 0.790156L15.7091 2.55993C15.9992 3.26446 16.5587 3.82392 17.2632 4.11402L19.033 4.84276C19.133 4.88389 19.1981 4.98126 19.1981 5.08932C19.1981 5.19738 19.133 5.29475 19.033 5.33588L17.2632 6.06462C16.5587 6.35472 15.9992 6.91418 15.7091 7.61871L14.9804 9.38849C14.9392 9.48839 14.8418 9.55361 14.7338 9.55361C14.6258 9.55361 14.5284 9.48839 14.4872 9.38849L13.7585 7.61871C13.4684 6.91418 12.909 6.35472 12.2044 6.06462L10.4346 5.33588C10.3347 5.29475 10.2695 5.19738 10.2695 5.08932C10.2695 4.98126 10.3347 4.88389 10.4346 4.84276L12.2044 4.11402C12.909 3.82392 13.4684 3.26446 13.7585 2.55993Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+</g>
+<g id="Vector 6270">
+<path id="Union" d="M8.66113 2.85742C9.00612 2.85765 9.28613 3.13738 9.28613 3.48242C9.28613 3.82746 9.00612 4.1072 8.66113 4.10742H2.05371C1.60991 4.10742 1.25 4.46733 1.25 4.91113V13.8379L3.38965 11.6689L3.39062 11.668C3.63619 11.4225 3.94341 11.3 4.2998 11.2998C4.65637 11.2999 4.9643 11.4224 5.20996 11.668L6.52344 12.9941L9.00684 10.5352H8.52246C8.32334 10.5351 8.14795 10.4662 8.00879 10.3271C7.86965 10.1879 7.79983 10.0127 7.7998 9.81348C7.7998 9.61419 7.86964 9.43905 8.00879 9.2998C8.14796 9.16072 8.3233 9.0909 8.52246 9.09082H10.7451C10.9441 9.09101 11.1197 9.16083 11.2588 9.2998C11.3978 9.43901 11.4668 9.61432 11.4668 9.81348V12.0352C11.4668 12.2342 11.3976 12.4096 11.2588 12.5488C11.1197 12.6878 10.9441 12.7576 10.7451 12.7578C10.546 12.7577 10.3696 12.6879 10.2305 12.5488C10.0916 12.4097 10.0225 12.2342 10.0225 12.0352V11.5488L7.43164 14.1396C7.18603 14.3851 6.87891 14.5077 6.52246 14.5078C6.16602 14.5077 5.8589 14.3851 5.61328 14.1396L4.2998 12.8262L1.47363 15.6533C1.40758 15.7193 1.3321 15.7682 1.25 15.8018V17.7686C1.25023 18.2122 1.61004 18.5713 2.05371 18.5713H14.9111C15.3546 18.5711 15.7136 18.212 15.7139 17.7686V11.9941C15.7139 11.6492 15.9939 11.3694 16.3389 11.3691C16.684 11.3691 16.9638 11.649 16.9639 11.9941V17.7686C16.9636 18.9024 16.045 19.8211 14.9111 19.8213H2.05371C0.9197 19.8213 0.00022674 18.9025 0 17.7686V4.91113C0 3.77697 0.919556 2.85742 2.05371 2.85742H8.66113ZM10.3486 12.4316C10.3733 12.4562 10.4004 12.4772 10.4277 12.4961C10.4005 12.4773 10.3741 12.4561 10.3496 12.4316C10.3252 12.4073 10.304 12.3806 10.2852 12.3535C10.3039 12.3806 10.3243 12.4073 10.3486 12.4316ZM14.7334 0C15.0494 0 15.3386 0.167004 15.498 0.432617L15.5586 0.551758L16.2871 2.32227C16.5138 2.8725 16.9507 3.30952 17.501 3.53613L19.2705 4.26465C19.605 4.4022 19.8231 4.72791 19.8232 5.08887C19.8232 5.44999 19.6051 5.77645 19.2705 5.91406L17.501 6.64258C16.9507 6.86921 16.5138 7.30617 16.2871 7.85645L15.5586 9.62598C15.421 9.9601 15.0946 10.1787 14.7334 10.1787C14.3724 10.1785 14.0467 9.95997 13.9092 9.62598L13.1807 7.85645C12.954 7.3062 12.517 6.86924 11.9668 6.64258L10.1963 5.91406C9.86231 5.77644 9.64453 5.45008 9.64453 5.08887C9.6447 4.72784 9.86246 4.40223 10.1963 4.26465L11.9668 3.53613C12.517 3.3095 12.954 2.87247 13.1807 2.32227L13.9092 0.551758L13.9697 0.432617C14.1291 0.167157 14.4175 0.000147311 14.7334 0ZM7.97656 9.92676C7.98238 9.95835 7.99195 9.98845 8.00293 10.0176C7.99127 9.98636 7.9817 9.95386 7.97559 9.91992L7.97656 9.92676ZM14.3369 2.79785C13.9834 3.65649 13.301 4.33882 12.4424 4.69238L11.4775 5.08887L12.4424 5.48633C13.301 5.83989 13.9834 6.52222 14.3369 7.38086L14.7334 8.34473L15.1309 7.38086C15.4845 6.52225 16.1667 5.83989 17.0254 5.48633L17.9893 5.08887L17.0254 4.69238C16.1667 4.33882 15.4845 3.65646 15.1309 2.79785L14.7334 1.83301L14.3369 2.79785Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+</g>
+</g>
+</svg>
+```
+
+### `src/flows/fno/assets/shortcuts/ipo.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="19.999" height="19.9991" viewBox="0 0 19.999 19.9991" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="announcement-megaphone">
+<path id="Vector 3878" d="M0.713867 16.1284L10.3567 5.7998L15.3567 14.4569L1.59958 17.6427L0.713867 16.1284Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+<g id="Union">
+</g>
+<path id="Union_2" d="M9.71193 4.67366C10.0533 4.47671 10.4901 4.59337 10.6875 4.9344L16.2705 14.6043C16.4675 14.9459 16.3502 15.3827 16.0088 15.5799C15.6672 15.7769 15.2304 15.6597 15.0332 15.3182L15.0039 15.2684L9.78713 16.4793C9.91962 16.9502 9.92929 17.4511 9.80275 17.9325C9.61582 18.6431 9.15429 19.2506 8.51955 19.6209C7.88487 19.9912 7.12889 20.0952 6.41799 19.908C5.70732 19.7211 5.09983 19.2594 4.72951 18.6248L4.72853 18.6219L4.23537 17.7684L1.75685 18.3446C1.45065 18.4156 1.13376 18.2779 0.976579 18.0057L0.0957194 16.4793C-0.0613575 16.2071 -0.0222558 15.8632 0.192399 15.6336L9.47951 5.69905L9.45119 5.64925C9.25427 5.30781 9.37074 4.87097 9.71193 4.67366ZM5.68947 17.4305L5.96291 17.9041C6.14232 18.2116 6.43714 18.4356 6.78127 18.5262L6.91213 18.5535C7.21686 18.6021 7.53077 18.5445 7.79982 18.3875C8.10725 18.2082 8.33131 17.9135 8.42189 17.5692C8.48876 17.3146 8.47797 17.0484 8.39552 16.8026L5.68947 17.4305ZM1.59572 16.2225L1.94826 16.8328L14.2578 13.9744L10.2266 6.99202L1.59572 16.2225Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+<path id="Union_3" d="M2.63574 9.28516C3.03023 9.28516 3.35059 9.60453 3.35059 9.99902C3.35059 10.3935 3.03023 10.7129 2.63574 10.7129H0.713867C0.319378 10.7129 0 10.3935 0 9.99902C0 9.60453 0.319378 9.28516 0.713867 9.28516H2.63574ZM19.2842 9.28516C19.6787 9.28516 19.999 9.60453 19.999 9.99902C19.999 10.3935 19.6787 10.7129 19.2842 10.7129H17.3623C16.9678 10.7129 16.6484 10.3935 16.6484 9.99902C16.6484 9.60453 16.9678 9.28516 17.3623 9.28516H19.2842ZM2.92773 2.92773C3.20668 2.64879 3.65856 2.64879 3.9375 2.92773L5.29688 4.28613C5.57582 4.56508 5.57581 5.01793 5.29688 5.29688C5.01793 5.57582 4.56508 5.57582 4.28613 5.29688L2.92773 3.9375C2.64879 3.65855 2.64879 3.20668 2.92773 2.92773ZM16.0596 2.92773C16.3385 2.64879 16.7914 2.64879 17.0703 2.92773C17.349 3.20663 17.349 3.6586 17.0703 3.9375L15.7109 5.29688C15.432 5.57558 14.9801 5.57558 14.7012 5.29688C14.4222 5.01793 14.4222 4.56508 14.7012 4.28613L16.0596 2.92773ZM9.99902 0C10.3935 0 10.7129 0.319378 10.7129 0.713867V2.63574C10.7129 3.03023 10.3935 3.35059 9.99902 3.35059C9.60453 3.35059 9.28516 3.03023 9.28516 2.63574V0.713867C9.28516 0.319378 9.60453 0 9.99902 0Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+</g>
+</svg>
+```
+
+### `src/flows/fno/assets/shortcuts/referral.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="18.3926" height="18.3926" viewBox="0 0 18.3926 18.3926" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="gift-2--reward-box-social-present-gift-media-rating-bow">
+<path id="Vector" d="M16.7337 16.3395V9.04297H1.66016V16.3395C1.66016 17.1285 2.29976 17.768 3.08873 17.768H15.3051C16.0941 17.768 16.7337 17.1285 16.7337 16.3395Z" fill="#DEF4EA" style="fill:#DEF4EA;fill:color(display-p3 0.8706 0.9569 0.9176);fill-opacity:1;"/>
+<path id="Vector_2" d="M17.7679 6.04165V7.61422C17.7679 8.40321 17.1283 9.04279 16.3393 9.04279H2.05363C1.26466 9.04279 0.625061 8.40321 0.625061 7.61422V6.04165C0.625061 5.25266 1.26466 4.61308 2.05363 4.61308H16.3393C17.1283 4.61308 17.7679 5.25266 17.7679 6.04165Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+<path id="Union" d="M12.6846 0C13.657 0 14.4099 0.287715 14.8984 0.829102C15.3815 1.3647 15.5188 2.05189 15.4639 2.67383C15.4231 3.13433 15.276 3.59147 15.0527 3.98828H16.3389C17.473 3.98828 18.3926 4.90783 18.3926 6.04199V7.61426C18.3925 8.37684 17.9756 9.04034 17.3584 9.39453V16.3398C17.3582 17.4738 16.4387 18.3926 15.3047 18.3926H3.08887C1.95486 18.3926 1.03537 17.4739 1.03516 16.3398V9.39551C0.417362 9.04147 7.40396e-05 8.37728 0 7.61426V6.04199C0 4.90784 0.919594 3.98831 2.05371 3.98828H3.34082C3.11754 3.59149 2.97044 3.13438 2.92969 2.67383C2.87472 2.05188 3.01109 1.36471 3.49414 0.829102C3.98264 0.287562 4.73556 5.99149e-05 5.70801 0C7.04718 0 8.08333 0.886404 8.74512 1.80469C8.91192 2.03617 9.06313 2.28114 9.19629 2.53027C9.32936 2.28112 9.48065 2.03619 9.64746 1.80469C10.3092 0.886372 11.3454 0.000144661 12.6846 0ZM2.28516 16.3398C2.28537 16.7835 2.6452 17.1426 3.08887 17.1426H8.57031V9.66797H2.28516V16.3398ZM9.82031 17.1426H15.3047C15.7484 17.1426 16.1082 16.7835 16.1084 16.3398V9.66797H9.82031V17.1426ZM2.05371 5.23828C1.60994 5.23831 1.25 5.59821 1.25 6.04199V7.61426C1.25011 8.05795 1.61001 8.41794 2.05371 8.41797H16.3389C16.7826 8.41797 17.1425 8.05798 17.1426 7.61426V6.04199C17.1426 5.59818 16.7827 5.23828 16.3389 5.23828H2.05371ZM12.6846 1.25C11.9303 1.25015 11.2216 1.7597 10.6621 2.53613C10.307 3.02898 10.0649 3.55811 9.93457 3.98828H13.2197C13.3646 3.98828 13.5852 3.89269 13.8105 3.60449C14.0289 3.32521 14.1853 2.94106 14.2188 2.56348C14.2518 2.18879 14.1618 1.87897 13.9707 1.66699C13.7849 1.46092 13.415 1.25 12.6846 1.25ZM5.70801 1.25C4.9778 1.25006 4.60868 1.46095 4.42285 1.66699C4.23158 1.87907 4.14163 2.18945 4.1748 2.56445C4.20829 2.94173 4.36392 3.32536 4.58203 3.60449C4.8072 3.89245 5.02795 3.98812 5.17285 3.98828H8.45898C8.3286 3.5581 8.0865 3.02896 7.73145 2.53613C7.17187 1.75958 6.46244 1.25 5.70801 1.25Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+</g>
+</svg>
+```
+
+### `src/flows/fno/assets/shortcuts/watchlist.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="19.8223" height="19.8221" viewBox="0 0 19.8223 19.8221" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="task-list-edit--task-list-edit-work">
+<path id="Subtract" d="M16.3392 6.93546C15.7591 6.98869 15.213 7.24336 14.7981 7.65912L8.08379 14.3877C7.70114 14.7711 7.45342 15.2685 7.37786 15.805L6.94929 18.8478C6.9329 18.9641 6.92485 19.0805 6.92483 19.1964H2.05353C1.67465 19.1964 1.31129 19.0458 1.04338 18.778C0.775469 18.5101 0.624959 18.1467 0.624959 17.7678V2.05353C0.624959 1.67465 0.775469 1.31129 1.04338 1.04338C1.31129 0.775469 1.67465 0.624959 2.05353 0.624959H11.3392L16.3392 5.62496V6.93546Z" fill-rule="evenodd" clip-rule="evenodd" fill="#DEF4EA" style="fill:#DEF4EA;fill:color(display-p3 0.8706 0.9569 0.9176);fill-opacity:1;"/>
+<path id="Vector" d="M19.1972 12.0544L12.4686 18.7829L9.42578 19.1972L9.85435 16.1543L16.5686 9.42578L19.1972 12.0544Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+<path id="Union" d="M16.5684 8.80078C16.7341 8.80071 16.8935 8.86621 17.0107 8.9834L19.6387 11.6123C19.7559 11.7295 19.8223 11.8889 19.8223 12.0547C19.8222 12.2203 19.7558 12.379 19.6387 12.4961L12.9102 19.2246C12.8135 19.3212 12.6881 19.3839 12.5527 19.4023L9.50977 19.8164C9.31588 19.8427 9.12047 19.7764 8.98242 19.6377C8.84467 19.499 8.77949 19.3039 8.80664 19.1104L9.23535 16.0674L9.25781 15.9688C9.28769 15.8727 9.34038 15.7848 9.41211 15.7129L16.126 8.98438C16.2431 8.86696 16.4025 8.80087 16.5684 8.80078ZM11.3389 0C11.5045 1.07367e-05 11.6641 0.0655475 11.7812 0.182617L16.7812 5.18262C16.8984 5.29982 16.9639 5.45926 16.9639 5.625V6.33887C16.9638 6.68401 16.684 6.96385 16.3389 6.96387C15.9939 6.96364 15.7139 6.68389 15.7139 6.33887V5.88379L11.0801 1.25H2.05371C1.84059 1.25 1.63605 1.33465 1.48535 1.48535C1.33465 1.63605 1.25 1.84059 1.25 2.05371V17.7676C1.25001 17.9807 1.33474 18.1853 1.48535 18.3359C1.63611 18.4866 1.84067 18.5713 2.05371 18.5713H6.33887C6.68398 18.5713 6.96379 18.8512 6.96387 19.1963C6.96385 19.5414 6.68401 19.8213 6.33887 19.8213H2.05371C1.50902 19.8213 0.986615 19.6047 0.601562 19.2197C0.216455 18.8346 1.07878e-05 18.3121 0 17.7676V2.05371C0 1.50906 0.216446 0.986681 0.601562 0.601562C0.986681 0.216446 1.50906 0 2.05371 0H11.3389ZM10.4443 16.4473L10.1592 18.4658L12.1738 18.1924L18.3125 12.0537L16.5684 10.3096L10.4443 16.4473ZM6.90234 9.39062C7.10293 9.10981 7.49355 9.04465 7.77441 9.24512C8.05529 9.44574 8.12053 9.83631 7.91992 10.1172L5.58984 13.3789C5.48306 13.5283 5.31586 13.6235 5.13281 13.6387C4.94993 13.6537 4.76948 13.5877 4.63965 13.458L3.24121 12.0596C2.99748 11.8155 2.99743 11.4198 3.24121 11.1758C3.48529 10.9317 3.8819 10.9317 4.12598 11.1758L5.00195 12.0518L6.90234 9.39062ZM6.90234 3.58594C7.10293 3.30512 7.49355 3.23996 7.77441 3.44043C8.05529 3.64106 8.12053 4.03162 7.91992 4.3125L5.58984 7.57422C5.48306 7.72365 5.31586 7.81883 5.13281 7.83398C4.94993 7.84905 4.76948 7.78299 4.63965 7.65332L3.24121 6.25488C2.99748 6.01085 2.99743 5.61509 3.24121 5.37109C3.48529 5.12701 3.8819 5.12702 4.12598 5.37109L5.00195 6.24707L6.90234 3.58594Z" fill="#0F9958" style="fill:#0F9958;fill:color(display-p3 0.0588 0.6000 0.3451);fill-opacity:1;"/>
+</g>
+</svg>
+```
+
+### `src/flows/fno/assets/signals/booming.png`
+
+```tsx
+�PNG
+
+   IHDR   �   �   ��E-   sRGB ���   DeXIfMM *    �i            �       �       �       �    ���  =IDATx�	�Օ��릛��fߑU\0nq��w$�����Q�ct0�F4��e��Q�A�A\��������b\�2��N�l�����|o������-U��է�=��]~u��޺�F���j �k '��d-�SF�zM�
+�`4�@��@��To� F�zM�
+�`4�@��@��To� F�zM�
+�`4�@��@��To� F�zM�
+�`4�@��@��To� F�zM�
+�`4�@��@��To� F�zM�
+�`4�@��@��To� F�zM�
+�`4�@��@��To� F�zM�
+�`��1���q�Y�\��6��G}��)f}rF�K�.�իW[���۶���[O>��M3H-��V ظq�A���l���t��^����̙3o���֦���@�QO��c���O=��رc�)v)Y}}��iNXCCCnn����_|�EWG/A�I$�IR�MR9�
+����* �袋\v��L]�ಥ5`��5�#�g:u�+�����^� �U3-�0ڢ���5k�p�8�opii)�*��p�Y�=�̊�a��q����=����������@�G�_W>��;�����;�[n���/N���������'�7� ���R�{��Ǔ���j �( �'��?��Ϫ XG�� �7�;＃���
+�$5أ��fbb�J�q��-^���ȓ&Mz��g7l�p�A5)�5`Ԯ�f�UUU�;wV�/��r���z��(++�޽;�[�l�۷o"��סּ`�䭓&8�s�J`�6��w���^��ׯ�W_}�)D�5��&����)�����+kϞ=���b (ӗ�L�#hS�Z�e���FL���N;�(�&�=5���"K��+F��T645�f}}mm�~n7�]�>�`�W]u�> ��3l�"�=zѢE��b?Jn'�ż> wo�M���S0衇�IG�?��sU��ۚ����� T�I��qŃ��D�;z��Gu�< �H�B�SM͛7O�Deee+o'SI��秎�WTT�B-�V�]��FG��@�@��@�eA�}G�=@�<���v�ԛ](vh��i�Q�f�F����MjV�Y��E���5�����ڔ��sQm��ij��r*��i�	����ʵ/���X�v�Jw�ڵ�4h� T~�(�'e��ĉ�heA��A��FzS��^���F���*���hN]�����l.��2�I�92���qm
+�����ڏ\��c�$z��^�4�����I'��8��Dc������#���ǴL�h�&߈'��k�I�x~4j���i|1�o/LѸ;w[p�y��U��G�� ��.�N�l�kv?��m5��i�q}��� 5�Ճ�(�.ǟ�%�Ϙ�u<�y����8�ɺ�<� �Nu�F���V
+��H"L�m�ݼ-�P��܅��1F�]+��dtWfR�2�0J��d]�� �"��Z�`%���@0�xX��S����ӧ�Iq����9��t�(È�T�>��|�'m�6q�ϒ;��
+Ss��r�ڤ�A�'��sI���e��0��Nm��� �9@����n�T2��%�Ѡ`t��%�NN��$�V����P��8��������N��!N�6��?^�n����A'u�Q�`b��{�,qɷ�2��Ή�B��eKk�<>�a��~�Ӊg��sĖA9t�N,?]�l���u��?��۶m��b�9|�k_;�p�'�k��$�fW��́b�FY&\^^�)�T�K�,�B/����B�/((`;v���GC�p$'T�ڋ{N/k��6b���P8;�u�h�/]�|���sG�����>ߺ]#vh���6q/@I���g��|�`ϔ<j����
+~q�h��P���c mV�,��Ŝ�F��M}���d8�f�G�����20���F8��u+֍9��P�hä�;�:�T:�_���I5
+冁_�I:f@��q�G��L>��e�1���{��o���F�zp���c΃ۆ>����B!U��>�<5�9v	b-H�rV�} X���l���h�.]\�����T��tX�+��>�^1��?�_^(D/_��W"ݺćJ��uNa|V$؂XI��hM*�B�i����Kon@�t��:��b��k*G���F�W[x��'��?ӌ�Zr�8kV~X��߰
+Ц�o�U]-)�[6��L�;��}���܋636�;3x�y�x^���݉z۴ˇ��3.	�b����Ү;��K^�+*�c�{�>�0�����O�>WW�D�رc�$�T*������h�R,۵漳�NO��:�c���͙�F�NE>7�Vm�1��a�M��
+�ݚ)�T�N�|=*�����&��ynt����F׭�H�qB��vlolв�s7t�:h�+ܙ�ݩ� ��SO+�h��^Zܷ�"�D�V.G��=ץ.�]&җ�;jN����B�S��ˠi��� ����3O����Q��N~�De�� ��������P����У�߾��p���:����K��z7���t��D��	���l�4�VzS��A����������ᥖ�����_��x�D4z�6(#�����������ŕh�A�<�{���6>��,�6N�5ɥF��+ &����!1~��9�����C�J�͜:.Y��ڙ2���P�w��r��r:�5� D٬�b��A�	4q{mk2�m.ۯ�m�O��o=z�����G?V0��mV86a8T�T�G�G���=�,.:u\=[�D+�^a������З�d��,����y �5�����v|���F��9P�t¨�<�>4 H�$	��S_k~4��}$
+���^a��.�@-76<2f��`��=R�05O�(��|��f'Hҙt�y0�ñB�GZ"�Ig��K��1���j/39��թ�sˢ�\V�6�Įp�<�(4�%-�i�gt&:w&�M�s��l��L�Ad��c����wg�Ɯu��i��w^~?��nA=��k�#~@�Cx�J'� K���D��6_܃�^�]�\s��(�^��BCo�1�>c��D����s��Q�D��-�}�tI��W�߰�O����
+NT(���QZ	�*��D:a�w��Dze���hf��K�f�n�T}�掯.Ak���Gw��t����4��=�$�rF���o��*�&0�~(s$�mfRI�,�|�(�O�s:a�w\�[�R�(�$m����4�]�R\�ϐ������S��]|��Ƣ��7x������E��C"��M&�U�����H��}��ޙ�N:�0�GKJJUe�^[�qI�f"(�ec�Jq���T�(g����w���8��� &l~.��K�e��t�`��Q�hМ�����3=�-�u���x��?�O�B�ۑ��4Jb<x8 ���H3nٿ����%b4[���a�<�o��R
+A��h`�Ql{B���i�c��ٴa�����z!�i�?<�� �705�<	��"Q< _N�@&T%]�h��;z�f0�CSf�n�'�^�����< ���(h$�:ڱc��)�i6�PK��H�dyi�DԝNRV1=ʈcHn$L8�~�D�֚^��-(.*Bw�B��:��wɨ��P�_%��u'|c�g=D����uy�U`7�[����6o����:�lb'h-��"�v�$5�<��q@�{3%y%R�H����g���*f�_3cA=�� �˨Ѡ�8
+�$�t����bz��6}4���E��'՞{Vɷ&�H*��^�+�����2I�d!�K���q�7��������)%�R���}��'����o��+�ߩ�����i���"��jI��%�E��r�m��$�ku�.�e`R�p�u>�X�pHi� P������' 5Ũ�����s����z���]��$e����(��N���=���L��0o�8��=zhR6!7���3��j�z�[�n;�����=_�z��'�VF���ꦑ�nym	����HyaT��;�)��%O?f�s8K:��g�ؤ �>����u���y��AJ��:����ϩ��;;w8wQ��D'M~����S\��v�ܙH��&1fP�,���@��(q�(��D�a��Cqգ(�;�%\`�&d���%Al��rf}zr0��e��%}µ�X�K��8�h���3�ƏY��>�e�$��B0���'q�J�J��p�����d�<0�|��7Q�s7s��E�:��6B�J������@�F};&Q8��0��i�$��
+�qt�#� 4(6���&v���۩��������ILϜ�� ��!bz�L�Mkﺿ�ĳ\���)AA�R�]�T��(����נ!\��"�J���9�~�)boQ���V���/�"�)��K�AR�����6�0`D�����֍�Z٦����&���]��I�m����	4�/f�3N4sF��h��>2-Ց*��.V�]!�W��P%�8��S�H3�R�޽9�C��Q��Dd��;B�Np�����!�����?�t� �>��9�|��z�XF�,�ki���V�`S^�A��&���Qc�H�A!^*�[��%R�Ԇw]ժU�\��bWh�\�F�:�,W݉z��9���L�3��
+���	��ΌP��E��ݺ��7ϭ��b�7�y��;G���6��M�][}J��<�cX/G�7ң��i�J��'EV�MPR��o~�[����R�2�0�z�J�X��m�#�[�4'�jcQĈH,ל�Q��h���bџ�̟���v� ��u����jP��ȡG�:����B�V�Ho��#��0��3�^��ʷaK=;��ྒ�vk���V���2��l��8b�$� �ى8��F�.�u4Y�+��D�~i�óK'O G�X%?:�$?dI��gR�^��6.x:�)���'����^�坤��Al�ﭷ��u�U���L?=�:��{�����їĥ[�����lW?}.򝊊
+�OC���s�*:����{��1;?�ӓw�����v�匱P��X�K�*gI����1`rTx,w�|�ѵk�z+A�`tz��ddK�����D>W[���Q�즛nrU��Q�h$t	� ",�M�~=��}`��x+��0Q;�q��a�zm�T2r^R,QlC��v'��ʆ���bP}y�wawJϙ|#&�U���3M5O��Oy�x�$��T��_>AD�ٳ'��-/�+���b^w�u.Nj^�%F�>�hWm>��6��Ac)oá���vkU��4}U��=~�SLF`�e�&����NɆ�N��y���ě���~	�*|E'x�ٳ����g�=�}�^�/f�Kh����5ɜ�X�vjcǎ�/S�NK�~��_wU���L<��i�5k����ޔ��9��d��݇Bt�lL[6@����!��	�G,�#�/,y�Q�$[�<<7I�!g������F�:������<]�J}5�ʕ+9�	�����]�c������N��K���n�w���g��O'b�w߾x�Y�a����:+��u��A�x|�.���9횊>%�*R|`�g���YM�"����{~	����.���g�v����.'�._Ky _W?I��o�l| �z�>��L���Q�wp>��W��M�BP�X��[�,=����
+m���_u����0k/ȳ*��̪�i� LЩ�,
+M
+�u����N��z�o��:p�b&�����7H�<!�0�%��'y�"�<F�w�����GZ�3g΄V�F�)H�+F�9�Wm>���.�43����Q!4�˥O���*�|4�<�q�S@�,[����"#ݽ�N�����M9��Y"�E��圳m��u+���+��R�<Q`�W�&��);k���}��`�i�QZssܸqvu����Mͺ�.�U��Gc��@��pL@�o�N�o���d�f�J�6��� =z�����P�Z�)��SU�
+LM�P�S4�r��d;ę䌽%�<Q�J���a�z�H鰰������%�i�Q�.������x�bo�~��ީj�M�,4�׌B{�}�q�޺�IM�y��ŷ��1�S�P�x�Z���>��f��ݻ����.AO�W���L�#�긁,��yD��yI\�7�ln�.GZbT*w���Z~��}U)���7����UUո{j>�d��t��V}����82�sA���P�	�!�U슘��B�&�S��r�?���=���$��%�D���B�$��ʋJ�g��[A�y��K&u.��(B�ȉ�����)N��IT)�5��:z�X�.0�M�l�(�~�t�ٓ�%���R�:�B��U���}�lJ]����{yp�%�}{�"�Z��XXD��.���K�����K:�1J%z�{��o�Y�V5c~ѳ[=�Y!�=�*-^�Ǟ1 K�D�
+�9ӕ���^Jf��E ���_�I����D!����^�}�'zX,Q��:s�`��!*إ�@�����Fb�ԩ.N�_�ӷ}�2f%�����O�E�_�wÇJ��(0j"�YVٙƴA�(�Uh� f��N=.�V���_L�0��v��T�3�Wq�  �%���P���C�;��<�x����99��y��ZZ�'Ry��&�<�Z|W��,�<웦>ݨ�R?���>jτo��B�.az7 J�/Z���]�b@%�n�KA�hP�M�w��]���Yw�]������	�T�D���6@A� ��wߏ��ֺp�kCt��{e��X�k��?���bz�rŉ�8I�^}��X��<�@�L��i������fb���^��Iyyi=����v����U}�T�H.�u���-�[Z>�_�E������>�h�����{�������76*Q��ʪ\*@�Ә��8�<Ep��_)��#r������s��)C��z�u�)S��8���}=U<i�$�|=���6޳���c��d�[��̸�q '�@�3?�;]ye���	�熾�P��?��Z]�y���v-?���cO��w��5�_�Q�oZ�`�w���iK*�l�P�P�h�o9��W�֫!R�F���q��������b��,55�t �\���OC!-�7��F&��	�m�?�x�1��q�Xft|�Q��4+EJ6n,]�v�I2�)��u8�5�Eo��p�I9��D�wע?�}3�b�8v��>Р`q�#u}���'�M�:w9�%��X��-!X�����z���8����"8��mx,ǌ��Y�f͘1C/!R�#�v>]t�cT�C{����3ϰ�͸9�E�IK1�`���i��C�8�n�����K���J��Q��GE`zG~>q������Y�Q�X���]"�������|ܮ�3�{�9��5*�0Ov�k�X5 �J��k���w	����D�cT*���k�W,�q���������-O?�*$ы��p�C�eR���:e�d�TeT
+'	:E���T@��[Uc��s6�]����Th+Kb�shw0.\8y�dISμ��}���tڏ�����]u������yBlP�p8l��� �y
+S�()���X�����m��3���Pњ�]�Ih�s�U{jO_�w�#s�v\�v5�:t��&�E��=#�W\q�-�R�4(���J��/ح�O
+����`x�Pi������6�	Y��
+J��⨘�w�R�*Δ:�	.�}
+:�	*hFeJ�Zg�hC����y:�hq9�EzsV��XO�)W��ܒkﱻ���Ozљ�QPH���t-��3g�4�`�L��!b�EQ�6��"/Z���st� *�T�	(�uȐ��_V8�Ҝ��ζx �2\ ���4'Z
+���ώ�8�桗�!�-O1��Č�IG!O)q���[4�(Q��@�ә�Q�b�p�2�u�(�)J��Ep6�ȳi����m���RtjDЙ7㺱>=c�g��_�s��ϩ�pʪ���3�Ngn���R����k�_2�8�̧��L�>�k��(�b������|�E��ְo� ߾L;:C�LZ隆r�믿������z+mɰG/v8�ͩe)F^�	�M�&l�S�.�)Lѝ�ҭמ|҈���a�A:��޾nŚ�f�s�tdEYK<V-�������އ�w¸�a�9f���ѡ�Q4(݂�����MY�mo�,>Q�U��3�4�ko=��Q�"���ʣ��bxm0E'�D �B�����"���s̱U�|��_��{>N%<Jg?8�)�O�:��� %^$vOgɒ��<]�Dpf�0,IS<Mt���
+��ӵ�F�7��c��󌲹ꪫ�{�W����O#k'4凰0� ���P���X�zk4(�B�=���oM^��]��Kw�y��# ���'3I%/�!�=06b�
+ 
+":h��#�����#d��u���q�k�����\�#�iz�6�����`?ZtU~^7�-"���>����^\
+��$g�)#w��#g=��̣�2�&�e`��)#wFEpvT���y��;y��a�"����3�i.�#+`�#Q���L�B�4k���R�i���)���iz���r޼yvA��U}�	�v�i_��צ�t�C�Y%�������=\f5�(@I3/�ׯ��S.ﻻ'(v'&��DY�e�n�H�C��A��z{"��]�\ ����.N�Й�Q�7�]v�k���_? �G����Ju�$eT�D:0"t��8�B�'��9d�e��1���N��JT=޹�>�A�KX��?g�K:u�PA�r�����{.��C%�MR6?���iچW+�+�4t~�0/ۈ�̷s�q)�6.�����v�2r�m�^3M<�8>q-ń�.^%!��ᚪ����Y��e����`T.3�^���Ze3�y�� ׾izљ�G��i9{�����W)A�G3�Dk���aÇ��ک@�) �龽s�*]��� M,Q΀� (�{ѩرS��y]dx�S JI���J;e��:Ʋ�iJg&Fi`ڃ���ѽeetϨ�֔&��4(�tT�Oo�q��_Ϗ�|r���')l�d%.R�Ƣ1:q�:���)�}q�#/ ���0@��O{�1J�����r2�
+�(1;R�}�hP;:@m1:5���F�F\*4��	唆s��Ƈ��ܸq=>|���,KF �zQ�(T�V��GO<�DM�N_zyJ���D&c���;h�5�Sm��b�޺�P��|ѝ�>���I,;�=*���֚���Tr�}���e����l�w82��[Sܜpd�^�?��BS���o_f���2�<v)D���d���ʿaW��z) �R	�	�·�]���O;)_:ǙCz�ѧ$t���<`����YP���
+CY�0����4A<n.Ǿ�5��������_ۮ�Y�d6��V�@�D�����$kkP8�Β�=o�[���yQԫ�������穳���^�8��i�3��|��6����?]X�cHRw^�;w��m���)꓅�r P��]@)��P�) %z�1���A�J����xO������v,Q��锓ID��3�L~e���E4����˔��D�N�*)��Nר�Dq|�"�HqjC�K��llzk1�Q�41*"�\���E����%�cKo�������l�(�Ǭ�=̿��~[��b����C��ۜD&2�gڒЅ�]@Dw��|/yZ�������L(�ĸTg�Y���U��[����'�1|SNkfa�v�;غQǗ���a�1�ڿ;W1���=6��|5����ՠbit��?s�5��.�*_��W��{Ȥ<�Uz�v�s]��2���1��K��$ᯨ��]\8�������HІ&���%#l��4Ьs~ʁ ����B�o[�"4�u��9"���M�]�},kJrrrР �����~��_�������sυFL8y����&����dvq�Q���MM�5$�:5T	��4bΘ]�P#h
+%
+�۹(���o�~�Ύ�(G�C* E��F��:�k����]�VT�b��O�/�扡gX}���{1
+���`Tѩ� �H���voh�C��3�ԳԣM9�+���=����(��0=8�7��S��n�)=�6����KIЅNť�N��u���Pn�ࡧ��{���\@�A�J=d5F��4.��s���t��!7���U�0����N���g�@S�(�e�����J�J�3�֎7k��8��I���G�qȃ�� tz�ḫ�pt*@A��]��^�!��ȪA㌬���u� �SyM��ʿv��B'=��\p����)�-���Hi���)| �3'�v$�ֹfAS�=l��0{�l��ii1�n��v��?��ml�n������f}�=���V��8	����	� � !| ��ܬ�b��c$�l;����.����ԋND��ӥ;����	�)H��ߢP��.{I{�ġ��*��G���G��Q=�&�\脓�6:�5�d�8%��/�Ȃ|���sVۣv{KE����͋%yQ���]
+"�'��Ps�:�~hP;��Fu�8+9@/B	L;ʷD-)���)?����S�>�q)ДX�S$�8�P�csE�kw�H�]�$�=ժ0����|���n ��Ƿ�hj��&q�����6.%�F'�[���e����j�YK�h��Ǒ�K�h��-<��"UU���BP�(A�a�܅�0�R�:U^��N}�����6@�P�ce�Q���H�ER����O>�u� �F��Q�lkP����G]������rVi��n�a�ڵ��-�Oβ��ф�N�O_>f��[꾫���8�	:Ee�2%����BPt�z=mŉ$���3}�Jд�mY�͉ �	�4��\�un�6����~n����
+:�����K�������vh�g�y�,��Y><�m� ��ղ�) u��BE����&�y�J��tA09:��1�_{ظ	�(r�����5`to]$�4	2J���y�c�ݿ��G���tuߚ�bԅ]���)SN��z^�@}ƭO�ӚT6F[����*�/�����"�BPA)���
+tn�ϛ9w���������LdS�`\��֦�Щ��~O�����)� 	:�x��Q�6}~�w.5��k�4B�G����=����u+~s�%�#	�ZS����5O=m�?v��(���*JBMR9ɂ�"�_����. ����<���c�NQ��}��MV����6���\ŜS��8R���ܕ/{w�*���~�\wu(� u>��h��%w�^� �m���/b>�Mbe�~˒��u�=����W��t���忯5`t_k�q<���g��f�!��w����TC�O��Z1�a�@4�%�Q��5G��Ӯ�}�=��֌(�PC4��lFE5C�]0�L�gv�,�6�`�"�p�i�	�M-8;9����H:v��C*�ť�)����oK�O����n|��_�~`4S�>�h��x�{��쟽Q�'G+l	��~:�Ton߾}o�l���d;��>n)��W�������ڟN�R
+jI��S�h���d������$��;/�>ϡ�'�(ݟ���������v�Z�J�����Tr���1����brhu�S'�F�A*�̇� D�	F�߸^:�C9D+���tU���l��h�"i-�?�x6aTV#dK�G����ǊP3�t�Q�S�N��=�	������l��}B�$
+L,�/���ɼ��{|�a^�0�蜃oz(�Ȥ�	nV�>�����'l�%tʔ)|��/�f�B�g�1n]n�B|(�M�a��#�[i���;�Wy�E�Sg�>5���)���o<h���9�f�LF�A��2��T)7�={�ҥKO9唩S���ű�i�{"ϳDN^~�eԪpZ{n���W��_K���.�c!`���,q�$���jp�c�ĉT�<�pD�(����ϷV��"T?��w\J:���ȳ��&��a���e�eډ�(G��jѸ^B�HS���h>�d�,Q9ʷ��r�K���I�畔
+��S.J��]2O�}�L�t���Fm;W-��__/�R#uܸqvF��J���� :*�0��3�Uj�xj�Ē�4 o��v�
+�q��$"g�����4eT�D!n��[#���V�7�dEທ�3d��t�ٗ�m�l�M�lw�W*Q%�)&٦u8�I_�0[v���V=J5��*�1iB)�&�XtU@Y�X��XtAI⊤b�J�F��*	�I��7�`]�C@njcTW�$�4�ݨZv%l����I��4.�ǐ�$�dޅH�\5�z��6���rkכd�Ξ���D����H�����Z�|��UhJ,EJ�v�R�B�F\�/���k�	���vI�g3_z�%�H��[�r�ܹXo�<����_���
+'!�����^�=�P�������ca�J!f%����rot�����8B>#Iْ�I�9mN���I����;�8�����iPk���Q�h@�H�xhc~8�hɺ|�Zvytd ���(K��d[+^.5Y.q��(��]���a��Nzɒ%J
+��\�|��p�QmF|��$��M�F�1�A]�`s;�@�{7I�G��~��#�����ǽ�i���]�U`ᨩ�e�(�X�}��}-��ݭV�A7�ln��!���KIJ�|���oh&�t��6��1^v�ҩ)�/)^lM��}�С��o'b�aT:W����`#F���%�{�职ZW^ jy�;_|���}����?ZJ�[J����|�ۛ�<N�)2.��Rs��>+�|rΩ���8t���x��@8���B���H�r�u���7���0�\�5p�	'�eII�K+V8� !�b��Ըj�� X�ʥ;�ښNJZK���%::���#�����9�vxWD^�����[��v�QJ�#���}�j�*Q�0`��gW�]X ����&�ض���Q�.�Z F�R��h2A�i���|����GMg���Ml�"qIS�Y����S	�@3/�Qi*�ZhD���x�!ȿb1��=1g���r>��3h�=���5��J`�j��L%$A���,vQ{�Ȫp��w$JAue���u��ID���l��TQ��$��8�}��Z�>v�xIAe�����.۾���1a5"�})٠\.�fC\EE����j�Tas/)��w|���w�$����Kٕ#�=��z&H���ߓ�P��0CM�]�v�R�v�R��Flxi�(�� 9# 4騀T��/�J���0"UG�JՓ+���G�� �V�֢i�A�A��Z�i0���;
+S!W���Dlh egώ�H\�d�4�X�;� U
+�3�Iu�#LN�� YeLG`��%�#Sdt8���Oe�:A�Knm�]�vY?*ݺtjr�����\]�
+@`�oݺ�/cK�.Ul�5.��H�W>f��#۝,A0%�(��-U&2�D���t \�,c>�o���@�w��e��b�h�]hɭ+�",9y;:4L�<�/_@�߿�̞���K]rr#�%�J"����x�!�E�3_z�O0��x���X�T�jC"���]0�����c�Ԯey-��輔��wi���3��VL�@�ʱ��ivi��*q"�("⹑�$g������;3��1�u��(�#ɛ��Dc錻�ྞ�;���h��62ڦ��Pi���d�����`!)w�)�ٛ��3iŐ�dƈ�	�(vag�\œj��x�?c1괲�����%������q	�\L��p�����("� #�� ����95���X�jd"d��!�	�D+�V��4�p6��2V�";�ߜ���Wl�v�󠳿�b;;��s������ϖv?�8�d�g���Ӳ�j��&B��G�$k�r�TU�-��Б��Aߞ��E5iV/_^��{�.��]�Pn��u;�{����t�f��/��q�?z��l|���7J�7�:�[vq�7������: �7�����;�g��ϟ�E�i4t�ó0���o��D�������� �DL,�JM(��������a�C�����FJ�sェ�Dyu����?��P�d�d�/�yA"��!L��F�刭x~���[��|���Y����j��?]�Ll���Pa�S�35ʲ�bӿ]�㒩pB�.���SgLc*!�Gá��e/�4���v��C$�;:���a�����Za�!#_yv˿\hR�ŏv��'(Z �@4��,ҭ����ȩ��_n��^"�D��s��]��!�R�?����hF���#F�����f���Ĩ�",'T��'�9�߯/y������7�����+�ۉ/0�Qc|t/�:��>/�qѴ��Q�,�� �#��EWn�dU���\n]��g���Y�j����vbE���eKK_{�Ǆ3Jwl#���E����s�c�Oc�j֝�\e��5[�5T�|�ү*6o��33*���1P���^���9(H��ѠЩ�	A��}�=� |�e���������߉�?����!FpÞ�^�<�����^���;�{�c\���[��@���X�����-�N(8l����n��m��3�R��ekr�p�I�'N�s�Y��<D;mm�D�".��}����jV.߱�s���dî�g�t�Ry��O�:�̼:G�@�(�͟�;Ia������y�@��U�t��s�m����s��7r�x��hie]��:�9j��-'�S�vͶ��C@�%Q���M�϶U���s�fR\IV?����=��6�`�h�#W�E�y#�@�]9h�Pٮe��4|䨢Q��w������j���WF�V\T\VQ�W���K��z� �����*v�o���|�`lM��n:j�|a��!]ס��!#��䁃|�Y�+6vxm}-��SÖ�����%�*I�7�h��R��|�"�ź�d�931j@�\�s��Z��g:Gg�Eh��1	�$��������X��xFR�� L�"э��~�rm�E"l��^��q��1<�b�T�����'����2�fb��2Ps�0򶽑�!&_��7� �A�Ń-phN��8�yl:�ֹ���4ƨ�!8�ӳ7�qn�h���%�x.2��b4�.��g�<YT젨iTFӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4�F���Ө�FӨ��4��3(�>ˑ�    IEND�B`�
+```
+
+### `src/flows/fno/assets/signals/gold-bars.png`
+
+```tsx
+�PNG
+
+   IHDR   H   H   U��G  ciCCPkCGColorSpaceDisplayP3  (�}��K�PƿV��u2�C��
+�8�DqU�ꔾ����G�"7�����
+�n�::8�������y/��"z��~|��8 9npn��;�[\�+��-%��� �񜮯J��?��>��N�Y�������1����]H�����%����qK���r��g�X �&VXͨ�������`�r���l��9�X�<p�0Є�?�����]r7�R��|�ɑ"'���p�0�XC�R�w��w�O���'`�#�����p6G'k���<02\�����G��V��S`���P϶W�j���<0�(��$�:�-!>���S�p�|�b��[   cICP n��   8eXIfMM *    �i            �       H�       H    ��d�  YiTXtXML:com.adobe.xmp     <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:xmp="http://ns.adobe.com/xap/1.0/">
+         <xmp:CreatorTool>Figma</xmp:CreatorTool>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+�\�  IDATx�[i�]U��^��^ͯ�R�T*		!!$! �$Ddꀍ��Z��ݸ\�liY���i��;2hC�[�A����P��TR�<�s�z������nQa�U	"?rVN�{�=������}�9�8�N p��@�]p�ק7~���|�@��㘆�(:��с��=�p���iol�X�����a�S���҇ �Y��Q��������t�� Y��Ș]�rk���ڵ{�w��u��k*��s����?h+���hw/���������!cVF�쮁���+�m����"j���3h���q��޸e�ݭ�e_��O��%@ @^�$^�X�X�d��7���hOOlK}E���~���;10ݧ��C�Ӷ.�zo�]��WD�G�ę#��,�:�g�^އR�H�-���GKS������7^n|�G봴�F��:@N�%��R����qM4:�@(���G�q�K����(@�	8���ŘH*@[�XmCy�#������/P7�ڄs��K�Ug�,{���Ί��E�bH��"�R�'J���k�!P\V���쌏�~d�}YsW��f`���PG��(;9G�4P�nM���g:*[W������g���J?M�L��<�'���=|��8\����D	�9C��(���uX|<
+�<uX{uUq�����x���#�B���ѵ���	�T��Ԏ�%�e�/��+����8��n�5�5W�KN�t=�y�cU�gPG��7��>����!�p��$3��eZf^,����`d�1J��5K�=I�d7� ��Q��~D���[����X8/v���{$��� �n��*w�yo_SG���Bܬ:]'�-�s%_#S��)��<�P�?�>��w"J?�B���hjC�sfA&V}��8�u�<}gݞ�;�:{}�q��|�I��S 2�#c{�Y{�0�Y|?���>U۶ #s
+�Q��
+~���FG���}hr��Rj_}�g�oB(��H8]�cG(�:`+Yo��dvW2� ��S�ͻ�;vc$��-���5��J�H���7�8�<qؿ\rz?�|�_6l�.:2�@2N��-b@"Ki]���ڢ�D��Mm��9�`���;�L�"#���jL0~r8��(��T���#��Xɚ=3�Vb�E�SqA���߶�T]7Np䌵U0��R�e�$J�d3n�!����\v����Ϳ
+�;wch��������q�&8�O�!��>Syy�(�~��4R�fa͞�G;ʛ>>N��d��Cʋ���U�{SD�R��n�E��V��P*|�.B��V��eyQ����#dDM���sfaWr>�?�r�Lf�(���z�W�Q�������I΄m:MQ
+:�!Ki37ֻ��L'aR ��Tp|���}
+��؁ѱ(�s��!8j�e?.Hf]�#s��c�� V�l5�9�������.8���������t�-P���A3,�Lq2�{K��A	f�4���Y��\��=;��@v�u%�q�-�	U�w�c���X�9d��љ���Ơ�}�/��Q�?m5�mF�)+�eZb�{m��zk�zf8��V.���!��i�9[1���3�ƒ�8k����$`�힥|������Q,��3�� Լ��kJw5����?[ ��6*E}���k������1�5;1)9������Ș������H^�V�(i���a� �ű(��k����j�q���rooS��)HA���V"�6�V��j�k���$�P���}���q�*z#� ��1�S&�G�E*�w��fl"�{9?	�p�����<.�����rh{����:Ǳ-��?	.%Y��$���.C\`�uYe��Pr*�\�j�^Bd�f����CU.�Qq�9�o�~&ѵ�:k�	�}ڿ��O��O���Lm�g�ޖ���Z^�r�p�a�c���c� �fN,PRjRy���ѭ�uU,�C�_�ʢ�sdf��Y^aP��nj��k^*@��a���|�?p�/��Yr���կ��q�ޖ[����|�$��,��2�c����IY�|?�B�ʿU۷`hd���訨7_�2PL1��b2���5^\ž~�w�[,%��~r�U��~WEq�?�u� � P�	 �Y��@�� 1�L(�-�S��M�^�|!�����o��ӃY���7Y?.8�_`۸�wc7�%=J�ң�-�|��xz�ڽ{�i�8˨~�sCݾ��GF��M�$0R����3$%A�?�]�dRJ�l����I(�KN�Ϲ�;_�C&s�|h/k��:2�t�н��4��#^�wc�?����� S�69=k�J�����@�գC��(��2���zS��f&�k�/�i[��g�n�ޗ�Χ��;1d���S�b��຀�����K���T����%���2q��_whǞ(�ѓ�N΁-��7\=4�\��!�V>FY�HH�^�;�@��F ����Q�Vf��9��D�Ν!8a/��Z���U�]۵k�V�{E̒��ر�c�)���ܽ}�x���yp8���i�~iA��G��^�F+� 0��е9g*�k���9Aq�q�p�5鋴��^��]o`ppy~��j)��騐`������Wï�����-� S;��ĉ�3�=-�}%z4��� 9�.(���Xsi�~S1����I��B-�v�.p�陀�4)^s����$�+�]��]E"8s�h-m�ۼ����R,�i(�[�HC�h:1,o�y�c#���W��<3=���T\}��,����ʙ����ц+O������Һ�NWAcK ����
+��+��3���Rn&��@j
+��A���C��T��Yg�������݀
+(M��Z��A���f�h� �
+3�>=�@��L:ey��e��]{Μ��'�M���; zr=��Y��5�8;2<f�hZ��r�{4KD�f�6:S{k�{3)���!�s5*��Fw��C���7#��5'G,`b�J�3�0j�W��Q��qfg3��s���@�S�@X0IYR	ZN~:f�_0/oN��:+��-n��lz@k�$�K^N�u�9���X$�΂afEE��嚔���1J`�ڟ�L�������	9sC(/j3��������J8#sK&8;+��<F���EdY!��d�$���C����9��\��ϥ�L�[z�𤼵�O���`aw���8:�� �ۧ#��u?Zx�)y��1̚[���<�n���@P@hN8�չlѵ�(fV*Y'v(ip�ߢ�x:�[1wQ��u 27�1�$�)Gm�e�-���L2ag��'��`���eh!�s�{����G��f�J/�\��
+:k~^an���._9\�`x���=8�?���3����xh���q6��Mx�;o�<}�����,iy�
+��S4F��̿�{����y�8�z+��Ł�`�g��׶�T��!'�
+��畃��O����]I�"k2��q��ŀ��<��	w�H!���<��
+%�QawZ8�/\<��檶���E6�Z���oK������v'��p#2�7b՚Ӑ��t��ws!�Gw[5�G'}��5�P8&���>.w��uh�[�ֺjd�a����i�8���iF�I=�:��w�l9ٓ�K� /  s.<݃�;��,M�9�b����̝���S�/�b�TY���@O+W�ȧ���;֯�}e�z�o�# ���P�͝/�b�Z,��x����0r�,�_�Et��`LL�:�JR�ɘ��!ˬ��p%�/�F�k��gZ���jdJ�<��/�����s��=�b�_|��L��,}�h�@[ X�щc!�Ğ@�G�|����8���'%c��-�o�`��X�3:/-��2��pķ� 1����Gʙ����ָ	�V���O`�k��1�f���c�&��߳���R�.�����Z[��%���Z�1G}k����ղm��u" }�+Ķ2��w4��}X��,�?r6�Z:�t�OԤ��P��z+���t>�;#�'cz�Y����/-^�%��!#k,w��X����Qd����V%��M���ڈ���Êի�w�j��a"��Ԝ�1>x��Մ���4n
+?�vn��G�)��ks%FF�5����#�8.0��0��F)���֜vE��6�?��ũˇ���Ol�&���ĒH'&H�K����?�	OJ}]O#�re��}8��<�l&`��ap��ۖl5!(�[��/�ŌT/�.P�e��|�
+�����^x*�9�1���*@0#�I�w���?���-C���=i6�^�"8�f�F�
+��$@2S�jnd6eM�r�-�����sFP8g���H��Gl�E��B%���D ���:KA[m���kH
+�Sp��T���~"��󹖔?�G��"�c�(Tc����`�fǰU�hmxN���U�!J�#�f~��+X�Ίh&s机;��cc֝@a�qXؖ�����P�ʥQ��6�)KV��W� ��tt���3���� >}yeR(9�'�u��*01֊��\ҡD{[�'R�����AwG���M7�o�2�ư�ur1&&�W����)|���RRI0�
+��Ku�75�Zq:[i;���iH_v�NT��wW`�ڳQ��^tv���3��NdJL�5g��庶#>��P�����i�rZ��j�hi��%�	B�@�y��O��h���0�6��Ųn�U�`x86��^cJ%�(й%��c�=��aO����x_�?X,��%�X4	)Zʇ�pE��������JQZ9��@*�'qlo�P)*��9g
+5J3SR�
+�jyl!aE}�W�)=yt"V�^>Jf��C}y7����t���#��3�߃��Pv��'Q��+ݔM�cQ(�ɽer 	���<8E�ġ�W�� /,:ˁ��KRD�I ��	Jp	���	R��.�o���(���Տtp�m�_�w4���/1T2�<K�pL1Ƕ3�1��wŤ�.�m|�����V�jط����lEc�qPXj|�!y����>%�8����&��M�&�%Q4�HsҬ�ȔRG�EL`��� �O 98�ÒS���A����W�ڄ���u<y�qcg���>�� �#5���AI��?�gq�ՊG�/�`���,�a������{%�c}%t3�Xab���B�Ab��VJ���m�Cr�.PJ����b$���	z&)̰���Β��SG[���p�Fm��]��^NF
+�p�~��?S��p���.�1c1ۋmR�K�Z�������a�Zm��g6��Ih�w��u�q���V�#~��x->�5wbs�0�8�Dm)%'�Ā��S
+���r<�AJJ�C�<��č5�CB�Z��Ҫc���-,��߸��K ��U�n*��C�d38�(�Bk�&�J��@�S
+`��ήb(VD>6ƹ��]�!y��z�����3�d�)�F; ��w�i~L���pv�r�C�I7L���K)o3�#�+��3�4H��Ysߵ�����I�w�����z���U�@E�0E�X�,Gj\M9����Q�vP⑍m~RJN�n�jr�Տ�W� �o��aK� H��=����_���:���4?�Ir %c��M̆@�0�	�c�H�_R�H�2�̺�yMF~�0�������n!��b��BiH\�j���K��aq��Lz�|�;¤-�����3�؅_R��>��{�[���r\�h�v��!ՙ�Dyr6(�fKԥ�C8�c;t�w��RY���桏���<�myo�dG��Rq��ǵ"r�k�*1G�pe�{����:1yT���'�fsm��o�p��_��<7U >:z��9�|�.��ՏO��)�>���2�Po�L/6�6��o�o)���G�HǦy���k�S�i��輗/��!ܑ���3e��,p�4�\$�xh�dfJ*l�(��(҃�AC{'n=P��w<�'��?l2���.ttm�+?�Fv���gIq1��(Q�f��9��p��	!y��;%w�w�ppf�Ǭ1���sOF3A�� %ۦ��Hq/5^�<�%=�|��/.�M�R1KH)���ώ�n���7߽ϗ��?z�K�6@z��c<�{V/�S���y��?�1���R_Spb_I���L���&r�5?P7Ǟv�bϪ��I���/dIie��e+�q��������ي%P��)s�Me=����xt_#z�&şy��N���]���?k;$�K�F���)@w�:&Q=�����Mr%��e�̥��l�)� ��%������[-0�ˢ��x������p���������w�ta>x�w��(H0������8b[
+k��7oހ���������x*)���*3�v��T�D�������E;z�ǚ���q'�0�q� ���O��U��B���K�|}���s�K��?��g����D�mK;0����w.&��87;3�۵k
+K�Ǹ�l�i������Ӏ���N���a�m�v7������t����p��Ӎ�V��s�Qy��_^�K�oaH��+W5�ݽ�zϳ�\�.y׮=�0��K�H�D:��	N p��@�'8��_��x1 	y�    IEND�B`�
+```
+
+### `src/flows/fno/assets/signals/lemon.png`
+
+```tsx
+�PNG
+
+   IHDR   �   �   �>a�   IDATx��	|T����$d�!�KI���bY+(�V�@��JUJ[�b[k��oE�u��j�ʟ�wA�n@%�,*"�YK��L�d���3$d�̼yyo23����{�޼s޽�s�aA�8���LD�!($�(�/F��O�OĻ~%����U�
+�)���'@{U`���(F�A�=g����h,�L>��pL �I�OY��� '�@��H�9Ƹ���.��킨f��BYR!��hP���P !���I,��|�c��D$��ۛ�B�#f�z"���8�^V0VӴY<~_ͧ�\e;b�B��mTeH���ـ�-�ܥx��LXJ�k`���:J����><��N��Cj��׹Gp  eٗk���IG�@�c��v�M���(�RW��F�h�Y��W|������
+����,���,�v�]z !�ⴲ�?�E|a0��mZ������|NB2�^�������1%�� Q;��_@Z�{��{ &:k�U��'������69��~�+S�C��N&�[��ܟ3�)�(���������D�����+-jq��^i�d��&��A�������~��=o��wX!�q+���d�l�>y��|FZi�Q�{!���
+�]>9J��ք�1Lv��k�0�G�Sr�c���oA�A�9�����b,S 9����񷑖�
+����߰K�۽��/�P{�v��</�%,���`c����&X�=l��;�[W[9<T�� ��I>K�La�+���{�Z˦��<��3S=�*�0�|��
+Q�1U�=��f���b",��o�W�W�"ؑ��QZ�^>c��i
+ *���wk,���(:�w��W�5A�o����X>k��)
+ Jv�j���4����`���J����Yg�gh�q<ց구��a!rο2�K�Z�CHA��@����Fڤ ����]"X�XS�F�P,�E�r8�g�v[���@:y���l�L�X{�%�KB~��4{�KR0�a�Js��;�?!ݺF��Ѕ�u�� �@���s���²�0JiX<=� �� ��	�k�8�`�b��f[)�Q4A�J��G|�3�# �o��ә�r>:=Y6��j�� lp<�/��,�N� �-��Э �<�<�/#������A�����<W���R g*W=ºVr�+�Qu����j�����Ξ�L�uǍ�c���9�,�f=m�*����A�_����Q��הl��c�2e��h.��ہ�������iOV��g����D�{�^)�|�0�mz�$�����9���@Ɵ{(QCգ��z��<]���g��.�G��;s���[Ν��Τu7���D��|s�N�ꄻx��).��V�{�e��{&q͐K|j��w�p��O��W�Æ��1��P]����E��o�C��cZ��k��K�a"ֽ���|#�4l<�����FY�m�l!��PHLl��I�=�C�oa2�.�^:F�ǮP��Y��~�)�V�$K�=�(�9_s�KX�r���b��˱��ڊ4ߜ�K�J�NZE(*������/���$�U�b�<�o�c��M�ف^���ki��sF���#>"
+�x�c8j|��[(�(�M�H�c�]o�(�G��8��_��	>���������w�s���w���c�bb�����V�p�R[��?���BXO�H����c#�(�dKi����8J���+�p��_�. �zt�C�b��J�X��̀�z9��b�q�����
+P���v�|;��3���5�ϝ=�Ac�jKmR����������=�ޏP�,�ga
+1#��r�+̔�@Q�Q;hG�q������V	�۹�	_R����<|O86�˸���a�f�)�S�.=2�	l��U����m�Ct ��0аT�lP����+,�������	t z6N mP M�T/:pP�@G���"�Be˺A�T��x��Ne�T��"Ti,k� ���_�~U�ݣ��9�o/D��<]�5B�*%N$�U�z���1�&|ؿhW�K���.%,߁#ep��
+�	\�$��VBe�L�w��mP�P����K��S�HP���m09���(�v��J����СG��@S����YI��L�?�����r���ZG>�({��!#�K}����++�\�O7}�5d!��`��̌4L�|"�^�3���`5J�:��H�jʷ�\`��-�}��6oź��z�zl۱zЯV��"��I��8S��܅<4��n*����#b��������g�]�C���(]�}�{�׷�B 7��/c��Ё�*��y�=Y�l��qW������-��.���+!!�	����mZj�a�oN|���o��&!ކŷ݄KF���G :ʕ�VYY��������>��>�
+c.�*ٕ�ä�������k�f����5���oV|آ�<��:�v�O���"p�Txl3}�$��ל��H����T�i<�6�_��*�@�H�ռ��E#Ў��5������l��es�~��^�X�p�������Ń�߅+&���a-Gߢ��<xt�q�>�8���Z
+o�Ϲ�H�#t�aK���������F�]|[�-fk�)��~�s<�?�6+ї��\ �7p�P ݇����{�-ǐs�1rĹ���Am�U!�kä	c�q�k(��ĉ��H�n~�#%HO`�	:�6��?`�=,~֘��):L�8v
+�%+ ���_u	_�[Ƚ�:W�����U��N�K�����n��/��~�T���&6B��$GI��]��I�ʧ��4^���-]db~�-(-�%�;w�~+z$��|G���y�W�w���qL� U�	T>���}5�}E���ٟTd%��/{陣��q��)��3ODu��z���e�F����Z+��s��o��x���G�_΀)�_�G
+vb}VV�mf͘3� Gz,�W�MhP^��ju��0Ɣ��-J�� |�vEL��h��N/y	���s�8g=MMa?��!��b��y!n��%-�'�zNK�K���NoX��7[���R� ���s@��ߴ�rkE5,c��֯�l�&9.v���òW�`��e�/d�
+6�a)=-T�0�򮰰h�t������ t�c��z��g8,eH?XF�����칳heE\�%�Y�
+�Y� m:���?\�!z'�E^^�{}��E��s���*��Ce']��̳��3��<olk!]�^&�7M?�66��=p�(��b�+�� C_�����;�~8r���þXarZ���`B�}�*�>XI	����r�K��2r���yt��I�M2#��E��
+TR�)��Y� ��Q�A��YĞ���dW��-:��I����ݵ�jc�%�����X� �6�fkвՐ��(C�B�,�m����ְ��hL�G�������q��K��Əްf�wqL��i���}����w�=��̃�&oa)�wF=��a��2����@�7j�u{�_�C��
+f���w��$��^��0��,�˒���s�����~'�0�`�E��]�?��r����ː��n��:�D�X�S�8�4LQ\�s�Y�??�{$ �M*.��?�1?�5�Х����h���`5�2w�jc���65&@�6��%{ �s�	E�n�!G�n����)�R�.��@��	�0���M��!�x�H�90��7��~S��Ӓ�����U��9yV!e-e.?7�������fK��i��?��
+��EN#o�
+z�C�f싚0���.9�Q*��<]�ӑ�-e-Z"�X�nE�-��8}��q;n3��z~�������a������RW�ς�$�\r����(����!�&I@ӗ�D��Bč��4�����+�)������P�hV^��{>˩�r	�t�pL-Bgb�6��u�,���Fn���"%.�7�����!@� Z�#"P�����*��3m�\�JaG�s���Л�4�/�N�ly���%)屸�.  IDAT���yy�
+�uU6���wa&,�W�7>pn+"D�hy2�@R}�==<����}o �\�6b�N!�"���1�L�h+en���l�o�S�߳1|��F�v`�8����*��gM����h�aDe� ��.m��+/��r��ӹ��!D������ ����)jPA�-z ���o��0��8�_�@'F�0a˴��%ng�J��N�Nz��ԢP�@(a���n�bR��_���Q~��k5���L����w(&��F ���T�u�_�p�F��mO$�B�*�V@N�����j�,������=������y��_W!��NϠ��ԘG�ؔur�A���O�`�:C
+�\�s�x��)ḋ=Hv�E��l�=@G�Z������Dz-4�U(:� ���B/a^r���R'��P�%[_�KetE�9|���=m�%�lQ����7`�b������Ç5�B�ꖆ{Y�:{.��BwS��-d��lu��Pl�Z��v"v����G'�Qt�T�l��������_�/=6����A�e�0�;:�y�l�)�)��>)��$Q#�Y^�JtQ=^F1:�Ջ�L�p��8�G>�jR��<�xγ���]uTOz��]�Q=tU����S�����%[�;r�i�A��£2*�ц%
+H��
+�.a%�q��p���oK1���p�6�5�b?���T$�X���z��q�5��.�c��D�W ))İ�X�P�0ӭQ��#���)@��碇@/"���1�͒2���Aڴ\C./R�E�eM2D����i���T7�.}�����"_<5����%^Fi�z��wJQ�&7�&N!�x�e?��	"Z��)<�h&|���G��f��)�(f�%"�2���ݓ���\=��CQݟW��~M��B���0mŞL&U#������5m'�D�b��4�]�w�[Čp&�K6�Y��b&�q����K��Q�w�8�x(�Bދ&��,�5���8��6��1�hQ�
+����SuN�"͑	D2���=K�CT���R��t鰮Qi+ո�9z<�`ɢmg�Ж2�筂�xO/�^�[- �!���%]����+�/�l�>߰�q+f"�����s7 �D�l{]D�n�V\�a��z\s�:��䳄EX^����x
+i3G!1�s ��������p.bF!q�(�\�+��-��nM~��?�'N��~k��,�P��nߘa��4W ���uڇt�d��g��V�������?���.�X�{QB�`��{��ݞ��g�8o!�\=��ޑv�4X�����Wp`�ը-oz�§�{
+X�܅�ߝ޳x��ԝ�vٿiD�l�,�b�fЮ�F�u?��]�p����rG�7�1��R�STQ�I.�d\M�/�D;;�C|0�8���T�õ�T�n��|a�EU�Q����e�B�k���8�s)�bE�����#z(��g��&�t������R�zĚ�DͶ��mW�mlm��x��43Z��NSD�Ŕ<w��T�z���n5_-�� Q��@��5������XW�����#�/�űS����k���dh��y�ݧt�v��_볔�&�2��P�ƈ�E�(/�5����������� �g���M]z���OP�l�l�gA� �{~:M�݄���Q����j��NJ�Q'1�3R��ѹ�������4G���yZm�0ET��Q�O8Jᨌ��[�QI�Vx��5��Wc;o4�t�@�S5�����=�Qt��F���/ۈ�   ��2���   IDAT ���Ds��V    IEND�B`�
+```
+
+### `src/flows/fno/assets/signals/neeraj.png`
+
+```tsx
+�PNG
+
+   IHDR   @   @   �iq�   	pHYs  %  %IR$�  iiCCPDisplay P3  x�u��K�P�O�R�:�2�C��
+vqh+E0T�S�~	m|$)RqW)�X�Yp��TpqpDݜ:)�hxޗT�"����8�s�\�P+�(閑LĤ�Ժ�{���S�f���,
+��������O�YM�v�O\��.�v�S�]՟ɚ���A�����m�	�%1h)���ǂ�.�;��d���X�
+j��I,�;�|��e����ޟ�W���Q�a&�PQ���ӎ?�-rW`P.�,�DI���Сa2qAꐸs�~���mm��mp�/��B8������x n�L5TG���r��	0���(�a��!w{�{��c�v��#�����+�)j�1)O>   tEXtSoftware Figma���c  %vIDATx�{	��gu����/�����g�4�Eh`XZ$��4�0��H±�����$%W���qRTLr��q�")��T%f120b$�4=�4��{zz�޾����^#���M�t�~��������s����7�1q� =����#j��oЪ䴠X�bK��]@X������bda*����s'�p��/L�|hx#�::���H�n�����5�����7ց���o�|o��C�ա[�{�@�JN/�tߤ�����x����:?^?L���Ѵ��(�
+Z�mu+4vZuZeQ�ï��x�L݄AcuM�fh�����ijy�� �3J�[�M��i�������D�kv���\�m���#q8��3�*º��Q�^��/�h�@g����X�¶��a���B�<C�]�u�&�"
+a�B�g��@zQ�^��д�o��Za�5<ުnhɯ����f_7b�aĲ��]殯��^� �2Kv�sb��@�H$Ԏ'SIX��=;�.ėu:�+V/BOu�"3=�:�ᷖp��I��ǫ���'r��W�_���U+��O�f�4.�Z�!8SB�z���i��������6��|�]]���ܕ+���m�u]�q�D�DI��2M�>	�:����3r�`*�̉W�8�[?s���������7�����dh���"����H&��o�p�J�Rj糙�����et<GwW�2:���}�dR/NK�3*blہI���W�>b�-�йCoka��{�W��Կz����î�ŷ~����s�$��Ҍ���a�[�r�l����&TJU�
+���t�/��	�������8L0A7,����[-��`B�*+�̓�4��vxs\���{sx�3G_�M��}c�}�f�v�+��?���E�VAs�0kut�s�V+*�eg��r��Z-����u�=�\;����kp���s�����z����E��PC�V�<_�m&�ka��	��e4m,G��������" �O�ϸc^y��J�R~��=#���ym���zƒ���Frq�������,�J��!IT*E4�5�j5�	�bI]1�p7h���*zz�QZ_C�\�#�th+++*B4^3lp[5h���ju���p�S�x��{~�m���m��_���_���:B]S��W��;�Y>#c~#@�����qM�ӽ���s�}�p�YG�h�<��$Iq/��A�����a��Lu��l��:;;Mu��Z��m�z7�ǂ�E���ޟ������ݯ��������is��M�Ze�����c�}bB��[�ُ��4��psss\p��~���MҾ�c�g�������$	�餃T����ّ��J	��<�r�3-�@�I��ZCpw.����\g(+����'>S�t�~�8�����PPe̒*���ݍ'�2�ٴم��c�q=$�U��ζhxI1<�NZ\�g�a
+�}w<�N��I�љMb��&��w��#�����D��P9]c�]]����z��yLͮ0�X���>��.x�qn� biԸ�����G��L�����"318��S�_��z0���df���3�QA��%��q-fj	����{�m�5��L8:w2��"��%ll۔�؎a��v#fǘN:��8z�rt��|:�cjH�Gp=_Q�j_>����y�.���n�hj��N�; ���+|�t����EX�8������c�˅�V�ER��˝M�s��i��7d�������1�������և��l���M�����KTO�9�^�`�0�Ꮁ�iB���o�w�/h�&��x���awSWJ�4|T�5�8�tP�������.F	R�ꠅ�N:���~���|�.n�H�l�3�UN�A���<�K�V/���1��h�U�-.#,�s�"l-�q��U������;ۅ8�Վgx�8�S�ͫXC�v�k�0��_��\;F�lTU�ToP�ԍ��G0ye5�WؤA��>��i������Tꅬ&�'X��=�7}��R��y�G�/DAt4"P����.�U�w�U�D�U��	(�úFOWaWg�����]���G.f�'�CLr�a����Y@`��Y�qV�X�x��5�8)�N�>X�^:�Qg%�z�G�M���=�>��'����	�;����d�+�b*4B(m��Ȗ�EGq�s�_�^�3
+�M�F�������ڿ�s�͋~��;�ȸ
+�tƺ�\�����Ȅ#�L&��|E��D7�d��oM���ɾ!��JM'�N'b��������z�&b,��LR��C4�,��klT&��艘Sz m6��J(sP��p�G_��|���ݲ ݦU2�"���0��/�b�� ��#��)���t�;�"��ɥ�c�#T,Mc���491�r����в���E��]f_!Q��sj���ӄ�G��1FP��I���:����*�'R�v�	�Rm"i�v�8��e�_#F�D���0�4�xAsB����BNdQ��L��Ij4C�q�X���{�D��y�����Y���F�"K�D@|�W_���*�%P��"�ڽ��@~L�wUD�z)��CA	:)l&�J�cH�I*2�5f�{: �f/����G\�#��O����K�G^�ȯՂHu\��N��~YJ�A�!7��5�HT�m��ަ�	�8}�r��q[���<1h���I��R�� ��)%�Jd�Q���yM��������&��9#,�����ٹ�Û�,��('�D�-�׳��.]B��(%0���o����ڝ?���['����@���!Ԧl�Ϗ�����MA��6!���v.�㊡ -���DĀ���Ij�!�ӌ���iH�8��w:��p�tV�yC;�U491�X_?vF�$����T�0FX��������\�B	��Yr�&�0g��މ�/�%�ӭ�Q�!%�]v�`���u%".\1?1�ƚ�lVz7,?�W�7ቢ�P���i=��ֵv���O���4F�AN#Z,i��(�(�ˈ��dQ�3��;\I%F�N�@��0����pw��5k�
+���F�k7ۛ'[F��3D{dLq��C/VKo�G#)3�<���\����"�m���T�`���m���8y���D��W�/A�Da	Yj��.xv/��B�����L#3U�Viq��)�Q �Z\�r��A��g_�5�vm���~�7T��#Os��>g�D��$L�	�4K�6��E�-�o�*t�aĚ��|��҉����-K�\Fb<wO���\P���2�\�J!<^5��i�� ���lb"+��Տ������Ο���o�F�`��Y[��@��M��.N�Ĩ�<����Ev���"
+�C����R���,c;aiM̯S`�����S����ˎL�R�'��)�p�L�4þ��0��{I��L#-Y��`�Y��h����́���<!D�� ]S��Bc�#S���VqE��y��ϐ�䡙A������3.c��������q�MO�%r��a������H�82(b�QP�F�'{ܳ�*u��Y)��ܺ���Q�ؕ��v��3Sx�};Q�%q�R>�0�ًx�@j� "��s	�3�	�I4�#��a��U�@�}��!��P�2$��EL�H~f>i)"8�E5�i�'�M��p��e$��{�<F��3g�L֬V��p.��k�E�Cb����Jd%2x��p���%��~��!���<�`�w͵�ss򛇱{�R�6ևd�bjsB1m�B1^h	o,2�����>��~�5�GNS%-`��4H�	����*-T�"��qr|N`�����a�����Q�v;C�<�����A����>��<��D�=�@�����'��Mh�Q�_R]����R,�{w�`��!�8A/��ڂn�D�WW���N�<����ط�p����f�R��J5��q��R�F�}��
+��>�,���a�����HG0&D��FTt���u�#�?��9;�v����{����μ�F����v;�����tѩ}�C�p�u�U�1��o�u5���-�$n��s#�-ږ05�$s9��ut(���$��7 ng�ng9���[�:R�$<y.�5[�T/����9���Q�t�D���6.@'^fn�����~�S}OA���|[\õL�C5Gz[��y���gxo��屌�Y�A^Gc��E�$���>��N9��Ƙ
+u��"y_��Ne�x`�l	5�N� eftF�:�~����=��)�#\�M��F��A��o�%ڒx$ʙ4vĲ��U��A�� �R1�5iI<�*��x������Y�v�)�����x�T�9���4��Q:˺ώ/G�Z_=�T}�=�W.��;��d���\���;�2�SJMr��ÈԹI�'�F�و��Hھ�Ǐa�u>q}�}I46YA[3�~�I('��"�j��u���o�U˅�S6*��	����+%��*�PJua�B��n�Z���N'v����~�~����m�R�
+o�f����XC)C��e+lR3��d�+H�o��S��e���K�(�)�oV��C��� �>���z�FH �a$ '�E�h����вjj��=������Z/���7�J9�K������B�T��ڑ�<Cp���n��,��E�f���T�1��!^T�@A"r��
+���������u����Yi��ڂHy�L��;/ev��Et�l#�����2�ܞ ����	��,]���PV#U	�8Zmص�-�7�U�@5K�BؒYU��F�q��8���bX��Z�{dM�b��b沫�� ����f�(�X��2�LU5i���d>9s�'9�g�ps8�ɢJ�6�Wב�ꧪ�E$/.�p�el���{�iҨ@��߷awo�U�aL�{řY��򅭈Ey���6�Q]_�.������|�Z-=�_ �ZOz�~���d�ř�yY�r��ʲk��&:M�F6z¶J����YJ��	�5���&w��G\HeE0�|x'(��ۇh�¡H�~m�󌌾<��V*�T�Cm}���X���O�B��<�︚v��{�\��qt��`� �W����h���0TK���*W3`���Ȱ}/1����<ْXc�f�P5�T��&�xmc���S���� Ŕ(q�3̷8�8���+N'�s4�k|�)�F�L�T�F�q��6"�Q���"\��O�h�l?��J[�͆��;�HX��zۯم+4�oxHr�Q�H����*�o7��\X^���H%�i6T!1"`��i"���٤�Xc�u� �j�%�U�<~�Պ������H���*�2���I�"�IR̗��h��$����cE��j�_F:)��nP'(Z�-K]�<�N�����'gΞgO0�2��ӧq��ݙ,���ǥ�J�y��� k*у�4v��pס��I޳���E�3N,x�c��_boP��l㍦z۶�!\BR��"��H[����#�/j2��ҷG*�b��3t��1��8�6,ޖ��79+Е�!T8t�]TW[jڤJ��gqqn
+?;�'N=OgR��@cu�ׁ̒��GW:�$w�ڑ��D[�b��2�b�N�ZD~�W��[��)�e�<��
+����)�A����60��q�&}�P�eO��3��F�]��DFu��]���)2QY	x&���S�]��P�)�LI�����O^��6'���}��x�y�i|�ѓ������	P'������s<�I���Du2(��ċ2�q��p
+����c��XP]D.O�Ɂ���S�"�s�Em��ds)�F��2���Wf��st˙8��yhJ3T��v��O��N�U���%����̳F��䉃���I]f	��K��JQ��M�%U�\M�͛:Ұ�.�v昽��u�'&b�±9�SL ��|w}����8��لFXg���}l��R*/,��� iq �k���odz��I�&H줋�T_c4XIF�`��Q	6��͜�s�uv�s���0��3x�%�0�`���=|}��q���ή��qj��y^��V�P 11�ۉ���-�#�=��i��(�؆Α��F��@�&VT�M��
++��(�6+����������O<���nk��Y"�M��ٶ�\�(��p������ͯ�޴��諌���!�`�u�m�lC��9 a"u�D�8'B���, ��L��Ë��"���G��3�����H���r�;�E׍�P]�r�?��R?+G	u��UR⎾[�$#!���<��IN����I�"��/|l�ԉ3E���8JQn)��$��%�Gq>נ]�:Ø�~"�q�_���$�������`A��H����/1�8��$��.�q�yE�/ˬ0â��t��s��+���U��8��ݻ(v�f�%|s��V����hqe	j�9)��o�:4��*���e̮���Z2�Z�0���\��m��%|; 8�h	E2H�c�Q�\{�RR�@�<*��h<��(J<<F�3-C3%��V[�&�����+5x�a�$xdw	��L?�M�N܉��P�ydp'|L�رΖ��g�♙�X����7���6u8�ܨ�Y�u�v��w����^�!/X��(�WV�8?����%�s��m�4b��O���?����䜦�#%cC��$���ԟ*�{���F�f[�I��z���ʯC�N��cX����<�Z)EQ[f����S�a��huNk]F/��ݝX|j]l�V֫X)UH������9I����=x��kq�ګ�y�_����0�{n�e�Yel��t�`߳wac%*HҖYf߼��ݏ~���Ȧ9�L���m3����pg�t$�?~���'Qx�b��[�X��R�ġ�.�ʛ�M��騗m���HNjz$�C���"��g�aטB�)F��n"zUG����~H!�`Mg��ƞ�VS�v�߫�(rpB�9�0���?�sFO��/��Z�Ej�"G�د�!��PkԱX)�sk�n�G���-�8#0�2���'/,�O�@��������ҋ�x9�7���v4��F~E� �X��P����)��ퟝa�4B^���ϖ� j���	��`��e��k�㨓KL��7����k|^w��`��L�<u~P�ͳ�k�VJL���:C9���ַ�#K$�d
+�D��{�|���A�z3J�ue�d�񼃏��6�:;�g�H�E׌�'~z���J��'Z잚��*��J+�j��N<�'�(��d,Fu6d?���#���!S.�;������a�JQ�tX�J_�a�TQ�T��d��m���Vg���%�x��.����2�"�����:qp�&\�}����
+�Ub?��4>��V]�r\GZ��C�����ǎ���SQ�:������5���ȳsvn���U�@Y"C���ӡʟE@��(X��j�9D�%�;T���t�	����
+�7قf�:]\#�$K���
+���A�W֨V�V,cm�s=���<w�{G{q�e1
+$n��Ǔ�������LR9Z$2KN��G�k�*�]�g�3c;p��#GV��ׇ������~=�7A�U2�2��*�RUM ���Hq��20���)�'�}�h%:&���[p
+�T�0��v�����t^���K����c,_r R*�`g�z+tas���Nq� �Mg��h�n��u7s��9P�W6���r�1.�ZF�c��HuN���t��l�/<#Ď�n����!�Z$��!җzH2�	>&K���;2H� �|�H-�36��.�����DQ�;�M�X����|#�����ȥ��ZRynқ&{��!BE��%�][VFqĤ�Q��Ǜ��ĶkơˈKFk��v��q"433Ϯ��b��$�,&���/�����ԮCG�K�|��������$;=ٞ�SW�= �!%0�8ٔ�f��h�Z�N�ܵ��l7X�!^=�?�`Jkkj4&C�z�J���B���&i�H�qv��L�m範���c�u7!?�W2�a�WL9b�8%��/\b��P_���'��nXGn��WpL�'�q�}�gpV]�J2s#B��]r��Z�T�(��;�-��ϊ i�CMJ��ԤR�&�2Zj�r���[b��S� ��sA���&�AM��jD��y��wr6�ݜ���g�v��C:��0eR}���i�R�[���[>�y����O�/|����tӸ���h�S��C����A�A���l���)c��:M�Nm�7j7S�I�V�N�o�S��3�l��-���@D�6T.�n�Gg��_C�Z�L��d�jT/�Y�K�-�W�y�@Pm)��6�o�dב�Ɨ��	���v���x�\��|�m�/�j	Ո{r��l�I�"�T�t�@u���e�'��߇�4��#5)�r��u�w��[ו����>H5�X�P͌�K��>j�&��e\���mۮ�'���N����w��ʶ�����·�����z{\����d�b��|T��!*9P!�� �����]B?�S��Y��qz���+Gj�괗 �!�̽&��g�~#�{+���>i�=mГ���ߛd���C�Q+�(L�5]�P<��O�n~9���O��	_��[$�&�R��zm���=sې���s����C�cN�E���S-��G�,]���搆���j$E�rQ��l������Q�#I��S��Ph�݋(�ŨB�H���m+2p�-�������>2s�[c���=�4�ia{�dX���ir������>$k�[+��Oc����7݃A#�έ���U��Bk9i��
+�o}?<�:N�:�T&"m�Ғ�`�,,,�G�b�QF�t*JlŴ�s��{>�JLzu���\��zL��a�2��,��՞ʠz"T:����v�9�dR��oދ�x��i�ꇐa����-:c�('�.<O�k)�Vy-��3�^>�����ɋ��C����ر���$��1�1�:��W�������w��]�Gu��O��9��Ht�Y	<��ϡ3��7o?u?\r���|�l��FřrR\ԧ�K�(_I F��E��q���8������I�񡏳tvsAѱ��7�N��Wk�k��d����u�d
+ܭk�H(	�>5Z��W��g�g�*���Ǳ��;'�{|o	�!y+���8g�]z6B��C���㼯I:l5���+�����;��riLZ����n�[+�5<^��Ί#X
+'����HT<ME�A2q3�r��V��.�b�e��Z��8@@��L��u8Z\ERS>zS�bL5����o�70��}�N9I����r�����������9�{y��<t�=�c;��1��8�V
+��ޏ��kO|� s@�s�� ~�$�l�s�U��t������O��}u�ջ��������xc>=�3����(~y��#5�4�0��F�0X���u0�U��E��ec�e���yJkb�Yj�\�\9��?�<�7��Q�
+� �    IEND�B`�
+```
+
+### `src/flows/fno/assets/signals/zing-mark.svg`
+
+```tsx
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="D2 &#226;&#134;&#146; Zing logo">
+<g id="Vector">
+<path d="M9.9697 13.4419L8.4863 14.9253H16.0732V17.9663H3.77341V15.3393L7.82028 11.2925L9.9697 13.4419Z" fill="#393939" style="fill:#393939;fill:color(display-p3 0.2235 0.2235 0.2235);fill-opacity:1;"/>
+<path d="M16.2265 7.18699L11.0732 12.3384L8.9238 10.1889L10.4082 8.70555H3.77341V5.66648H10.4082L8.9238 4.18308L11.0732 2.03367L16.2265 7.18699Z" fill="#393939" style="fill:#393939;fill:color(display-p3 0.2235 0.2235 0.2235);fill-opacity:1;"/>
+</g>
 </g>
 </svg>
 ```
@@ -2684,21 +3110,24 @@ export function CommodityHeatmap({ onOpen, onViewAll }: { onOpen: (name: string)
 
 ```tsx
 import { Button } from '@l3/components/Button'
+import { Grid } from '@l3/components/Grid'
+import { Inset } from '@l3/components/Inset'
 import { Stack } from '@l3/components/Stack'
 import { t } from '../../copy'
 import { commodities, type Commodity } from '../data'
 import parts from '../../components/HomeParts.module.css'
 import styles from './Commodities.module.css'
 
-/** Gold · Silver · Crude Oil · Natural Gas: artwork in a round Tertiary button, the name and the day's change under it. */
+/** Gold · Silver · Crude Oil · Natural Gas, four across: artwork in a round Tertiary button, the name and the day's change
+ *  under it. Its own 16-gutter 4-column Grid (24 Nov: the shared .shortcuts class lost its row when Equity moved to ShortcutCircles). */
 export function CommodityShortcuts({ onOpen }: { onOpen: (commodity: Commodity) => void }) {
-  return <div className={parts.shortcuts} role="list" aria-label={t('commodities.shortcuts')}>{commodities.map((commodity) => <Stack key={commodity.id} gap="08" align="center" role="listitem">
+  return <div className={parts.shortcuts}><Inset paddingInline="16" paddingBlock="00"><Grid columns={4} gap="08" role="list" aria-label={t('commodities.shortcuts')}>{commodities.map((commodity) => <Stack key={commodity.id} gap="08" align="center" role="listitem">
     <Button variant="tertiary" size="lg" className={styles.shortcut} aria-label={commodity.name} iconLeft={<img className={styles.shortcutArt} src={commodity.image} alt="" />} onClick={() => onOpen(commodity)} />
     <Stack gap="04" align="center">
       <span className={parts.secondaryLabel}>{commodity.name}</span>
       <span className={[styles.change, commodity.change < 0 ? parts.down : parts.up].join(' ')}>{commodity.change > 0 ? '+' : ''}{commodity.change.toFixed(2)}%</span>
     </Stack>
-  </Stack>)}</div>
+  </Stack>)}</Grid></Inset></div>
 }
 ```
 
@@ -4131,26 +4560,19 @@ export function AutoTpSlIcon() {
 }
 
 .chip {
+  /* The chart's "Breakeven" tag (PositionOverlay, Figma 11756:79332), text only: warning-light fill and 1px edge,
+     radius 4, Label/10 warning text, 16 tall (Figma 2 / 4 / 2 / 6 with the border inside). L3 theme tokens, so dark
+     mode follows. */
   display: inline-flex;
   align-items: center;
-  gap: var(--l3-spacing-04);
-  padding: var(--l3-spacing-02) var(--l3-spacing-04) var(--l3-spacing-02) var(--l3-spacing-02);
-  border: 1px solid var(--l3-border-light);
-  border-radius: var(--l3-radius-06);
-  background: var(--l3-surface-primary);
-  box-shadow: var(--l3-shadow-elevation-low);
-  color: var(--l3-content-primary);
-  font: var(--l3-text-label-12);
+  padding: calc(var(--l3-spacing-02) - 1px) calc(var(--l3-spacing-04) - 1px) calc(var(--l3-spacing-02) - 1px) calc(var(--l3-spacing-06) - 1px);
+  border: 1px solid var(--l3-border-accent-warning-light);
+  border-radius: var(--l3-radius-04);
+  background: var(--l3-surface-accent-warning-light);
+  color: var(--l3-content-accent-warning-default);
+  font: var(--l3-text-label-10);
   transform: translate(-100%, -50%);
   transform-origin: right center;
-}
-
-.chipTag {
-  padding: 1px var(--l3-spacing-02);
-  border-radius: var(--l3-radius-02);
-  background: var(--app-be-tag);
-  color: var(--l3-static-black); /* like L3's warning Tag: black on the solid, in both modes */
-  font: var(--l3-text-heading-10);
 }
 
 /* ---- The price line, the buy dot, the ringed crossing marker, the green sell dot and their pulses. ---- */
@@ -4412,24 +4834,28 @@ import styles from './BreakevenExplainer.module.css'
  *    the bottom. They come in top down, so brokerage comes in last (₹0.02, a thin band, its tag the small one);
  * 3. it zooms back out: the bands close into one orange charges zone and the tags slide down under it, stacking into one
  *    tag that reads "Order charges" and stays under the zone; the breakeven line draws across its top at ₹100.30
- *    and its B/E chip comes in;
+ *    and its "Breakeven" tag comes in (the chart's tag: text only, no price);
  * 3. an LTP bubble rides the price line as it draws up to ₹102 (showing the last price it passed); where it crosses the
  *    breakeven line a ringed marker pulses;
  * 4. at ₹102 the bubble goes, a green dot pulses, "Sold at ₹102" slides in and the green net-profit zone grows from the
  *    breakeven line up to the sell price, labelled "Net Profit"; it holds;
- * 5. it plays once and stops on the finished chart (at 9.3 s); a tap on it plays it again from the start.
- * (The recording looped on into an intro — the Breakeven mark, INTRODUCING, Breakeven Line, the one-liner — at 11.75 s;
- * kept below but not reached while it stops on the chart.)
+ * 5. it holds on the finished chart, then plays again, on loop.
+ * Every play OPENS with the intro (19 Nov, Anshul_Risk_Meter: "it should come every time") — the Breakeven mark,
+ * INTRODUCING, Breakeven Line, the one-liner — for 2.5 s, fading into the chart: on open, on each loop and on a tap,
+ * which (after the first play) starts it again from the intro.
  * `still` (reduced motion) shows the finished chart and no intro.
  */
 export function BreakevenExplainer({ still = false }: { still?: boolean }) {
   const stageRef = useRef<HTMLDivElement>(null)
   const width = useWidth(stageRef, FIGMA_WIDTH)
   const [run, setRun] = useState(0)
-  const elapsed = useElapsed(!still, PLAYED, run)
+  // Runs on: the loop (LOOP) brings the intro in at INTRO_AT and starts the chart again.
+  const elapsed = useElapsed(!still, Infinity, run)
   const loop = Math.floor(elapsed / LOOP)
-  const time = still ? PLAYED : elapsed % LOOP
-  const replay = () => { if (!still && elapsed >= PLAYED) setRun(run + 1) }
+  const inLoop = elapsed % LOOP
+  // The chart's own clock starts once the intro has had its time.
+  const time = still ? PLAYED : Math.max(0, inLoop - INTRO_HOLD)
+  const replay = () => { if (!still && elapsed >= EXPLAINER_LENGTH) setRun(run + 1) }
 
   return (
     <div
@@ -4443,8 +4869,7 @@ export function BreakevenExplainer({ still = false }: { still?: boolean }) {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); replay() } }}
     >
       <ExampleChart time={time} width={width} />
-      {!still && time >= INTRO_AT && <Intro key={loop} />}
-      {!still && loop > 0 && time < INTRO_OUT && <Intro key={loop - 1} fade={1 - ramp(time, [0, INTRO_OUT])} />}
+      {!still && inLoop < INTRO_HOLD && <Intro key={loop} fade={1 - ramp(inLoop, [INTRO_HOLD - INTRO_OUT, INTRO_OUT])} />}
     </div>
   )
 }
@@ -4479,13 +4904,15 @@ const SHOT = {
 
 const CHARGE_STEP = 350
 const TAG_MERGE_STEP = 30
-const LOOP = 15000
-/** How long one play takes (ms): it stops on the finished chart, its Net Profit label in. */
-export const EXPLAINER_LENGTH = SHOT.profitLabel[0] + SHOT.profitLabel[1]
-const PLAYED = EXPLAINER_LENGTH
-/** The hard cut to the intro, and how long the intro takes to fade when the loop starts again. */
-const INTRO_AT = 11750
-const INTRO_OUT = 200
+/** The intro opens every play: its reveal (~1.1 s) and a hold, then it fades (INTRO_OUT) into the chart. */
+const INTRO_HOLD = 2500
+const INTRO_OUT = 300
+/** How long the chart takes to finish (ms), its Net Profit label in. */
+const PLAYED = SHOT.profitLabel[0] + SHOT.profitLabel[1]
+/** From open until the chart has finished once (the sheet's button unlocks then; a tap can replay after it). */
+export const EXPLAINER_LENGTH = INTRO_HOLD + PLAYED
+/** One play: the intro, the chart, then 2.2 s on the finished chart before the next play's intro. */
+const LOOP = EXPLAINER_LENGTH + 2200
 /** The LTP value cross-fades for this long when the line passes a turn. */
 const LTP_SWAP = 100
 
@@ -4631,8 +5058,8 @@ function ExampleChart({ time, width }: { time: number; width: number }) {
       ))}
 
       <span className={styles.chip} style={{ ...at(plotRight, y(breakeven), ramp(time, SHOT.breakevenChip, easeOut)), scale: `${0.9 + 0.1 * ramp(time, SHOT.breakevenChip, easeOut)}` }}>
-        <span className={styles.chipTag}>{t('breakeven.beTag')}</span>
-        {inr(breakeven)}
+        {/* Just "Breakeven", the chart's own tag (Figma 11756:79332), no price (19 Nov, user). */}
+        {t('breakeven.chip')}
       </span>
 
       <span
@@ -4722,7 +5149,7 @@ function Pulse({ cx, cy, time, shot, className }: { cx: number; cy: number; time
   return <circle className={className} cx={cx} cy={cy} r={7.5 + 6.5 * p} opacity={0.4 * (1 - p)} />
 }
 
-/** The intro the loop ends on: Figma's reveal (its timings are CSS animations, so it plays each time it mounts). */
+/** The intro every play opens with: Figma's reveal (its timings are CSS animations, so it plays each time it mounts). */
 function Intro({ fade = 1 }: { fade?: number }) {
   return (
     <div className={styles.intro} style={{ opacity: fade }}>
@@ -4793,31 +5220,26 @@ function useWidth(ref: React.RefObject<HTMLElement | null>, fallback: number) {
 ```css
 /* Breakeven marks (How breakeven works). L3 colour tokens only. */
 
-/* 48 tile: flat surface/inverted, radius 12 (designer's call, 2026-11-03: Figma's quaternary → inverted gradient
-   washed out to white at the top). */
+/* 48 tile (Figma 11989:36412): radius 12, 12 padding around the 24 arrow, a dark gradient — surface/quaternary far above
+   the tile fading into surface/inverted, so only a soft lift shows at the top. The SAME in light and dark mode (19 Nov,
+   user): L3's fixed base neutrals (charcoal-200 / -900 = the light theme's quaternary / inverted), not the theme tokens,
+   which flip in dark mode. */
 .tile {
   display: grid;
   place-items: center;
   width: var(--l3-size-48);
   height: var(--l3-size-48);
+  box-sizing: border-box;
+  padding: var(--l3-spacing-12);
   border-radius: var(--l3-radius-12);
-  background: var(--l3-surface-inverted);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--l3-base-neutral-charcoal-200) 20%, var(--l3-base-neutral-charcoal-900)) 0%,
+    var(--l3-base-neutral-charcoal-900) 100%
+  );
 }
 
-.dashed {
-  stroke: var(--l3-content-inverted);
-  stroke-width: 1.5;
-  stroke-dasharray: 3 3;
-  opacity: 0.7;
-}
-
-.arrow {
-  fill: none;
-  stroke: var(--l3-content-accent-brand-default);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+.tile img { display: block; }
 
 .small {
   display: block;
@@ -4852,11 +5274,12 @@ function useWidth(ref: React.RefObject<HTMLElement | null>, fallback: number) {
 ### `src/flows/fno/components/BreakevenIcon.tsx`
 
 ```tsx
+import tileArrow from '../assets/breakeven-tile-arrow.svg'
 import styles from './BreakevenIcon.module.css'
 
 type BreakevenIconProps = {
   /**
-   * tile: the 48 "Breakeven" mark (Figma 11783:12564) — a dark tile, a lime arrow rising through a dashed line;
+   * tile: the 48 "Breakeven" mark (Figma 11989:36412) — a dark tile, Figma's own 24 arrow (lime gradient) in the middle;
    * line: 20, the yellow breakeven line with its chip (11783:12573); up: 20, a green arrow over the line (11783:12586).
    */
   variant: 'tile' | 'line' | 'up'
@@ -4864,17 +5287,15 @@ type BreakevenIconProps = {
 }
 
 /**
- * The breakeven marks of How breakeven works. Figma's exports can't be downloaded here, so they're drawn to match in
- * SVG on L3 colour tokens (listed as an L3 gap: no breakeven icon in the icon set).
+ * The breakeven marks of How breakeven works. The tile uses Figma's exported arrow (assets/breakeven-tile-arrow.svg,
+ * 19 Nov) and keeps the same colours in light and dark mode; the 20 marks are drawn to match in SVG on L3 colour tokens
+ * (an L3 gap: no breakeven icon in the icon set).
  */
 export function BreakevenIcon({ variant, className }: BreakevenIconProps) {
   if (variant === 'tile') {
     return (
       <span className={`${styles.tile} ${className ?? ''}`} aria-hidden="true">
-        <svg viewBox="0 0 48 48" width="48" height="48">
-          <line className={styles.dashed} x1="6" y1="27" x2="42" y2="27" />
-          <path className={styles.arrow} d="M24 36V13M16 21l8-8 8 8" />
-        </svg>
+        <img src={tileArrow} width="24" height="24" alt="" />
       </span>
     )
   }
@@ -4960,20 +5381,31 @@ import { SectionHeader } from '@l3/components/SectionHeader'
 import { Stack } from '@l3/components/Stack'
 import { msAdd, msChevronRight } from '@l3/icons/material'
 import { Rail } from '../../../shared/ui/Rail'
+import { ShortcutCircles } from '../../../shared/ui/ShortcutCircles'
+import analysisIcon from '../assets/shortcuts/analysis.svg'
+import ipoIcon from '../assets/shortcuts/ipo.svg'
+import watchlistIcon from '../assets/shortcuts/watchlist.svg'
+import referralIcon from '../assets/shortcuts/referral.svg'
 import { t } from '../copy'
 import type { Watchlist } from '../data'
-import calls from '../assets/trade-calls.svg'
-import watchlist from '../assets/watchlist.svg'
-import invest from '../assets/smart-invest.svg'
-import referral from '../assets/referral.svg'
 import styles from './HomeParts.module.css'
 
+/** F&O Home's shortcuts, Figma 6754:62886 (24 Nov, the user's call: "copy this exact design"): Analysis · IPO ·
+ *  Watchlist · Referral, each a 40 disc with Figma's two-tone green Streamline icon (assets/shortcuts) and its name under it.
+ *  Drawn with the shared ShortcutCircles. */
 export function Shortcuts({ onWatchlist, onDestination }: { onWatchlist: () => void; onDestination: (label: string) => void }) {
-  const items = [{ key: 'calls', asset: calls }, { key: 'watchlist', asset: watchlist }, { key: 'invest', asset: invest }, { key: 'referral', asset: referral }] as const
-  return <div className={styles.shortcuts}>{items.map(({ key, asset }) => <Stack key={key} gap="08" align="center">
-    <Button variant="tertiary" size="md" aria-label={t(`shortcut.${key}`)} iconLeft={<span className={key === 'invest' ? styles.shortcutLarge : styles.actionIcon}><img className={styles.asset} src={asset} alt="" /></span>} onClick={key === 'watchlist' ? onWatchlist : () => onDestination(t(`shortcut.${key}`))} />
-    <span className={styles.secondaryLabel}>{t(`shortcut.${key}`)}</span>
-  </Stack>)}</div>
+  const art = (src: string) => <img src={src} alt="" />
+  const items = [
+    { id: 'analysis', label: t('shortcut.analysis'), icon: art(analysisIcon) },
+    { id: 'ipo', label: t('shortcut.ipo'), icon: art(ipoIcon) },
+    { id: 'watchlist', label: t('shortcut.watchlist'), icon: art(watchlistIcon) },
+    { id: 'referral', label: t('shortcut.referral'), icon: art(referralIcon) },
+  ]
+  return (
+    <div className={styles.shortcuts}>
+      <ShortcutCircles items={items} tone="in" label={t('shortcut.label')} onOpen={(id) => (id === 'watchlist' ? onWatchlist() : onDestination(items.find((i) => i.id === id)!.label))} />
+    </div>
+  )
 }
 
 export function Watchlists({ lists, onAdd, onOpen }: { lists: Watchlist[]; onAdd: () => void; onOpen: (name: string) => void }) {
@@ -4991,6 +5423,7 @@ export function Watchlists({ lists, onAdd, onOpen }: { lists: Watchlist[]; onAdd
 ```tsx
 import { BottomNavbar } from '@l3/components/BottomNavbar'
 import { NavIcon } from '@l3/components/BottomNavbar/NavIcon'
+import { FloatingNav, FloatingNavIcon, useBottomNavVariant, useColourNavIcons, useFloatingNav } from '../../../shared/ui/FloatingNav'
 import { t } from '../copy'
 
 export function FnoNav({ onHome, onDestination, onChain, onScalper }: { onHome: () => void; onDestination: (label: string) => void; onChain: () => void; onScalper: () => void }) {
@@ -5000,7 +5433,11 @@ export function FnoNav({ onHome, onDestination, onChain, onScalper }: { onHome: 
     { value: 'positions', label: t('nav.positions'), name: 'fnoPositions' },
     { value: 'scalper', label: t('nav.scalper'), name: 'fnoScalper' },
   ] as const
-  return <BottomNavbar aria-label="F&O" home={{ label: t('nav.home'), onClick: onHome }} value="fno" onChange={(v) => { const item = items.find((i) => i.value === v); if (v === 'scalper') onScalper(); else if (v === 'chain') onChain(); else if (item && v !== 'fno') onDestination(item.label) }} items={items.map(({ value, label, name }) => ({ value, label, icon: <NavIcon name={name} />, selectedIcon: <NavIcon name={name} selected /> }))} />
+  const variant = useBottomNavVariant()
+  // V2: the chosen F&O icon in black and white, like the main nav's; V3 keeps L3's coloured one (23 Nov, user)
+  const colourNav = useColourNavIcons()
+  const floating = useFloatingNav() && !colourNav
+  return <FloatingNav><BottomNavbar aria-label="F&O" variant={variant} home={{ label: t('nav.home'), onClick: onHome }} value="fno" onChange={(v) => { const item = items.find((i) => i.value === v); if (v === 'scalper') onScalper(); else if (v === 'chain') onChain(); else if (item && v !== 'fno') onDestination(item.label) }} items={items.map(({ value, label, name }) => ({ value, label, icon: <NavIcon name={name} />, selectedIcon: floating && name === 'fno' ? <FloatingNavIcon name="fno" selected /> : <NavIcon name={name} selected /> }))} /></FloatingNav>
 }
 ```
 
@@ -5012,7 +5449,7 @@ export function FnoNav({ onHome, onDestination, onChain, onScalper }: { onHome: 
 .bar > :is(.profile, .search, .wallet) { display: inline-flex; flex: none; align-items: center; justify-content: center; height: var(--app-stocks-topbar-control); padding: 0; border: 0; color: var(--l3-content-primary); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform var(--l3-motion-duration-short) var(--l3-motion-easing-standard); }
 .bar > :is(.profile, .search, .wallet):active { transform: scale(var(--l3-motion-scale-press-default)); }
 .bar > :is(.profile, .search, .wallet):focus-visible { outline: 2px solid var(--l3-content-primary); outline-offset: 2px; }
-.bar .profile { width: var(--app-stocks-topbar-avatar); height: var(--app-stocks-topbar-avatar); border-radius: var(--l3-radius-full); background: var(--l3-surface-accent-indigo-light); box-shadow: inset 0 0 0 1px var(--l3-border-accent-indigo-default); color: var(--l3-content-accent-indigo-default); font: var(--l3-text-label-14); }
+.bar .profile { width: var(--app-stocks-topbar-avatar); height: var(--app-stocks-topbar-avatar); border-radius: var(--l3-radius-full); background: var(--l3-surface-accent-indigo-light); box-shadow: inset 0 0 0 1px var(--l3-border-accent-indigo-default); /* 1px ring: the user's profile keeps it (18 Nov) */ color: var(--l3-content-accent-indigo-default); font: var(--l3-text-label-14); }
 .bar .search { flex: 1; min-width: 0; justify-content: flex-start; gap: var(--l3-spacing-08); padding-inline: var(--l3-spacing-12); border-radius: var(--l3-radius-full); background: var(--l3-surface-default); box-shadow: inset 0 0 0 1px var(--l3-border-light); }
 .placeholder { overflow: hidden; color: var(--l3-content-secondary); font: var(--l3-text-label-14); text-overflow: ellipsis; white-space: nowrap; }
 .wallet { width: var(--app-stocks-topbar-control); border-radius: var(--l3-radius-full); background: var(--l3-surface-default); box-shadow: inset 0 0 0 1px var(--l3-border-light); }
@@ -5111,8 +5548,8 @@ export function Heatmap({ onOpen, onViewAll }: { onOpen: (name: string) => void;
 .grow { flex: 1; min-width: 0; }
 .feed { padding-block: var(--l3-spacing-24) 0; } /* page end: the body's --app-body-end */
 .ribbonIcon { display: inline-flex; width: var(--l3-size-16); height: var(--l3-size-16); }
-.shortcuts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--l3-spacing-08); padding: var(--l3-spacing-08) var(--l3-spacing-16) 0; }
-.shortcuts .secondaryLabel { white-space: normal; text-align: center; }
+/* The shortcuts row (shared ShortcutCircles brings its own 16 at the sides): 8 above it, as before. */
+.shortcuts { padding-top: var(--l3-spacing-08); }
 .actionIcon { display: inline-flex; align-items: center; justify-content: center; width: var(--l3-size-20); height: var(--l3-size-20); }
 .shortcutLarge { display: inline-flex; align-items: center; justify-content: center; width: var(--l3-size-24); height: var(--l3-size-24); }
 .asset { display: block; flex: none; }
@@ -5241,11 +5678,10 @@ export function Overview({ onDestination }: { onDestination: (name: string) => v
   border-top-color: var(--l3-border-accent-indicator-down-light);
 }
 
-/* Breakeven: yellow, a longer dash than the others (Figma 4 / 4). */
+/* Breakeven: a solid 1px warning-light line (Figma 11756:79330, #FFDF88 in light); the theme token follows dark mode. */
 .line[data-kind='be'] {
-  border-top: 0;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, var(--l3-border-accent-warning-default) 0 var(--l3-spacing-04), transparent var(--l3-spacing-04) var(--l3-spacing-08));
+  border-top-color: var(--l3-border-accent-warning-light);
+  border-top-style: solid;
 }
 
 /* The entry price on the axis: inverted, as tall as the last price's tag. */
@@ -5352,10 +5788,10 @@ export function Overview({ onDestination }: { onDestination: (name: string) => v
   display: flex;
   align-items: center;
   gap: var(--l3-spacing-02);
-  padding: var(--l3-spacing-02) var(--l3-spacing-04) var(--l3-spacing-02) var(--l3-spacing-06);
+  /* Figma 2 / 4 / 2 / 6 with the 1px border drawn inside (16 tall in all): each side's padding less the border. */
+  padding: calc(var(--l3-spacing-02) - 1px) calc(var(--l3-spacing-04) - 1px) calc(var(--l3-spacing-02) - 1px) calc(var(--l3-spacing-06) - 1px);
   border: 1px solid var(--l3-border-accent-warning-light);
-  border-right: 0;
-  border-radius: var(--l3-radius-04) 0 0 var(--l3-radius-04);
+  border-radius: var(--l3-radius-04);
   background: var(--l3-surface-accent-warning-light);
   color: var(--l3-content-accent-warning-default);
   font: var(--l3-text-label-10);
@@ -5363,6 +5799,14 @@ export function Overview({ onDestination }: { onDestination: (name: string) => v
   translate: 0 -50%;
   cursor: pointer;
   pointer-events: auto;
+}
+
+/* The tag's info icon: 12, Figma's own glyph, in the tag's text colour. */
+.breakevenInfo {
+  display: block;
+  flex: none;
+  width: var(--l3-size-12);
+  height: var(--l3-size-12);
 }
 ```
 
@@ -5372,8 +5816,10 @@ export function Overview({ onDestination }: { onDestination: (name: string) => v
 import { useRef, type KeyboardEvent, type PointerEvent } from 'react'
 import { Button } from '@l3/components/Button'
 import { Icon } from '@l3/components/Icon'
+import { MaskIcon } from '@l3/components/MaskIcon'
 import { Tag } from '@l3/components/Tag'
-import { msAdd, msCheck, msClose, msDragIndicator, msInfo } from '@l3/icons/material'
+import { msAdd, msCheck, msClose, msDragIndicator } from '@l3/icons/material'
+import infoOutline from '../assets/breakeven-info.svg'
 import { t } from '../copy'
 import { OPTION_TICK, SCALPER_TP_SL_GAP, type ScalperPosition } from '../data'
 import type { PaneScale } from './TradingPane'
@@ -5405,8 +5851,8 @@ const EDGE = 12
  * - entry: Exit · blue "+65" (the quantity) · the live P&L · ✕ (exits too); "Add TP" / "Add SL" when one is removed;
  * - SL: drag handle · red "SL Qty:65" · the P&L if it fills · ✕ · Add Trail (the stop-loss follows the price up).
  * Drag a handle (or focus it and use ↑ / ↓) to move TP or SL: they stay on their side of the price and clear of the
- * entry row, in ₹0.05 steps. The breakeven line (yellow, dashed) ends in a boxed chip flush to the price axis:
- * "B/E 105.55 ⓘ"; tapping it opens How breakeven works.
+ * entry row, in ₹0.05 steps. The breakeven line (solid, warning-light, Figma 11756:79330) runs to the price axis with a
+ * boxed "Breakeven ⓘ" tag on it, 8 left of the axis (Figma 11756:79332); tapping it opens How breakeven works.
  */
 export function PositionOverlay({ scale, position, last, breakeven, onChange, onExit, onBreakevenInfo }: PositionOverlayProps) {
   const { y, price, plotW, plotH, axis } = scale
@@ -5512,9 +5958,10 @@ export function PositionOverlay({ scale, position, last, breakeven, onChange, on
       )}
 
       {breakeven !== null && (
-        <button type="button" className={styles.breakeven} style={{ top: y(breakeven), right: axis }} onClick={onBreakevenInfo} aria-label={t('breakeven.chipLabel', { price: breakeven.toFixed(2) })}>
+        <button type="button" className={styles.breakeven} style={{ top: y(breakeven), right: `calc(${axis}px + var(--l3-spacing-08))` }} onClick={onBreakevenInfo} aria-label={t('breakeven.chipLabel', { price: breakeven.toFixed(2) })}>
           {t('breakeven.chip')}
-          <Icon icon={msInfo} size={12} />
+          {/* Figma's info_outline (12), tinted with the tag's text colour so it follows light / dark. */}
+          <span className={styles.breakevenInfo}><MaskIcon src={infoOutline} /></span>
         </button>
       )}
     </div>
@@ -6067,7 +6514,10 @@ function addMinutes(start: string, add: number) {
   "us.live": "LIVE",
   "us.headline": "Live now · till 2:30 AM IST",
   "us.sub": "Buy Apple, NVIDIA & more",
+  "shortcut.label": "Shortcuts",
   "shortcut.calls": "Trade Calls",
+  "shortcut.analysis": "Analysis",
+  "shortcut.ipo": "IPO",
   "shortcut.watchlist": "Watchlist",
   "shortcut.invest": "Smart Invest",
   "shortcut.referral": "Referral",
@@ -6409,7 +6859,7 @@ function addMinutes(start: string, add: number) {
   "breakeven.chip": "Breakeven",
   "breakeven.chipLabel": "Breakeven ₹{price}. How breakeven works",
   "breakeven.title": "How breakeven works",
-  "breakeven.titleV2": "What is breakeven price?",
+  "breakeven.titleV2": "What is breakeven line?",
   "breakeven.descriptionV2": "The price your trade must sell above to cover what you paid plus all order charges. Sell above it and you make a profit.",
   "breakeven.understand": "I understand",
   "breakeven.playing": "Example playing",
@@ -6497,7 +6947,84 @@ function addMinutes(start: string, add: number) {
   "expiryAll.bullishFor": "Bullish for {name}",
   "expiryAll.bearishFor": "Bearish for {name}",
   "expiryAll.scalper": "Open {name} in ScalpPro",
-  "expiryAll.chain": "Open the {name} option chain"
+  "expiryAll.chain": "Open the {name} option chain",
+  "signals.title": "Zing signals",
+  "signals.allTitle": "All Signals",
+  "signals.strip.people": "{count} people",
+  "signals.strip.traded": "have traded on {name} today",
+  "signals.strip.trending": "Trending on MCX",
+  "signals.strip.tradedShort": "{count} traded today",
+  "signals.strip.moveIs": "{name} is",
+  "signals.strip.today": "today",
+  "signals.strip.open": "MCX is open till 11:30 PM",
+  "signals.strip.live": "Live",
+  "signals.strip.name.gold": "gold",
+  "signals.strip.name.silver": "silver",
+  "signals.strip.name.crude": "crude oil",
+  "signals.strip.name.gas": "natural gas",
+  "signals.strip.title.gold": "Gold",
+  "signals.strip.title.silver": "Silver",
+  "signals.strip.title.crude": "Crude oil",
+  "signals.strip.title.gas": "Natural gas",
+  "signals.filter": "Filter signals",
+  "signals.filterOn": "A filter is saved",
+  "signals.chips": "Signal filters",
+  "signals.yours": "Your filter ({count})",
+  "signals.all": "All Signals ({count})",
+  "signals.win50": "Win rate ≥ 50% ({count})",
+  "signals.nifty": "Nifty",
+  "signals.sensex": "Sensex",
+  "signals.savedTip": "Filter applied & saved for quick access",
+  "signals.active": "Active signals ({count})",
+  "signals.totalPnl": "Total P&L",
+  "signals.plus": "+{amount}",
+  "signals.pnl": "P&L",
+  "signals.winRate": "Win rate",
+  "signals.percent": "{value}%",
+  "signals.rr": "RR",
+  "signals.view": "View",
+  "signals.viewLabel": "View {name}",
+  "signals.none": "No signals here right now",
+  "signals.noneHint": "New signals show up as the strategies fire. Try another filter.",
+  "signals.filterTitle": "Filter signals",
+  "signals.picked": "Picked filters",
+  "signals.remove": "Remove {label}",
+  "signals.cancel": "Cancel",
+  "signals.apply": "Apply",
+  "signals.clearAll": "Clear All",
+  "signals.allIndices": "All Indices",
+  "signals.section.indices": "Indices",
+  "signals.section.winRate": "Win rate",
+  "signals.section.direction": "Call/Put",
+  "signals.section.strategies": "Strategies",
+  "signals.market.nifty": "NIFTY 50",
+  "signals.market.sensex": "SENSEX",
+  "signals.market.banknifty": "BANKNIFTY",
+  "signals.market.stocks": "F&O Stocks",
+  "signals.market.commodity": "Commodity",
+  "signals.win.all": "All",
+  "signals.win.50": "Win rate ≥ 50%",
+  "signals.win.30": "Win rate ≥ 30%",
+  "signals.dir.all": "All",
+  "signals.dir.call": "Call",
+  "signals.dir.put": "Put",
+  "signals.pill.nifty": "Nifty 50",
+  "signals.pill.sensex": "SENSEX",
+  "signals.pill.banknifty": "Bank Nifty",
+  "signals.pill.stocks": "F&O Stocks",
+  "signals.pill.commodity": "Commodity",
+  "signals.segments": "Signal segments",
+  "signals.segment.all": "All",
+  "signals.segment.index": "Index",
+  "signals.segment.stocks": "Stocks",
+  "signals.segment.commodity": "Commodities",
+  "signals.commodity.gold": "Gold",
+  "signals.commodity.silver": "Silver",
+  "signals.commodity.crude": "Crude Oil",
+  "signals.commodity.gas": "Natural Gas",
+  "signals.mcx": "MCX · {name}",
+  "signals.win25": "Win rate ≥ 25% ({count})",
+  "signals.banknifty": "Bank Nifty"
 }
 ```
 
@@ -6717,6 +7244,80 @@ export type ChartSettings = {
   syncCharts: boolean
 }
 export const defaultChartSettings: ChartSettings = { chartType: 'candles', stopLoss: 'market', breakevenLine: true, executions: true, syncCharts: false }
+
+/*
+ * Zing signals (Scalper → the Active chip, top right): live trade signals from Zing strategies. Snapshot sample from
+ * Figma 6900:23853 (file 9r61YQp7QQZAQovDyz8hLF, "Enrich signal filter"); not live data.
+ */
+/** Where a signal trades — the filter sheet's Indices group and the quick chips. */
+export type SignalMarket = 'nifty' | 'sensex' | 'banknifty' | 'stocks' | 'commodity'
+/** The strategy's picture: a person, the Lemonn mascot, or a brand logo (assets/signals). */
+export type SignalAvatar = 'neeraj' | 'lemon' | 'booming'
+export type ZingSignal = {
+  id: string
+  strategy: string
+  avatar: SignalAvatar
+  market: SignalMarket
+  /** The tag under the name: the underlying (NIFTY, SILVER 100). */
+  underlying: string
+  /** Back-tested win rate in percent. A strategy without one shows its P&L instead. */
+  winRate?: number
+  /** Today's P&L on this signal, ₹ (shown when there's no win rate). */
+  pnl?: number
+  side: 'Buy' | 'Sell'
+  option: 'call' | 'put'
+  /** The contract, as the card's first figure reads it ("Call 23950"). */
+  contract: string
+  /** Risk : reward, as written ("1.4", "1:2"). */
+  rr: string
+  /** The rule that fired, label then value ("EMA 9 >" "EMA 21", "Price ≥" "EMA 9", "PCR" "1.55"). */
+  rule: [string, string]
+  /** The rule's label is greyed (a name before a number, like PCR) or reads with its value (a comparison). */
+  ruleMuted?: boolean
+  /** A commodity signal: which commodity (its logo, from commodities/assets). */
+  commodity?: SignalCommodity
+  /** A commodity signal's nudge strip (setting "Commodity nudge strip"): how many traded it today, and today's move. */
+  nudge?: { traders: string; move: string }
+}
+/** The MCX commodities a signal can be on (the Commodities home's shortcuts). */
+export type SignalCommodity = 'gold' | 'silver' | 'crude' | 'gas'
+/** How a signal's market reads as a segment: index options, F&O stock options, or MCX commodities. */
+export type SignalSegment = 'index' | 'stocks' | 'commodity'
+export const segmentOf = (signal: ZingSignal): SignalSegment => (signal.market === 'commodity' ? 'commodity' : signal.market === 'stocks' ? 'stocks' : 'index')
+export const zingSignals: ZingSignal[] = [
+  // Newest first, as the live feed: index, commodity (MCX) and F&O stock signals come in mixed.
+  { id: 'scalping-pulse', strategy: 'Scalping Pulse by Neeraj', avatar: 'neeraj', market: 'nifty', underlying: 'NIFTY', winRate: 72, side: 'Buy', option: 'call', contract: 'Call 23950', rr: '1.4', rule: ['EMA 9 >', 'EMA 21'] },
+  { id: 'gold-breakout', strategy: 'Gold Breakout Pro', avatar: 'lemon', market: 'commodity', commodity: 'gold', underlying: 'GOLD', winRate: 64, side: 'Buy', option: 'call', contract: 'Call 72000', rr: '1.5', rule: ['Price ≥', 'VWAP'], nudge: { traders: '2.1K+', move: '+1.2%' } },
+  { id: 'prime-ema', strategy: 'Prime scalper EMA', avatar: 'lemon', market: 'nifty', underlying: 'NIFTY', pnl: 367.3, side: 'Buy', option: 'put', contract: 'Put 23950', rr: '1:2', rule: ['Price ≥', 'EMA 9'] },
+  { id: 'booming-bulls', strategy: 'Booming Bulls Put SuperTrend', avatar: 'booming', market: 'sensex', underlying: 'SENSEX', winRate: 34, side: 'Buy', option: 'call', contract: 'Call 23950', rr: '1.3', rule: ['PCR', '1.55'], ruleMuted: true },
+  { id: 'crude-reversal', strategy: 'Crude Reversal', avatar: 'booming', market: 'commodity', commodity: 'crude', underlying: 'CRUDEOIL', winRate: 58, side: 'Buy', option: 'put', contract: 'Put 6200', rr: '1:2', rule: ['RSI', '28'], ruleMuted: true, nudge: { traders: '1.4K+', move: '−2.4%' } },
+  { id: 'reliance-orb', strategy: 'Opening Range Breakout', avatar: 'neeraj', market: 'stocks', underlying: 'RELIANCE', winRate: 61, side: 'Buy', option: 'call', contract: 'Call 2960', rr: '1.3', rule: ['Price ≥', 'ORB high'] },
+  { id: 'bank-trend', strategy: 'Bank Nifty Trend Rider', avatar: 'booming', market: 'banknifty', underlying: 'BANKNIFTY', winRate: 52, side: 'Buy', option: 'call', contract: 'Call 51500', rr: '1.4', rule: ['ADX', '31'], ruleMuted: true },
+  { id: 'gas-squeeze', strategy: 'NatGas Squeeze', avatar: 'lemon', market: 'commodity', commodity: 'gas', underlying: 'NATURALGAS', winRate: 47, side: 'Buy', option: 'put', contract: 'Put 280', rr: '1:2', rule: ['Price <', 'VWAP'], nudge: { traders: '860+', move: '+3.1%' } },
+  { id: 'inside-candle', strategy: 'Inside Candle', avatar: 'lemon', market: 'nifty', underlying: 'NIFTY', winRate: 56, side: 'Buy', option: 'call', contract: 'Call 23950', rr: '1.2', rule: ['EMA 9 >', 'EMA 21'] },
+]
+/** Total P&L across today's signals (Figma's figure). */
+export const signalsTotalPnl = 13367
+
+/** The filter sheet's choices. Indices and Strategies pick several (none = all); Win rate and Call/Put pick one. */
+export type SignalFilter = { markets: SignalMarket[]; winRate: 'all' | '50' | '30'; direction: 'all' | 'call' | 'put'; strategies: string[] }
+export const noSignalFilter: SignalFilter = { markets: [], winRate: 'all', direction: 'all', strategies: [] }
+export const signalMarkets: SignalMarket[] = ['nifty', 'sensex', 'banknifty', 'stocks', 'commodity']
+
+export function matchesFilter(signal: ZingSignal, filter: SignalFilter) {
+  if (filter.markets.length && !filter.markets.includes(signal.market)) return false
+  if (filter.winRate !== 'all' && (signal.winRate ?? 0) < Number(filter.winRate)) return false
+  if (filter.direction !== 'all' && signal.option !== filter.direction) return false
+  if (filter.strategies.length && !filter.strategies.includes(signal.id)) return false
+  return true
+}
+/** How many choices narrow the list (0 = no filter). */
+export function filterCount(filter: SignalFilter) {
+  return filter.markets.length + filter.strategies.length + (filter.winRate === 'all' ? 0 : 1) + (filter.direction === 'all' ? 0 : 1)
+}
+
+/** The filter the Figma frames pick (Nifty 50 + Sensex, two strategies): the prototype's "Your filter" screens. */
+export const sampleSignalFilter: SignalFilter = { markets: ['nifty', 'sensex'], winRate: 'all', direction: 'all', strategies: ['booming-bulls', 'inside-candle'] }
 ```
 
 ### `src/flows/fno/flatCards.module.css`
@@ -6744,7 +7345,7 @@ import { goldMiniAsset, illiquidAsset } from './commodities/data'
 import { OptionChain } from './option-chain/screens/OptionChain'
 import { OrderPad } from './order-pad/screens/OrderPad'
 import type { Segment } from './strategies/data'
-import { scalperPosition } from './data'
+import { noSignalFilter, sampleSignalFilter, scalperPosition } from './data'
 import { Scalper } from './screens/Scalper'
 import { SplashScreen } from '../../shared/ui/Splash'
 import { markMove } from '../../shared/prototype'
@@ -6757,6 +7358,8 @@ import { markMove } from '../../shared/prototype'
  * ScalpPro (home cards, Expiry calendar …) always opens the Scalper as a new page, in from the right — even from screens
  * listed after it, which app order alone would read as back. Its back returns to that page (`backOr`).
  */
+/** The Zing signals sheet screens whose list the "Commodity signals" version changes (not the filter screens). */
+const SIGNALS_SHEET_SCREENS = ['fno-39', 'fno-45', 'fno-46', 'fno-47']
 const openScalper = (go: Go) => { markMove('fno-05', 'forward'); go('fno-05') }
 /** Back to wherever the asset page was opened from (option chain, Gold Summary, Search…); `fallback` when opened directly. */
 const backOr = (go: Go, fallback: string) => { if (window.history.length > 1) window.history.back(); else go(fallback) }
@@ -6770,8 +7373,33 @@ export const fno: Flow = {
   description: 'Equity F&O home: P&L, indices, chart metrics, watchlists, Smart Options, Futures Heatmap and Smart Futures.',
   figmaFile: 'nLs24dTJdPz9A5pu3AWMbe',
   options: [
-    // The breakeven sheet (fno-36): Version 2 (default) = What is breakeven price? + a description + the charges table,
+    // The breakeven sheet (fno-36): Version 2 (default) = What is breakeven line? + the charges table,
     // no info lines; Version 1 = the sheet as it first shipped (How breakeven works, two info lines, no table).
+    // Commodity nudge strip (Figma 6946:42446, 24 Nov): a strip that peeks out over a commodity signal's card with a
+    // reason to look (how many traded it today); it slides out from behind the card, then a shimmer runs across it.
+    // The only Zing signals setting (24 Nov: the Commodity signals versions are gone — segment tabs + the logo tag stay).
+    // A floating S0 … S4 bubble on the signals sheet screens flips it.
+    {
+      id: 'commodityStrip',
+      group: 'Zing signals',
+      label: 'Commodity nudge strip',
+      picker: 'dropdown',
+      values: [{ value: 'off', label: 'Off' }, { value: 's1', label: '1 · Gold glow (Figma)' }, { value: 's2', label: '2 · Colour per commodity' }, { value: 's3', label: '3 · Dark ticker' }, { value: 's4', label: '4 · Rotating facts' }],
+      default: 's1',
+      floatOn: SIGNALS_SHEET_SCREENS,
+      quickSwitch: {
+        on: SIGNALS_SHEET_SCREENS,
+        // On the chart, above the sheet (it's 75% of the screen; the default spot lands on its tabs).
+        spot: { side: 'left', y: 0.14 },
+        values: [
+          { value: 'off', label: 'Nudge strip off', short: 'S0' },
+          { value: 's1', label: 'Nudge strip 1 · Gold glow (Figma)', short: 'S1' },
+          { value: 's2', label: 'Nudge strip 2 · Colour per commodity', short: 'S2' },
+          { value: 's3', label: 'Nudge strip 3 · Dark ticker', short: 'S3' },
+          { value: 's4', label: 'Nudge strip 4 · Rotating facts', short: 'S4' },
+        ],
+      },
+    },
     { id: 'breakevenSheet', group: 'Scalper', label: 'Breakeven sheet', values: [{ value: 'v1', label: 'Version 1' }, { value: 'v2', label: 'Version 2' }], default: 'v2', floatOn: ['fno-36'] },
     // Expiring This Week (Commodities, fno-08): Version 1 = the sideways card rail; Version 2 = a short calendar (the
     // calendar's first 3 entries on their days, View all → fno-38); Version 3 = that calendar in one card.
@@ -6801,9 +7429,18 @@ export const fno: Flow = {
     { id: 'fno-05', section: 'scalper', name: 'Scalper', figma: '', note: 'From ScalpPro on F&O home, the Expiring cards, the Expiry calendar or the Scalper bottom-nav tab — always a new page in from the right; back returns to the page it was opened from. The chart-tools sheet groups personal DASH AI indicators separately from Lemon indicators.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} /> },
     { id: 'fno-06', section: 'scalper', group: 'scalper', name: 'Scalper · DASH indicator', figma: '', note: 'From DASH AI’s View indicator. Opens the chart-tools sheet directly on Indicators, the saved DASH AI indicator under Your indicators with a focus guide. Tap rows to add / remove indicators (several at once); search filters the list.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
     { id: 'fno-07', section: 'scalper', group: 'scalper', name: 'Scalper · indicator applied', figma: '', note: 'With the saved DASH AI indicator on the chart: “1 ▾” at the chart’s top-left and illustrative EMA 9 / 21 lines on the NIFTY 50 candles.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} createdIndicator="Supertrend (10, 3) with EMA 20" openIndicators={false} initialIndicator="Supertrend (10, 3) with EMA 20" onCreateIndicator={() => go('dash-20')} /> },
-    { id: 'fno-35', section: 'scalper', group: 'scalper', name: 'Break Even · position + breakeven line', figma: '11756:78739', badge: 'new', note: 'Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the yellow dashed breakeven line ending in a “Breakeven ⓘ” chip flush to the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} /> },
-    { id: 'fno-36', section: 'scalper', group: 'scalper', name: 'Break Even · How breakeven works (sheet)', figma: '11783:5569', badge: 'new', note: 'Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven price?” + a description, the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card plays once (then stops on the finished chart; a tap replays it) a 9.3 s explainer copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top, an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills, and it stops there. “I understand” is locked until the chart has played once (9.3 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="breakeven" /> },
+    { id: 'fno-35', section: 'scalper', group: 'scalper', name: 'Break Even · position + breakeven line', figma: '11756:78739', badge: 'new', note: 'Version C (Boxed chip): an open position on the option chart — TP pill (drag ⠿ to move, ✕ removes), entry row (Exit · +65 · live P&L), SL pill (+ Add Trail), and the solid warning-light breakeven line with a boxed “Breakeven ⓘ” tag on it, 8 left of the price axis (Figma’s “B/E 105.55”: spelled out, no price — designer’s call; the label still reads the price) (tap → How breakeven works). Breakeven = entry + round-trip charges per unit (data.ts breakevenPrice). Buy at Mkt on fno-05 opens a position the same way; the first buy also opens How breakeven works. Exit buttons are 24 tall to sit on the pills (Figma), not Large.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} /> },
+    { id: 'fno-36', section: 'scalper', group: 'scalper', name: 'Break Even · How breakeven works (sheet)', figma: '11783:5569', badge: 'new', note: 'Two versions (setting “Breakeven sheet”, floating card beside the phone): Version 2 (default) — heading “What is breakeven line?” (no description; “price” → “line”, 19 Nov), the charges table, no info lines; Version 1 — “How breakeven works” with the two info lines, no table. Opens on the first buy and from the B/E chip’s ⓘ (and Settings → Breakeven line ⓘ). The example card loops (a tap replays it): every play opens with the “Introducing Breakeven Line” intro (2.5 s), then a 9.3 s chart copied from the designer’s recording: on a white chart the buy at ₹100; the chart zooms in 2× and the orange charges zone fills one band per charge from the F&O options rate card, in ₹ on the ₹100 buy (top down: STT ₹0.15, transaction ₹0.07, stamp duty, SEBI, then brokerage ₹0.02 last at the bottom with a smaller tag; they come in top down — no GST band: it’s charged on the charges; heights by cost), then zooms back out to one thin zone, the tags sliding down under it and stacking into one “Order charges ≈₹0.26” tag (GST included); the dashed B/E line at ₹100.30 draws along its top with the chart’s “Breakeven” tag (text only, no price), an LTP bubble rides the price line up through B/E (a ringed marker pulses) to “Sold at ₹102”, the green Net Profit zone fills; it holds, then plays again from the intro. “I understand” is locked until the chart has played once (intro + chart, 11.8 s), a loader line filling along its top edge, then turns primary (Figma’s button variants). Reduced motion: the finished chart, button ready. Under the example, the same trade as a calculation table (a card on the secondary surface, no heading, compact L3 key-value rows, one line each, no lines inside): Bought at ₹100.00 · Order charges (incl. GST) ≈₹0.26 — tap the row to open the breakdown (closed by default: STT, transaction, brokerage, stamp duty, SEBI, GST 18%) — and Breakeven price ₹100.30 in bold (L3 total row). Labels are L3’s 12 styles (the recording’s are ~11). The zoomed-in charges aren’t in Figma or the recording (designer’s brief). A V2 (starts zoomed in on a blue ₹0 → ₹100 fill, zooms out true to scale, sold 12% up at ₹112) is archived in fno/archive/BreakevenExplainerV2.tsx.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="breakeven" /> },
     { id: 'fno-37', section: 'scalper', group: 'scalper', name: 'Break Even · chart settings (breakeven line)', figma: '11754:69563', badge: 'new', note: 'The chart-tools sheet on Settings: Auto TP/SL (animated mark, Applied), Chart type (Candles / Heikin Ashi / Line), Stop Loss Preference (radio), View on chart (Breakeven line ⓘ New, Buy/Sell executions, Sync Charts). Changes are a draft: Apply keeps them (unticking Breakeven line hides the B/E line and chip), Cancel or closing drops them. Figma’s rail (Bolt, Indicators, Drawings, Settings) is the live app’s six groups here.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialPosition={scalperPosition} initialSheet="settings" openIndicators={false} /> },
+    { id: 'fno-39', section: 'scalper', group: 'signals', name: 'Zing signals · All signals', figma: '6900:23855', badge: 'new', note: 'From the Active chip at the tool row’s right end (Zing). Figma: file 9r61YQp7QQZAQovDyz8hLF (Enrich signal filter), old Lemonn design system, rebuilt in L3. Top row: filter button | All Signals (4) · Win rate ≥ 50% · Commodity · Nifty · Sensex (L3 pill tabs, Small; counts are worked out from the signals). Active signals (n) with Total P&L, then a card per signal: avatar, strategy, market + win rate tags (or a P&L tag), View; under a line Buy Call 23950 • RR • the rule. A chip with no signals shows the L3 empty state. Filter → fno-40.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{}} /> },
+    { id: 'fno-40', section: 'scalper', group: 'signals', name: 'Zing signals · Filter · Indices', figma: '6900:26203', badge: 'new', note: 'The filter takes the signals sheet over in place, in the Scalper’s Settings sheet look: L3 Side nav Indices · Win rate · Call/Put · Strategies, the white panel with its Heading/16 title row and Clear All, card rows with a checkbox (Indices, Strategies) or radio (Win rate, Call/Put; the chosen one tinted blue), the picks as pills over Cancel / Apply (primary). Cancel or a scrim tap brings the signals back; Apply saves them as Your filter (→ fno-45).', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ filter: 'indices' }} /> },
+    { id: 'fno-41', section: 'scalper', group: 'signals', name: 'Zing signals · Filter · Indices picked', figma: '6900:29666', badge: 'new', note: 'NIFTY 50 and SENSEX ticked (All Indices unticks itself; untick both and it’s back). The side tab shows how many it picked (Figma: a red 1 — L3 Side nav’s corner flag, in blue). The picks sit as chips over Cancel / Apply; ✕ takes one off.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ filter: 'indices', draft: { ...noSignalFilter, markets: ['nifty', 'sensex'] } }} /> },
+    { id: 'fno-42', section: 'scalper', group: 'signals', name: 'Zing signals · Filter · Win rate', figma: '6900:27042', badge: 'new', note: 'Win rate: All · ≥ 50% · ≥ 30% (pick one).', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ filter: 'winRate', draft: { ...noSignalFilter, markets: ['nifty', 'sensex'] } }} /> },
+    { id: 'fno-43', section: 'scalper', group: 'signals', name: 'Zing signals · Filter · Call/Put', figma: '6900:27889', badge: 'new', note: 'Call/Put: All · Call · Put (pick one).', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ filter: 'direction', draft: { ...noSignalFilter, markets: ['nifty', 'sensex'] } }} /> },
+    { id: 'fno-44', section: 'scalper', group: 'signals', name: 'Zing signals · Filter · Strategies', figma: '6900:28736', badge: 'new', note: 'Strategies: one row per Zing strategy with its picture (L3 Avatar 24), pick several. A long name is cut at 140 in its chip (Figma dev note).', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ filter: 'strategies', draft: { ...noSignalFilter, markets: ['nifty', 'sensex'], strategies: ['booming-bulls'] } }} /> },
+    { id: 'fno-45', section: 'scalper', group: 'signals', name: 'Zing signals · Your filter saved (tip)', figma: '6900:30528', badge: 'new', note: 'Right after Apply: Your filter (n) comes in first, selected, with ✕ to remove it; the filter button gets a red dot; a blue tooltip “Filter applied & saved for quick access” with ✕ points at it once (Figma’s colour on the L3 tooltip). Figma keeps All Signals selected; here the saved filter is, so the list shows what it picked.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ saved: sampleSignalFilter, savedTip: true }} /> },
+    { id: 'fno-46', section: 'scalper', group: 'signals', name: 'Zing signals · Your filter saved', figma: '6900:24637', badge: 'new', note: 'The same without the tip: next time the sheet opens, Your filter is one tap away.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ saved: sampleSignalFilter }} /> },
+    { id: 'fno-47', section: 'scalper', group: 'signals', name: 'Zing signals · All Signals (plain)', figma: '6900:25420', badge: 'new', note: 'Figma’s plain look: an “All Signals” header and every signal. Figma’s ← back is left out: L3 gives the first sheet over a screen no back button.', render: (go) => <Scalper onBack={() => backOr(go, 'fno-01')} onCreateIndicator={() => go('dash-20')} initialSheet="signals" initialSignals={{ plain: true }} /> },
     { id: 'fno-08', section: 'home', group: 'home', name: 'Commodities home', figma: '6754:63637', tab: true, note: 'The Commodities product tab. Gold / Silver / Crude Oil / Natural Gas shortcuts open the Lot summary (Gold Summary). The chart’s instrument selector (“Gold”) opens the contract picker. Popular commodities: Options ⇕ Futures switch; Futures Heatmap: Bullion / Energy / Metals.', render: (go) => home(go, undefined, { product: 'commodities' }) },
     { id: 'fno-09', section: 'home', group: 'home', name: 'Commodities · heatmap & Smart Futures', figma: '6754:63637', tab: true, note: 'The same long screen, scrolled to the Futures Heatmap.', render: (go) => home(go, 'heatmap', { product: 'commodities' }) },
     { id: 'fno-10', section: 'home', group: 'home', name: 'Contract picker · Commodities', figma: '6754:65111', tab: true, note: 'From the chart’s “Gold ⇕”. Equity / Commodities tabs in the sheet header’s bottom slot, commodity chips (All, Gold, Silver …) under them; contracts grouped by commodity as radio rows (Gold Mini tagged “Lowest Margin”). Picking one updates the chart and closes the sheet.', render: (go) => home(go, undefined, { product: 'commodities', picker: 'commodities' }) },
@@ -7914,15 +8551,13 @@ export function Home({ product = 'equity', segment = 'equity', picker, onProduct
   font: var(--l3-text-label-10);
 }
 
-/* The chart-tools sheet brings its own layout: no content padding. No top hairline either (L3 draws one above every
-   sheet; over the dimmed screen it read as a stray line) — the sheet keeps its shadow. */
+/* The chart-tools sheet brings its own layout: no content padding (L3 2.4: that includes its 16 top and 24 bottom
+   spaces) — edge to edge. No top hairline either (L3 draws one above every sheet; over the dimmed screen it read as a
+   stray line) — the sheet keeps its shadow. */
+/* Raised so it beats L3's no-dock rule (.surface[data-placement] > .content:last-child adds 24 + the safe area). */
+.sheet.sheet.sheet [data-sheet-content]:last-child,
 .sheet [data-sheet-content] {
   padding: 0;
-}
-
-/* …and none of L3's spaces around the content either (2.3.5: 16 above it, 24 under it) — edge to edge. */
-.sheet [data-sheet-space] {
-  display: none;
 }
 
 .sheet.sheet.sheet {
@@ -7957,6 +8592,7 @@ import { t } from '../copy'
 import { breakevenPrice, defaultChartSettings, OPTION_TICK, SCALPER_TP_SL_GAP, scalperOption, scalperSpot, type ChartSettings, type ScalperInstrument, type ScalperPosition } from '../data'
 import { BreakevenSheet } from '../sheets/BreakevenSheet'
 import { ChartToolsSheet, type ToolsSection } from '../sheets/ChartToolsSheet'
+import { SignalsSheet, type SignalsSheetState } from '../sheets/SignalsSheet'
 import styles from './Scalper.module.css'
 import flat from '../flatCards.module.css'
 
@@ -7972,8 +8608,10 @@ type ScalperProps = {
   onApplyIndicator?: (name: string) => void
   /** An open position on the option chart (TP / SL pills, the breakeven line). Default: none — Buy opens one. */
   initialPosition?: ScalperPosition
-  /** Open with How breakeven works up, or the chart-tools sheet on Settings. */
-  initialSheet?: 'breakeven' | 'settings'
+  /** Open with How breakeven works up, the chart-tools sheet on Settings, or Zing signals (the Active chip). */
+  initialSheet?: 'breakeven' | 'settings' | 'signals'
+  /** Zing signals: the state it opens in (filter sheet up, a saved filter …). */
+  initialSignals?: SignalsSheetState
 }
 
 const LOT = 65
@@ -7986,7 +8624,9 @@ const LOT = 65
  * - the order dock: Market / Limit-Trigger, Buy at Mkt · quantity in lots · Sell at Mkt, the margin each needs.
  * The spot pane's "add" button opens the chart-tools sheet (indicators). Prices are sample data.
  */
-export function Scalper({ onBack, createdIndicator, openIndicators, initialIndicator, onCreateIndicator, onApplyIndicator, initialPosition, initialSheet }: ScalperProps) {
+export function Scalper({ onBack, createdIndicator, openIndicators, initialIndicator, onCreateIndicator, onApplyIndicator, initialPosition, initialSheet, initialSignals }: ScalperProps) {
+  /** Zing signals, from the Active chip at the tool row's right end. */
+  const [signalsOpen, setSignalsOpen] = useState(initialSheet === 'signals')
   const [sheetOpen, setSheetOpen] = useState(initialSheet === 'settings' || (openIndicators ?? Boolean(createdIndicator)))
   const [toolsSection, setToolsSection] = useState<ToolsSection>(initialSheet === 'settings' ? 'settings' : 'indicators')
   /** The chart's settings, and the copy being edited in the sheet's Settings (Apply keeps it, Cancel drops it). */
@@ -8055,7 +8695,7 @@ export function Scalper({ onBack, createdIndicator, openIndicators, initialIndic
             <Button variant="ghost" size="sm" iconLeft={<Icon icon={msReceiptLong} />} className={styles.tool}>{t('scalper.orders')}</Button>
             <span className={styles.divider} aria-hidden="true" />
             <Button variant="ghost" size="sm" iconLeft={<Icon icon={msLink} />} className={styles.tool}>{t('scalper.chain')}</Button>
-            <button type="button" className={styles.active} aria-label={t('scalper.activeCount', { count: 14 })}>
+            <button type="button" className={styles.active} aria-label={t('scalper.activeCount', { count: 14 })} onClick={() => setSignalsOpen(true)}>
               <span className={styles.activeIcon} aria-hidden="true">
                 <Icon icon={msSwapHoriz} />
                 <span className={styles.count}>14</span>
@@ -8095,6 +8735,8 @@ export function Scalper({ onBack, createdIndicator, openIndicators, initialIndic
       sheet={
         breakevenOpen ? (
           <BreakevenSheet onClose={() => setBreakevenOpen(false)} />
+        ) : signalsOpen ? (
+          <SignalsSheet initial={initialSignals} onClose={() => setSignalsOpen(false)} />
         ) : sheetOpen && (
           <Sheet
             label={t('scalper.chartTools')}
@@ -8451,7 +9093,7 @@ export function BreakevenSheet({ onClose }: { onClose: () => void }) {
       onClose={onClose}
       header={v1
         ? <BottomSheetHeader size="sm" headingId={headingId} heading={t('breakeven.title')} />
-        : <BottomSheetHeader size="sm" headingId={headingId} heading={t('breakeven.titleV2')} description={t('breakeven.descriptionV2')} />}
+        : <BottomSheetHeader size="sm" headingId={headingId} heading={t('breakeven.titleV2')} />}
       footer={
         <ButtonGroup aria-label={t('breakeven.title')}>
           <div className={styles.loader} style={{ '--app-be-explainer': `${EXPLAINER_LENGTH}ms` } as CSSProperties}>
@@ -9294,6 +9936,869 @@ export function IndicatorDetailsSheet({ name, onChart, onToggle, onOpenInDash, o
 }
 ```
 
+### `src/flows/fno/sheets/SignalStrip.module.css`
+
+```css
+/*
+ * The nudge strip over a commodity signal's card (SignalStrip.tsx), after Figma 6946:42446 ("Commodities nudge") and its
+ * improved gradient 6947:45037 (24 Nov), file 9r61YQp7QQZAQovDyz8hLF: a 28 strip behind the card's top edge, warm in its
+ * top-left corner (halfway zing light → honey 200) fading to zing light 64 across; a 1 gold ring round strip and card
+ * (zing light at the top → honey 300 at the bottom); the gold bars (18) on a soft white glow 16 in, a Heading/10 +
+ * Label/10 line in honey 800.
+ */
+
+/* The strip's colours, per version (s2: per commodity). */
+.nudge {
+  --strip-from: var(--l3-surface-accent-zing-light);
+  --strip-to: var(--l3-border-accent-zing-light);
+  --strip-ink: var(--app-strip-gold-ink);
+  --strip-shine: var(--app-strip-shine);
+  --strip-shine-core: var(--app-strip-shine-core);
+  /* The ring's bottom colour (Figma frame stroke: zing light → honey 300). */
+  --strip-ring: var(--l3-border-accent-zing-default);
+  position: relative;
+  /* The ring: Figma's 1 stroke round strip and card. It sits just outside the card (padding 1, margin −1), so the card
+     keeps its exact size and place when the strip is switched on — only the strip grows in above it. */
+  padding: 1px;
+  margin: -1px;
+  border-radius: calc(var(--l3-radius-12) + 1px);
+}
+/* The ring (and what shows behind the card's corners): the strip's colour deepening to the ring colour at the bottom. */
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--strip-from), var(--strip-ring));
+}
+.nudge[data-commodity='crude'], .nudge[data-commodity='silver'] {
+  --strip-from: var(--l3-surface-secondary);
+  --strip-to: var(--l3-border-intense);
+  --strip-ring: var(--l3-border-intense);
+  --strip-ink: var(--l3-content-primary);
+}
+.nudge[data-commodity='gas'] {
+  --strip-from: var(--l3-surface-accent-orange-light);
+  --strip-to: var(--l3-border-accent-orange-light);
+  --strip-ring: var(--l3-border-accent-orange-default);
+  --strip-ink: var(--app-strip-orange-ink);
+}
+.nudge[data-version='s3'] {
+  --strip-from: var(--l3-surface-inverted);
+  --strip-to: var(--l3-surface-inverted);
+  --strip-ring: var(--l3-surface-inverted);
+  --strip-ink: var(--app-strip-ticker-ink);
+  --strip-shine: var(--app-strip-shine-dark);
+  --strip-shine-core: var(--app-strip-shine-dark);
+}
+
+/* Entry, once the sheet is up (its own slide takes ~400): the strip slides out from behind the card (its row grows
+   0 → 28), one card after another; then its line rises in; then the shimmer starts. */
+.nudge { --strip-start: calc(var(--l3-motion-duration-long) + var(--l3-motion-duration-medium) + var(--strip-order, 0) * var(--l3-motion-duration-medium)); }
+/*
+ * The strip runs on 12 under the card (as Figma's 48 strip under the card from 28), so the card's rounded top corners
+ * sit on the strip's colour — no notch where they curve away. It takes 27 of the layout (28 from the ring's outer edge).
+ */
+.reveal {
+  position: relative;
+  height: calc(var(--l3-size-28) - 1px + var(--l3-radius-12));
+  margin-bottom: calc(-1 * var(--l3-radius-12));
+  overflow: hidden;
+  border-radius: calc(var(--l3-radius-12) - 1px) calc(var(--l3-radius-12) - 1px) 0 0;
+  animation: strip-reveal var(--l3-motion-duration-long) var(--l3-motion-easing-decelerate) both;
+  animation-delay: var(--strip-start);
+}
+@keyframes strip-reveal { from { height: var(--l3-radius-12); } }
+/* The ring fades in as the strip comes out. */
+.ring { animation: strip-ring var(--l3-motion-duration-long) var(--l3-motion-easing-decelerate) both; animation-delay: var(--strip-start); }
+@keyframes strip-ring { from { opacity: 0; } }
+/* Switched on while the sheet is up: no wait for the sheet's slide, just the top-down stagger. */
+.nudge[data-switched='true'] { --strip-start: calc(var(--strip-order, 0) * var(--l3-motion-duration-short)); }
+
+/* Switched off: the reverse — the line fades, the strip tucks back behind the card (27 → 0 seen) and the ring fades,
+   then the strip goes (LEAVE_MS in SignalStrip.tsx = duration long). The card slides up with it. */
+.nudge[data-leaving='true'] .reveal { animation: strip-hide var(--l3-motion-duration-long) var(--l3-motion-easing-standard) forwards; }
+@keyframes strip-hide { from { height: calc(var(--l3-size-28) - 1px + var(--l3-radius-12)); } to { height: var(--l3-radius-12); } }
+.nudge[data-leaving='true'] .ring { animation: strip-ring-out var(--l3-motion-duration-long) var(--l3-motion-easing-standard) forwards; }
+@keyframes strip-ring-out { from { opacity: 1; } to { opacity: 0; } }
+.nudge[data-leaving='true'] .strip > * { animation: strip-fade-out var(--l3-motion-duration-medium) var(--l3-motion-easing-accelerate) forwards; }
+@keyframes strip-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+.strip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--l3-spacing-08);
+  min-height: 0;
+  height: 100%;
+  padding: 0 var(--l3-spacing-12) var(--l3-radius-12) var(--l3-spacing-16); /* the line stays centred in the 27 seen */
+  overflow: hidden;
+  border-radius: inherit;
+  /* Figma 6947:45038 "top strip": warm in the top-left corner (halfway between the two honeys), fading to zing light
+     64 across (its gradient runs down-right at ~138°). */
+  background: linear-gradient(138deg, color-mix(in srgb, var(--strip-from), var(--strip-to)) 0, var(--strip-from) var(--l3-size-64));
+  color: var(--strip-ink);
+}
+.strip > :not(.shimmer) {
+  animation: strip-rise var(--l3-motion-duration-long) var(--l3-motion-easing-decelerate) both;
+  animation-delay: calc(var(--strip-start) + var(--l3-motion-duration-medium));
+}
+@keyframes strip-rise { from { opacity: 0; transform: translateY(var(--l3-spacing-06)); } }
+
+/* The picture on a soft white glow under it (Figma Ellipse 6835: 29 × 8, white 50%). */
+.glow {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  width: var(--l3-icon-size-18);
+  height: var(--l3-icon-size-18);
+}
+.glow[data-glow='true']::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: calc(-1 * var(--l3-spacing-02));
+  width: var(--app-strip-glow-width);
+  height: var(--l3-size-08);
+  translate: -50% 0;
+  border-radius: var(--l3-radius-full);
+  background: var(--app-strip-glow);
+  filter: blur(var(--l3-spacing-02));
+}
+.picture { position: relative; display: block; width: 100%; height: 100%; object-fit: contain; border-radius: var(--l3-radius-full); }
+.nudge:not([data-version='s2']) .picture { border-radius: 0; }
+.fire { position: relative; color: var(--l3-content-accent-orange-default); }
+/* s4's move line: a trend arrow (up or down) in the strip's text colour (honey 800 on gold). */
+.trend { position: relative; color: var(--strip-ink); }
+
+.text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: var(--l3-text-label-10);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text b { font-weight: var(--l3-text-heading-10-weight); }
+
+/* s2: a pulsing Live dot on the right. */
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--l3-spacing-04);
+  flex: none;
+  font: var(--l3-text-heading-10);
+}
+.liveDot {
+  position: relative;
+  width: var(--l3-spacing-06);
+  height: var(--l3-spacing-06);
+  border-radius: var(--l3-radius-full);
+  background: var(--l3-content-accent-indicator-up-default);
+}
+.liveDot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: strip-pulse 1.6s var(--l3-motion-easing-decelerate) infinite;
+}
+@keyframes strip-pulse { to { transform: scale(2.6); opacity: 0; } }
+
+/* s4: one line at a time, the next rising from below (its picture too). */
+.rotorPic { position: relative; display: inline-flex; width: 100%; height: 100%; align-items: center; justify-content: center; animation: strip-rise var(--l3-motion-duration-long) var(--l3-motion-easing-decelerate) both; }
+.rotorLine { display: block; overflow: hidden; text-overflow: ellipsis; animation: strip-rise var(--l3-motion-duration-long) var(--l3-motion-easing-decelerate) both; }
+.move { color: var(--l3-content-accent-indicator-down-default); }
+.move[data-up='true'] { color: var(--l3-content-accent-indicator-up-default); }
+
+/* The shimmer: a soft light band sweeping left → right across the strip, every 3 s once it's out. */
+.shimmer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 36%, var(--strip-shine) 46%, var(--strip-shine-core) 50%, var(--strip-shine) 54%, transparent 64%);
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-position: 100% 0;
+  animation: strip-shimmer 3s var(--l3-motion-easing-standard) infinite;
+  animation-delay: calc(var(--strip-start) + var(--l3-motion-duration-long) * 2);
+}
+@keyframes strip-shimmer {
+  0% { background-position: 100% 0; }
+  40%, 100% { background-position: 0% 0; }
+}
+
+/* The card sits on the strip's lower part, as in Figma (it covers the gradient's last 21). */
+.nudge > :last-child { position: relative; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .ring, .strip > *, .rotorLine, .rotorPic, .shimmer, .liveDot::after { animation: none; }
+}
+```
+
+### `src/flows/fno/sheets/SignalStrip.tsx`
+
+```tsx
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { Icon } from '@l3/components/Icon'
+import { msLocalFireDepartmentFill, msTrendingDown, msTrendingUp } from '@l3/icons/material'
+import { t } from '../copy'
+import type { ZingSignal } from '../data'
+import goldBars from '../assets/signals/gold-bars.png'
+import styles from './SignalStrip.module.css'
+
+/**
+ * The nudge strip over a commodity signal's card (setting "Commodity nudge strip", Figma 6946:42446, 24 Nov): the
+ * commodity cards didn't stand out enough among index and stock signals, so a strip peeks out from behind the card's
+ * top edge with a reason to look — how many traded it today. It slides out from behind the card when the sheet opens,
+ * then a shimmer runs across it every few seconds.
+ * - s1 Gold glow (Figma): the honey gradient strip, the gold bars on a soft white glow, "2.1K+ people have traded on
+ *   gold today" in honey 800.
+ * - s2 Colour per commodity: as s1, but the strip takes the commodity's colour (gold honey, crude oil slate, natural gas
+ *   tangerine), its logo, and a pulsing Live dot on the right.
+ * - s3 Dark ticker: the strip in the inverted surface, a flame, "Trending on MCX · 2.1K+ traded today" in honey.
+ * - s4 Rotating facts: s1's strip, no shimmer; its line (and its picture) turns over every 5 s — traded today · trending on MCX
+ *   (the flame, as s3) · today's move (a trend arrow in the strip's text colour) · MCX hours.
+ */
+export type StripVersion = 'off' | 's1' | 's2' | 's3' | 's4'
+
+/** How long the strip takes to tuck back behind the card when it's switched off (= --l3-motion-duration-long). */
+const LEAVE_MS = 400
+
+export function SignalStrip({ signal, version: wanted, logo, order, children }: { signal: ZingSignal; version: StripVersion; logo: string; order: number; children: ReactNode }) {
+  // The version on screen. Switched off, the strip first tucks back behind the card (LEAVE_MS), then goes.
+  const [version, setVersion] = useState(wanted)
+  const [leaving, setLeaving] = useState(false)
+  // Changed while the sheet is already up: the strip comes out straight away (no wait for the sheet's own slide).
+  const [switched, setSwitched] = useState(false)
+  const first = useRef(true)
+  useEffect(() => {
+    if (first.current) { first.current = false; return }
+    setSwitched(true)
+    if (wanted === 'off' && version !== 'off') {
+      setLeaving(true)
+      // Gone once the tuck-back animation ends (onAnimationEnd below); this is only the fallback.
+      const id = window.setTimeout(() => { setVersion('off'); setLeaving(false) }, LEAVE_MS + 200)
+      return () => window.clearTimeout(id)
+    }
+    setLeaving(false)
+    setVersion(wanted)
+  }, [wanted]) // only when the setting changes
+
+  const nudge = signal.nudge
+  const commodity = signal.commodity
+  if (!nudge || !commodity) return <>{children}</>
+  // Off: the same wrapper (so the card is never rebuilt), with no strip and no ring.
+  if (version === 'off') return <div className={styles.nudge} data-version="off">{children}</div>
+  const name = t(`signals.strip.name.${commodity}`)
+  const people = t('signals.strip.people', { count: nudge.traders })
+  const traded = <><b>{people}</b> {t('signals.strip.traded', { name })}</>
+
+  const flame = <Icon icon={msLocalFireDepartmentFill} size={16} className={styles.fire} />
+  // The gold bars sit on Figma's soft white glow; logos and icons don't.
+  const bars = version !== 's2' && commodity === 'gold'
+  const picture = version === 's3'
+    ? flame
+    : <img src={bars ? goldBars : logo} alt="" className={styles.picture} />
+  const up = !nudge.move.startsWith('−')
+  const trendIcon = <Icon icon={up ? msTrendingUp : msTrendingDown} size={16} className={styles.trend} />
+
+  const trending = <><b>{t('signals.strip.trending')}</b> · {t('signals.strip.tradedShort', { count: nudge.traders })}</>
+  const line = version === 's3' ? trending : traded
+
+  return (
+    <div className={styles.nudge} data-version={version} data-leaving={leaving} data-switched={switched} data-commodity={version === 's2' ? commodity : undefined} style={{ '--strip-order': order } as CSSProperties}>
+      <span className={styles.ring} aria-hidden="true" />
+      <div className={styles.reveal} onAnimationEnd={(e) => { if (leaving && e.target === e.currentTarget) { setVersion('off'); setLeaving(false) } }}>
+        {/* Keyed by version: switching between versions, the new one's picture and line rise in. */}
+        <div key={version} className={styles.strip}>
+          {version === 's4' ? (
+            <Rotating items={[
+              { picture, glow: bars, line: traded },
+              { picture: flame, line: trending },
+              { picture: trendIcon, line: <>{t('signals.strip.moveIs', { name: t(`signals.strip.title.${commodity}`) })} <b className={styles.move} data-up={up}>{nudge.move}</b> {t('signals.strip.today')}</> },
+              { picture, glow: bars, line: <>{t('signals.strip.open')}</> },
+            ]} />
+          ) : (
+            <>
+              <span className={styles.glow} data-glow={bars && version !== 's3'} aria-hidden="true">{picture}</span>
+              <p className={styles.text}>{line}</p>
+            </>
+          )}
+          {version === 's2' && <span className={styles.live}><span className={styles.liveDot} aria-hidden="true" />{t('signals.strip.live')}</span>}
+          {/* No shimmer on Rotating facts: its lines already move (user, 24 Nov). */}
+          {version !== 's4' && <span className={styles.shimmer} aria-hidden="true" />}
+        </div>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+/** s4: how long each line stays before the next rolls up. */
+const ROTATE_MS = 5000
+
+/**
+ * s4: one line at a time (with its picture), the next rolling up from below every 5 s. The picture's box stays put
+ * (only what's inside it changes), so the new picture comes in with its line — not after the strip's entry delay.
+ */
+function Rotating({ items }: { items: { picture: ReactNode; glow?: boolean; line: ReactNode }[] }) {
+  const [index, setIndex] = useState(0)
+  useEffect(() => {
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % items.length), ROTATE_MS)
+    return () => window.clearInterval(id)
+  }, [items.length])
+  const item = items[index]
+  return <>
+    <span className={styles.glow} data-glow={Boolean(item.glow)} aria-hidden="true">
+      <span key={index} className={styles.rotorPic}>{item.picture}</span>
+    </span>
+    <p className={styles.text} aria-live="polite">
+      <span key={index} className={styles.rotorLine}>{item.line}</span>
+    </p>
+  </>
+}
+```
+
+### `src/flows/fno/sheets/SignalsSheet.module.css`
+
+```css
+/*
+ * Zing signals sheet (SignalsSheet.tsx) and its filter sheet, after Figma 6900:23853 ("Enrich signal filter",
+ * file 9r61YQp7QQZAQovDyz8hLF) in L3 tokens.
+ */
+
+/* One height however many signals there are: 75% of the phone screen (user, 20 Nov; the screen is a size container —
+   Screen.module.css); the list scrolls inside it. */
+.sheet.sheet { height: 75cqh; }
+
+/* The chip row in the sheet header's place: the filter button | the chips (they scroll sideways), a line under it. */
+.chipBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--l3-spacing-12);
+  padding: var(--l3-spacing-12) 0 var(--l3-spacing-12) var(--l3-spacing-16);
+  box-shadow: inset 0 -1px 0 var(--l3-border-light); /* 1px: Figma stroke weight has no variable */
+}
+.chipBar > :last-child { min-width: 0; flex: 1; }
+.chips { padding-right: var(--l3-spacing-16); }
+/* Chips not picked: Label/12 in text secondary (user, 20 Nov). */
+.chips [role='tab'][aria-selected='false'] { --tab-content: var(--l3-content-secondary); }
+.chipLogo { display: block; width: 100%; height: 100%; border-radius: var(--l3-radius-full); object-fit: cover; }
+/* The filter button: a round bordered pill like the chips (Figma: 32, border-intense, elevation low). */
+.filterButton.filterButton { flex: none; --btn-radius: var(--l3-radius-full); }
+/* View: Figma's fixed 60 wide. */
+.view.view { min-width: calc(var(--l3-size-56) + var(--l3-size-04)); }
+.divider {
+  flex: none;
+  width: 1px; /* hairline */
+  height: var(--l3-size-20);
+  background: var(--l3-border-light);
+}
+/* The flame on Win rate ≥ 50% (Figma: orange). */
+.fire { color: var(--l3-content-accent-orange-default); }
+.chipsWrap { min-width: 0; }
+/*
+ * The saved-filter tip points at Your filter: its anchor sits over the first chip (16 + the 32 filter button + 12 + the
+ * 1 line + 12 in; the chip's own width), so the arrow lands under it as in Figma (6900:31347).
+ */
+.tip.tip {
+  position: absolute;
+  top: var(--l3-spacing-12);
+  left: calc(var(--l3-spacing-16) + var(--l3-size-32) + var(--l3-spacing-24) + 1px); /* 1px: the divider hairline */
+  pointer-events: none;
+}
+.tipTarget { display: block; width: calc(var(--l3-size-128) - var(--l3-size-16)); height: var(--l3-size-32); }
+/* Figma's tip: discover blue, white Label/12 on one line, 8 / 12 · 8 inside, 4 to the ✕, radius 8, a soft shadow.
+   L3's tooltip is the dark inverted bubble with Description/12 (L3 gap: no discover tone). */
+.tip.tip [role='tooltip'] {
+  --tt-surface: var(--l3-surface-accent-discover-default);
+  pointer-events: auto;
+  gap: var(--l3-spacing-04);
+  max-width: none;
+  padding: var(--l3-spacing-08) var(--l3-spacing-08) var(--l3-spacing-08) var(--l3-spacing-12);
+  color: var(--l3-static-white);
+  font: var(--l3-text-label-12);
+  white-space: nowrap;
+  box-shadow: var(--l3-shadow-elevation-medium);
+}
+.tip.tip [role='tooltip'] > span:first-child { padding: 0; }
+.chipClose { display: inline-flex; width: var(--l3-size-16); height: var(--l3-size-16); cursor: pointer; }
+
+.body { display: block; }
+
+.heading {
+  margin: 0;
+  font: var(--l3-text-heading-14);
+  color: var(--l3-content-primary);
+}
+.totalLabel, .pnlLabel { color: var(--l3-content-primary); }
+.pnlLabel { color: var(--l3-content-secondary); }
+
+/* A signal card: a smooth drop shadow under its edge (user, 20 Nov) — L3 elevation low (close) + soft (wide). */
+.signalCard.signalCard { box-shadow: var(--card-border), var(--l3-shadow-elevation-low), var(--l3-shadow-elevation-soft); }
+/* A signal card. */
+.who { min-width: 0; flex: 1; }
+.name {
+  margin: 0;
+  font: var(--l3-text-heading-12);
+  color: var(--l3-content-primary); /* the strategy name in text primary (user, 20 Nov) */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Grey tags (market, win rate) read in text secondary (user, 20 Nov; L3's neutral tag is text primary). */
+.greyTag.greyTag { --tag-content: var(--l3-content-secondary); }
+.up { font-weight: var(--l3-text-heading-10-weight); color: var(--l3-content-accent-indicator-up-default); }
+/* The trade, under a line: Buy Call 23950 • RR 1.4 • EMA 9 > EMA 21, spread across the card. */
+.trade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--l3-spacing-08);
+  padding-top: var(--l3-spacing-08);
+  box-shadow: inset 0 1px 0 var(--l3-border-light); /* 1px: Figma stroke weight has no variable */
+  font: var(--l3-text-label-12);
+  color: var(--l3-content-primary);
+  white-space: nowrap;
+}
+.muted { color: var(--l3-content-tertiary); }
+.dot {
+  flex: none;
+  width: var(--l3-size-04);
+  height: var(--l3-size-04);
+  border-radius: var(--l3-radius-full);
+  background: var(--l3-border-intense);
+}
+
+/* ---- Filter: the chart tools sheet's layout (ChartToolsSheet.module.css .body / .nav / .panel / .header) ---- */
+/* The sheet brings its own layout: no content padding (as the Scalper's chart tools sheet). */
+.toolsSheet.toolsSheet.toolsSheet [data-sheet-content] { padding: 0; }
+.toolsSheet.toolsSheet.toolsSheet { box-shadow: var(--l3-shadow-elevation-high); }
+/* The count in a side tab's corner: white on the discover blue in both modes (the tools sheet sets it for Zing yellow). */
+.nav.nav.nav[data-flag-tone] { --side-nav-flag-content: var(--l3-static-white); }
+/*
+ * The filter is the Scalper's Settings sheet (chart tools → Settings) in look: the same side nav, white panel, title row
+ * and rows (ChartToolsSheet.module.css). It stays shorter than Settings' 576: the list area is 412 (Indices' six rows
+ * fit: title row 64 + 16 + 6 × 48 + 5 × 8), the picks' 44 strip under it when there are picks, then the dock.
+ */
+.filterGrid.filterGrid { height: calc(var(--l3-size-128) * 3 + var(--l3-size-28)); }
+
+/* The Zing mark (Figma's own glyph), drawn in the tile's text colour like the Material icons beside it. */
+.zingMark { display: block; width: var(--l3-icon-size-24); height: var(--l3-icon-size-24); } /* as the side nav's icons */
+/* "Clear All" in Figma's discover blue (a text action). */
+.clear.clear { --btn-content: var(--l3-content-accent-discover-default); color: var(--l3-content-accent-discover-default); }
+
+/* The picks (Figma "applied", 44): 12 above the chips, 16 at the sides, one row that scrolls sideways. */
+.pills {
+  display: flex;
+  gap: var(--l3-spacing-08);
+  height: calc(var(--l3-size-32) + var(--l3-spacing-12));
+  padding: var(--l3-spacing-12) var(--l3-spacing-16) 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--l3-surface-primary);
+}
+/* A pick is Figma's unselected pill: surface-primary, border-light, 8 inside, 4 to the ✕, Label/12 in secondary. */
+.pill.pill {
+  flex: none;
+  --btn-radius: var(--l3-radius-full);
+  --btn-surface: var(--l3-surface-primary);
+  --btn-border: var(--l3-border-light);
+  --btn-content: var(--l3-content-secondary);
+  --btn-gap: var(--l3-spacing-04);
+}
+/* The ✕ (Figma "cross"): filled, in primary. */
+.pillX { color: var(--l3-content-primary); }
+/* A long strategy name is cut at 140 (Figma dev note "Max width: 140px"). */
+.pillLabel {
+  display: block;
+  max-width: calc(var(--l3-size-128) + var(--l3-size-12));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- Commodity signals ---- */
+/* Logos in tags: the tag's 12 icon slot (L3 Tag sm). */
+.tagLogo { display: block; width: 100%; height: 100%; border-radius: var(--l3-radius-full); object-fit: cover; }
+```
+
+### `src/flows/fno/sheets/SignalsSheet.tsx`
+
+```tsx
+import { useState, type MouseEvent, type ReactNode } from 'react'
+import { Avatar } from '@l3/components/Avatar'
+import { Badge } from '@l3/components/Badge'
+import { BottomSheetHeader } from '@l3/components/BottomSheet'
+import { Button } from '@l3/components/Button'
+import { ButtonGroup } from '@l3/components/ButtonGroup'
+import { Card } from '@l3/components/Card'
+import { Checkbox, Radio } from '@l3/components/Checkbox'
+import { EmptyState } from '@l3/components/EmptyState'
+import { Icon } from '@l3/components/Icon'
+import { ListCell } from '@l3/components/ListCell'
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { SideNav } from '@l3/components/SideNav'
+import { Stack } from '@l3/components/Stack'
+import { Tabs } from '@l3/components/Tabs'
+import { Tag } from '@l3/components/Tag'
+import { Tooltip } from '@l3/components/Tooltip'
+import { msCancelFill, msFilterAltFill, msFormatListBulleted, msLocalFireDepartmentFill, msSpeed, msSwapVert } from '@l3/icons/material'
+import { useFlowOption } from '../../../shared/prototype'
+import { Sheet } from '../../../shared/ui/Sheet'
+import { t } from '../copy'
+import { filterCount, matchesFilter, noSignalFilter, signalMarkets, signalsTotalPnl, zingSignals, type SignalAvatar, type SignalCommodity, type SignalFilter, type SignalMarket, type ZingSignal } from '../data'
+import goldLogo from '../commodities/assets/gold.png'
+import silverLogo from '../commodities/assets/silver.png'
+import crudeLogo from '../commodities/assets/crude-oil.png'
+import gasLogo from '../commodities/assets/natural-gas.png'
+import neeraj from '../assets/signals/neeraj.png'
+import lemon from '../assets/signals/lemon.png'
+import booming from '../assets/signals/booming.png'
+import zingMark from '../assets/signals/zing-mark.svg'
+import { SignalStrip, type StripVersion } from './SignalStrip'
+import styles from './SignalsSheet.module.css'
+import tools from './ChartToolsSheet.module.css'
+
+/** The quick chips under the sheet's top edge. `yours` appears once a filter has been applied (and saved). */
+export type SignalsChip = 'yours' | 'all' | 'win50' | 'win25' | 'commodity' | 'nifty' | 'sensex' | 'banknifty' | 'stocks' | SignalCommodity
+/** The filter sheet's groups (its side nav). */
+export type FilterSection = 'indices' | 'winRate' | 'direction' | 'strategies'
+
+/** Where the sheet starts — the prototype's screens open it in each Figma state. */
+export type SignalsSheetState = {
+  chip?: SignalsChip
+  /** The saved filter ("Your filter"), if one has been applied. */
+  saved?: SignalFilter | null
+  /** The filter, open on this group. */
+  filter?: FilterSection | null
+  /** The filter sheet's choices so far (before Apply). Default: the saved filter. */
+  draft?: SignalFilter
+  /** "Filter applied & saved for quick access", under Your filter (shows once, right after Apply). */
+  savedTip?: boolean
+  /** The plain "All Signals" look: a heading over every signal (Figma's last frame). */
+  plain?: boolean
+}
+
+const avatars: Record<SignalAvatar, string> = { neeraj, lemon, booming }
+/** The commodity logos the Commodities home uses (commodities/assets). */
+const commodityLogos: Record<SignalCommodity, string> = { gold: goldLogo, silver: silverLogo, crude: crudeLogo, gas: gasLogo }
+
+/**
+ * How a commodity signal stands out from index and stock signals (24 Nov, the user's call — the earlier versions are
+ * gone, and so are the segment tabs): the sheet starts with the filter button | the chips (All Signals · Win rate ≥ 50% ·
+ * Nifty · Sensex · F&O Stocks · Commodities), a line under them; commodity cards have an amber tag with the
+ * commodity's logo and name, and the nudge strip over them (setting "Commodity nudge strip", SignalStrip.tsx).
+ */
+const marketLabel = (market: SignalMarket) => t(`signals.market.${market}`)
+const quick: Record<Exclude<SignalsChip, 'yours'>, (s: ZingSignal) => boolean> = {
+  all: () => true,
+  win50: (s) => (s.winRate ?? 0) >= 50,
+  win25: (s) => (s.winRate ?? 0) >= 25,
+  commodity: (s) => s.market === 'commodity',
+  nifty: (s) => s.market === 'nifty',
+  sensex: (s) => s.market === 'sensex',
+  banknifty: (s) => s.market === 'banknifty',
+  stocks: (s) => s.market === 'stocks',
+  gold: (s) => s.commodity === 'gold',
+  silver: (s) => s.commodity === 'silver',
+  crude: (s) => s.commodity === 'crude',
+  gas: (s) => s.commodity === 'gas',
+}
+
+/**
+ * Zing signals (Scalper → the Active chip, top right): today's live signals from Zing strategies, across F&O — index
+ * options (Nifty, Sensex, Bank Nifty), F&O stocks and commodities.
+ * - The top row: the filter button, Your filter (once one is saved, ✕ removes it), All Signals, Win rate ≥ 50%, then
+ *   Commodity · Nifty · Sensex. Each chip shows how many signals it holds.
+ * - Active signals (n) with today's Total P&L, then one card per signal: strategy, its market and win rate (or P&L),
+ *   View; under a line the trade: Buy Call 23950 · RR · the rule that fired.
+ * - The filter button turns the sheet into the filter, laid out like the chart tools sheet (Indices · Win rate · Call/Put ·
+ *   Strategies). Apply saves the choices as Your filter and selects it; Cancel drops them.
+ */
+export function SignalsSheet({ initial = {}, onClose }: { initial?: SignalsSheetState; onClose: () => void }) {
+  const [saved, setSaved] = useState<SignalFilter | null>(initial.saved ?? null)
+  const [chip, setChip] = useState<SignalsChip>(initial.chip ?? (initial.saved ? 'yours' : 'all'))
+  const [filter, setFilter] = useState<FilterSection | null>(initial.filter ?? null)
+  const [draft, setDraft] = useState<SignalFilter>(initial.draft ?? initial.saved ?? noSignalFilter)
+  const [savedTip, setSavedTip] = useState(Boolean(initial.savedTip))
+
+  const openFilter = () => {
+    setDraft(saved ?? noSignalFilter)
+    setSavedTip(false)
+    setFilter('indices')
+  }
+  const apply = () => {
+    const keep = filterCount(draft) ? draft : null
+    setSaved(keep)
+    setChip(keep ? 'yours' : 'all')
+    setSavedTip(Boolean(keep))
+    setFilter(null)
+  }
+  const removeSaved = () => {
+    setSaved(null)
+    setChip('all')
+    setSavedTip(false)
+  }
+
+  /** The tab's press layer covers its icons, so a tap on Your filter's ✕ is caught here by where it lands. */
+  const closeTap = (e: MouseEvent<HTMLDivElement>) => {
+    const close = e.currentTarget.querySelector('[data-chip-close]')?.getBoundingClientRect()
+    if (!close || e.clientX < close.left - 4 || e.clientX > close.right + 4 || e.clientY < close.top - 4 || e.clientY > close.bottom + 4) return
+    e.stopPropagation()
+    e.preventDefault()
+    removeSaved()
+  }
+  const strip = useFlowOption('fno', 'commodityStrip', 's1') as StripVersion
+  const inChip = (c: SignalsChip) => zingSignals.filter((s) => (c === 'yours' ? saved !== null && matchesFilter(s, saved) : quick[c](s)))
+  const shown = inChip(chip)
+  const count = (c: SignalsChip) => inChip(c).length
+
+  // The quick chips after All Signals.
+  const quickChips: Exclude<SignalsChip, 'yours' | 'all'>[] = ['win50', 'nifty', 'sensex', 'stocks', 'commodity']
+  const chipItem = (c: Exclude<SignalsChip, 'yours' | 'all'>): { value: SignalsChip; label: string; iconLeft?: ReactNode } => {
+    if (c === 'win50' || c === 'win25') return { value: c, label: t(`signals.${c}`, { count: count(c) }), iconLeft: <Icon icon={msLocalFireDepartmentFill} className={styles.fire} /> }
+    if (c === 'gold' || c === 'silver' || c === 'crude' || c === 'gas') return { value: c, label: t(`signals.commodity.${c}`), iconLeft: <img src={commodityLogos[c]} alt="" className={styles.chipLogo} /> }
+    if (c === 'commodity') return { value: c, label: t('signals.segment.commodity') }
+    if (c === 'stocks') return { value: c, label: t('signals.market.stocks') }
+    return { value: c, label: t(`signals.${c}`) }
+  }
+  const chips: { value: SignalsChip; label: string; iconLeft?: ReactNode; iconRight?: ReactNode }[] = [
+    ...(saved
+      ? [{
+          value: 'yours' as const,
+          label: t('signals.yours', { count: count('yours') }),
+          // ✕ on the chip takes the saved filter off (a tap on the rest of the chip selects it): see closeTap.
+          iconRight: <span data-chip-close="" className={styles.chipClose}><Icon icon={msCancelFill} size={16} /></span>,
+        }]
+      : []),
+    { value: 'all', label: t('signals.all', { count: count('all') }) },
+    ...quickChips.map((c) => chipItem(c)),
+  ]
+
+  const chipBar = (
+    <div className={styles.chipBar}>
+      <Badge dot={Boolean(saved)} color="error" label={t('signals.filterOn')}>
+        <Button variant="tertiary" size="sm" iconLeft={<Icon icon={msFilterAltFill} />} aria-label={t('signals.filter')} onClick={openFilter} className={styles.filterButton} />
+      </Badge>
+      <span className={styles.divider} aria-hidden="true" />
+      <div onClickCapture={closeTap} className={styles.chipsWrap}>
+        <Tabs aria-label={t('signals.chips')} appearance="pill" size="md" value={chip} onChange={setChip} items={chips} className={styles.chips} />
+      </div>
+      {/* "Filter applied & saved for quick access", pointing at Your filter (the first chip), once after Apply. */}
+      <Tooltip open={savedTip} content={t('signals.savedTip')} placement="bottom" onClose={() => setSavedTip(false)} className={styles.tip}>
+        <span className={styles.tipTarget} />
+      </Tooltip>
+    </div>
+  )
+  const totalTag = (
+    <Tag size="md" variant="tertiary" color="profit">
+      <span className={styles.totalLabel}>{t('signals.totalPnl')}</span> {t('signals.plus', { amount: formatInr(signalsTotalPnl, 0) })}
+    </Tag>
+  )
+  const activeTitle = t('signals.active', { count: shown.length })
+  // The plain "All Signals" look (Figma's last frame): a heading over every signal.
+  const plain = Boolean(initial.plain) && !saved
+  const header = plain ? (
+    <BottomSheetHeader heading={t('signals.allTitle')} />
+  ) : (
+    // No tabs: the sheet starts with the filter button | the chips, a line under them.
+    chipBar
+  )
+
+  // The filter takes the sheet over in place, laid out like the chart tools sheet (side nav + panel, Cancel / Apply in
+  // the sheet's dock); Cancel, or a scrim tap, brings the signals back.
+  if (filter) {
+    return (
+      <Sheet label={t('signals.filterTitle')} onClose={() => setFilter(null)} className={styles.toolsSheet} footer={<FilterDock onCancel={() => setFilter(null)} onApply={apply} />}>
+        <FilterPanel section={filter} onSection={setFilter} draft={draft} onDraft={setDraft} />
+      </Sheet>
+    )
+  }
+
+  return (
+    <Sheet label={t('signals.title')} onClose={onClose} header={header} className={styles.sheet}>
+      <div className={styles.body}>
+        {plain ? (
+          <Stack gap="16">{zingSignals.map((s) => <SignalCard key={s.id} signal={s} strip={strip} order={stripOrder(zingSignals, s)} />)}</Stack>
+        ) : (
+          <Stack gap="16">
+            <Stack direction="horizontal" align="center" justify="between" gap="12">
+              <h2 className={styles.heading}>{activeTitle}</h2>
+              {totalTag}
+            </Stack>
+            {shown.length ? (
+              <Stack gap="16">{shown.map((s) => <SignalCard key={s.id} signal={s} strip={strip} order={stripOrder(shown, s)} />)}</Stack>
+            ) : (
+              <EmptyState title={t('signals.none')} description={t('signals.noneHint')} />
+            )}
+          </Stack>
+        )}
+      </div>
+    </Sheet>
+  )
+}
+
+/** The card's market tag: grey for an index or stock (NIFTY); for a commodity, an amber tag with its logo and name. */
+function MarketTags({ signal }: { signal: ZingSignal }) {
+  const commodity = signal.commodity
+  if (!commodity) return <Tag size="sm" variant="tertiary" color="neutral" className={styles.greyTag}>{signal.underlying}</Tag>
+  return <Tag size="sm" variant="tertiary" color="warning" iconLeft={<img src={commodityLogos[commodity]} alt="" className={styles.tagLogo} />}>{t(`signals.commodity.${commodity}`)}</Tag>
+}
+
+/** One signal: who sent it, where and how good it is, View; the trade under a line. */
+function SignalCard({ signal, strip = 'off', order = 0 }: { signal: ZingSignal; strip?: StripVersion; order?: number }) {
+  return (
+    <SignalStrip signal={signal} version={strip} logo={signal.commodity ? commodityLogos[signal.commodity] : ''} order={order}>
+    <Card className={styles.signalCard}>
+      <Stack gap="12">
+        <Stack direction="horizontal" align="center" justify="between" gap="12">
+          <Stack direction="horizontal" align="center" gap="12" className={styles.who}>
+            <Avatar src={avatars[signal.avatar]} size={32} />
+            <Stack gap="04" className={styles.who}>
+              <p className={styles.name}>{signal.strategy}</p>
+              <Stack direction="horizontal" gap="08" align="center">
+                {signal.winRate !== undefined ? (
+                  <>
+                    <MarketTags signal={signal} />
+                    <Tag size="sm" variant="tertiary" color="neutral" className={styles.greyTag}>{t('signals.winRate')} <b className={styles.up}>{t('signals.percent', { value: signal.winRate })}</b></Tag>
+                  </>
+                ) : (
+                  <Tag size="sm" variant="tertiary" color="profit"><span className={styles.pnlLabel}>{t('signals.pnl')}</span> {t('signals.plus', { amount: formatInr(signal.pnl ?? 0, 2) })}</Tag>
+                )}
+              </Stack>
+            </Stack>
+          </Stack>
+          <Button size="sm" aria-label={t('signals.viewLabel', { name: signal.strategy })} className={styles.view}>{t('signals.view')}</Button>
+        </Stack>
+        <div className={styles.trade}>
+          <span><span className={styles.muted}>{signal.side}</span> {signal.contract}</span>
+          <span className={styles.dot} aria-hidden="true" />
+          <span><span className={styles.muted}>{t('signals.rr')}</span> {signal.rr}</span>
+          <span className={styles.dot} aria-hidden="true" />
+          <span>{signal.ruleMuted ? <><span className={styles.muted}>{signal.rule[0]}</span> {signal.rule[1]}</> : `${signal.rule[0]} ${signal.rule[1]}`}</span>
+        </div>
+      </Stack>
+    </Card>
+    </SignalStrip>
+  )
+}
+
+/** Where a card's strip comes in the stagger: the strips slide out one after another, top down. */
+const stripOrder = (list: ZingSignal[], signal: ZingSignal) => list.filter((s) => s.nudge).indexOf(signal)
+
+type FilterProps = { draft: SignalFilter; onDraft: (draft: SignalFilter) => void }
+
+/** The picks in a draft, each with how to take it off (the chips over the dock). */
+function picks({ draft, onDraft }: FilterProps) {
+  return [
+    ...draft.markets.map((m) => ({ key: m, label: t(`signals.pill.${m}`), remove: () => onDraft({ ...draft, markets: draft.markets.filter((v) => v !== m) }) })),
+    ...(draft.winRate !== 'all' ? [{ key: 'win', label: t(`signals.win.${draft.winRate}`), remove: () => onDraft({ ...draft, winRate: 'all' as const }) }] : []),
+    ...(draft.direction !== 'all' ? [{ key: 'dir', label: t(`signals.dir.${draft.direction}`), remove: () => onDraft({ ...draft, direction: 'all' as const }) }] : []),
+    ...draft.strategies.map((id) => ({ key: id, label: zingSignals.find((s) => s.id === id)?.strategy ?? id, remove: () => onDraft({ ...draft, strategies: draft.strategies.filter((v) => v !== id) }) })),
+  ]
+}
+
+/** The filter's dock: Cancel · Apply (primary), as Figma's Buttons dock. */
+function FilterDock({ onCancel, onApply }: { onCancel: () => void; onApply: () => void }) {
+  return (
+    <ButtonGroup aria-label={t('signals.filterTitle')} direction="horizontal">
+      <Button variant="secondary" onClick={onCancel}>{t('signals.cancel')}</Button>
+      <Button onClick={onApply}>{t('signals.apply')}</Button>
+    </ButtonGroup>
+  )
+}
+
+/**
+ * The filter, in the Scalper's Settings sheet look (ChartToolsSheet.module.css: the 96 side nav, the white panel with its
+ * sticky Heading/16 title row over a hairline, 48 card rows 8 apart, the chosen radio row in the discover tint): Indices · Win rate · Call/Put · Strategies on the
+ * left (a group that narrows the list shows how many it picked), the group's choices on the right, Clear All in the
+ * title row empties the group. The picks sit under it as chips (✕ takes one off), in Figma's 44 strip.
+ */
+function FilterPanel({ section, onSection, draft, onDraft }: FilterProps & { section: FilterSection; onSection: (section: FilterSection) => void }) {
+  const picked: Record<FilterSection, number> = {
+    indices: draft.markets.length,
+    winRate: draft.winRate === 'all' ? 0 : 1,
+    direction: draft.direction === 'all' ? 0 : 1,
+    strategies: draft.strategies.length,
+  }
+  const flag = (s: FilterSection) => (picked[s] ? String(picked[s]) : undefined)
+  const clear = () => onDraft({
+    ...draft,
+    ...(section === 'indices' && { markets: [] }),
+    ...(section === 'winRate' && { winRate: 'all' as const }),
+    ...(section === 'direction' && { direction: 'all' as const }),
+    ...(section === 'strategies' && { strategies: [] }),
+  })
+  const toggle = <T extends string>(list: T[], value: T) => (list.includes(value) ? list.filter((v) => v !== value) : [...list, value])
+
+  const title = t(`signals.section.${section}`)
+  const pills = picks({ draft, onDraft })
+  const check = (label: string, checked: boolean, onChange: () => void, iconLeft?: ReactNode) => (
+    <ListCell key={label} variant="card" size="sm" as="label" label={label} iconLeft={iconLeft} trailing={<Checkbox checked={checked} onChange={onChange} aria-label={label} />} className={tools.row} />
+  )
+  const radio = (name: string, label: string, checked: boolean, onChange: () => void) => (
+    <ListCell key={label} variant="card" size="sm" as="label" selected={checked} label={label} trailing={<Radio name={name} checked={checked} onChange={onChange} aria-label={label} />} className={tools.row} />
+  )
+
+  return (
+    // Settings' look; the list area is 412, the picks' strip goes under it.
+    <>
+    <div className={`${tools.body} ${styles.filterGrid}`}>
+      <SideNav<FilterSection>
+        selectedTone="discover"
+        aria-label={t('signals.filterTitle')}
+        aria-controls="signals-filter-panel"
+        value={section}
+        onChange={onSection}
+        className={`${tools.nav} ${styles.nav}`}
+        items={[
+          { value: 'indices', label: t('signals.section.indices'), icon: <Icon icon={msFormatListBulleted} />, flag: flag('indices') },
+          { value: 'winRate', label: t('signals.section.winRate'), icon: <Icon icon={msSpeed} />, flag: flag('winRate') },
+          { value: 'direction', label: t('signals.section.direction'), icon: <Icon icon={msSwapVert} />, flag: flag('direction') },
+          { value: 'strategies', label: t('signals.section.strategies'), icon: <span className={styles.zingMark}><MaskIcon src={zingMark} /></span>, flag: flag('strategies') },
+        ]}
+      />
+      <section id="signals-filter-panel" role="tabpanel" aria-label={title} className={tools.panel}>
+        <div className={tools.header}>
+          <Stack direction="horizontal" align="center" justify="between" gap="12" className={tools.titleRow}>
+            <h2 className={tools.title}>{title}</h2>
+            <Button variant="ghost" size="sm" onClick={clear} className={styles.clear}>{t('signals.clearAll')}</Button>
+          </Stack>
+        </div>
+        <Stack gap="08">
+          {section === 'indices' && [
+            check(t('signals.allIndices'), draft.markets.length === 0, () => onDraft({ ...draft, markets: [] })),
+            ...signalMarkets.map((m) => check(marketLabel(m), draft.markets.includes(m), () => onDraft({ ...draft, markets: toggle(draft.markets, m) }))),
+          ]}
+          {section === 'winRate' && (['all', '50', '30'] as const).map((v) => radio('signals-win', t(`signals.win.${v}`), draft.winRate === v, () => onDraft({ ...draft, winRate: v })))}
+          {section === 'direction' && (['all', 'call', 'put'] as const).map((v) => radio('signals-dir', t(`signals.dir.${v}`), draft.direction === v, () => onDraft({ ...draft, direction: v })))}
+          {section === 'strategies' && zingSignals.map((s) => check(s.strategy, draft.strategies.includes(s.id), () => onDraft({ ...draft, strategies: toggle(draft.strategies, s.id) }), <Avatar src={avatars[s.avatar]} size={24} />))}
+        </Stack>
+      </section>
+    </div>
+    {pills.length > 0 && (
+      <div className={styles.pills} aria-label={t('signals.picked')}>
+        {pills.map((p) => (
+          <Button key={p.key} variant="secondary" size="sm" iconRight={<Icon icon={msCancelFill} className={styles.pillX} />} aria-label={t('signals.remove', { label: p.label })} onClick={p.remove} className={styles.pill}>
+            <span className={styles.pillLabel}>{p.label}</span>
+          </Button>
+        ))}
+      </div>
+    )}
+    </>
+  )
+}
+
+/** ₹ in Indian grouping: 13367 → ₹13,367; 367.3 → ₹367.30. */
+function formatInr(value: number, digits: number) {
+  return `₹${value.toLocaleString('en-IN', { minimumFractionDigits: digits, maximumFractionDigits: digits })}`
+}
+```
+
 ### `src/flows/fno/strategies/components/Strategies.module.css`
 
 ```css
@@ -9435,7 +10940,7 @@ function SmartInvestCard({ invest, onOpen }: { invest: SmartInvest; onOpen: (nam
   </Stack>}>
     <Stack gap="12">
       <Stack direction="horizontal" gap="08" align="center" justify="between">
-        <Stack direction="horizontal" gap="08" align="center" className={parts.grow}><Avatar initials={invest.name.slice(0, 2)} size={40} /><Stack gap="04" className={parts.grow}><p className={[styles.title16, styles.ellipsis].join(' ')}>{invest.name}</p><p className={styles.statLabel}>{t('strategies.by', { name: invest.by })}</p></Stack></Stack>
+        <Stack direction="horizontal" gap="08" align="center" className={parts.grow}><Avatar initials={invest.name.slice(0, 1)} size={40} /><Stack gap="04" className={parts.grow}><p className={[styles.title16, styles.ellipsis].join(' ')}>{invest.name}</p><p className={styles.statLabel}>{t('strategies.by', { name: invest.by })}</p></Stack></Stack>
         <Stack gap="04" align="end"><p className={styles.title16}>{inr(invest.minDeposit, 0)}</p><p className={styles.statLabel}>{t('strategies.minDeposit')}</p></Stack>
       </Stack>
       <div className={parts.divider} />
@@ -9636,6 +11141,9 @@ export const linkedBanks: LinkedBank[] = [
  * accounts: Three" and "SBI only" add it, to show the US Stocks bank step with an account it can't use.
  */
 export const otherBank: LinkedBank = { id: 'sbi', bank: 'State Bank of India', accountNumber: '38201945520', ifsc: 'SBIN0000300', type: 'Savings', branch: 'Fort, Mumbai', logoSymbol: 'SBIN', last4: '5520' }
+
+/** The instant-balance offer (₹, for intraday, MTF and F&O): Profile's row and the Indian wallet's card show it. */
+export const INSTANT_BALANCE = 149
 ```
 
 ### `src/shared/prototype.ts`
@@ -9721,11 +11229,39 @@ export function setFlowOption(flow: string, option: string, fallback: string, va
 
 const memory = new Map<string, string>()
 
+/**
+ * Showcase links (20 Nov): `?showcase` shows one screen as it is shared (e.g. the risk-meter page for leadership) — no
+ * prototype controls over it. `?o=nudges.meter:soft,nudges.meterFill:split` sets options for this page only (never
+ * stored, so several showcase frames side by side can each show their own version).
+ */
+// A showcase frame can't always carry a query (a packed, single-file page loads the app from a blob: URL), so its
+// settings can also come in the frame's name: "showcase:?showcase&theme=dark&o=…".
+export const linkParams = (() => {
+  try {
+    const named = window.name.startsWith('showcase:') ? window.name.slice('showcase:'.length) : ''
+    return new URLSearchParams(named || location.search)
+  } catch { return new URLSearchParams() }
+})()
+export const SHOWCASE = linkParams.has('showcase')
+// A showcase frame sits in a page of phones: the app focusing its sheet must never scroll that page to it.
+if (SHOWCASE) {
+  const focus = HTMLElement.prototype.focus
+  HTMLElement.prototype.focus = function (options?: FocusOptions) { focus.call(this, { ...options, preventScroll: true }) }
+}
+const linkOptions = new Map((linkParams.get('o') ?? '').split(',').filter(Boolean).map((pair) => {
+  const [key, value = ''] = pair.split(':')
+  return [key, value] as const
+}))
+const picked = (flow: string, option: string, fallback: string) => {
+  const key = optionKey(flow, option, fallback)
+  return linkOptions.get(`${flow}.${option}`) ?? memory.get(key) ?? readOption(key)
+}
+
 /** A flow's prototype option: the picked value, or `fallback` (the option's default) when none is picked. */
 export function useFlowOption(flow: string, option: string, fallback: string) {
   return useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
-    () => memory.get(optionKey(flow, option, fallback)) ?? readOption(optionKey(flow, option, fallback)) ?? fallback,
+    () => picked(flow, option, fallback) ?? fallback,
   )
 }
 
@@ -9736,8 +11272,7 @@ export function useFlowOptionValues(flow: { id: string; options?: OptionLike[] }
   const snap = useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
     () => JSON.stringify(Object.fromEntries((flow.options ?? []).map((o) => {
-      const key = optionKey(flow.id, o.id, o.default)
-      return [o.id, memory.get(key) ?? readOption(key) ?? o.default]
+      return [o.id, picked(flow.id, o.id, o.default) ?? o.default]
     }))),
   )
   return JSON.parse(snap)
@@ -9762,8 +11297,7 @@ export function useFlowOptionsChanged(flow: { id: string; options?: { id: string
   return useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
     () => (flow.options ?? []).filter((o) => {
-      const key = optionKey(flow.id, o.id, o.default)
-      return (memory.get(key) ?? readOption(key) ?? o.default) !== o.default
+      return (picked(flow.id, o.id, o.default) ?? o.default) !== o.default
     }).length,
   )
 }
@@ -10072,8 +11606,9 @@ import styles from './Diwali.module.css'
 const t = makeCopy('shared', copy)
 
 /**
- * Diwali touch (temporary, festival only) — a switch in the prototype's App settings → Diwali, on by default (the spec
- * for developers: docs/DIWALI.md):
+ * Diwali touch (temporary, festival only) — OFF and its setting hidden since 18 Nov (the festival is over; the user's
+ * call). Was a switch in the prototype's App settings → Diwali. To bring it back: set DIWALI_ON and re-add the option in
+ * src/flows/index.ts (spec for developers: docs/DIWALI.md):
  * - `diwaliFlip`: on Stocks / F&O home, the search pill's icon and label turn into the lotus diya and "Happy Green
  *   Diwali" (with a sparkler round the pill) twice, then go back.
  * Archived versions (not in the app): the Garland splash (archive/DiwaliSplash.tsx), the Lanterns splash and the profile
@@ -10083,10 +11618,14 @@ export const DIWALI_OPTIONS = {
   search: { id: 'diwaliFlip', off: 'off', on: 'search', default: 'search' },
 } as const
 
+/** The festival switch: false = the regular app everywhere, whatever was picked before. */
+const DIWALI_ON = false
+
 export const useDiwali = (which: keyof typeof DIWALI_OPTIONS) => {
   const option = DIWALI_OPTIONS[which]
-  // The same default as App settings (src/flows/index.ts): the stored value is keyed by it.
-  return useFlowOption('app', option.id, option.default) === option.on
+  // The same default as App settings had (src/flows/index.ts): the stored value is keyed by it.
+  const picked = useFlowOption('app', option.id, option.default) === option.on
+  return DIWALI_ON && picked
 }
 
 // The lotus diya (120 × 96 artwork). A petal is a teardrop from its base (0, 0) to its tip (0, -length), turned by
@@ -10356,6 +11895,320 @@ function Sparkler() {
 }
 ```
 
+### `src/shared/ui/FloatingNav.module.css`
+
+```css
+/*
+ * Bottom navbar V2 — floating (FloatingNav.tsx), from the Figma floating nav (LM → Stocks Playground, node 6687:10922,
+ * 20 Nov). In its 392 frame: the pill 16 / 16 in and 14 up, 56 tall (8 + 24 icon + 12 label + 12), radius full, on
+ * surface/default with a 1px border/light edge and a soft double shadow; a 50 × 40 accent-green glow (Figma: lemon) blurred 23.3, its top
+ * 27.87 above the pill's; behind it a blob of surface/default blurred 50. Figma values L3 has no token for are the
+ * marked --app-fnav-* local tokens (src/local-tokens.css).
+ * L3 gap: Bottom Navbar has no floating version, so this frame restyles it (fill, line, shadow, option sizes, colours).
+ */
+
+/* V1 (docked): the navbar as it is — the wrapper only marks it (data-bottom-nav) and adds no box of its own. */
+.docked { display: contents; }
+
+/* Takes no height in the page: what it holds hangs from the page's bottom edge over the body. */
+.frame {
+  position: relative;
+  z-index: 1; /* above the body that scrolls under it — stacking order isn't a design token */
+  height: 0;
+}
+
+/* The page fades out under the nav (20 Nov, user: stronger than Figma's blurred blob): the page's colour, solid from
+   the bottom edge up past the pill's middle, then fading to clear just above the pill (23 Nov, user: half the old
+   152, it rose too far up the page). It never takes a tap. */
+.fade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc((var(--l3-size-128) + var(--l3-size-24)) / 2); /* 76: half the old 152, just over the pill (70) */
+  background: linear-gradient(
+    to top,
+    var(--l3-surface-default) 0%,
+    var(--l3-surface-default) 30%,
+    color-mix(in srgb, var(--l3-surface-default) 85%, transparent) 50%,
+    color-mix(in srgb, var(--l3-surface-default) 45%, transparent) 75%,
+    color-mix(in srgb, var(--l3-surface-default) 0%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+.pill {
+  position: absolute;
+  right: var(--l3-spacing-16);
+  bottom: var(--l3-spacing-14);
+  left: var(--l3-spacing-16);
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: var(--l3-spacing-08) 0 var(--l3-spacing-12); /* end to end: no side padding (23 Nov, user) */
+  border-radius: var(--l3-radius-full);
+  background: var(--l3-surface-default);
+  /* Figma's 1px stroke is inside the pill (it stays 56): an inset line, then the double shadow. */
+  box-shadow: inset 0 0 0 1px var(--l3-border-light), var(--app-fnav-shadow); /* 1px: Figma stroke weight has no variable */
+}
+
+/* The chosen tab's glow (Figma Ellipse 6871, in accent green), centred on the tab, clipped by the pill. */
+.glow {
+  position: absolute;
+  top: var(--app-fnav-glow-top);
+  left: calc(var(--glow-x) - var(--app-fnav-glow-width) / 2); /* centred on the chosen tab (23 Nov, user) */
+  width: var(--app-fnav-glow-width);
+  height: var(--l3-size-40);
+  border-radius: var(--l3-radius-full);
+  background: var(--l3-surface-accent-success-default); /* accent green (20 Nov, user; Figma's was brand lime) */
+  filter: blur(var(--app-fnav-glow-blur));
+  pointer-events: none;
+  transition: left var(--l3-motion-duration-medium) var(--l3-motion-easing-standard);
+}
+
+/* V3 (23 Nov, user): the glow under the chosen tab, mirrored — as far below the pill's foot as V2's is above its top. */
+.frame[data-glow-at='bottom'] .glow {
+  top: auto;
+  bottom: var(--app-fnav-glow-top);
+}
+/* V3 (23 Nov, user: "hide the glow"): no glow at all — the coloured icon marks the chosen tab. */
+.frame[data-glow-at='bottom'] .glow {
+  display: none;
+}
+
+/* V3 (23 Nov, user): each tab full height, 56. */
+/* 24 Nov, user: full width again — 16 in from each side, the five tabs sharing it equally, so they grow and shrink
+   with the device width (no fixed 74). */
+.frame[data-glow-at='bottom'] .pill {
+  padding: 0;
+}
+.frame[data-glow-at='bottom'] .pill :is(button, a)[class] {
+  height: var(--l3-size-56);
+  white-space: nowrap;
+}
+/* Labels shown whole, never cut to "Mutual Fu…". FLAG (L3 gap): Bottom Navbar truncates labels; no fixed-size option. */
+.frame[data-glow-at='bottom'] .pill :is(button, a)[class] > span:last-child {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* L3 Bottom Navbar inside the pill: no fill, line, shadow or safe-area pad of its own; 4 between options. */
+.pill > nav {
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+  padding-bottom: 0;
+}
+.pill > nav > ul {
+  gap: 0; /* equal options tile the pill edge to edge (23 Nov, user) */
+}
+/* Every option the same width, the row end to end across the pill (23 Nov, user). */
+.pill > nav > ul > li {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.pill > nav > ul > li > :is(button, a) {
+  width: 100%;
+}
+
+/* Each option: the 24 icon right on its 12 label, no padding; content/secondary, the chosen one content/primary in
+   L3 Heading/10. (Figma's unselected label is semibold 600; L3's nearest is Label/10, 650.) */
+.pill :is(button, a)[class] {
+  gap: 0;
+  min-height: 0;
+  padding: 0;
+  color: var(--l3-content-secondary);
+  background-image: none;
+}
+/* Inactive labels in L3 Description/10 (500), not Label/10 (650): at 650 the text read stronger than its thin icon in
+   the same content/secondary (23 Nov, user: "keep the visual of the text and the icon the same"). */
+.pill :is(button, a)[class]:not([data-selected]) > span:last-child {
+  font: var(--l3-text-description-10);
+}
+.pill :is(button, a)[data-selected] {
+  color: var(--l3-content-primary);
+}
+.pill :is(button, a)[data-selected] > span:last-child {
+  font: var(--l3-text-heading-10);
+}
+
+/* The Figma icons (FloatingNavIcon): 24, masked in the option's colour. */
+.icon {
+  display: block;
+  width: var(--l3-icon-size-24);
+  height: var(--l3-icon-size-24);
+}
+
+/* ---------- Motion (23 Nov, user: "animate the whole navbar transitions") ----------
+   Option colours ease; on a tab switch (data-motion="moved") the new tab's icon pops and its label comes up, the old
+   tab fades back from content/primary; when the options themselves change (main nav ↔ a sub-nav, "swapped") they come
+   in one by one. FLAG (L3 gap): Bottom Navbar has no selection motion; durations / easing are L3 motion tokens. */
+.pill :is(button, a)[class] {
+  transition: color var(--l3-motion-duration-medium) var(--l3-motion-easing-standard);
+}
+.frame[data-motion='moved'] .pill :is(button, a)[data-selected] .icon {
+  animation: navPop var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='moved'] .pill :is(button, a)[data-selected] > span:last-child {
+  animation: navRise var(--l3-motion-duration-medium) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='moved'] .pill li[data-was-selected] :is(button, a) {
+  animation: navFadeBack var(--l3-motion-duration-medium) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='swapped'] .pill > nav > ul > li {
+  animation: navRise var(--l3-motion-duration-medium) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(2) { animation-delay: 40ms; }
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(3) { animation-delay: 80ms; }
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(4) { animation-delay: 120ms; }
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(5) { animation-delay: 160ms; }
+.frame[data-motion='swapped'] .glow { animation: navGlowIn var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both; }
+
+@keyframes navPop { 0% { transform: scale(.7); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes navRise { from { opacity: 0; transform: translateY(var(--l3-spacing-04)); } to { opacity: 1; transform: none; } }
+@keyframes navFadeBack { from { color: var(--l3-content-primary); } to { color: var(--l3-content-tertiary); } }
+@keyframes navGlowIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .glow { transition: none; }
+  .frame .pill *, .frame .glow { animation: none !important; transition: none !important; }
+}
+
+/* V3 (24 Nov, user): 2 between the icon and its label, and the chosen tab's label in accent green, matching its
+   coloured icon. */
+.frame[data-glow-at='bottom'] .pill :is(button, a)[class] {
+  gap: var(--l3-spacing-02);
+}
+.frame[data-glow-at='bottom'] .pill :is(button, a)[data-selected] > span:last-child {
+  color: var(--l3-content-accent-success-default);
+}
+
+/* Inactive tabs (24 Nov, user): as light as the Mutual Fund / F&O navs' L3 icons (their 40 / 60 parts), and the label
+   the same colour as its icon in every nav — content/tertiary for both. (The L3 NavIcons in the sub-navs keep their
+   baked 40 / 60 shares.) A user call over the "no tertiary text" default. */
+.pill :is(button, a)[class]:not([data-selected]) {
+  color: var(--l3-content-tertiary);
+}
+/* …but the labels stay content/secondary (24 Nov, user: "labels back to secondary"); only the icons go lighter. */
+.pill :is(button, a)[class]:not([data-selected]) > span:last-child {
+  color: var(--l3-content-secondary);
+}
+```
+
+### `src/shared/ui/FloatingNav.tsx`
+
+```tsx
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { useFlowOption } from '../prototype'
+import { USER_STATUS } from '../userStatus'
+import stocksIcon from './assets/floating-nav/stocks.svg'
+import marketIcon from './assets/floating-nav/market.svg'
+import marketSelectedIcon from './assets/floating-nav/market-selected.svg'
+import portfolioIcon from './assets/floating-nav/portfolio.svg'
+import mutualFundIcon from './assets/floating-nav/mutual-fund.svg'
+import fnoIcon from './assets/floating-nav/fno.svg'
+import fnoSelectedIcon from './assets/floating-nav/fno-selected.svg'
+import styles from './FloatingNav.module.css'
+
+/** App setting "Bottom navbar" (A/B, 20 Nov): V1 docked (L3 Bottom Navbar) · V2 floating, the default at launch (20 Nov) ·
+ * V3 V2's floating nav with L3's coloured icon on the chosen tab and the glow under it, not over it (23 Nov, user). */
+export const BOTTOM_NAV_OPTION = 'bottomNav'
+const useBottomNavVersion = () => useFlowOption(USER_STATUS, BOTTOM_NAV_OPTION, 'v2') // V2 by default (20 Nov, user)
+/** V2 and V3: the floating nav (this frame and its own Figma icons). */
+export const useFloatingNav = () => useBottomNavVersion() !== 'v1'
+/** V3: the chosen tab shows L3's coloured (two-tone brand) icon instead of the black-and-white one. */
+export const useColourNavIcons = () => useBottomNavVersion() === 'v3'
+/** The L3 Bottom Navbar variant to pass: always docked now (V3 was L3's floating variant until 23 Nov; the frame floats it). */
+export const useBottomNavVariant = (): 'docked' | 'floating' => 'docked'
+
+/**
+ * V2's main-nav icons, from the Figma floating nav (LM → Stocks Playground, node 6687:10998, 20 Nov). One colour
+ * each, masked so they take the option's colour: content/primary when chosen, content/secondary when not. Market
+ * and F&O have their own chosen shape; Portfolio's lighter part keeps its 40 / 60 share baked in.
+ */
+const floatingIcons = {
+  stocks: [stocksIcon, stocksIcon],
+  market: [marketIcon, marketSelectedIcon],
+  portfolio: [portfolioIcon, portfolioIcon],
+  mutualFund: [mutualFundIcon, mutualFundIcon],
+  fno: [fnoIcon, fnoSelectedIcon],
+} as const
+export type FloatingIconName = keyof typeof floatingIcons
+
+export function FloatingNavIcon({ name, selected = false }: { name: FloatingIconName; selected?: boolean }) {
+  return <span className={styles.icon}><MaskIcon src={floatingIcons[name][selected ? 1 : 0]} /></span>
+}
+
+/**
+ * Wraps a bottom navbar (an L3 <BottomNavbar>: the main nav, the F&O and Mutual Fund sub-navs). V1 passes it through.
+ * V2 is the Figma floating nav (node 6687:10922): a pill 16 in from each side and 14 up from the bottom, on
+ * surface/default with a light edge and a soft double shadow; 8 above the icons and 12 below the labels; a blurred
+ * accent-green glow from the chosen tab's left edge, clipped by the pill; and behind it all the page's colour, solid at
+ * the bottom and fading out above the pill (20 Nov), so the page fades out under the nav. The frame takes no height of
+ * its own: the body runs on behind it and keeps its last content clear of the pill (Screen / Phone CSS).
+ */
+/** Where the last floating nav left off: each tab is its own screen, so the nav mounts afresh on every switch. */
+let navMemory: { glowX: number | null; index: number | null; items: string | null } = { glowX: null, index: null, items: null }
+
+export function FloatingNav({ children }: { children: ReactNode }) {
+  const floating = useFloatingNav()
+  const glowBelow = useColourNavIcons() // V3: the glow sits under the chosen tab (23 Nov, user)
+  const pill = useRef<HTMLDivElement>(null)
+  // A fresh nav starts where the last one left off (the glow at the old tab) and moves from there (23 Nov, user:
+  // "animate the whole navbar transitions like tab switch, nav items change").
+  const [glowX, setGlowX] = useState<number | null>(() => navMemory.glowX)
+  const [motion, setMotion] = useState<'moved' | 'swapped' | undefined>(undefined)
+  const firstPlace = useRef(true)
+
+  // The glow sits behind the chosen tab: wherever L3 puts it (sub-navs have a Home option first).
+  useLayoutEffect(() => {
+    if (!floating || !pill.current) return
+    const place = () => {
+      const box = pill.current
+      if (!box) return
+      const options = [...box.querySelectorAll<HTMLElement>('nav > ul > li')]
+      const chosenIndex = options.findIndex((li) => li.querySelector('[data-selected]'))
+      if (chosenIndex < 0) return setGlowX(null)
+      const tab = options[chosenIndex].getBoundingClientRect()
+      const x = tab.left + tab.width / 2 - box.getBoundingClientRect().left // the chosen tab's centre (23 Nov, user)
+      const items = options.map((li) => li.textContent).join('|')
+      const before = navMemory
+      navMemory = { glowX: x, index: chosenIndex, items }
+      if (!firstPlace.current) return setGlowX(x) // a change within this nav: the CSS transition slides the glow
+      firstPlace.current = false
+      if (before.items !== null && before.items !== items) {
+        setMotion('swapped') // another set of options (main nav ↔ a sub-nav): they come in one by one
+        return setGlowX(x)
+      }
+      if (before.index === null || before.index === chosenIndex || before.glowX === null) return setGlowX(x)
+      // A tab switch: the old tab fades back, the new one pops, and the glow (painted at the old x) slides over.
+      options[before.index]?.setAttribute('data-was-selected', '')
+      setMotion('moved')
+      box.querySelector<HTMLElement>('[data-glow]')?.getBoundingClientRect() // style the glow at the old x first…
+      setGlowX(x) // …so moving it runs the CSS transition (no frame wait: it works in a hidden tab too)
+    }
+    place()
+    const watch = new MutationObserver(place)
+    watch.observe(pill.current, { subtree: true, attributes: true, attributeFilter: ['data-selected'] })
+    return () => watch.disconnect()
+  }, [floating])
+
+  // data-bottom-nav: the preview's V1 / V2 bubble shows only on screens that have a bottom navbar. V1's wrapper says
+  // data-surface="primary" so the OS navigation bar still takes the navbar's colour (it looks for the page's last part).
+  if (!floating) return <div className={styles.docked} data-bottom-nav="" data-surface="primary">{children}</div>
+  return (
+    <div className={styles.frame} data-floating-nav="" data-bottom-nav="" data-motion={motion} data-glow-at={glowBelow ? 'bottom' : undefined}>
+      {/* The page's colour behind the nav: solid at the bottom, fading out above the pill. */}
+      <div className={styles.fade} aria-hidden="true" />
+      <div ref={pill} className={styles.pill}>
+        {glowX !== null && <span className={styles.glow} data-glow="" style={{ '--glow-x': `${glowX}px` } as CSSProperties} aria-hidden="true" />}
+        {children}
+      </div>
+    </div>
+  )
+}
+```
+
 ### `src/shared/ui/IlliquidSheet.module.css`
 
 ```css
@@ -10463,7 +12316,7 @@ export function IlliquidSheet({ copy, onClose }: { copy: IlliquidSheetCopy; onCl
 ### `src/shared/ui/Rail.tsx`
 
 ```tsx
-import type { CSSProperties, ReactNode } from 'react'
+import type { CSSProperties, ReactNode, Ref, UIEventHandler } from 'react'
 import styles from './Rail.module.css'
 
 type RailProps = {
@@ -10478,15 +12331,19 @@ type RailProps = {
   snap?: 'start' | 'center'
   /** Extra room inside the row (e.g. above the cards, for a tag sitting on a card's top edge). */
   className?: string
+  /** Called as the row scrolls (e.g. to follow which card is in view). */
+  onScroll?: UIEventHandler<HTMLDivElement>
+  /** The scrolling row itself (e.g. to scroll a tapped card into view). */
+  railRef?: Ref<HTMLDivElement>
 }
 
 /**
  * A row that scrolls sideways — cards, baskets, ideas. Its first item lines up with the 16 page margin, items are
  * 12 apart and snap into place, and there's no scrollbar. Not L3 yet (a "carousel / rail" is missing there).
  */
-export function Rail({ children, label, visible, rows = 1, snap = 'start', className }: RailProps) {
+export function Rail({ children, label, visible, rows = 1, snap = 'start', className, onScroll, railRef }: RailProps) {
   return (
-    <div className={[styles.rail, className].filter(Boolean).join(' ')} role="region" aria-label={label} data-rows={rows} data-snap={snap} style={{ '--rail-visible': visible } as CSSProperties}>
+    <div ref={railRef} className={[styles.rail, className].filter(Boolean).join(' ')} role="region" aria-label={label} data-rows={rows} data-snap={snap} style={{ '--rail-visible': visible } as CSSProperties} onScroll={onScroll}>
       {children}
     </div>
   )
@@ -10509,6 +12366,8 @@ export function Rail({ children, label, visible, rows = 1, snap = 'start', class
   overflow: clip; /* clip, not hidden: a sheet taking focus while it slides in can't scroll the screen */
   background: var(--l3-surface-default);
   color: var(--l3-content-primary);
+  /* A size container: a sheet can be a share of the phone screen's height (cqh), in the mockup and on a phone alike. */
+  container: app-screen / size;
   /* An app, not a page: swiping and long-pressing never select text (fields still do — see below). */
   user-select: none;
   -webkit-user-select: none;
@@ -10552,6 +12411,12 @@ export function Rail({ children, label, visible, rows = 1, snap = 'start', class
   overflow-x: hidden; /* a screen never scrolls sideways — only rails inside it do */
   overflow-y: auto;
   padding-bottom: var(--app-body-end);
+}
+
+/* Bottom navbar V2 (floating, shared/ui/FloatingNav): the body runs on behind the pill; its end clears the pill
+   (14 up + 56 tall) plus the usual 24. */
+.page:has(> [data-floating-nav]) .body {
+  padding-bottom: calc(var(--app-body-end) + var(--l3-spacing-14) + var(--l3-size-56));
 }
 
 /* The body owns the page's end spacing: whatever comes last adds none of its own (no 24 + 24). */
@@ -10747,6 +12612,115 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
         </BottomSheet>
       )}
     </SheetHostContext.Provider>
+  )
+}
+```
+
+### `src/shared/ui/ShortcutCircles.module.css`
+
+```css
+/* Shortcut circles (ShortcutCircles.tsx) — the Stocks Home's V6 look (flows/stocks/components/Home.module.css, "Small
+   circles"). FLAG: raw mix / shadow values, as there (L3 has no coloured elevation or edge wash). */
+
+.cell {
+  --ring: var(--l3-content-accent-us-stock-default);
+}
+.cell[data-tone='in'] {
+  --ring: var(--l3-content-accent-success-default);
+}
+
+/* The whole cell is the tap target: no card of its own (Figma 6754:62886 has none), rounded so its press layer isn't a hard box. */
+.cell > .tap.tap.tap.tap { /* beats F&O Home's .flatCards ring on clickable cards */
+  border-radius: var(--l3-radius-12);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--l3-spacing-08);
+  padding-block: var(--l3-spacing-04);
+  text-align: center;
+}
+
+.circle {
+  display: inline-flex;
+}
+
+/* Figma 6754:62886 (24 Nov, user: "copy this exact design"): a 40 disc on surface-primary, a 1px subtle edge, a very
+   soft glow; the 20 icon centred. FLAG (L3 gap): the 16 glow is a raw value (L3 has no such elevation). */
+.disc.disc {
+  background: var(--l3-surface-primary);
+  box-shadow: inset 0 0 0 1px var(--l3-border-light), 0 0 var(--l3-spacing-16) color-mix(in srgb, var(--l3-content-secondary) 6%, transparent);
+}
+
+/* The 20 icon (Avatar's icon slot for a 40 avatar). */
+.disc.disc > * {
+  width: var(--l3-icon-size-20);
+  height: var(--l3-icon-size-20);
+}
+
+/* The icon's colour is set on its own wrapper: L3 Avatar colours its icon slot itself. Artwork (an img) keeps its own colours. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--l3-icon-size-20);
+  height: var(--l3-icon-size-20);
+  color: var(--ring);
+}
+.icon > img {
+  display: block;
+}
+
+.label {
+  font: var(--l3-text-label-12);
+  color: var(--l3-content-secondary);
+  white-space: nowrap;
+}
+```
+
+### `src/shared/ui/ShortcutCircles.tsx`
+
+```tsx
+// Shortcut circles: the Stocks Home's shortcut row (Shortcuts V6, Figma 6662:8516) as a shared part, so every home
+// that has a row of shortcuts draws them the same way (23 Nov, the user's call: F&O Home's shortcuts "same as the home
+// page"). Four across: a 40 disc (white easing to a light grey, a 1px edge in the market's colour fading out, a very
+// soft shadow) with a 24 icon in the market's colour, its name under it in secondary text. The whole cell is the tap target.
+// Built from L3: the disc is an L3 Avatar (Type Icon, 40), the tap target a flat L3 Card, the layout Inset + Grid.
+// FLAG (L3 gap): the disc's wash, edge and shadow are local (L3 Avatar has no such look); the Stocks Home still draws
+// its own copy (flows/stocks/components/Instruments.tsx, look 'mini') — move it onto this part when that flow is next touched.
+import type { ReactNode } from 'react'
+import { Avatar } from '@l3/components/Avatar'
+import { Card } from '@l3/components/Card'
+import { Grid } from '@l3/components/Grid'
+import { Inset } from '@l3/components/Inset'
+import styles from './ShortcutCircles.module.css'
+
+export type ShortcutCircle = { id: string; label: string; /** A 24 icon (L3 Icon); it takes the market's colour. */ icon: ReactNode }
+
+/** `tone`: the market's colour for the icons and the disc's edge — `in` green (Indian markets), `us` blue (US Stocks). */
+export function ShortcutCircles({ items, tone, label, onOpen }: { items: ShortcutCircle[]; tone: 'in' | 'us'; label: string; onOpen?: (id: string) => void }) {
+  return (
+    <Inset paddingInline="16" paddingBlock="00">
+      <Grid columns={4} gap="08" role="list" aria-label={label}>
+        {items.map((item) => (
+          <div key={item.id} role="listitem" className={styles.cell} data-tone={tone}>
+            <Card variant="flat" padding="none" className={styles.tap} onClick={() => onOpen?.(item.id)}>
+              <span className={styles.body}>
+                <span className={styles.circle}>
+                  <Avatar size={40} className={styles.disc} icon={<span className={styles.icon}>{item.icon}</span>} />
+                </span>
+                <span className={styles.label}>{item.label}</span>
+              </span>
+            </Card>
+          </div>
+        ))}
+      </Grid>
+    </Inset>
   )
 }
 ```
@@ -10979,6 +12953,91 @@ export function SearchWalletActions({ searchLabel, walletLabel, onSearch, onWall
     </Stack>
   )
 }
+```
+
+### `src/shared/ui/assets/floating-nav/fno-selected.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Options Botton Nav Icon 3">
+<g id="Vector">
+<path d="M19.9999 7.09802C19.9999 7.65031 19.5522 8.09802 18.9999 8.09802L15.7095 8.09802C15.3453 8.09802 15.0098 8.29607 14.8339 8.615L9.83879 17.6699C9.66285 17.9888 9.32742 18.1869 8.96318 18.1869H4.99989C4.44761 18.1869 3.9999 17.7392 3.9999 17.1869V17.1049C3.9999 16.5526 4.44761 16.1049 4.9999 16.1049H7.84407C8.20829 16.1049 8.54372 15.9068 8.71966 15.5879L13.7147 6.53392C13.8906 6.215 14.2261 6.01697 14.5903 6.01697H18.9999C19.5522 6.01697 19.9999 6.46469 19.9999 7.01697V7.09802ZM19.9286 16.9867C19.9286 17.539 19.4809 17.9867 18.9286 17.9867L14.9999 17.9867C14.4476 17.9867 13.9999 17.539 13.9999 16.9867V16.9047C13.9999 16.3524 14.4476 15.9047 14.9999 15.9047L18.9286 15.9047C19.4809 15.9047 19.9286 16.3524 19.9286 16.9047V16.9867Z" fill="#000" />
+<path d="M3.9999 7.09882C3.9999 7.65116 4.44771 8.0989 5.00005 8.09882L9.00005 8.09818C9.55228 8.0981 9.9999 7.65041 9.9999 7.09818V7.01697C9.9999 6.46468 9.55218 6.01697 8.99989 6.01697L4.99989 6.01697C4.44761 6.01697 3.9999 6.46469 3.9999 7.01697V7.09882Z" fill="#000" />
+</g>
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/fno.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Options Botton Nav Icon 2">
+<g id="Vector">
+<path d="M19.9999 7.09802C19.9999 7.65031 19.5522 8.09802 18.9999 8.09802L15.7095 8.09802C15.3453 8.09802 15.0098 8.29607 14.8339 8.615L9.83879 17.6699C9.66285 17.9888 9.32742 18.1869 8.96318 18.1869H4.99989C4.44761 18.1869 3.9999 17.7392 3.9999 17.1869V17.1049C3.9999 16.5526 4.44761 16.1049 4.9999 16.1049H7.84407C8.20829 16.1049 8.54372 15.9068 8.71966 15.5879L13.7147 6.53392C13.8906 6.215 14.2261 6.01697 14.5903 6.01697H18.9999C19.5522 6.01697 19.9999 6.46469 19.9999 7.01697V7.09802ZM19.9286 16.9867C19.9286 17.539 19.4809 17.9867 18.9286 17.9867L14.9999 17.9867C14.4476 17.9867 13.9999 17.539 13.9999 16.9867V16.9047C13.9999 16.3524 14.4476 15.9047 14.9999 15.9047L18.9286 15.9047C19.4809 15.9047 19.9286 16.3524 19.9286 16.9047V16.9867Z" fill="#000" />
+<path d="M3.9999 7.09882C3.9999 7.65116 4.44771 8.0989 5.00005 8.09882L9.00005 8.09818C9.55228 8.0981 9.9999 7.65041 9.9999 7.09818V7.01697C9.9999 6.46468 9.55218 6.01697 8.99989 6.01697L4.99989 6.01697C4.44761 6.01697 3.9999 6.46469 3.9999 7.01697V7.09882Z" fill="#000" />
+</g>
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/market-selected.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 1000005189">
+<path id="Union" d="M7.43553 13.6133C7.98781 13.6133 8.43553 14.061 8.43553 14.6133V18.4463C8.43552 18.9986 7.98781 19.4463 7.43553 19.4463H5.12498C4.57271 19.4463 4.125 18.9986 4.12498 18.4463V14.6133C4.12498 14.061 4.5727 13.6133 5.12498 13.6133H7.43553ZM12.8027 5.74611C13.355 5.74611 13.8027 6.19383 13.8027 6.74611V18.4453C13.8027 18.9976 13.355 19.4453 12.8027 19.4453H10.4922C9.93989 19.4453 9.49217 18.9976 9.49217 18.4453V6.74611C9.49218 6.19384 9.9399 5.74612 10.4922 5.74611H12.8027ZM18.1621 11.3438C18.7144 11.3438 19.1621 11.7915 19.1621 12.3438V18.4434C19.1621 18.9956 18.7144 19.4434 18.1621 19.4434H15.8515C15.2993 19.4434 14.8516 18.9956 14.8515 18.4434V12.3438C14.8515 11.7915 15.2993 11.3438 15.8515 11.3438H18.1621Z" fill="#000" />
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/market.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 1000005188">
+<path id="Union" d="M7.43553 13.6133C7.98781 13.6133 8.43553 14.061 8.43553 14.6133V18.4463C8.43552 18.9986 7.98781 19.4463 7.43553 19.4463H5.12498C4.57271 19.4463 4.125 18.9986 4.12498 18.4463V14.6133C4.12498 14.061 4.5727 13.6133 5.12498 13.6133H7.43553ZM12.8027 5.74611C13.355 5.74611 13.8027 6.19383 13.8027 6.74611V18.4453C13.8027 18.9976 13.355 19.4453 12.8027 19.4453H10.4922C9.93989 19.4453 9.49217 18.9976 9.49217 18.4453V6.74611C9.49218 6.19384 9.9399 5.74612 10.4922 5.74611H12.8027ZM18.1621 11.3438C18.7144 11.3438 19.1621 11.7915 19.1621 12.3438V18.4434C19.1621 18.9956 18.7144 19.4434 18.1621 19.4434H15.8515C15.2993 19.4434 14.8516 18.9956 14.8515 18.4434V12.3438C14.8515 11.7915 15.2993 11.3438 15.8515 11.3438H18.1621Z" fill="#000" />
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/mutual-fund.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<path id="Vector" d="M5.03047 12.0001C5.03047 13.6284 5.51414 15.0754 6.48148 16.341C7.44881 17.6066 8.68217 18.4167 10.1815 18.7714C10.4073 18.8359 10.5967 18.9689 10.7499 19.1705C10.903 19.372 10.9796 19.6098 10.9796 19.8839C10.9796 20.2547 10.8224 20.557 10.508 20.7907C10.1936 21.0245 9.85103 21.085 9.48022 20.9721C7.46494 20.4078 5.83256 19.2994 4.58308 17.6469C3.3336 15.9944 2.70886 14.1121 2.70886 12.0001C2.70886 9.88805 3.3336 8.00577 4.58308 6.35324C5.83256 4.7007 7.46494 3.5923 9.48022 3.02802C9.85103 2.91516 10.1936 2.97562 10.508 3.20939C10.8224 3.44317 10.9796 3.74546 10.9796 4.11627C10.9796 4.39035 10.903 4.62815 10.7499 4.82968C10.5967 5.03121 10.4073 5.16422 10.1815 5.22871C8.68217 5.5834 7.44881 6.39354 6.48148 7.65914C5.51414 8.92474 5.03047 10.3717 5.03047 12.0001Z" fill="#000" />
+<path id="Vector_2" d="M16.7106 20.0773C17.3877 19.6581 18.0084 19.1664 18.5727 18.6021C19.137 18.0379 19.6327 17.4131 20.06 16.7279C20.4872 16.0427 20.7895 15.2971 20.9668 14.4909C21.0475 14.104 20.9789 13.7574 20.7613 13.4511C20.5436 13.1447 20.2494 12.9916 19.8786 12.9916C19.6045 12.9916 19.3667 13.0682 19.1652 13.2213C18.9637 13.3745 18.8306 13.5639 18.7662 13.7896C18.5888 14.4023 18.3389 14.9666 18.0165 15.4825C17.694 15.9984 17.3152 16.474 16.8798 16.9093C16.4445 17.3446 15.9689 17.7235 15.453 18.0459C14.9371 18.3684 14.3809 18.6102 13.7844 18.7714C13.5587 18.8359 13.3692 18.9689 13.2161 19.1704C13.0629 19.372 12.9863 19.6098 12.9863 19.8839C12.9863 20.2547 13.1395 20.5489 13.4458 20.7665C13.7521 20.9842 14.0988 21.0527 14.4857 20.9721C15.2918 20.7948 16.0334 20.4965 16.7106 20.0773Z" fill="#000" />
+<path id="Vector_3" d="M20.06 7.28433C19.6327 6.60719 19.137 5.98648 18.5727 5.4222C18.0084 4.85792 17.3877 4.36216 16.7106 3.93492C16.0334 3.50768 15.2918 3.20539 14.4857 3.02804C14.0988 2.94743 13.7521 3.01595 13.4458 3.2336C13.1395 3.45125 12.9863 3.74548 12.9863 4.1163C12.9863 4.39037 13.0629 4.62818 13.2161 4.82971C13.3692 5.03124 13.5587 5.16424 13.7844 5.22873C14.3809 5.38996 14.9371 5.63582 15.453 5.96633C15.9689 6.29684 16.4445 6.67974 16.8798 7.11504C17.3152 7.55034 17.694 8.02192 18.0165 8.52977C18.3389 9.03762 18.5888 9.59787 18.7662 10.2105C18.8306 10.4362 18.9637 10.6257 19.1652 10.7788C19.3667 10.932 19.6045 11.0086 19.8786 11.0086C20.2494 11.0086 20.5436 10.8554 20.7613 10.5491C20.9789 10.2428 21.0475 9.89614 20.9668 9.5092C20.7895 8.70309 20.4872 7.96146 20.06 7.28433Z" fill="#000" />
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/portfolio.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<path id="Vector" d="M5.60779 10.9673C5.56188 11.0128 5.51552 11.0607 5.46875 11.111C5.51405 11.0628 5.56041 11.0149 5.60779 10.9673ZM12.3465 13.6011C11.353 13.2585 9.61878 12.4654 8.38278 10.8345C6.56251 10.8016 5.46875 11.111 5.46875 11.111C5.46875 11.111 6.06624 12.0923 7.31265 13.1392C8.33795 13.0754 9.51084 13.0886 10.7004 13.2736C11.2795 13.3646 11.8295 13.4764 12.3465 13.6011Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" />
+<path id="Vector_2" d="M10.8387 17.76C9.90246 17.4565 8.29496 16.7642 7.02293 15.3313C5.48275 15.4306 4.22273 15.6775 3.78125 15.774C3.78125 15.774 4.5336 16.6893 5.6854 17.4895C6.67616 17.4064 8.06389 17.3997 9.8947 17.6143C10.2136 17.6526 10.5292 17.702 10.8387 17.76Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" />
+<path id="Vector_3" d="M5.32422 19.6546C6.12798 20.5749 6.90023 21.1117 8.22407 21.6179C9.76855 22.2161 11.5179 21.986 12.3216 21.7713C11.7761 21.6565 9.68606 21.1927 7.9994 19.5387C6.4495 19.4355 5.59141 19.5868 5.32422 19.6546Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" />
+<path id="Vector_4" d="M12.5281 1.99988L12.3547 2.32198C11.8031 3.33431 11.5982 4.45401 11.7085 5.51235C11.8977 7.29159 12.9693 8.94813 14.7029 9.85309L14.8763 9.53098C15.5855 8.2579 15.7116 6.83144 15.3806 5.52769C14.9866 4.08589 14.0095 2.76679 12.5281 1.99988Z" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_5" d="M20.2351 8.24279C19.715 9.17843 18.8798 9.83797 17.9184 10.1447C16.894 10.4822 15.7277 10.4055 14.7033 9.88398C15.2234 8.94834 16.0745 8.2888 17.0358 7.98204C18.0445 7.64459 19.2107 7.70595 20.2351 8.24279Z" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_6" d="M8.38279 10.8345C8.92603 10.8443 9.53398 10.8846 10.1968 10.9728C14.058 11.4943 14.5308 10.2672 14.5308 10.2672C14.5308 10.2672 12.75 8.70265 9.81863 8.9634C8.08764 9.1099 6.61531 9.95616 5.6078 10.9673C5.56041 11.0149 5.51406 11.0628 5.46875 11.111C5.46875 11.111 6.56252 10.8016 8.38279 10.8345Z" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_7" d="M10.6985 13.2735C9.50894 13.0885 8.33605 13.0753 7.31074 13.1391C5.70085 13.2393 4.45482 13.5292 4.07932 13.6416C4.06357 13.6416 4.04782 13.6569 4.03206 13.6723C4.0163 13.6876 4.00052 13.703 4.00052 13.7336C3.85868 14.2398 3.71807 15.053 3.78111 15.7739C4.22258 15.6775 5.4826 15.4305 7.02278 15.3313C8.17675 15.2569 9.48798 15.2654 10.73 15.4822C13.488 15.9577 15.9624 17.2001 16.7346 17.5989C16.7425 17.5989 16.7464 17.6027 16.7504 17.6066C16.7543 17.6104 16.7582 17.6142 16.7661 17.6142C16.7976 17.6142 16.8292 17.5989 16.8449 17.5529C17.0656 16.8933 17.1916 16.0804 17.2074 15.5436C17.2074 15.5282 17.2074 15.5129 17.1916 15.4975C17.1916 15.4822 17.1759 15.4669 17.1601 15.4669C16.7389 15.1978 14.9653 14.2333 12.3445 13.601C11.8275 13.4763 11.2776 13.3645 10.6985 13.2735Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_8" d="M5.68528 17.4895C6.67603 17.4064 8.06377 17.3997 9.89458 17.6143C10.2134 17.6526 10.529 17.702 10.8386 17.76C13.1302 18.1888 15.0972 19.0845 15.6942 19.4089C15.7257 19.4242 15.7415 19.4395 15.7415 19.4549C15.7415 19.4702 15.7415 19.5009 15.7257 19.5316C15.4263 19.9304 14.7959 20.5132 14.197 20.8967C14.1497 20.9273 14.1025 20.9427 14.0394 20.9427C14.0079 20.9427 13.9764 20.9273 13.9449 20.912C13.4405 20.6666 11.9591 20.0837 9.9261 19.7616C9.19278 19.6447 8.55203 19.5755 7.99928 19.5387C6.44937 19.4354 5.59129 19.5867 5.3241 19.6545C4.7725 19.041 4.34705 18.1818 4.18945 17.8137C4.18945 17.783 4.18947 17.7523 4.20523 17.737C4.22098 17.7216 4.23674 17.7063 4.25249 17.7063C4.57357 17.6282 5.04706 17.543 5.68528 17.4895Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" fill-opacity="0.667"/>
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/stocks.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame">
+<path id="Vector" d="M10.45 12.62L11.82 13.99C11.9867 14.1633 12.1967 14.25 12.45 14.25C12.7033 14.25 12.9167 14.1633 13.09 13.99L16.26 10.83V12.03C16.26 12.2367 16.3333 12.41 16.48 12.55C16.6267 12.69 16.8 12.7567 17 12.75C17.2067 12.75 17.3833 12.6767 17.53 12.53C17.6767 12.3833 17.75 12.2067 17.75 12V9.15C17.75 8.89667 17.6633 8.68333 17.49 8.51C17.3167 8.33667 17.1033 8.25 16.85 8.25H13.98C13.7733 8.25 13.6 8.32333 13.46 8.47C13.32 8.61667 13.25 8.79333 13.25 9C13.25 9.21333 13.3233 9.39 13.47 9.53C13.6167 9.67 13.7933 9.74333 14 9.75H15.17L12.45 12.51L11.08 11.14C10.9067 10.96 10.6933 10.87 10.44 10.87C10.1867 10.87 9.98 10.96 9.82 11.14L6.87 14.07C6.72333 14.2167 6.65 14.3933 6.65 14.6C6.65 14.8067 6.72333 14.98 6.87 15.12C7.01667 15.2733 7.19333 15.35 7.4 15.35C7.60667 15.35 7.78 15.2733 7.92 15.12L10.44 12.61L10.45 12.62ZM5.31 20.5C4.80333 20.5 4.37667 20.3267 4.03 19.98C3.68333 19.6333 3.50667 19.2033 3.5 18.69V5.31C3.5 4.80333 3.67333 4.37667 4.02 4.03C4.36667 3.68333 4.79667 3.50667 5.31 3.5H18.69C19.1967 3.5 19.6233 3.67333 19.97 4.02C20.3167 4.36667 20.4933 4.79667 20.5 5.31V18.69C20.5 19.1967 20.3267 19.6233 19.98 19.97C19.6333 20.3167 19.2033 20.4933 18.69 20.5H5.31Z" fill="#000"/>
+</g>
+</svg>
 ```
 
 ### `src/shared/ui/copy.json`
@@ -11563,5 +13622,177 @@ export function useSwipeBetween({ canGo, onSwitch, page, area, slides, fades }: 
     /** Switch by tap (tabs, market button): the same switch as a swipe, towards `direction`. */
     go: (direction: 1 | -1, commit: () => void) => leave(direction, commit),
   }
+}
+```
+
+### `src/shared/userStatus.ts`
+
+```ts
+// Where the user is in the app — the prototype's app-level settings ("User status" in the preview panel, the phone's
+// settings sheet and a floating card beside the phone). Every screen that depends on it reads it here, so they all stay
+// in sync: pick "User account state: Active · money on the way" once and the Home's US tab, a US stock page and the wallet all
+// show that state. Picking never moves on by itself; taps in the prototype don't change it.
+// In a real app these come from the user's account (KYC status, US Stocks activation, wallet, holdings).
+import type { FlowOption } from '../flows/types'
+import { setFlowOption, useFlowOption } from './prototype'
+import { linkedBanks, otherBank, type LinkedBank } from './data/user'
+
+/** The settings' owner in the preview (as a flow id: where the picks are remembered). */
+export const USER_STATUS = 'app'
+
+export type KycStatus = 'done' | 'pending'
+export type UsActivation = 'kyc' | 'off' | 'review' | 'support' | 'failed' | 'active'
+export type UsWallet = 'empty' | 'onTheWay' | 'funded'
+export type UsHoldings = 'none' | 'some'
+export type BankLinks = 'none' | 'one' | 'two' | 'three' | 'sbi'
+
+/**
+ * Screens that change with the user status: the settings float beside the phone on these (desktop preview). The Home,
+ * its US tab screens (each one sets the status to its own state on arrival, then follows a pick), a US stock page and
+ * the wallet's US tab.
+ */
+/** The add-money screens and the wallet: the bank row and its sheet change with the user's linked banks. */
+const BANK_SCREENS = ['deposit-01', 'deposit-06', 'deposit-07', 'deposit-08', 'deposit-09', 'us-stocks-21', 'us-stocks-22', 'us-stocks-23', 'us-stocks-24', 'us-stocks-53', 'us-stocks-54', 'us-stocks-95']
+
+const STATUS_SCREENS = ['stocks-01', 'stocks-09', 'stocks-10', 'stocks-13', 'stocks-14', 'stocks-15', 'stocks-16', 'stocks-17', 'stocks-19', 'stocks-20', 'stocks-21', 'us-stocks-13', 'us-stocks-54']
+
+/** The app-level user status settings. */
+export const userStatusOptions: FlowOption[] = [
+  {
+    // One list for the whole way in, in order — one row of states (18 Nov, the user's call; was three settings: US
+    // Stocks activation, then USD wallet and US holdings under "Active"): not active while the Lemonn KYC is pending
+    // (US Stocks can't be activated until it's done), not active, the activation steps, then active with $0, money on
+    // the way, money in the wallet, US holdings. The values are the UsJourney steps.
+    id: 'account',
+    group: 'User status',
+    label: 'User account state',
+    picker: 'dropdown',
+    values: [
+      { value: 'kyc', label: 'Not active · KYC pending' },
+      { value: 'activate', label: 'Not active' },
+      { value: 'review', label: 'Under review' },
+      { value: 'support', label: 'Under review · contact support' },
+      { value: 'failed', label: 'Activation failed' },
+      { value: 'activated', label: 'Active · $0' },
+      { value: 'onTheWay', label: 'Active · money on the way' },
+      { value: 'ready', label: 'Active · has money' },
+      { value: 'holding', label: 'Active · US holdings' },
+    ],
+    // The prototype opens on a user who's all set: activated, money in the wallet, holding US stocks.
+    default: 'holding',
+    floatOn: STATUS_SCREENS,
+  },
+  {
+    // Money on the way, more than once: a US deposit takes 1–2 working days, so adding money again before the first one
+    // lands means two or three on the way (20 Nov). The wallet's bar and Home's card add them up; their sheet shows each one.
+    id: 'deposits',
+    group: 'User status',
+    label: 'Deposits on the way',
+    showIf: { account: ['onTheWay'] },
+    values: [{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three' }],
+    default: 'one',
+    floatOn: [...STATUS_SCREENS, 'us-stocks-28', 'us-stocks-93'],
+  },
+  {
+    // How the oldest deposit on the way is doing (20 Nov). Taking longer: past its day, still with the US bank — the
+    // sheet says it's taking longer than usual, the money is safe, and a failed one is refunded to the bank it came from.
+    // Failed: the US bank sent it back — where it stopped, the refund, Try again and Contact support. Home's card and the
+    // wallet's bar say so.
+    id: 'depositStatus',
+    group: 'User status',
+    label: 'Deposit status',
+    showIf: { account: ['onTheWay'] },
+    values: [{ value: 'onTime', label: 'On time' }, { value: 'delayed', label: 'Taking longer' }, { value: 'failed', label: 'Failed' }],
+    default: 'onTime',
+    floatOn: [...STATUS_SCREENS, 'us-stocks-28'],
+  },
+  {
+    // Bank accounts linked to Lemonn (KYC adds the first). None = the add-money screens ask for one first.
+    id: 'banks',
+    group: 'User status',
+    label: 'Bank accounts',
+    picker: 'dropdown', // a dropdown like User account state (18 Nov: five choices didn't fit a segmented row)
+    // Three / SBI only: with an account at a bank US Stocks money can't go from (State Bank of India).
+    values: [{ value: 'none', label: 'None' }, { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three (+ SBI)' }, { value: 'sbi', label: 'SBI only' }],
+    default: 'three',
+    floatOn: BANK_SCREENS,
+  },
+]
+
+const option = (id: string) => userStatusOptions.find((o) => o.id === id)!
+const useStatus = (id: string) => useFlowOption(USER_STATUS, id, option(id).default)
+
+export type UserStatus = { kyc: KycStatus; us: UsActivation; usWallet: UsWallet; usHoldings: UsHoldings; banks: BankLinks }
+
+/** The user status as picked (settings under one that's off keep their last pick). KYC comes from the activation list. */
+export function useUserStatus(): UserStatus {
+  return { ...statusOf(useStatus('account') as UsJourney), banks: useStatus('banks') as BankLinks }
+}
+
+/** One account state as the activation, wallet and holdings it means. */
+function statusOf(step: UsJourney): Omit<UserStatus, 'banks'> {
+  const us: UsActivation = step === 'activate' ? 'off' : ['kyc', 'review', 'support', 'failed'].includes(step) ? (step as UsActivation) : 'active'
+  return {
+    kyc: us === 'kyc' ? 'pending' : 'done',
+    us,
+    usWallet: step === 'activated' ? 'empty' : step === 'onTheWay' ? 'onTheWay' : 'funded',
+    usHoldings: step === 'holding' ? 'some' : 'none',
+  }
+}
+
+/**
+ * The bank accounts the user has linked, as picked in "User status → Bank accounts" (primary first). Money in the USD
+ * wallet (on the way or landed) came from a bank, so then "None" counts as one — as in the real app, a user with money
+ * moving always has a bank.
+ */
+export function useLinkedBanks(): LinkedBank[] {
+  const picked = useStatus('banks') as BankLinks
+  const { us, usWallet } = statusOf(useStatus('account') as UsJourney)
+  const moneyMoved = us === 'active' && usWallet !== 'empty'
+  const banks = picked === 'none' && moneyMoved ? 'one' : picked
+  const linked = { none: [], one: linkedBanks.slice(0, 1), two: linkedBanks, three: [...linkedBanks, otherBank], sbi: [{ ...otherBank, primary: true }] }[banks]
+  return addedBank ? [...linked, addedBank] : linked
+}
+
+// A bank account added in the prototype ("Add bank account" → verified). Kept in memory, so a reload starts without it.
+let addedBank: LinkedBank | undefined
+let addBankOpener: string | undefined
+let addBankForUsStocks = false
+
+/**
+ * An add-money screen (₹ or US) or the US Stocks activation opens "Add bank account": remember which, so the verified
+ * account comes back to it. `usStocks`: the account is for US Stocks, so it must be at a bank that can send money abroad.
+ */
+export const startAddBank = (fromScreen?: string, { usStocks = false }: { usStocks?: boolean } = {}) => { addBankOpener = fromScreen; addBankForUsStocks = usStocks }
+/** "Add bank account" was opened from US Stocks: only the supported banks can be added. */
+export const addBankForUs = () => addBankForUsStocks
+/** The add-money screen that opened "Add bank account" (undefined when it was opened straight from the screen list). */
+export const addBankReturnScreen = () => addBankOpener
+/** The ₹1 check passed: the account joins the linked banks, and the add-money screens pick it. */
+export const linkBank = (bank: LinkedBank) => { addedBank = bank }
+/** The account added in this session, if any. */
+export const newlyLinkedBank = () => addedBank
+
+/**
+ * Where the user is with US Stocks, as one step: KYC pending → 'kyc'; not activated → 'activate'; under review /
+ * contact support / failed; activated → $0 'activated', 'onTheWay', or with money 'ready' / 'holding'.
+ * (The Stocks flow's UsState uses the same names.)
+ */
+export type UsJourney = 'kyc' | 'activate' | 'review' | 'support' | 'failed' | 'activated' | 'onTheWay' | 'ready' | 'holding'
+
+export function usJourney({ kyc, us, usWallet, usHoldings }: UserStatus): UsJourney {
+  if (kyc === 'pending' || us === 'kyc') return 'kyc'
+  if (us === 'off') return 'activate'
+  if (us !== 'active') return us
+  if (usWallet === 'empty') return 'activated'
+  if (usWallet === 'onTheWay') return 'onTheWay'
+  return usHoldings === 'some' ? 'holding' : 'ready'
+}
+
+export const useUsJourney = () => usJourney(useUserStatus())
+
+/** Sets the user status to one US Stocks step (a US tab screen showing its own state sets it on arrival). */
+export function setUsJourney(step: UsJourney) {
+  setFlowOption(USER_STATUS, 'account', option('account').default, step)
 }
 ```

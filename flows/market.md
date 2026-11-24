@@ -1,6 +1,6 @@
 # Flow: Market (`market`)
 
-> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `6de43c8` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
+> One self-contained file for converting this flow to another platform. Read https://lemonnade-design.github.io/lemonn-app-prototype/CONVERT.md first. Design system: Lemonnade V3 @ `ed10506` (components, tokens and rules: https://lemonnade-design.github.io/lemonnade-v3-docs/llms.txt).
 
 The Market tab — Indian and US stock lists (all, gainers, losers, under 100 / 500) and Filters.
 
@@ -10,16 +10,23 @@ Prototype: https://lemonnade-design.github.io/lemonn-app-prototype/#/market · m
 
 | Id | Screen | Figma | Taps go to | Note |
 |---|---|---|---|---|
-| `market-01` | Market · All | — | `search-24`, `us-stocks-13`, `stocks-32` | The filter bar shows "Apply filters" until something is applied. |
+| `market-01` | Market · All | — | `search-24`, `us-stocks-13`, `stocks-32` | The filter bar names the list and its count ("All (56)"); with filters applied, "Filtered stocks (n)". Opens on the market Home was last on (IN / US). |
 | `market-02` | Market · Top gainers | — | `search-24`, `us-stocks-13`, `stocks-32` | Same layout — only the list changes. |
 | `market-03` | Market · Top losers | — | `search-24`, `us-stocks-13`, `stocks-32` |  |
 | `market-04` | Market · Under ₹100 | — | `search-24`, `us-stocks-13`, `stocks-32` |  |
 | `market-05` | Filters | — | `search-24`, `us-stocks-13`, `stocks-32` | Side tabs on the left (grey rail, the open one connected to the pane); only the open group on the right. Opens on Sort by. |
 | `market-06` | Filters · indices | — | `search-24`, `us-stocks-13`, `stocks-32` | Indices open — Nifty 500 picked (one choice); its side tab shows 1. Each option says how many stocks it gives. |
 | `market-07` | Filters · sectors (several) | — | `search-24`, `us-stocks-13`, `stocks-32` | Sectors open — Banking and IT picked (any number); sort and index picked too. Sectors with no stocks in Nifty 500 are off. |
-| `market-08` | Market · filters applied | — | `search-24`, `us-stocks-13`, `stocks-32` | One removable chip per pick; the filter button gets a dot. |
+| `market-08` | Market · filters applied | — | `search-24`, `us-stocks-13`, `stocks-32` | The title reads "Filtered stocks (n)"; the filter button gets a red dot. |
 | `market-09` | Market · US stocks | — | `search-24`, `us-stocks-13`, `stocks-32` | The picker left of the tabs is on US: $ prices, US logos; tapping a stock opens its US stock page (us-stocks-13, which follows the user status). |
 | `market-10` | Market · US · S&P 500 filter | — | `search-24`, `us-stocks-13`, `stocks-32` | US list with the S&P 500 index applied (the US Stocks flow\ |
+| `market-11` | Watchlist | — | — | An L2 page built like Market: the IN / US picker at the left of pill tabs, one per watchlist (each market has its own). Opens on the market of the Home tab it was opened from (IND → Indian lists, US → US lists). "+ New" opens Create watchlist; a swipe or a tab moves between lists. Under the tabs, the list\ |
+| `market-12` | Watchlist · US | — | — | Opened from Home\ |
+| `market-13` | Watchlist · another list | — | — | The second tab (Banking Giants) picked. |
+| `market-14` | Create watchlist | — | — | From "+ New": the name field (typing, keyboard up) and Create, off until something is typed. Create adds the list as the last tab and opens it. |
+| `market-15` | Sort by | — | — | From the header\ |
+| `market-16` | Edit watchlist | — | `market-11` | From the header\ |
+| `market-17` | Edit · delete watchlist | — | `market-11` | Delete watchlist asks first: a sheet with the large header (a bin icon, "Delete Momentum Plays?" and what happens), then Cancel · Delete. |
 
 ## Spec (README.md)
 
@@ -109,7 +116,7 @@ card is used by every stock list in the app.
 | List tabs | Tabs | `underline` — hug + scroll (5 tabs); sit right of the picker in the same `bottom` row |
 | "Apply filters" | text, Heading/16 | replaced by the applied filters' chips |
 | Applied filter chip | Button | `secondary`, icon right ✕ — one per pick, removes just that pick (L3 has no removable chip: see gaps) |
-| Filter button | Button + Badge | `tertiary` `sm` icon-only (`filter_alt`, 32 × 32), Badge `dot` when filters are applied |
+| Filter button | Button + Badge | `tertiary` `sm` icon-only (`filter_alt`, 32 × 32), **round** (radius full — L3 gap: Button has no round shape, set via `--btn-radius` in Market.module.css), Badge `dot` when filters are applied |
 | Stock card | ListCell | `variant="card"`, `as="button"`; Avatar 40 left; symbol, company; price + PriceChange right |
 | No results | EmptyState | "No stocks match" |
 | Filters sheet | BottomSheet + BottomSheetHeader | heading "Filters" (no trailing action) |
@@ -155,6 +162,36 @@ card is used by every stock list in the app.
 - **List divider** — ListCell has no divider option; the stock rows draw their own 1px hairline (`StockListCard` `look="list"`).
 
 ### Changelog
+- Screen notes for Watchlist, Edit watchlist and Delete brought up to date (header, star, toast, large delete header).
+- Edit watchlist: the star is a Large ghost button, so it really draws at 24 (Small ghost forced its icon to 16).
+- Edit watchlist: an "All stocks" SectionHeader (heading 16, FLAG L3 gap) above the stocks; 24 between the name field and the stocks (was 16).
+- Edit watchlist: Save returns to Watchlist with a floating success Aerobar "Watchlist updated" (3 s). The Delete sheet uses the large header with a bin Spot (error tone).
+- Edit watchlist: the ⊗ / bin / tap-again tooltip is replaced by the stock page's watchlist star (filled, 24). A tap unfills it and the stock stays on the page; Save drops the unstarred stocks.
+- 2026-11-24 · Edit watchlist: the "Tap again to remove" tooltip shows on the first arm only (a first-time hint), not on every tap.
+- 2026-11-24 · Edit watchlist: remove / bin icons at 24.
+- 2026-11-24 · Edit watchlist: after the first tap on remove, an L3 Tooltip says "Tap again to remove"; with no second tap in 3 s the bin turns back into ⊗.
+- 2026-11-24 · Edit watchlist: the remove button has no border (L3 ghost, the user's call) and takes two taps — the first turns ⊗ into a bin, the second removes the stock.
+- 2026-11-24 · Sort by sheet: 12 above and below the Radio rows.
+- 2026-11-24 · Sort by sheet: the sheet content's padding removed; the Radio rows keep their own 16 (FLAG L3 gap).
+- 2026-11-24 · Watchlist Sort and Edit, from the live app's designs redone in L3. Sort by sheet (market-15): Radio rows As added (default) · Market price · Day change % · Stock name, Apply; a dot on Sort while it isn't As added. Edit watchlist page (market-16): name field, stocks as flat cards with a round remove button, dock Delete watchlist · Save; Delete asks first (market-17). Edit is hidden on All.
+- 2026-11-24 · Watchlist: Market's filter-bar header under the tabs — the list's name and count ("Momentum Plays (6)") with round Edit and Sort buttons (no destination yet); replaces the "6 stocks" line. Pill row back to Market's 8 / 8.
+- 2026-11-24 · Watchlist: an empty list's empty state is centred vertically in the page below the tabs.
+- 2026-11-24 · Create watchlist sheet: the field takes only the sheet's own padding (its extra 16 / 24 padding removed).
+- 2026-11-24 · Watchlist: an "All" tab leads the list tabs and is where the page opens — every stock on the market's lists, once each, in list order.
+- 2026-11-24 · Watchlist: the picker + list tabs row has 12 below it (8 above, as on Market).
+- 2026-11-24 · New Watchlist page (market-11 IN, market-12 US, market-13 Banking Giants, market-14 Create sheet): IN/US picker opening on the Home tab's market, one pill tab per watchlist, swipe between lists, "+ New" creates a list. FLAG (L3 gap): hand-made swipe, as on Market.
+- 2026-11-19 — Market opens on the market Home was last on: Home on the US Stocks tab → Market with the US Stocks pill selected (a hand-over such as Home's "View all" or a screen's own market still wins; before Home has opened, India). Filter bar fade: the 80% stop moved from 50% to just under the title (40 of the 56 row), so the title stays readable over the list.
+- 2026-11-19 — Filter bar: the title names the list and its count — the tab, "All (56)" / "Top gainers (20)" — or, once filters are applied, "Filtered stocks (11)" (was "Apply filters", then the applied filters as removable chips; the chips are gone, the filters live in the sheet). The filter button's red dot says filters are on. The title stays visible while the list scrolls (it used to fade out).
+- 2026-11-18 — Filter bar: “Apply filters” is Heading 14 (was 16).
+- 2026-11-18 — Stock list rows (shared StockListCard look="list", every list that uses it): the hairline runs from the logo's start to the price's end, 16 in from each edge (was edge to edge).
+- 2026-11-18 — Filter bar (Apply filters): hangs under the top bar, over the list, on a fade — page colour 100% at the top, 80% in the middle, clear at the bottom — so the list scrolls up under it; the list starts 56 lower to make room. The top bar no longer draws its bottom line or scroll shadow (the fade replaces them).
+- 2026-11-18 — Filter button (filter bar) is round (radius full, was the Small button's 8), like the top bar's round buttons. L3 gap: Button has no round / circle shape.
+- 2026-11-18 — Tabs V2 (pill chips): no line under the picker + chips row (added earlier today, then removed).
+- 2026-11-18 — Tabs and Picker default to V2 (pill chips; "IN Stocks" / "US Stocks").
+- 2026-11-18 — New setting Picker: V1 "IN" / "US" (default), V2 "IN Stocks" / "US Stocks" on the market pill.
+- 2026-11-18 — List tabs: new setting Tabs — V1 underline tabs (default; the 1px baseline now runs under the whole row, the IN / US picker too), V2 L3 pill chips at the default (big) size (secondary emphasis: the selected chip is outlined border/dark, not black; the IN / US picker is the big pill too; 16 between the divider and the first chip, as on the picker's side; 8 above and below, no baseline).
+- 2026-11-18 — IN / US picker: the ↕ switch arrow is 14 (was 16). L3 gap: a Tab's icon slot is fixed at 16 (local override).
+- 2026-11-18 — Filter bar (Apply filters + filter button): 12 above and below (was 16).
 
 - 2026-11-04 — Market · US stocks (market-09) opens on the All list.
 - 2026-11-04 — The IN / US picker shows the country's round flag (shared Flag) before the label.
@@ -177,6 +214,12 @@ card is used by every stock list in the app.
 - 2026-11-17 — Tabs: tapping a tab or swiping the body left / right slides the whole list to the next tab (shared `useSwipeBetween`, the stocks theme page's pattern); a new tab opens at its top.
 - 2026-11-17 — The filter bar sits in the top bar (Actionbar `bottom`, under the tabs): it stays put while the list scrolls or slides. The top bar's bottom line shows only once the list has scrolled under it. L3 gap: Actionbar always draws its line (no "line on scroll" option; local `.barAtTop`).
 - 2026-11-17 — Top bar search + wallet: the shared `SearchWalletActions` (round 38, no shadow), the same pair on every navbar tab.
+- 2026-11-18 — Filters sheet: the grey rail runs the full height, header line to dock (the top and bottom strips were white: the sheet body clipped the rail's pulled-out ends), and has a 1px border on its right.
+- 2026-11-18 — Applied-filter chips above the list ("Price: high to low ×") are fully round.
+- 2026-11-18 — Applied-filter row scrolls sideways only (the chips' 48 tap area made it scroll up and down too).
+- 2026-11-18 — Applied-filter chips run right up to the filter button (no gap) and fade out over their last 24 instead of cutting off.
+- 2026-11-18 — Archived the Tabs and Picker settings: V2 kept (pill chip tabs, "IN Stocks" / "US Stocks" picker); the V1 code stays behind constants in Market.tsx.
+- 2026-11-18 — Scrolling the list fades out the "Apply filters" hint (the filter button stays); applied chips stay put.
 
 
 ## Source — this flow
@@ -193,6 +236,7 @@ card is used by every stock list in the app.
   padding-block: var(--l3-spacing-08);
   overflow-y: auto;
   background: var(--l3-surface-secondary);
+  border-right: 1px solid var(--l3-border-light); /* 1px hairline between the rail and the pane (18 Nov) */
 }
 
 .tab {
@@ -348,15 +392,16 @@ export function StockRow({ stock, onOpen }: { stock: MarketStock; onOpen?: (symb
   "tabs.label": "Market lists",
   "picker.in": "IN",
   "picker.us": "US",
+  "pickerLong.in": "IN Stocks",
+  "pickerLong.us": "US Stocks",
   "picker.label": "Market: {market}. Switch to {other}",
   "tab.all": "All",
   "tab.gainers": "Top gainers",
   "tab.losers": "Top losers",
   "tab.under-100": "Under {currency}100",
   "tab.under-500": "Under {currency}500",
-  "filterBar.hint": "Apply filters",
-  "filterBar.appliedLabel": "Applied filters",
-  "filterBar.remove": "Remove {name}",
+  "filterBar.category": "{name} ({count})",
+  "filterBar.filtered": "Filtered stocks ({count})",
   "filterBar.button": "Filters",
   "filterBar.appliedCount": "{count} applied",
   "empty.title": "No stocks match",
@@ -376,7 +421,44 @@ export function StockRow({ stock, onOpen }: { stock: MarketStock; onOpen?: (symb
   "sheet.oneStock": "1 stock",
   "sheet.stocks": "{count} stocks",
   "sheet.showOne": "Show 1 stock",
-  "sheet.show": "Show {count} stocks"
+  "sheet.show": "Show {count} stocks",
+  "watchlist.title": "Watchlist",
+  "watchlist.back": "Back",
+  "watchlist.new": "New",
+  "watchlist.newLabel": "Create a new watchlist",
+  "watchlist.tabsLabel": "Your watchlists",
+  "watchlist.empty.title": "No stocks in {name} yet",
+  "watchlist.empty.description": "Search for a stock and tap its bookmark to add it here.",
+  "watchlist.empty.action": "Add stocks",
+  "watchlist.create.title": "Create watchlist",
+  "watchlist.create.field": "Watchlist name",
+  "watchlist.create.placeholder": "e.g. Dividend stocks",
+  "watchlist.create.button": "Create",
+  "watchlist.all": "All",
+  "watchlist.heading": "{name} ({count})",
+  "watchlist.editLabel": "Edit watchlist",
+  "watchlist.sortLabel": "Sort stocks",
+  "watchlist.sort.title": "Sort by",
+  "watchlist.sort.added": "As added",
+  "watchlist.sort.default": "Default",
+  "watchlist.sort.price": "Market price",
+  "watchlist.sort.change": "Day change %",
+  "watchlist.sort.name": "Stock name",
+  "watchlist.sort.apply": "Apply",
+  "watchlist.sort.on": "Sorted",
+  "watchlist.edit.title": "Edit watchlist",
+  "watchlist.edit.stocks": "Stocks in this watchlist",
+  "watchlist.updated": "Watchlist updated",
+  "watchlist.edit.allStocks": "All stocks",
+  "watchlist.edit.star": "{symbol} on this watchlist",
+  "watchlist.edit.delete": "Delete watchlist",
+  "watchlist.edit.save": "Save",
+  "watchlist.edit.emptyTitle": "No stocks left",
+  "watchlist.edit.emptyDescription": "Save to keep this watchlist empty, or go back to undo.",
+  "watchlist.delete.title": "Delete {name}?",
+  "watchlist.delete.description": "The watchlist and its stocks go. The stocks stay in your other watchlists.",
+  "watchlist.delete.cancel": "Cancel",
+  "watchlist.delete.confirm": "Delete"
 }
 ```
 
@@ -490,7 +572,7 @@ const us = (symbol: string, sector: SectorId, marketCap: number, indices: IndexI
     symbol, name: c.name, price: c.price, changePct: c.change, sector, marketCap, indices,
     market: 'us',
     cap: marketCap > 200 ? 'mega' : marketCap >= 10 ? 'large' : marketCap >= 2 ? 'mid' : 'small',
-    initials: symbol.slice(0, 2),
+    initials: symbol.slice(0, 1),
     logoUrl: usLogo(symbol),
   }
 }
@@ -663,6 +745,100 @@ export function applyFilters(list: MarketStock[], filters: Filters, market: Mark
   }
   return filters.sort ? [...result].sort(by[filters.sort]) : result
 }
+
+/**
+ * Watchlists (24 Nov) — the user's own lists of stocks, one set per market: the IN picker shows the Indian lists,
+ * US the US ones. Each list is a name and the symbols in it, in the order the user added them; the rows show live
+ * prices from the same universe as the Market lists. API: GET /watchlists?market=in|us → Watchlist[];
+ * POST /watchlists { market, name } → the new, empty Watchlist.
+ */
+export type Watchlist = { id: string; name: string; symbols: string[] }
+
+export const sampleWatchlists: Record<Market, Watchlist[]> = {
+  in: [
+    { id: 'in-momentum', name: 'Momentum Plays', symbols: ['RELIANCE', 'BHARTIARTL', 'HAL', 'BEL', 'TATASTEEL', 'ETERNAL'] },
+    { id: 'in-banks', name: 'Banking Giants', symbols: ['HDFCBANK', 'ICICIBANK', 'SBIN', 'KOTAKBANK', 'AXISBANK'] },
+    { id: 'in-long', name: 'Long Term Bets', symbols: ['TCS', 'INFY', 'ITC', 'HINDUNILVR', 'TITAN', 'ASIANPAINT', 'LT'] },
+  ],
+  us: [
+    { id: 'us-ai', name: 'AI & Tech', symbols: ['NVDA', 'MSFT', 'GOOGL', 'META', 'AMD', 'AVGO'] },
+    { id: 'us-brands', name: 'Brands I Use', symbols: ['AAPL', 'AMZN', 'NFLX', 'NKE', 'SBUX', 'KO'] },
+    { id: 'us-long', name: 'Long Term Bets', symbols: ['V', 'JPM', 'MCD', 'TSLA'] },
+  ],
+}
+
+/** Lists created in this prototype session (kept while the app is open, so going back and in again still shows them). */
+const createdWatchlists: Record<Market, Watchlist[]> = { in: [], us: [] }
+
+export const watchlistsFor = (market: Market): Watchlist[] => [...sampleWatchlists[market], ...createdWatchlists[market]]
+
+/** Adds an empty list and returns it. */
+export function createWatchlist(market: Market, name: string): Watchlist {
+  const list: Watchlist = { id: `${market}-new-${createdWatchlists[market].length + 1}`, name, symbols: [] }
+  createdWatchlists[market].push(list)
+  return list
+}
+
+/** A list's stocks, in its order, from the market's universe (live prices like the Market lists). */
+export const watchlistStocks = (list: Watchlist, market: Market): MarketStock[] => {
+  const all = market === 'us' ? usUniverse : indiaUniverse()
+  return list.symbols.flatMap((symbol) => all.filter((x) => x.symbol === symbol))
+}
+
+/**
+ * Editing a list (Edit watchlist page). API: PATCH /watchlists/:id { name, symbols } → Watchlist;
+ * DELETE /watchlists/:id. In the prototype the lists above change in place, for as long as the app is open.
+ */
+const findWatchlist = (id: string): { market: Market; list: Watchlist } | undefined => {
+  for (const market of ['in', 'us'] as const) {
+    const list = watchlistsFor(market).find((l) => l.id === id)
+    if (list) return { market, list }
+  }
+  return undefined
+}
+
+/** Saves a list's new name and stocks (removed ones gone, order kept). */
+export function saveWatchlist(id: string, name: string, symbols: string[]) {
+  const found = findWatchlist(id)
+  if (!found) return
+  found.list.name = name
+  found.list.symbols = symbols
+}
+
+/** Deletes a list. */
+export function deleteWatchlist(id: string) {
+  for (const market of ['in', 'us'] as const) {
+    for (const lists of [sampleWatchlists[market], createdWatchlists[market]]) {
+      const at = lists.findIndex((l) => l.id === id)
+      if (at >= 0) lists.splice(at, 1)
+    }
+  }
+}
+
+/** The list the Edit page is open on (set by the Watchlist page's Edit; defaults to the first Indian list). */
+let editing = sampleWatchlists.in[0].id
+export const editWatchlist = (id: string) => { editing = id }
+export const editingWatchlist = () => findWatchlist(editing)
+
+/** Where the Watchlist page reopens after Edit (Save: that list; Delete: All), read once. */
+let returnTo: { market: Market; list?: string; saved?: boolean } | null = null
+/** `saved`: back from Save, so the Watchlist page shows the "Watchlist updated" toast. */
+export const returnToWatchlist = (to: { market: Market; list?: string; saved?: boolean }) => { returnTo = to }
+export const takeWatchlistReturn = () => { const to = returnTo; returnTo = null; return to }
+
+/** How the Sort sheet orders a list's stocks. As added is the list's own order. */
+export type WatchlistSort = 'added' | 'price' | 'change' | 'name'
+export const watchlistSorts: WatchlistSort[] = ['added', 'price', 'change', 'name']
+
+/** Price and day change: highest first. Name: A → Z by symbol. */
+export function sortWatchlistStocks(stocks: MarketStock[], sort: WatchlistSort): MarketStock[] {
+  if (sort === 'added') return stocks
+  const sorted = [...stocks]
+  if (sort === 'price') sorted.sort((a, b) => b.price - a.price)
+  if (sort === 'change') sorted.sort((a, b) => b.changePct - a.changePct)
+  if (sort === 'name') sorted.sort((a, b) => a.symbol.localeCompare(b.symbol))
+  return sorted
+}
 ```
 
 ### `src/flows/market/index.tsx`
@@ -673,12 +849,22 @@ import { viewUsStock } from '../../shared/data/usStocks'
 import { goToTab } from '../../shared/ui/MainNav'
 import type { Flow } from '../types'
 import { Market } from './screens/Market'
+import { Watchlist } from './screens/Watchlist'
+import { EditWatchlist } from './screens/EditWatchlist'
+import { usePreview } from '../../shared/prototype'
+import type { Go } from '../types'
 
 /**
  * Market — the Market tab: lists of Indian or US stocks (IN / US picker; All, Top gainers, Top losers, Under ₹100 / $100, Under ₹500 / $500), all with the same
  * layout, and Filters (quick filters, indices, market cap, sectors, sort). Built from the live app's screenshots
  * (shared 2026-10-17; no Figma yet), with the filter sheet redesigned in L3.
  */
+/** Back from Watchlist: wherever it was opened from (Home's IND / US tab), else the Stocks home. */
+function WatchlistPage({ go, ...props }: { go: Go } & Omit<Parameters<typeof Watchlist>[0], 'onBack' | 'onEdit' | 'onAddStocks' | 'onOpenUs' | 'onOpenStock'>) {
+  const { back } = usePreview()
+  return <Watchlist {...props} onEdit={() => go('market-16')} onBack={() => { if (!back?.()) go('stocks-01') }} onAddStocks={(m) => go(m === 'us' ? 'search-29' : 'search-01')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} />
+}
+
 export const market: Flow = {
   id: 'market',
   title: 'Market',
@@ -687,19 +873,167 @@ export const market: Flow = {
   sections: [
     { id: 'lists', title: 'Lists' },
     { id: 'filters', title: 'Filters' },
+    { id: 'watchlist', title: 'Watchlist' },
   ],
+  // Archived 18 Nov (the user's call): "Tabs" (V1 underline · V2 pill chips) and "Picker" (V1 "IN" / "US" · V2 "IN Stocks" /
+  // "US Stocks"). V2 of both is kept, hard-coded in Market.tsx (PILL_TABS, LONG_PICKER); the V1 code stays there.
+  options: [],
   screens: [
-    { id: 'market-01', section: 'lists', name: 'Market · All', figma: '', note: 'The filter bar shows "Apply filters" until something is applied.', tab: true, render: (go) => <Market onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
+    { id: 'market-01', section: 'lists', name: 'Market · All', figma: '', note: 'The filter bar names the list and its count ("All (56)"); with filters applied, "Filtered stocks (n)". Opens on the market Home was last on (IN / US).', tab: true, render: (go) => <Market onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-02', section: 'lists', name: 'Market · Top gainers', figma: '', note: 'Same layout — only the list changes.', tab: true, render: (go) => <Market tab="gainers" onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-03', section: 'lists', name: 'Market · Top losers', figma: '', tab: true, render: (go) => <Market tab="losers" onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-04', section: 'lists', name: 'Market · Under ₹100', figma: '', tab: true, render: (go) => <Market tab="under-100" onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-05', section: 'filters', name: 'Filters', figma: '', note: 'Side tabs on the left (grey rail, the open one connected to the pane); only the open group on the right. Opens on Sort by.', tab: true, render: (go) => <Market sheet onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-06', section: 'filters', name: 'Filters · indices', figma: '', note: 'Indices open — Nifty 500 picked (one choice); its side tab shows 1. Each option says how many stocks it gives.', tab: true, render: (go) => <Market sheet sheetSection="index" filters={{ index: 'nifty-500' }} onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-07', section: 'filters', name: 'Filters · sectors (several)', figma: '', note: 'Sectors open — Banking and IT picked (any number); sort and index picked too. Sectors with no stocks in Nifty 500 are off.', tab: true, render: (go) => <Market sheet sheetSection="sector" filters={{ sort: 'price-desc', index: 'nifty-500', sector: ['banking', 'it'] }} onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
-    { id: 'market-08', section: 'filters', name: 'Market · filters applied', figma: '', note: 'One removable chip per pick; the filter button gets a dot.', tab: true, render: (go) => <Market filters={{ sort: 'price-desc', index: 'nifty-500', sector: ['banking', 'it'] }} onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
+    { id: 'market-08', section: 'filters', name: 'Market · filters applied', figma: '', note: 'The title reads "Filtered stocks (n)"; the filter button gets a red dot.', tab: true, render: (go) => <Market filters={{ sort: 'price-desc', index: 'nifty-500', sector: ['banking', 'it'] }} onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-09', section: 'lists', name: 'Market · US stocks', figma: '', note: 'The picker left of the tabs is on US: $ prices, US logos; tapping a stock opens its US stock page (us-stocks-13, which follows the user status).', tab: true, render: (go) => <Market market="us" tab="all" onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
     { id: 'market-10', section: 'lists', name: 'Market · US · S&P 500 filter', figma: '', note: 'US list with the S&P 500 index applied (the US Stocks flow\'s E3 entry point). Filter options are the US ones.', tab: true, render: (go) => <Market market="us" filters={{ index: 'sp-500' }} onTab={(t) => goToTab(go, t)} onSearch={() => go('search-24')} onOpenUs={(sym) => { viewUsStock(sym); go('us-stocks-13') }} onOpenStock={(s) => { openStock(s); go('stocks-32') }} /> },
+    // ---- Watchlist (24 Nov, the user's brief; no Figma yet): Home's Watchlist shortcut opens it.
+    { id: 'market-11', section: 'watchlist', name: 'Watchlist', badge: 'new', figma: '', note: 'An L2 page built like Market: the IN / US picker at the left of pill tabs, one per watchlist (each market has its own). Opens on the market of the Home tab it was opened from (IND → Indian lists, US → US lists). "+ New" opens Create watchlist; a swipe or a tab moves between lists. Under the tabs, the list\'s header as on Market: its name and count ("Momentum Plays (6)"), then Edit (not on All) and Sort. Back from Save: a "Watchlist updated" toast (3 s).', render: (go) => <WatchlistPage go={go} /> },
+    { id: 'market-12', section: 'watchlist', name: 'Watchlist · US', badge: 'new', figma: '', note: 'Opened from Home\'s US tab: the US watchlists, $ prices, US logos.', render: (go) => <WatchlistPage go={go} market="us" /> },
+    { id: 'market-13', section: 'watchlist', name: 'Watchlist · another list', badge: 'new', figma: '', note: 'The second tab (Banking Giants) picked.', render: (go) => <WatchlistPage go={go} market="in" list="in-banks" /> },
+    { id: 'market-14', section: 'watchlist', name: 'Create watchlist', badge: 'new', figma: '', note: 'From "+ New": the name field (typing, keyboard up) and Create, off until something is typed. Create adds the list as the last tab and opens it.', render: (go) => <WatchlistPage go={go} market="in" creating="Dividend stocks" /> },
+    { id: 'market-15', section: 'watchlist', name: 'Sort by', badge: 'new', figma: '', note: 'From the header\'s Sort: one choice as L3 Radio rows — As added (default), Market price, Day change % (highest first), Stock name (A → Z). Apply sorts every list on the page; a dot on Sort while it isn\'t As added.', render: (go) => <WatchlistPage go={go} market="in" list="in-momentum" sorting /> },
+    { id: 'market-16', section: 'watchlist', name: 'Edit watchlist', badge: 'new', figma: '', note: 'From the header\'s Edit (not on All): the name in an L3 TextField, an "All stocks" heading, then the stocks as flat cards, each with a filled star (24). A tap unfills the star but the stock stays; a second tap fills it again. Only Save takes the unstarred stocks off. Dock: Delete watchlist (asks first) · Save (off until something changed). Back to the list after Save (with a "Watchlist updated" toast), to All after Delete.', render: (go) => <EditWatchlist onBack={() => go('market-11')} /> },
+    { id: 'market-17', section: 'watchlist', name: 'Edit · delete watchlist', badge: 'new', figma: '', note: 'Delete watchlist asks first: a sheet with the large header (a bin icon, "Delete Momentum Plays?" and what happens), then Cancel · Delete.', render: (go) => <EditWatchlist confirmingDelete onBack={() => go('market-11')} /> },
   ],
+}
+```
+
+### `src/flows/market/screens/EditWatchlist.module.css`
+
+```css
+/* Section headings at 16 (the user's rule). FLAG (L3 gap): SectionHeader has no size prop, its title is heading 14. */
+.heading h2 {
+  font: var(--l3-text-heading-16);
+}
+```
+
+### `src/flows/market/screens/EditWatchlist.tsx`
+
+```tsx
+import { useId, useState } from 'react'
+import { Actionbar } from '@l3/components/Actionbar'
+import { Avatar } from '@l3/components/Avatar'
+import { BottomSheetHeader } from '@l3/components/BottomSheet'
+import { Button } from '@l3/components/Button'
+import { ButtonGroup } from '@l3/components/ButtonGroup'
+import { EmptyState } from '@l3/components/EmptyState'
+import { Icon } from '@l3/components/Icon'
+import { Inset } from '@l3/components/Inset'
+import { ListCell } from '@l3/components/ListCell'
+import { SectionHeader } from '@l3/components/SectionHeader'
+import { Stack } from '@l3/components/Stack'
+import { TextField } from '@l3/components/TextField'
+import { msDelete, msStar, msStarFill } from '@l3/icons/material'
+import { Spot } from '../../../shared/ui/Spot'
+import { Screen } from '../../../shared/ui/Screen'
+import { Sheet } from '../../../shared/ui/Sheet'
+import { deleteWatchlist, editingWatchlist, returnToWatchlist, saveWatchlist, watchlistStocks } from '../data'
+import { t } from '../copy'
+import styles from './EditWatchlist.module.css'
+
+type Props = {
+  /** Open with the Delete confirmation up (board frame). */
+  confirmingDelete?: boolean
+  /** Back without saving, and back after Save / Delete (the Watchlist page). */
+  onBack?: () => void
+}
+
+/**
+ * market-16 · Edit watchlist — from the Watchlist header's Edit (the live app's Edit page, redone in L3). The list's
+ * name in an L3 TextField, then its stocks as flat cards, each with the stock page's watchlist star (filled = on the
+ * list). A tap unfills it but the stock stays in place, so a second tap puts it back; only Save takes the unstarred
+ * stocks off. Dock: Delete watchlist (asks first, in a sheet) · Save (off until something changed).
+ */
+export function EditWatchlist({ confirmingDelete = false, onBack }: Props) {
+  const found = editingWatchlist()
+  const [name, setName] = useState(found?.list.name ?? '')
+  const [confirming, setConfirming] = useState(confirmingDelete)
+  // Stocks unstarred on this page: still shown (hollow star), dropped from the list only on Save.
+  const [unstarred, setUnstarred] = useState<string[]>([])
+  const headingId = useId()
+  if (!found) return null
+  const { market, list } = found
+  const stocks = watchlistStocks(list, market)
+  const changed = name.trim() !== list.name || unstarred.length > 0
+  const toggle = (symbol: string) => setUnstarred((u) => (u.includes(symbol) ? u.filter((x) => x !== symbol) : [...u, symbol]))
+  const save = () => {
+    saveWatchlist(list.id, name.trim(), list.symbols.filter((x) => !unstarred.includes(x)))
+    returnToWatchlist({ market, list: list.id, saved: true })
+    onBack?.()
+  }
+  const back = () => {
+    returnToWatchlist({ market, list: list.id })
+    onBack?.()
+  }
+  const remove = () => {
+    deleteWatchlist(list.id)
+    returnToWatchlist({ market })
+    onBack?.()
+  }
+
+  return (
+    <Screen
+      top={<Actionbar title={t('watchlist.edit.title')} onBack={back} backLabel={t('watchlist.back')} />}
+      bottom={
+        <ButtonGroup aria-label={t('watchlist.edit.title')} direction="horizontal">
+          <Button variant="secondary" size="lg" onClick={() => setConfirming(true)}>{t('watchlist.edit.delete')}</Button>
+          <Button size="lg" disabled={!changed || !name.trim()} onClick={save}>{t('watchlist.edit.save')}</Button>
+        </ButtonGroup>
+      }
+      sheet={confirming ? (
+        <Sheet
+          labelledBy={headingId}
+          onClose={() => setConfirming(false)}
+          header={<BottomSheetHeader size="lg" headingId={headingId} icon={<Spot icon={msDelete} tone="error" size="md" />} heading={t('watchlist.delete.title', { name: list.name })} description={t('watchlist.delete.description')} />}
+          footer={
+            <ButtonGroup aria-label={t('watchlist.delete.title', { name: list.name })} direction="horizontal">
+              <Button variant="secondary" size="lg" onClick={() => setConfirming(false)}>{t('watchlist.delete.cancel')}</Button>
+              <Button size="lg" onClick={remove}>{t('watchlist.delete.confirm')}</Button>
+            </ButtonGroup>
+          }
+        />
+      ) : undefined}
+    >
+      <Inset paddingInline="16" paddingBlock="16">
+        <Stack gap="24">
+          <TextField label={t('watchlist.create.field')} value={name} placeholder={t('watchlist.create.placeholder')} onChange={(e) => setName(e.target.value)} />
+          {stocks.length ? (
+            <Stack gap="12">
+            <SectionHeader className={styles.heading} title={t('watchlist.edit.allStocks')} />
+            <Stack as="ul" gap="12" aria-label={t('watchlist.edit.stocks')}>
+              {stocks.map((stock) => (
+                <li key={stock.symbol}>
+                  <ListCell
+                    variant="card"
+                    labelSize="14"
+                    iconLeft={<Avatar initials={stock.initials ?? stock.symbol.slice(0, 1)} src={stock.logoUrl} size={40} label={stock.name} />}
+                    label={stock.symbol}
+                    description={stock.name}
+                    trailing={
+                      <Button
+                        variant="ghost"
+                        size="lg"
+                        iconLeft={<Icon icon={unstarred.includes(stock.symbol) ? msStar : msStarFill} size={24} />}
+                        aria-label={t('watchlist.edit.star', { symbol: stock.symbol })}
+                        aria-pressed={!unstarred.includes(stock.symbol)}
+                        onClick={() => toggle(stock.symbol)}
+                      />
+                    }
+                  />
+                </li>
+              ))}
+            </Stack>
+            </Stack>
+          ) : (
+            <EmptyState title={t('watchlist.edit.emptyTitle')} description={t('watchlist.edit.emptyDescription')} />
+          )}
+        </Stack>
+      </Inset>
+    </Screen>
+  )
 }
 ```
 
@@ -715,33 +1049,47 @@ export const market: Flow = {
 .page {
   display: flex;
   flex-direction: column;
+  padding-top: var(--market-filter-row); /* room for the filter bar that hangs over the list (.filterRow) */
+}
+
+/* The filter bar's height: 12 + a 32 button + 12. */
+.page,
+.filterRow {
+  --market-filter-row: calc(var(--l3-spacing-12) * 2 + var(--l3-size-32));
+}
+
+/* The filter bar hangs just under the top bar, over the list, on a fade from the page colour: 100% at the top, 80% in
+   just under the title, clear at the bottom — the list scrolls up under it (18 Nov). */
+.filterRow {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  min-height: var(--market-filter-row);
+  background: linear-gradient(
+    to bottom,
+    var(--l3-surface-default) 0%,
+    /* The 80% stop sits just under the title (19 Nov; was 50%): the row is 56 tall, the title's text ends at 38, so the
+       stop is at 40 (16 above the row's foot) and the title is always on solid-enough ground. */
+    color-mix(in srgb, var(--l3-surface-default) 80%, transparent) calc(100% - var(--l3-spacing-16)),
+    transparent 100%
+  );
 }
 
 .filterHint {
   flex: 1;
   margin: 0;
-  font: var(--l3-text-heading-16);
-}
-
-/* Applied filters: the row takes the space left of the filter button and scrolls sideways if the chips don't fit. */
-.applied {
-  position: relative; /* keeps absolutely placed bits inside the scrolling row */
-  flex: 1;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.applied::-webkit-scrollbar {
-  display: none;
-}
-
-.applied > * {
-  flex: none;
+  font: var(--l3-text-heading-14);
 }
 
 .filterButton {
   display: inline-flex;
   flex: none;
+}
+
+/* Round filter button (user ask, 18 Nov), like the round search / wallet buttons in the top bar. FLAG: L3 Button has
+   no round / circle shape, so its own radius variable is set to full here (L3 gap). */
+.filterButton button[data-size] {
+  --btn-radius: var(--l3-radius-full);
 }
 
 /* Market picker: the tap area is the whole block around the pill, the row's full height (the pill itself stays small). */
@@ -760,6 +1108,27 @@ export const market: Flow = {
   width: 1px; /* 1px hairline */
   height: var(--l3-size-24);
   background: var(--l3-border-light);
+}
+
+/* The picker's ↕ switch arrow is 14 (user ask, 18 Nov). L3 gap: a Tab's icon slot is fixed at 16, whatever the Icon's size. */
+.picker [role='tab'] > span:last-child {
+  width: var(--l3-icon-size-14);
+  height: var(--l3-icon-size-14);
+}
+
+/* V1: the underline tabs' 1px baseline runs under the whole row, the IN / US picker too (L3 draws it under the tabs only). */
+.underlineRow {
+  box-shadow: inset 0 -1px 0 var(--l3-border-light); /* 1px hairline */
+}
+
+/* V2: L3 pill chips at their default (big) size — 8 above and below, no line under the row (18 Nov: removed again). */
+.pillRow {
+  padding-block: var(--l3-spacing-08);
+}
+
+/* …and 16 from the divider to the first chip (and after the last), the same as the picker pill's 16. */
+.pillRow .tabs [role='tablist'] {
+  padding-inline: var(--l3-spacing-16);
 }
 
 .tabs {
@@ -795,9 +1164,11 @@ export const market: Flow = {
   inset-inline-start: 100%;
 }
 
-/* At the top of the list the top bar draws no bottom line; it appears once the list scrolls under the bar.
-   L3 gap: Actionbar always draws its line (no "line on scroll" option). */
-.barAtTop {
+/* The top bar draws no bottom line or shadow, at rest or scrolled: the filter bar's fade takes their place (18 Nov).
+   It sits above the list so the hanging filter bar does too. L3 gap: Actionbar always draws its line (no option). */
+.barFade.barFade {
+  position: relative;
+  z-index: 1; /* stacking order isn't a design token */
   box-shadow: none;
 }
 ```
@@ -815,16 +1186,17 @@ import { Inset } from '@l3/components/Inset'
 import { Section } from '@l3/components/Section'
 import { Stack } from '@l3/components/Stack'
 import { Tabs } from '@l3/components/Tabs'
-import { msClose, msFilterAlt } from '@l3/icons/material'
+import { msFilterAlt } from '@l3/icons/material'
 import { lmSwitchArrowVertical } from '@l3/icons/lemonnade'
-import { MainNav, type Section as NavSection } from '../../../shared/ui/MainNav'
+import { MainNav, lastStocksMarket, type Section as NavSection } from '../../../shared/ui/MainNav'
 import { Screen } from '../../../shared/ui/Screen'
 import { CenteredTabs } from '../../../shared/ui/CenteredTabs'
 import { neighbour, useSwipeBetween } from '../../../shared/ui/useSwipeBetween'
 import { useMarketSnapshot } from '../../../shared/data/companies'
+import { useFlowOption } from '../../../shared/prototype'
 import { takeMarketHandoff } from '../../../shared/data/marketHandoff'
 import { StockRow } from '../components/StockRow'
-import { applyFilters, currencyOf, listFor, pickedIn, picks, tabs, withPicks, type FilterGroupId, type Filters, type Market as MarketId, type MarketTab } from '../data'
+import { applyFilters, currencyOf, listFor, picks, tabs, type FilterGroupId, type Filters, type Market as MarketId, type MarketTab } from '../data'
 import { FilterSheet } from '../sheets/FilterSheet'
 import { Flag } from '../../../shared/ui/Flag'
 import { t } from '../copy'
@@ -857,10 +1229,20 @@ type Props = {
  * same layout; only the stocks change. Above the list: the applied filters as removable chips (or "Apply filters")
  * and the filter button, with a dot when something is applied.
  */
-export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', filters: initialFilters = {}, sheet = false, sheetSection, onTab, onSearch, onOpenUs, onOpenStock }: Props) {
+// Archived 18 Nov: the Tabs and Picker settings — V2 kept (pill chips, long label). Set false to see V1.
+const PILL_TABS: boolean = true
+const LONG_PICKER: boolean = true
+
+export function Market({ market: initialMarket, tab: initialTab = 'all', filters: initialFilters = {}, sheet = false, sheetSection, onTab, onSearch, onOpenUs, onOpenStock }: Props) {
   // Opened from another screen with a market / tab / filters to start on (Home's "View all")? Read once.
   const [handoff] = useState(takeMarketHandoff)
-  const [market, setMarket] = useState<MarketId>(handoff?.market ?? initialMarket)
+  // List tabs: pill chips; the picker reads "IN Stocks" / "US Stocks". Archived options (index.tsx): V1 underline tabs
+  // with a baseline under the row, V1 short "IN" / "US" label.
+  const pillTabs = PILL_TABS
+  const longPicker = LONG_PICKER
+  // Which market it opens on: what the caller handed over, else the screen's own (market-09 …), else the IND / US tab
+  // the Stocks home was last on — Home on US → Market on US Stocks (19 Nov) —, else India.
+  const [market, setMarket] = useState<MarketId>(handoff?.market ?? initialMarket ?? lastStocksMarket() ?? 'in')
   const [tab, setTab] = useState<MarketTab>(handoff?.tab && (tabs as string[]).includes(handoff.tab) ? (handoff.tab as MarketTab) : initialTab)
   const [filters, setFilters] = useState<Filters>(handoff ? (handoff.filters ?? {}) : initialFilters)
   const [open, setOpen] = useState(sheet)
@@ -868,13 +1250,14 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
   const base = listFor(tab, market)
   const currency = currencyOf(market)
   const applied = picks(filters)
+  /** How many stocks the current tab's list shows (after the filters): the count in the filter bar's title. */
+  const shown = applyFilters(base, filters, market).length
 
   /** Switching market clears the filters (their options differ) and keeps the tab. */
   const other: MarketId = market === 'in' ? 'us' : 'in'
   const switchMarket = () => { setMarket(other); setFilters({}) }
 
   /** A chip's ✕ removes just that pick (other picks in the same group stay). */
-  const remove = (group: FilterGroupId, id: string) => setFilters((f) => withPicks(f, group, pickedIn(f, group).filter((x) => x !== id)))
 
   // Tabs as pages side by side: a left / right swipe on the body drags the list with the
   // finger and brings the next tab's in (the tabs and filter bar stay put, in the top bar); a tap on a tab slides it in the same way (the stocks theme page's pattern).
@@ -888,6 +1271,17 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
     }
     return null
   }
+  // Scrolled down the list? Then the "Apply filters" hint fades out (only the filter button stays); applied chips stay
+  // put (18 Nov, the user's call).
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const box = scroller()
+    if (!box) return
+    const onScroll = () => setScrolled(box.scrollTop > 0)
+    onScroll()
+    box.addEventListener('scroll', onScroll, { passive: true })
+    return () => box.removeEventListener('scroll', onScroll)
+  }, [])
   // The tabs beside sit level with the top of what's on screen, so a swipe from far down the list still shows them.
   const peek = () => track.current?.style.setProperty('--market-peek-top', `${scroller()?.scrollTop ?? 0}px`)
   const show = (next: MarketTab) => { setTab(next); setTapped(null) }
@@ -918,16 +1312,6 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
     el.animate([{ translate: `${from * el.offsetWidth}px 0` }, { translate: '0 0' }], { duration: 280, easing: 'cubic-bezier(0.2, 0, 0, 1)' })
   }, [tab])
 
-  // The top bar's bottom line shows only once the list has scrolled under it.
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const box = scroller()
-    if (!box) return
-    const update = () => setScrolled(box.scrollTop > 0)
-    update()
-    box.addEventListener('scroll', update, { passive: true })
-    return () => box.removeEventListener('scroll', update)
-  }, [])
 
   /** One tab's page: its list (the filter bar above stays put, in the top bar). */
   const page = (id: MarketTab) => {
@@ -949,13 +1333,13 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
     <Screen
       top={
         <Actionbar
-          className={scrolled ? undefined : styles.barAtTop}
+          className={styles.barFade}
           title={t('title')}
           actions={<SearchWalletActions searchLabel={t('action.search')} walletLabel={t('action.wallet')} onSearch={() => onSearch?.()} onWallet={() => {}} />}
           bottom={
             <Stack>
               {/* Sticky: the tabs, then the filter bar — it stays put while the list scrolls or slides to another tab. */}
-              <Stack direction="horizontal" align="center">
+              <Stack direction="horizontal" align="center" className={pillTabs ? styles.pillRow : styles.underlineRow}>
                 {/*
                   * One pill, one tap: shows the market on screen with the ↕ switch icon and flips IN ⇄ US. The whole
                   * block around it (16 each side, the row's full height) takes the tap, so the small pill is easy to hit;
@@ -965,9 +1349,9 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
                   <Inset paddingInline="16" paddingBlock="00">
                     <Tabs
                       appearance="pill"
-                      size="sm"
+                      size={pillTabs ? 'md' : 'sm'}
                       aria-label={t('picker.label', { market: t(`picker.${market}`), other: t(`picker.${other}`) })}
-                      items={[{ value: market, label: t(`picker.${market}`), iconLeft: <Flag code={market === 'in' ? 'in' : 'us'} />, iconRight: <Icon icon={lmSwitchArrowVertical} size={16} /> }]}
+                      items={[{ value: market, label: t(`${longPicker ? 'pickerLong' : 'picker'}.${market}`), iconLeft: <Flag code={market === 'in' ? 'in' : 'us'} />, iconRight: <Icon icon={lmSwitchArrowVertical} size={14} /> }]}
                       value={market}
                       onChange={() => {}}
                     />
@@ -975,22 +1359,24 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
                 </div>
                 <span className={styles.divider} aria-hidden="true" />
                 <div className={styles.tabs}>
-                  <CenteredTabs aria-label={t('tabs.label')} items={tabs.map((id) => ({ value: id, label: t(`tab.${id}`, { currency }) }))} value={tapped ?? tab} onChange={(v) => pick(v as MarketTab)} />
+                  <CenteredTabs appearance={pillTabs ? 'pill' : 'underline'} emphasis={pillTabs ? 'secondary' : undefined} aria-label={t('tabs.label')} items={tabs.map((id) => ({ value: id, label: t(`tab.${id}`, { currency }) }))} value={tapped ?? tab} onChange={(v) => pick(v as MarketTab)} />
                 </div>
               </Stack>
-              <Inset paddingInline="16" paddingBlock="16">
-                <Stack direction="horizontal" align="center" gap="12">
-                  {applied.length ? (
-                    <Stack direction="horizontal" gap="08" className={styles.applied} role="group" aria-label={t('filterBar.appliedLabel')}>
-                      {applied.map(({ group, option }) => (
-                        <Button size="sm" key={`${group}-${option.id}`} variant="secondary" iconRight={<Icon icon={msClose} />} aria-label={t('filterBar.remove', { name: option.label })} onClick={() => remove(group, option.id)}>
-                          {option.label}
-                        </Button>
-                      ))}
-                    </Stack>
-                  ) : (
-                    <p className={styles.filterHint}>{t('filterBar.hint')}</p>
-                  )}
+              {/* The filter bar hangs under the top bar, over the list, on a fade (white → 80% → clear, 18 Nov): the list
+                  scrolls up under it. The list starts its height lower (.page) so nothing is hidden at rest. */}
+              <div className={styles.filterRow} data-scrolled={scrolled || undefined}>
+              <Inset paddingInline="16" paddingBlock="12">
+                {/* No gap: the chips run up to the filter button and fade out under their right edge (18 Nov). */}
+                <Stack direction="horizontal" align="center" gap="00">
+                  {/* The list's name and how many it shows (19 Nov; was "Apply filters", then the applied filters as
+                      removable chips): the tab's name — "Top gainers (20)" — or, once filters are applied, "Filtered
+                      stocks (8)". The filters themselves live in the sheet; the filter button's red dot says some are on.
+                      Always visible, also while the list scrolls. */}
+                  <p className={styles.filterHint} aria-live="polite">
+                    {applied.length
+                      ? t('filterBar.filtered', { count: shown })
+                      : t('filterBar.category', { name: t(`tab.${tab}`, { currency }), count: shown })}
+                  </p>
                   <span className={styles.filterButton}>
                     <Badge dot={applied.length > 0} label={t('filterBar.appliedCount', { count: applied.length })}>
                       <Button variant="tertiary" size="sm" iconLeft={<Icon icon={msFilterAlt} />} aria-label={t('filterBar.button')} onClick={() => setOpen(true)} />
@@ -998,6 +1384,7 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
                   </span>
                 </Stack>
               </Inset>
+              </div>
             </Stack>
           }
         />
@@ -1029,6 +1416,322 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
 }
 ```
 
+### `src/flows/market/screens/Watchlist.module.css`
+
+```css
+/* Watchlist — Market's picker, tabs and swipe track (Market.module.css) with these few extras. */
+
+/* An empty list: the L3 empty state centred in what's left of the page. The viewport, track and current panel are
+   columns that stretch to the page's height, so the empty block can fill it and centre its content. */
+.fill {
+  display: flex;
+  flex-direction: column;
+}
+.fill > *,
+.fill > * > [data-side='current'] {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.empty {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding-top: calc(var(--l3-spacing-12) * 2 + var(--l3-size-32)); /* under the list's header row, as Market's .page */
+}
+```
+
+### `src/flows/market/screens/Watchlist.tsx`
+
+```tsx
+import { useLayoutEffect, useRef, useState } from 'react'
+import { Actionbar } from '@l3/components/Actionbar'
+import { Aerobar } from '@l3/components/Aerobar'
+import { Badge } from '@l3/components/Badge'
+import { Button } from '@l3/components/Button'
+import { EmptyState } from '@l3/components/EmptyState'
+import { Icon } from '@l3/components/Icon'
+import { Inset } from '@l3/components/Inset'
+import { Section } from '@l3/components/Section'
+import { Stack } from '@l3/components/Stack'
+import { Tabs } from '@l3/components/Tabs'
+import { msAdd, msCheckCircle, msEdit, msSort } from '@l3/icons/material'
+import { lmSwitchArrowVertical } from '@l3/icons/lemonnade'
+import { lastStocksMarket } from '../../../shared/ui/MainNav'
+import { Screen } from '../../../shared/ui/Screen'
+import { CenteredTabs } from '../../../shared/ui/CenteredTabs'
+import { Flag } from '../../../shared/ui/Flag'
+import { neighbour, useSwipeBetween } from '../../../shared/ui/useSwipeBetween'
+import { useMarketSnapshot } from '../../../shared/data/companies'
+import { StockRow } from '../components/StockRow'
+import { createWatchlist, editWatchlist, sortWatchlistStocks, takeWatchlistReturn, watchlistStocks, watchlistsFor, type Market as MarketId, type Watchlist as List, type WatchlistSort } from '../data'
+import { CreateWatchlistSheet } from '../sheets/CreateWatchlistSheet'
+import { SortWatchlistSheet } from '../sheets/SortWatchlistSheet'
+import { t } from '../copy'
+import marketStyles from './Market.module.css'
+import styles from './Watchlist.module.css'
+
+/** The "All" tab's id for a market. */
+const allId = (market: MarketId) => `${market}-all`
+
+type Props = {
+  /** Which market's watchlists it opens on. Left out: the IND / US tab the Stocks home was last on (where it was opened from). */
+  market?: MarketId
+  /** The list to open on (its id). Left out: All. */
+  list?: string
+  /** Open with the Create watchlist sheet up, the field holding this text (board frame). */
+  creating?: string
+  /** Open with the Sort by sheet up (board frame). */
+  sorting?: boolean
+  /** Edit (the header's pencil): the Edit watchlist page, open on the list on screen. */
+  onEdit?: () => void
+  onBack?: () => void
+  /** An empty list's "Add stocks": Search, to find a stock and bookmark it. */
+  onAddStocks?: (market: MarketId) => void
+  onOpenUs?: (symbol: string) => void
+  onOpenStock?: (symbol: string) => void
+}
+
+/**
+ * market-11 … 15 · Watchlist — an L2 page (Home's Watchlist shortcut opens it). Built like the Market tab: the same IN /
+ * US picker at the left of a row of pill tabs, but the tabs are the user's watchlists (each market has its own); the
+ * list under them is that watchlist's stocks, the same live rows as Market. "+ New" in the top bar opens Create
+ * watchlist; the new, empty list becomes the last tab and opens. A swipe moves between lists, as on Market.
+ */
+export function Watchlist({ market: initialMarket, list: initialList, creating, sorting = false, onEdit, onBack, onAddStocks, onOpenUs, onOpenStock }: Props) {
+  // Back from Edit: the market and list it was editing (or All, after Delete).
+  const [returned] = useState(takeWatchlistReturn)
+  const [market, setMarket] = useState<MarketId>(returned?.market ?? initialMarket ?? lastStocksMarket() ?? 'in')
+  const [lists, setLists] = useState<List[]>(() => watchlistsFor(market))
+  const startOn = returned?.list ?? initialList
+  const [listId, setListId] = useState<string>(() => (startOn && lists.some((l) => l.id === startOn) ? startOn : allId(market)))
+  const [sheet, setSheet] = useState<string | null>(creating ?? null)
+  const [sortOpen, setSortOpen] = useState(sorting)
+  const [sort, setSort] = useState<WatchlistSort>('added')
+  // Back from Edit's Save: a "Watchlist updated" toast, gone after 3 s.
+  const [savedToast, setSavedToast] = useState(Boolean(returned?.saved))
+  useMarketSnapshot() // re-render when fresher Indian prices arrive
+
+  // "All" leads the tabs: every stock on any of this market's lists, once each, in list order.
+  const all: List = { id: allId(market), name: t('watchlist.all'), symbols: [...new Set(lists.flatMap((l) => l.symbols))] }
+  const tabs = [all, ...lists]
+  const ids = tabs.map((l) => l.id)
+  const other: MarketId = market === 'in' ? 'us' : 'in'
+  /** The picker flips IN ⇄ US: that market's watchlists, opening on its first. */
+  const switchMarket = () => {
+    const next = watchlistsFor(other)
+    setMarket(other)
+    setLists(next)
+    setListId(allId(other))
+  }
+  const create = (name: string) => {
+    const made = createWatchlist(market, name)
+    setLists(watchlistsFor(market))
+    setSheet(null)
+    comingFrom.current = 1
+    setListId(made.id)
+  }
+
+  // Lists as pages side by side, as on Market: a swipe drags the list and brings the next one in; a tap on a tab
+  // slides it in the same way. FLAG: hand-made swipe (shared/ui/useSwipeBetween) — L3 has no swipeable pages.
+  const [tapped, setTapped] = useState<string | null>(null)
+  const track = useRef<HTMLDivElement>(null)
+  const comingFrom = useRef<1 | -1 | 0>(0)
+  const scroller = () => {
+    for (let el = track.current?.parentElement; el; el = el.parentElement) {
+      const overflow = getComputedStyle(el).overflowY
+      if (overflow === 'auto' || overflow === 'scroll') return el
+    }
+    return null
+  }
+  const peek = () => track.current?.style.setProperty('--market-peek-top', `${scroller()?.scrollTop ?? 0}px`)
+  const show = (next: string) => { setListId(next); setTapped(null) }
+  const swipe = useSwipeBetween({
+    page: listId,
+    canGo: (direction) => neighbour(ids, listId, direction) !== null,
+    onSwitch: (direction) => { const next = neighbour(ids, listId, direction); if (next) show(next) },
+    slides: () => (track.current ? [track.current] : []),
+    fades: () => [],
+  })
+  const pick = (next: string) => {
+    const step = ids.indexOf(next) - ids.indexOf(listId)
+    if (!step || next === tapped) return
+    setTapped(next)
+    peek()
+    if (Math.abs(step) === 1) return swipe.go(step as 1 | -1, () => show(next))
+    comingFrom.current = step > 0 ? 1 : -1
+    show(next)
+  }
+  // A list opens at its top; one further than next door (or a new list) glides in from its side.
+  useLayoutEffect(() => {
+    const box = scroller()
+    if (box) box.scrollTop = 0
+    const from = comingFrom.current
+    comingFrom.current = 0
+    const el = track.current
+    if (!from || !el || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    el.animate([{ translate: `${from * el.offsetWidth}px 0` }, { translate: '0 0' }], { duration: 280, easing: 'cubic-bezier(0.2, 0, 0, 1)' })
+  }, [listId, market])
+
+  /** One watchlist's page: how many stocks, then the rows — or, empty, a nudge to add some. */
+  const page = (id: string) => {
+    const list = tabs.find((l) => l.id === id)
+    if (!list) return null
+    const stocks = sortWatchlistStocks(watchlistStocks(list, market), sort)
+    if (!stocks.length) {
+      return (
+        <div className={styles.empty}>
+          <EmptyState
+            title={t('watchlist.empty.title', { name: list.name })}
+            description={t('watchlist.empty.description')}
+            action={<Button variant="secondary" size="sm" iconLeft={<Icon icon={msAdd} />} onClick={() => onAddStocks?.(market)}>{t('watchlist.empty.action')}</Button>}
+          />
+        </div>
+      )
+    }
+    return (
+      <Stack className={marketStyles.page}>
+        <Section as="ul" aria-label={list.name}>
+          {stocks.map((stock) => <li key={stock.symbol}><StockRow stock={stock} onOpen={stock.market === 'us' ? onOpenUs : onOpenStock} /></li>)}
+        </Section>
+      </Stack>
+    )
+  }
+
+  const current = tabs.find((l) => l.id === (tapped ?? listId)) ?? all
+  const shown = watchlistStocks(current, market).length
+
+  return (
+    <Screen
+      top={
+        <Actionbar
+          className={marketStyles.barFade}
+          title={t('watchlist.title')}
+          onBack={onBack}
+          backLabel={t('watchlist.back')}
+          actions={<Button variant="tertiary" size="sm" iconLeft={<Icon icon={msAdd} />} aria-label={t('watchlist.newLabel')} onClick={() => setSheet('')}>{t('watchlist.new')}</Button>}
+          bottom={
+            // Sticky: the picker and the watchlist tabs, then the list's header — they stay put while the list scrolls
+            // or slides to another list.
+            <Stack>
+              <Stack direction="horizontal" align="center" className={marketStyles.pillRow}>
+                {/* The IN / US picker, exactly as on Market: one pill, the whole block around it takes the tap. */}
+                <div className={marketStyles.picker} onClick={switchMarket}>
+                  <Inset paddingInline="16" paddingBlock="00">
+                    <Tabs
+                      appearance="pill"
+                      size="md"
+                      aria-label={t('picker.label', { market: t(`picker.${market}`), other: t(`picker.${other}`) })}
+                      items={[{ value: market, label: t(`pickerLong.${market}`), iconLeft: <Flag code={market === 'in' ? 'in' : 'us'} />, iconRight: <Icon icon={lmSwitchArrowVertical} size={14} /> }]}
+                      value={market}
+                      onChange={() => {}}
+                    />
+                  </Inset>
+                </div>
+                <span className={marketStyles.divider} aria-hidden="true" />
+                <div className={marketStyles.tabs}>
+                  <CenteredTabs appearance="pill" emphasis="secondary" aria-label={t('watchlist.tabsLabel')} items={tabs.map((l) => ({ value: l.id, label: l.name }))} value={tapped ?? listId} onChange={(v) => pick(v)} />
+                </div>
+              </Stack>
+              {/* The list's header, as Market's filter bar: its name and count — "Momentum Plays (6)" — then Edit and
+                  Sort. It hangs under the top bar on the same fade; the list starts its height lower (.page). */}
+              <div className={marketStyles.filterRow}>
+                <Inset paddingInline="16" paddingBlock="12">
+                  <Stack direction="horizontal" align="center" gap="08">
+                    <p className={marketStyles.filterHint} aria-live="polite">{t('watchlist.heading', { name: current.name, count: shown })}</p>
+                    {/* All is every list at once, not a list of its own: nothing to edit there. */}
+                    {current.id !== all.id && (
+                      <span className={marketStyles.filterButton}>
+                        <Button variant="tertiary" size="sm" iconLeft={<Icon icon={msEdit} />} aria-label={t('watchlist.editLabel')} onClick={() => { editWatchlist(current.id); onEdit?.() }} />
+                      </span>
+                    )}
+                    <span className={marketStyles.filterButton}>
+                      <Badge dot={sort !== 'added'} label={t('watchlist.sort.on')}>
+                        <Button variant="tertiary" size="sm" iconLeft={<Icon icon={msSort} />} aria-label={t('watchlist.sortLabel')} onClick={() => setSortOpen(true)} />
+                      </Badge>
+                    </span>
+                  </Stack>
+                </Inset>
+              </div>
+            </Stack>
+          }
+        />
+      }
+      toast={savedToast && <Aerobar type="success" floating icon={<Icon icon={msCheckCircle} />} heading={t('watchlist.updated')} duration={3000} onDismiss={() => setSavedToast(false)} />}
+      sheet={
+        sheet !== null ? <CreateWatchlistSheet name={sheet} onCreate={create} onClose={() => setSheet(null)} />
+          : sortOpen ? <SortWatchlistSheet value={sort} onApply={(next) => { setSort(next); setSortOpen(false) }} onClose={() => setSortOpen(false)} />
+            : undefined
+      }
+    >
+      <div className={`${marketStyles.viewport} ${styles.fill}`}>
+        <div ref={(el) => { track.current = el; swipe.bind(el) }} className={marketStyles.track} onPointerDownCapture={peek}>
+          {[neighbour(ids, listId, -1), listId, neighbour(ids, listId, 1)].map((id, at) => id && (
+            <div key={`${market}-${id}`} className={marketStyles.panel} data-side={['before', 'current', 'after'][at]} inert={at !== 1} aria-hidden={at !== 1 || undefined}>
+              {page(id)}
+            </div>
+          ))}
+        </div>
+      </div>
+    </Screen>
+  )
+}
+```
+
+### `src/flows/market/sheets/CreateWatchlistSheet.module.css`
+
+```css
+/* No padding of its own: the L3 sheet's content area already brings the 16 margin (a second layer doubled it). */
+.form {
+  display: block;
+}
+```
+
+### `src/flows/market/sheets/CreateWatchlistSheet.tsx`
+
+```tsx
+import { useId, useState } from 'react'
+import { BottomSheetHeader } from '@l3/components/BottomSheet'
+import { Button } from '@l3/components/Button'
+import { ButtonGroup } from '@l3/components/ButtonGroup'
+import { TextField } from '@l3/components/TextField'
+import { usePreview } from '../../../shared/prototype'
+import { Sheet } from '../../../shared/ui/Sheet'
+import { TextKeyboard, typeText } from '../../../shared/ui/TextKeyboard'
+import { t } from '../copy'
+import styles from './CreateWatchlistSheet.module.css'
+
+/**
+ * Create watchlist — from the Watchlist page's "+ New". One field (Watchlist name, typing) and Create, off until
+ * something is typed; the phone keyboard sits under the dock while typing. The same sheet as Search's "Create
+ * watchlist" (search-22), so the two read alike.
+ */
+export function CreateWatchlistSheet({ name: initialName = '', onCreate, onClose }: { name?: string; onCreate?: (name: string) => void; onClose?: () => void }) {
+  const id = useId()
+  const { interactive } = usePreview()
+  const [name, setName] = useState(initialName)
+  return (
+    <Sheet
+      labelledBy={id}
+      onClose={onClose}
+      header={<BottomSheetHeader headingId={id} heading={t('watchlist.create.title')} />}
+      footer={
+        <>
+          <ButtonGroup aria-label={t('watchlist.create.title')}>
+            <Button size="lg" disabled={!name.trim()} onClick={() => onCreate?.(name.trim())}>{t('watchlist.create.button')}</Button>
+          </ButtonGroup>
+          <TextKeyboard onKey={(k) => setName((n) => typeText(n, k))} />
+        </>
+      }
+    >
+      <div className={styles.form}>
+        <TextField label={t('watchlist.create.field')} value={name} placeholder={t('watchlist.create.placeholder')} autoFocus={interactive} onChange={(e) => setName(e.target.value)} />
+      </div>
+    </Sheet>
+  )
+}
+```
+
 ### `src/flows/market/sheets/FilterSheet.module.css`
 
 ```css
@@ -1040,8 +1743,17 @@ export function Market({ market: initialMarket = 'in', tab: initialTab = 'all', 
 .split {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  height: var(--app-size-filter-body);
-  margin: calc(-1 * var(--l3-spacing-16)) calc(-1 * var(--l3-spacing-16)) calc(-1 * var(--l3-spacing-24));
+  /* The body's height plus the sheet's 16 top and 24 bottom spaces, which this sheet drops (below). */
+  height: calc(var(--app-size-filter-body) + var(--l3-spacing-16) + var(--l3-spacing-24));
+  margin: 0 calc(-1 * var(--l3-spacing-16));
+}
+
+/* 18 Nov fix: the split used to pull itself over the sheet's top / bottom spaces with negative margins, but the sheet
+   body scrolls and clips, so those strips stayed white above and below the grey rail. The sheet's spaces go (L3 2.4:
+   they're the content's top / bottom padding) and the split takes their height, so the rail is grey from the header
+   line to the dock. */
+.sheet > [data-sheet-content] {
+  padding-block: 0;
 }
 
 .pane {
@@ -1120,6 +1832,7 @@ export function FilterSheet({ market = 'in', initial, section, resultCount, onAp
 
   return (
     <Sheet
+      className={styles.sheet}
       labelledBy={headingId}
       onClose={onClose}
       header={<BottomSheetHeader headingId={headingId} heading={t('sheet.title')} />}
@@ -1159,135 +1872,72 @@ export function FilterSheet({ market = 'in', initial, section, resultCount, onAp
 }
 ```
 
+### `src/flows/market/sheets/SortWatchlistSheet.module.css`
+
+```css
+/* The Radio rows keep their own 16 side padding (plain ListCell), so the sheet content's padding goes — one level of
+   padding, not two (the user's call, 24 Nov). FLAG (L3 gap): BottomSheet has no option to drop its content padding. */
+.sheet > [data-sheet-content] {
+  padding: 0;
+}
+
+/* The Radio rows: 12 above and below inside the sheet (the user's call, 24 Nov). */
+.list {
+  padding-block: var(--l3-spacing-12);
+}
+```
+
+### `src/flows/market/sheets/SortWatchlistSheet.tsx`
+
+```tsx
+import { useId, useState } from 'react'
+import { BottomSheetHeader } from '@l3/components/BottomSheet'
+import { Button } from '@l3/components/Button'
+import { ButtonGroup } from '@l3/components/ButtonGroup'
+import { Radio } from '@l3/components/Checkbox'
+import { ListCell } from '@l3/components/ListCell'
+import { Sheet } from '../../../shared/ui/Sheet'
+import { watchlistSorts, type WatchlistSort } from '../data'
+import { t } from '../copy'
+import styles from './SortWatchlistSheet.module.css'
+
+/**
+ * Sort by — from the Watchlist header's Sort button (the live app's sheet, redone in L3). One choice, as L3 Radio
+ * rows: As added (the default, the list's own order), Market price and Day change % (highest first), Stock name (A → Z).
+ * Apply sorts every list on the page; the Sort button's dot says a sort other than As added is on.
+ */
+export function SortWatchlistSheet({ value, onApply, onClose }: { value: WatchlistSort; onApply: (sort: WatchlistSort) => void; onClose: () => void }) {
+  const id = useId()
+  const [draft, setDraft] = useState(value)
+  return (
+    <Sheet
+      className={styles.sheet}
+      labelledBy={id}
+      onClose={onClose}
+      header={<BottomSheetHeader headingId={id} heading={t('watchlist.sort.title')} />}
+      footer={
+        <ButtonGroup aria-label={t('watchlist.sort.title')}>
+          <Button size="lg" onClick={() => onApply(draft)}>{t('watchlist.sort.apply')}</Button>
+        </ButtonGroup>
+      }
+    >
+      <div className={styles.list} role="radiogroup" aria-label={t('watchlist.sort.title')}>
+        {watchlistSorts.map((sort) => (
+          <ListCell
+            key={sort}
+            as="label"
+            label={t(`watchlist.sort.${sort}`)}
+            description={sort === 'added' ? t('watchlist.sort.default') : undefined}
+            trailing={<Radio name={`${id}-sort`} checked={draft === sort} onChange={() => setDraft(sort)} />}
+          />
+        ))}
+      </div>
+    </Sheet>
+  )
+}
+```
+
 ## Source — shared app parts it uses
-
-### `src/shared/assets/flags/china.svg`
-
-```tsx
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <!-- China, round. Flag artwork keeps its own colours. -->
-  <defs><clipPath id="c"><circle cx="12" cy="12" r="12"/></clipPath></defs>
-  <g clip-path="url(#c)">
-    <rect width="24" height="24" fill="#DE2910"/>
-    <g fill="#FFDE00">
-      <polygon points="7.00,3.90 7.81,6.39 10.42,6.39 8.31,7.92 9.12,10.41 7.00,8.88 4.88,10.41 5.69,7.92 3.58,6.39 6.19,6.39"/>
-      <polygon points="12.88,2.17 12.85,2.97 13.60,3.24 12.83,3.46 12.80,4.26 12.36,3.59 11.59,3.82 12.08,3.19 11.63,2.52 12.38,2.80"/>
-      <polygon points="15.51,4.76 15.21,5.50 15.82,6.01 15.02,5.96 14.72,6.70 14.53,5.92 13.73,5.87 14.41,5.44 14.22,4.67 14.83,5.18"/>
-      <polygon points="14.99,7.72 15.10,8.51 15.89,8.65 15.17,9.00 15.28,9.79 14.73,9.21 14.01,9.56 14.38,8.86 13.83,8.28 14.62,8.42"/>
-      <polygon points="13.05,10.25 12.88,11.03 13.58,11.43 12.78,11.51 12.61,12.29 12.29,11.56 11.50,11.65 12.09,11.11 11.76,10.38 12.46,10.78"/>
-    </g>
-  </g>
-  <circle cx="12" cy="12" r="11.75" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="0.5"/>
-</svg>
-```
-
-### `src/shared/assets/flags/europe.svg`
-
-```tsx
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <!-- European Union, round. Flag artwork keeps its own colours. -->
-  <defs><clipPath id="c"><circle cx="12" cy="12" r="12"/></clipPath></defs>
-  <g clip-path="url(#c)">
-    <rect width="24" height="24" fill="#003399"/>
-    <g fill="#FFCC00">
-      <polygon points="12.00,3.80 12.27,4.63 13.14,4.63 12.44,5.14 12.71,5.97 12.00,5.46 11.29,5.97 11.56,5.14 10.86,4.63 11.73,4.63"/>
-      <polygon points="15.50,4.74 15.77,5.57 16.64,5.57 15.94,6.08 16.21,6.91 15.50,6.40 14.79,6.91 15.06,6.08 14.36,5.57 15.23,5.57"/>
-      <polygon points="18.06,7.30 18.33,8.13 19.20,8.13 18.50,8.64 18.77,9.47 18.06,8.96 17.36,9.47 17.63,8.64 16.92,8.13 17.79,8.13"/>
-      <polygon points="19.00,10.80 19.27,11.63 20.14,11.63 19.44,12.14 19.71,12.97 19.00,12.46 18.29,12.97 18.56,12.14 17.86,11.63 18.73,11.63"/>
-      <polygon points="18.06,14.30 18.33,15.13 19.20,15.13 18.50,15.64 18.77,16.47 18.06,15.96 17.36,16.47 17.63,15.64 16.92,15.13 17.79,15.13"/>
-      <polygon points="15.50,16.86 15.77,17.69 16.64,17.69 15.94,18.20 16.21,19.03 15.50,18.52 14.79,19.03 15.06,18.20 14.36,17.69 15.23,17.69"/>
-      <polygon points="12.00,17.80 12.27,18.63 13.14,18.63 12.44,19.14 12.71,19.97 12.00,19.46 11.29,19.97 11.56,19.14 10.86,18.63 11.73,18.63"/>
-      <polygon points="8.50,16.86 8.77,17.69 9.64,17.69 8.94,18.20 9.21,19.03 8.50,18.52 7.79,19.03 8.06,18.20 7.36,17.69 8.23,17.69"/>
-      <polygon points="5.94,14.30 6.21,15.13 7.08,15.13 6.37,15.64 6.64,16.47 5.94,15.96 5.23,16.47 5.50,15.64 4.80,15.13 5.67,15.13"/>
-      <polygon points="5.00,10.80 5.27,11.63 6.14,11.63 5.44,12.14 5.71,12.97 5.00,12.46 4.29,12.97 4.56,12.14 3.86,11.63 4.73,11.63"/>
-      <polygon points="5.94,7.30 6.21,8.13 7.08,8.13 6.37,8.64 6.64,9.47 5.94,8.96 5.23,9.47 5.50,8.64 4.80,8.13 5.67,8.13"/>
-      <polygon points="8.50,4.74 8.77,5.57 9.64,5.57 8.94,6.08 9.21,6.91 8.50,6.40 7.79,6.91 8.06,6.08 7.36,5.57 8.23,5.57"/>
-    </g>
-  </g>
-  <circle cx="12" cy="12" r="11.75" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="0.5"/>
-</svg>
-```
-
-### `src/shared/assets/flags/india.svg`
-
-```tsx
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <!-- India, round: saffron / white / green with the navy Ashoka Chakra. Flag artwork keeps its own colours. -->
-  <defs><clipPath id="c"><circle cx="12" cy="12" r="12"/></clipPath></defs>
-  <g clip-path="url(#c)">
-    <rect width="24" height="8" fill="#FF9933"/>
-    <rect y="8" width="24" height="8" fill="#FFFFFF"/>
-    <rect y="16" width="24" height="8" fill="#138808"/>
-    <circle cx="12" cy="12" r="3" fill="none" stroke="#000080" stroke-width="0.8"/>
-    <circle cx="12" cy="12" r="0.8" fill="#000080"/>
-    <g stroke="#000080" stroke-width="0.4">
-      <path d="M12 9v6M9 12h6M9.88 9.88l4.24 4.24M14.12 9.88l-4.24 4.24"/>
-    </g>
-  </g>
-  <circle cx="12" cy="12" r="11.75" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="0.5"/>
-</svg>
-```
-
-### `src/shared/assets/flags/japan.svg`
-
-```tsx
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <!-- Japan, round. Flag artwork keeps its own colours. -->
-  <defs><clipPath id="c"><circle cx="12" cy="12" r="12"/></clipPath></defs>
-  <g clip-path="url(#c)">
-    <rect width="24" height="24" fill="#FFFFFF"/>
-    <circle cx="12" cy="12" r="5.6" fill="#BC002D"/>
-  </g>
-  <circle cx="12" cy="12" r="11.75" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="0.5"/>
-</svg>
-```
-
-### `src/shared/assets/flags/korea.svg`
-
-```tsx
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <!-- South Korea, round. Flag artwork keeps its own colours. -->
-  <defs><clipPath id="c"><circle cx="12" cy="12" r="12"/></clipPath></defs>
-  <g clip-path="url(#c)">
-    <rect width="24" height="24" fill="#FFFFFF"/>
-    <circle cx="12" cy="12" r="5" fill="#0047A0"/>
-    <path d="M7 12a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0z" fill="#CD2E3A"/>
-    <g stroke="#000000" stroke-width="0.9" stroke-linecap="butt">
-      <path d="M3.6 6.2l2.4-1.4M4.3 7.6l2.4-1.4M5 9l2.4-1.4" transform="translate(-0.4 0.2)"/>
-      <path d="M20.4 6.2l-2.4-1.4M19.7 7.6l-2.4-1.4M19 9l-2.4-1.4" transform="translate(0.4 0.2)"/>
-      <path d="M3.6 17.8l2.4 1.4M4.3 16.4l2.4 1.4M5 15l2.4 1.4" transform="translate(-0.4 -0.2)"/>
-      <path d="M20.4 17.8l-2.4 1.4M19.7 16.4l-2.4 1.4M19 15l-2.4 1.4" transform="translate(0.4 -0.2)"/>
-    </g>
-  </g>
-  <circle cx="12" cy="12" r="11.75" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="0.5"/>
-</svg>
-```
-
-### `src/shared/assets/flags/us.svg`
-
-```tsx
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <!-- United States, round: red and white stripes with the blue canton. Flag artwork keeps its own colours. -->
-  <defs><clipPath id="c"><circle cx="12" cy="12" r="12"/></clipPath></defs>
-  <g clip-path="url(#c)">
-    <rect width="24" height="24" fill="#FFFFFF"/>
-    <g fill="#B22234">
-      <rect y="0" width="24" height="2.4"/>
-      <rect y="4.8" width="24" height="2.4"/>
-      <rect y="9.6" width="24" height="2.4"/>
-      <rect y="14.4" width="24" height="2.4"/>
-      <rect y="19.2" width="24" height="2.4"/>
-    </g>
-    <rect width="12" height="12" fill="#3C3B6E"/>
-    <g fill="#FFFFFF">
-      <circle cx="3.5" cy="3" r="0.8"/><circle cx="7" cy="3" r="0.8"/><circle cx="10.5" cy="3" r="0.8"/>
-      <circle cx="5.25" cy="6" r="0.8"/><circle cx="8.75" cy="6" r="0.8"/>
-      <circle cx="3.5" cy="9" r="0.8"/><circle cx="7" cy="9" r="0.8"/><circle cx="10.5" cy="9" r="0.8"/>
-    </g>
-  </g>
-  <circle cx="12" cy="12" r="11.75" fill="none" stroke="#000000" stroke-opacity="0.12" stroke-width="0.5"/>
-</svg>
-```
 
 ### `src/shared/assets/logos/asahiindia.png`
 
@@ -1804,7 +2454,7 @@ export type Company = CompanyProfile & {
 
 const both: Exchange[] = ['NSE', 'BSE']
 const company = (symbol: string, name: string, initials: string, founded: number, headquarters: string, website: string, about: string): CompanyProfile => ({
-  symbol, name, initials, exchanges: both, founded, headquarters, website, about,
+  symbol, name, initials: initials.slice(0, 1), exchanges: both, founded, headquarters, website, about,
 })
 
 /** Profiles, by NSE symbol (one line each — scripts/market-snapshot.mjs reads the symbols from here). */
@@ -17146,7 +17796,7 @@ export const indices: MarketIndex[] = [
  */
 export type Stock = { symbol: string; name: string; price: number; changePct: number; initials: string; logoUrl?: string }
 
-const stock = (symbol: string, name: string, price: number, changePct: number, initials: string, logoUrl?: string): Stock => ({ symbol, name, price, changePct, initials, logoUrl: logoUrl ?? companyLogo(symbol) })
+const stock = (symbol: string, name: string, price: number, changePct: number, initials: string, logoUrl?: string): Stock => ({ symbol, name, price, changePct, initials: initials.slice(0, 1), logoUrl: logoUrl ?? companyLogo(symbol) })
 
 export const stocks = {
   HBLENGINE: stock('HBLENGINE', 'HBL Engineering', 833.15, 17.27, 'HB'),
@@ -26279,6 +26929,9 @@ export const linkedBanks: LinkedBank[] = [
  * accounts: Three" and "SBI only" add it, to show the US Stocks bank step with an account it can't use.
  */
 export const otherBank: LinkedBank = { id: 'sbi', bank: 'State Bank of India', accountNumber: '38201945520', ifsc: 'SBIN0000300', type: 'Savings', branch: 'Fort, Mumbai', logoSymbol: 'SBIN', last4: '5520' }
+
+/** The instant-balance offer (₹, for intraday, MTF and F&O): Profile's row and the Indian wallet's card show it. */
+export const INSTANT_BALANCE = 149
 ```
 
 ### `src/shared/money.module.css`
@@ -26321,8 +26974,6 @@ import { Tabs } from '@l3/components/Tabs'
 import type { FlowOption } from '../flows/types'
 import { usdInrSnapshot } from './data/usStocks'
 import { liveDrift, useLiveTick } from './data/live'
-import { useFlowOption } from './prototype'
-import { USER_STATUS } from './userStatus'
 import styles from './money.module.css'
 
 // ── The rate ────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -26399,12 +27050,14 @@ export const moneyOptions: FlowOption[] = [
     // $ only by default (3 Nov): the ₹ shows when picked here. The stock and ETF pages are the exception — their price
     // always has its ≈ ₹ under it.
     default: 'off',
-    // The Home and its US tab screens (the US tab's fixed states show $ amounts too), a US stock page, the wallet's US tab.
-    floatOn: ['stocks-01', 'stocks-09', 'stocks-10', 'stocks-13', 'stocks-14', 'stocks-15', 'stocks-16', 'stocks-17', 'stocks-19', 'stocks-20', 'stocks-21', 'us-stocks-13', 'us-stocks-54'],
+    // Not in the floating card beside the phone any more (18 Nov, the user's call): still in the settings list.
   },
 ]
 
-const useInrDisplay = () => useFlowOption(USER_STATUS, 'inrDisplay', moneyOptions[0].default) as InrDisplay
+// Archived 18 Nov (the user's call): the "₹ equivalent" setting is no longer offered — US money shows in $ only. The
+// ₹ below / $ ⇄ ₹ switch code stays; set INR_DISPLAY to 'below' or 'switch' to see it (stock and ETF pages keep their ≈ ₹).
+const INR_DISPLAY = moneyOptions[0].default as InrDisplay
+const useInrDisplay = () => INR_DISPLAY
 
 // The currency picked on the switch: one for the whole app, remembered on this device (like a real app's preference).
 const CURRENCY_KEY = 'us-currency'
@@ -26609,11 +27262,39 @@ export function setFlowOption(flow: string, option: string, fallback: string, va
 
 const memory = new Map<string, string>()
 
+/**
+ * Showcase links (20 Nov): `?showcase` shows one screen as it is shared (e.g. the risk-meter page for leadership) — no
+ * prototype controls over it. `?o=nudges.meter:soft,nudges.meterFill:split` sets options for this page only (never
+ * stored, so several showcase frames side by side can each show their own version).
+ */
+// A showcase frame can't always carry a query (a packed, single-file page loads the app from a blob: URL), so its
+// settings can also come in the frame's name: "showcase:?showcase&theme=dark&o=…".
+export const linkParams = (() => {
+  try {
+    const named = window.name.startsWith('showcase:') ? window.name.slice('showcase:'.length) : ''
+    return new URLSearchParams(named || location.search)
+  } catch { return new URLSearchParams() }
+})()
+export const SHOWCASE = linkParams.has('showcase')
+// A showcase frame sits in a page of phones: the app focusing its sheet must never scroll that page to it.
+if (SHOWCASE) {
+  const focus = HTMLElement.prototype.focus
+  HTMLElement.prototype.focus = function (options?: FocusOptions) { focus.call(this, { ...options, preventScroll: true }) }
+}
+const linkOptions = new Map((linkParams.get('o') ?? '').split(',').filter(Boolean).map((pair) => {
+  const [key, value = ''] = pair.split(':')
+  return [key, value] as const
+}))
+const picked = (flow: string, option: string, fallback: string) => {
+  const key = optionKey(flow, option, fallback)
+  return linkOptions.get(`${flow}.${option}`) ?? memory.get(key) ?? readOption(key)
+}
+
 /** A flow's prototype option: the picked value, or `fallback` (the option's default) when none is picked. */
 export function useFlowOption(flow: string, option: string, fallback: string) {
   return useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
-    () => memory.get(optionKey(flow, option, fallback)) ?? readOption(optionKey(flow, option, fallback)) ?? fallback,
+    () => picked(flow, option, fallback) ?? fallback,
   )
 }
 
@@ -26624,8 +27305,7 @@ export function useFlowOptionValues(flow: { id: string; options?: OptionLike[] }
   const snap = useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
     () => JSON.stringify(Object.fromEntries((flow.options ?? []).map((o) => {
-      const key = optionKey(flow.id, o.id, o.default)
-      return [o.id, memory.get(key) ?? readOption(key) ?? o.default]
+      return [o.id, picked(flow.id, o.id, o.default) ?? o.default]
     }))),
   )
   return JSON.parse(snap)
@@ -26650,8 +27330,7 @@ export function useFlowOptionsChanged(flow: { id: string; options?: { id: string
   return useSyncExternalStore(
     (onChange) => { optionListeners.add(onChange); return () => { optionListeners.delete(onChange) } },
     () => (flow.options ?? []).filter((o) => {
-      const key = optionKey(flow.id, o.id, o.default)
-      return (memory.get(key) ?? readOption(key) ?? o.default) !== o.default
+      return (picked(flow.id, o.id, o.default) ?? o.default) !== o.default
     }).length,
   )
 }
@@ -26715,35 +27394,370 @@ export function CenteredTabs(props: ComponentProps<typeof Tabs>) {
 ### `src/shared/ui/Flag.module.css`
 
 ```css
-.flag {
-  display: block;
+/* A flag emoji at icon size: 16 tall, as wide as the glyph. Doubled so it beats an icon slot's square (L3 Tabs /
+   Button: `.icon > span` is 16 × 16), and that slot widens to it. L3 gap: icon slots are square only. */
+.flag.flag {
+  display: inline-flex;
   flex: none;
-  width: var(--l3-icon-size-16);
+  align-items: center;
+  justify-content: center;
+  width: auto;
   height: var(--l3-icon-size-16);
+  font-size: var(--l3-icon-size-16);
+  line-height: 1;
+  /* Full strength in an inactive tab too (the user's call): an emoji takes its text colour's alpha, and L3's inactive
+     tab text is 60%. */
+  color: var(--l3-content-primary);
+}
+
+[class]:has(> .flag.flag) {
+  width: auto;
 }
 ```
 
 ### `src/shared/ui/Flag.tsx`
 
 ```tsx
-import flagChina from '../assets/flags/china.svg'
-import flagEurope from '../assets/flags/europe.svg'
-import flagIndia from '../assets/flags/india.svg'
-import flagJapan from '../assets/flags/japan.svg'
-import flagKorea from '../assets/flags/korea.svg'
-import flagUs from '../assets/flags/us.svg'
 import styles from './Flag.module.css'
 
 export type FlagCode = 'us' | 'in' | 'cn' | 'jp' | 'eu' | 'kr'
 
-const files: Record<FlagCode, string> = { us: flagUs, in: flagIndia, cn: flagChina, jp: flagJapan, eu: flagEurope, kr: flagKorea }
+/** The flag emoji themselves (the user's call, 19 Nov): the device's own 🇮🇳 / 🇺🇸, as in text. */
+const emoji: Record<FlagCode, string> = { us: '🇺🇸', in: '🇮🇳', cn: '🇨🇳', jp: '🇯🇵', eu: '🇪🇺', kr: '🇰🇷' }
 
 /**
- * A round flag, 16 like the icons in small buttons and tabs (use as an `iconLeft`).
- * L3 gap: no flag icons in L3 — round flag SVGs of our own (shared/assets/flags), not emoji, so they look the same and
- * sit centred on every device.
+ * A country's flag emoji, 16 like the icons in small buttons and tabs (use as an `iconLeft`).
+ * L3 gap: no flag icons in L3, so the system emoji is used.
  */
-export const Flag = ({ code }: { code: FlagCode }) => <img className={styles.flag} src={files[code]} alt="" aria-hidden="true" />
+export const Flag = ({ code }: { code: FlagCode }) => (
+  <span className={styles.flag} aria-hidden="true">{emoji[code]}</span>
+)
+```
+
+### `src/shared/ui/FloatingNav.module.css`
+
+```css
+/*
+ * Bottom navbar V2 — floating (FloatingNav.tsx), from the Figma floating nav (LM → Stocks Playground, node 6687:10922,
+ * 20 Nov). In its 392 frame: the pill 16 / 16 in and 14 up, 56 tall (8 + 24 icon + 12 label + 12), radius full, on
+ * surface/default with a 1px border/light edge and a soft double shadow; a 50 × 40 accent-green glow (Figma: lemon) blurred 23.3, its top
+ * 27.87 above the pill's; behind it a blob of surface/default blurred 50. Figma values L3 has no token for are the
+ * marked --app-fnav-* local tokens (src/local-tokens.css).
+ * L3 gap: Bottom Navbar has no floating version, so this frame restyles it (fill, line, shadow, option sizes, colours).
+ */
+
+/* V1 (docked): the navbar as it is — the wrapper only marks it (data-bottom-nav) and adds no box of its own. */
+.docked { display: contents; }
+
+/* Takes no height in the page: what it holds hangs from the page's bottom edge over the body. */
+.frame {
+  position: relative;
+  z-index: 1; /* above the body that scrolls under it — stacking order isn't a design token */
+  height: 0;
+}
+
+/* The page fades out under the nav (20 Nov, user: stronger than Figma's blurred blob): the page's colour, solid from
+   the bottom edge up past the pill's middle, then fading to clear just above the pill (23 Nov, user: half the old
+   152, it rose too far up the page). It never takes a tap. */
+.fade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc((var(--l3-size-128) + var(--l3-size-24)) / 2); /* 76: half the old 152, just over the pill (70) */
+  background: linear-gradient(
+    to top,
+    var(--l3-surface-default) 0%,
+    var(--l3-surface-default) 30%,
+    color-mix(in srgb, var(--l3-surface-default) 85%, transparent) 50%,
+    color-mix(in srgb, var(--l3-surface-default) 45%, transparent) 75%,
+    color-mix(in srgb, var(--l3-surface-default) 0%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+.pill {
+  position: absolute;
+  right: var(--l3-spacing-16);
+  bottom: var(--l3-spacing-14);
+  left: var(--l3-spacing-16);
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: var(--l3-spacing-08) 0 var(--l3-spacing-12); /* end to end: no side padding (23 Nov, user) */
+  border-radius: var(--l3-radius-full);
+  background: var(--l3-surface-default);
+  /* Figma's 1px stroke is inside the pill (it stays 56): an inset line, then the double shadow. */
+  box-shadow: inset 0 0 0 1px var(--l3-border-light), var(--app-fnav-shadow); /* 1px: Figma stroke weight has no variable */
+}
+
+/* The chosen tab's glow (Figma Ellipse 6871, in accent green), centred on the tab, clipped by the pill. */
+.glow {
+  position: absolute;
+  top: var(--app-fnav-glow-top);
+  left: calc(var(--glow-x) - var(--app-fnav-glow-width) / 2); /* centred on the chosen tab (23 Nov, user) */
+  width: var(--app-fnav-glow-width);
+  height: var(--l3-size-40);
+  border-radius: var(--l3-radius-full);
+  background: var(--l3-surface-accent-success-default); /* accent green (20 Nov, user; Figma's was brand lime) */
+  filter: blur(var(--app-fnav-glow-blur));
+  pointer-events: none;
+  transition: left var(--l3-motion-duration-medium) var(--l3-motion-easing-standard);
+}
+
+/* V3 (23 Nov, user): the glow under the chosen tab, mirrored — as far below the pill's foot as V2's is above its top. */
+.frame[data-glow-at='bottom'] .glow {
+  top: auto;
+  bottom: var(--app-fnav-glow-top);
+}
+/* V3 (23 Nov, user: "hide the glow"): no glow at all — the coloured icon marks the chosen tab. */
+.frame[data-glow-at='bottom'] .glow {
+  display: none;
+}
+
+/* V3 (23 Nov, user): each tab full height, 56. */
+/* 24 Nov, user: full width again — 16 in from each side, the five tabs sharing it equally, so they grow and shrink
+   with the device width (no fixed 74). */
+.frame[data-glow-at='bottom'] .pill {
+  padding: 0;
+}
+.frame[data-glow-at='bottom'] .pill :is(button, a)[class] {
+  height: var(--l3-size-56);
+  white-space: nowrap;
+}
+/* Labels shown whole, never cut to "Mutual Fu…". FLAG (L3 gap): Bottom Navbar truncates labels; no fixed-size option. */
+.frame[data-glow-at='bottom'] .pill :is(button, a)[class] > span:last-child {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* L3 Bottom Navbar inside the pill: no fill, line, shadow or safe-area pad of its own; 4 between options. */
+.pill > nav {
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+  padding-bottom: 0;
+}
+.pill > nav > ul {
+  gap: 0; /* equal options tile the pill edge to edge (23 Nov, user) */
+}
+/* Every option the same width, the row end to end across the pill (23 Nov, user). */
+.pill > nav > ul > li {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.pill > nav > ul > li > :is(button, a) {
+  width: 100%;
+}
+
+/* Each option: the 24 icon right on its 12 label, no padding; content/secondary, the chosen one content/primary in
+   L3 Heading/10. (Figma's unselected label is semibold 600; L3's nearest is Label/10, 650.) */
+.pill :is(button, a)[class] {
+  gap: 0;
+  min-height: 0;
+  padding: 0;
+  color: var(--l3-content-secondary);
+  background-image: none;
+}
+/* Inactive labels in L3 Description/10 (500), not Label/10 (650): at 650 the text read stronger than its thin icon in
+   the same content/secondary (23 Nov, user: "keep the visual of the text and the icon the same"). */
+.pill :is(button, a)[class]:not([data-selected]) > span:last-child {
+  font: var(--l3-text-description-10);
+}
+.pill :is(button, a)[data-selected] {
+  color: var(--l3-content-primary);
+}
+.pill :is(button, a)[data-selected] > span:last-child {
+  font: var(--l3-text-heading-10);
+}
+
+/* The Figma icons (FloatingNavIcon): 24, masked in the option's colour. */
+.icon {
+  display: block;
+  width: var(--l3-icon-size-24);
+  height: var(--l3-icon-size-24);
+}
+
+/* ---------- Motion (23 Nov, user: "animate the whole navbar transitions") ----------
+   Option colours ease; on a tab switch (data-motion="moved") the new tab's icon pops and its label comes up, the old
+   tab fades back from content/primary; when the options themselves change (main nav ↔ a sub-nav, "swapped") they come
+   in one by one. FLAG (L3 gap): Bottom Navbar has no selection motion; durations / easing are L3 motion tokens. */
+.pill :is(button, a)[class] {
+  transition: color var(--l3-motion-duration-medium) var(--l3-motion-easing-standard);
+}
+.frame[data-motion='moved'] .pill :is(button, a)[data-selected] .icon {
+  animation: navPop var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='moved'] .pill :is(button, a)[data-selected] > span:last-child {
+  animation: navRise var(--l3-motion-duration-medium) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='moved'] .pill li[data-was-selected] :is(button, a) {
+  animation: navFadeBack var(--l3-motion-duration-medium) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='swapped'] .pill > nav > ul > li {
+  animation: navRise var(--l3-motion-duration-medium) var(--l3-motion-easing-standard) both;
+}
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(2) { animation-delay: 40ms; }
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(3) { animation-delay: 80ms; }
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(4) { animation-delay: 120ms; }
+.frame[data-motion='swapped'] .pill > nav > ul > li:nth-child(5) { animation-delay: 160ms; }
+.frame[data-motion='swapped'] .glow { animation: navGlowIn var(--l3-motion-duration-long) var(--l3-motion-easing-standard) both; }
+
+@keyframes navPop { 0% { transform: scale(.7); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes navRise { from { opacity: 0; transform: translateY(var(--l3-spacing-04)); } to { opacity: 1; transform: none; } }
+@keyframes navFadeBack { from { color: var(--l3-content-primary); } to { color: var(--l3-content-tertiary); } }
+@keyframes navGlowIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .glow { transition: none; }
+  .frame .pill *, .frame .glow { animation: none !important; transition: none !important; }
+}
+
+/* V3 (24 Nov, user): 2 between the icon and its label, and the chosen tab's label in accent green, matching its
+   coloured icon. */
+.frame[data-glow-at='bottom'] .pill :is(button, a)[class] {
+  gap: var(--l3-spacing-02);
+}
+.frame[data-glow-at='bottom'] .pill :is(button, a)[data-selected] > span:last-child {
+  color: var(--l3-content-accent-success-default);
+}
+
+/* Inactive tabs (24 Nov, user): as light as the Mutual Fund / F&O navs' L3 icons (their 40 / 60 parts), and the label
+   the same colour as its icon in every nav — content/tertiary for both. (The L3 NavIcons in the sub-navs keep their
+   baked 40 / 60 shares.) A user call over the "no tertiary text" default. */
+.pill :is(button, a)[class]:not([data-selected]) {
+  color: var(--l3-content-tertiary);
+}
+/* …but the labels stay content/secondary (24 Nov, user: "labels back to secondary"); only the icons go lighter. */
+.pill :is(button, a)[class]:not([data-selected]) > span:last-child {
+  color: var(--l3-content-secondary);
+}
+```
+
+### `src/shared/ui/FloatingNav.tsx`
+
+```tsx
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { MaskIcon } from '@l3/components/MaskIcon'
+import { useFlowOption } from '../prototype'
+import { USER_STATUS } from '../userStatus'
+import stocksIcon from './assets/floating-nav/stocks.svg'
+import marketIcon from './assets/floating-nav/market.svg'
+import marketSelectedIcon from './assets/floating-nav/market-selected.svg'
+import portfolioIcon from './assets/floating-nav/portfolio.svg'
+import mutualFundIcon from './assets/floating-nav/mutual-fund.svg'
+import fnoIcon from './assets/floating-nav/fno.svg'
+import fnoSelectedIcon from './assets/floating-nav/fno-selected.svg'
+import styles from './FloatingNav.module.css'
+
+/** App setting "Bottom navbar" (A/B, 20 Nov): V1 docked (L3 Bottom Navbar) · V2 floating, the default at launch (20 Nov) ·
+ * V3 V2's floating nav with L3's coloured icon on the chosen tab and the glow under it, not over it (23 Nov, user). */
+export const BOTTOM_NAV_OPTION = 'bottomNav'
+const useBottomNavVersion = () => useFlowOption(USER_STATUS, BOTTOM_NAV_OPTION, 'v2') // V2 by default (20 Nov, user)
+/** V2 and V3: the floating nav (this frame and its own Figma icons). */
+export const useFloatingNav = () => useBottomNavVersion() !== 'v1'
+/** V3: the chosen tab shows L3's coloured (two-tone brand) icon instead of the black-and-white one. */
+export const useColourNavIcons = () => useBottomNavVersion() === 'v3'
+/** The L3 Bottom Navbar variant to pass: always docked now (V3 was L3's floating variant until 23 Nov; the frame floats it). */
+export const useBottomNavVariant = (): 'docked' | 'floating' => 'docked'
+
+/**
+ * V2's main-nav icons, from the Figma floating nav (LM → Stocks Playground, node 6687:10998, 20 Nov). One colour
+ * each, masked so they take the option's colour: content/primary when chosen, content/secondary when not. Market
+ * and F&O have their own chosen shape; Portfolio's lighter part keeps its 40 / 60 share baked in.
+ */
+const floatingIcons = {
+  stocks: [stocksIcon, stocksIcon],
+  market: [marketIcon, marketSelectedIcon],
+  portfolio: [portfolioIcon, portfolioIcon],
+  mutualFund: [mutualFundIcon, mutualFundIcon],
+  fno: [fnoIcon, fnoSelectedIcon],
+} as const
+export type FloatingIconName = keyof typeof floatingIcons
+
+export function FloatingNavIcon({ name, selected = false }: { name: FloatingIconName; selected?: boolean }) {
+  return <span className={styles.icon}><MaskIcon src={floatingIcons[name][selected ? 1 : 0]} /></span>
+}
+
+/**
+ * Wraps a bottom navbar (an L3 <BottomNavbar>: the main nav, the F&O and Mutual Fund sub-navs). V1 passes it through.
+ * V2 is the Figma floating nav (node 6687:10922): a pill 16 in from each side and 14 up from the bottom, on
+ * surface/default with a light edge and a soft double shadow; 8 above the icons and 12 below the labels; a blurred
+ * accent-green glow from the chosen tab's left edge, clipped by the pill; and behind it all the page's colour, solid at
+ * the bottom and fading out above the pill (20 Nov), so the page fades out under the nav. The frame takes no height of
+ * its own: the body runs on behind it and keeps its last content clear of the pill (Screen / Phone CSS).
+ */
+/** Where the last floating nav left off: each tab is its own screen, so the nav mounts afresh on every switch. */
+let navMemory: { glowX: number | null; index: number | null; items: string | null } = { glowX: null, index: null, items: null }
+
+export function FloatingNav({ children }: { children: ReactNode }) {
+  const floating = useFloatingNav()
+  const glowBelow = useColourNavIcons() // V3: the glow sits under the chosen tab (23 Nov, user)
+  const pill = useRef<HTMLDivElement>(null)
+  // A fresh nav starts where the last one left off (the glow at the old tab) and moves from there (23 Nov, user:
+  // "animate the whole navbar transitions like tab switch, nav items change").
+  const [glowX, setGlowX] = useState<number | null>(() => navMemory.glowX)
+  const [motion, setMotion] = useState<'moved' | 'swapped' | undefined>(undefined)
+  const firstPlace = useRef(true)
+
+  // The glow sits behind the chosen tab: wherever L3 puts it (sub-navs have a Home option first).
+  useLayoutEffect(() => {
+    if (!floating || !pill.current) return
+    const place = () => {
+      const box = pill.current
+      if (!box) return
+      const options = [...box.querySelectorAll<HTMLElement>('nav > ul > li')]
+      const chosenIndex = options.findIndex((li) => li.querySelector('[data-selected]'))
+      if (chosenIndex < 0) return setGlowX(null)
+      const tab = options[chosenIndex].getBoundingClientRect()
+      const x = tab.left + tab.width / 2 - box.getBoundingClientRect().left // the chosen tab's centre (23 Nov, user)
+      const items = options.map((li) => li.textContent).join('|')
+      const before = navMemory
+      navMemory = { glowX: x, index: chosenIndex, items }
+      if (!firstPlace.current) return setGlowX(x) // a change within this nav: the CSS transition slides the glow
+      firstPlace.current = false
+      if (before.items !== null && before.items !== items) {
+        setMotion('swapped') // another set of options (main nav ↔ a sub-nav): they come in one by one
+        return setGlowX(x)
+      }
+      if (before.index === null || before.index === chosenIndex || before.glowX === null) return setGlowX(x)
+      // A tab switch: the old tab fades back, the new one pops, and the glow (painted at the old x) slides over.
+      options[before.index]?.setAttribute('data-was-selected', '')
+      setMotion('moved')
+      box.querySelector<HTMLElement>('[data-glow]')?.getBoundingClientRect() // style the glow at the old x first…
+      setGlowX(x) // …so moving it runs the CSS transition (no frame wait: it works in a hidden tab too)
+    }
+    place()
+    const watch = new MutationObserver(place)
+    watch.observe(pill.current, { subtree: true, attributes: true, attributeFilter: ['data-selected'] })
+    return () => watch.disconnect()
+  }, [floating])
+
+  // data-bottom-nav: the preview's V1 / V2 bubble shows only on screens that have a bottom navbar. V1's wrapper says
+  // data-surface="primary" so the OS navigation bar still takes the navbar's colour (it looks for the page's last part).
+  if (!floating) return <div className={styles.docked} data-bottom-nav="" data-surface="primary">{children}</div>
+  return (
+    <div className={styles.frame} data-floating-nav="" data-bottom-nav="" data-motion={motion} data-glow-at={glowBelow ? 'bottom' : undefined}>
+      {/* The page's colour behind the nav: solid at the bottom, fading out above the pill. */}
+      <div className={styles.fade} aria-hidden="true" />
+      <div ref={pill} className={styles.pill}>
+        {glowX !== null && <span className={styles.glow} data-glow="" style={{ '--glow-x': `${glowX}px` } as CSSProperties} aria-hidden="true" />}
+        {children}
+      </div>
+    </div>
+  )
+}
+```
+
+### `src/shared/ui/MainNav.module.css`
+
+```css
+/* The navbar paints above the page it sits under, so its upward shadow shows over every screen's content — on the
+   Stocks home the feed's cards (raised, transformed by the scroll reveal) were painting over it (18 Nov).
+   L3 gap: BottomNavbar is position: static (no stacking of its own). */
+.nav {
+  position: relative;
+  z-index: 1; /* stacking order isn't a design token */
+}
 ```
 
 ### `src/shared/ui/MainNav.tsx`
@@ -26751,6 +27765,8 @@ export const Flag = ({ code }: { code: FlagCode }) => <img className={styles.fla
 ```tsx
 import { BottomNavbar } from '@l3/components/BottomNavbar'
 import { NavIcon } from '@l3/components/BottomNavbar/NavIcon'
+import { FloatingNav, FloatingNavIcon, useBottomNavVariant, useColourNavIcons, useFloatingNav } from './FloatingNav'
+import styles from './MainNav.module.css'
 
 export type Section = 'stocks' | 'market' | 'portfolio' | 'mutualFund' | 'fno'
 
@@ -26762,15 +27778,25 @@ const items: { value: Section; label: string }[] = [
   { value: 'fno', label: 'F&O' },
 ]
 
-/** The Lemonn app's main bottom navbar (L3: Bottom Navbar). Every L1 screen uses this — never a lookalike. */
+/** The Lemonn app's main bottom navbar (L3: Bottom Navbar). Every L1 screen uses this — never a lookalike. Setting
+ * "Bottom navbar" V2 floats it (FloatingNav). */
 export function MainNav({ value, onChange }: { value: Section; onChange?: (value: Section) => void }) {
+  const variant = useBottomNavVariant()
+  const floating = useFloatingNav() // V2 / V3 use the floating nav's own Figma icons
+  const colour = useColourNavIcons() // V3: the chosen tab in L3's coloured icon (23 Nov, user)
   return (
-    <BottomNavbar
-      aria-label="Main"
-      value={value}
-      onChange={(v) => onChange?.(v as Section)}
-      items={items.map((i) => ({ ...i, icon: <NavIcon name={i.value} />, selectedIcon: <NavIcon name={i.value} selected /> }))}
-    />
+    <FloatingNav>
+      <BottomNavbar
+        aria-label="Main"
+        variant={variant}
+        className={styles.nav}
+        value={value}
+        onChange={(v) => onChange?.(v as Section)}
+        items={items.map((i) => floating
+          ? { ...i, icon: <FloatingNavIcon name={i.value} />, selectedIcon: colour ? <NavIcon name={i.value} selected /> : <FloatingNavIcon name={i.value} selected /> }
+          : { ...i, icon: <NavIcon name={i.value} />, selectedIcon: <NavIcon name={i.value} selected /> })}
+      />
+    </FloatingNav>
   )
 }
 
@@ -26788,6 +27814,9 @@ let restoring: { screen: string; market: 'in' | 'us' } | null = null
 export function rememberStocksHome(screen: string, market: 'in' | 'us') {
   lastStocks = { screen, market }
 }
+
+/** The IND / US tab the Stocks home was last on (none before it has opened): Market opens on that market (19 Nov). */
+export const lastStocksMarket = (): 'in' | 'us' | undefined => lastStocks?.market
 
 /**
  * The Stocks home, when it opens: the IND / US tab to come back to — if the navbar brought the user back to it, or a
@@ -26827,6 +27856,8 @@ export const goToTab = (go: (id: string) => void, section: Section) => {
   overflow: clip; /* clip, not hidden: a sheet taking focus while it slides in can't scroll the screen */
   background: var(--l3-surface-default);
   color: var(--l3-content-primary);
+  /* A size container: a sheet can be a share of the phone screen's height (cqh), in the mockup and on a phone alike. */
+  container: app-screen / size;
   /* An app, not a page: swiping and long-pressing never select text (fields still do — see below). */
   user-select: none;
   -webkit-user-select: none;
@@ -26870,6 +27901,12 @@ export const goToTab = (go: (id: string) => void, section: Section) => {
   overflow-x: hidden; /* a screen never scrolls sideways — only rails inside it do */
   overflow-y: auto;
   padding-bottom: var(--app-body-end);
+}
+
+/* Bottom navbar V2 (floating, shared/ui/FloatingNav): the body runs on behind the pill; its end clears the pill
+   (14 up + 56 tall) plus the usual 24. */
+.page:has(> [data-floating-nav]) .body {
+  padding-bottom: calc(var(--app-body-end) + var(--l3-spacing-14) + var(--l3-size-56));
 }
 
 /* The body owns the page's end spacing: whatever comes last adds none of its own (no 24 + 24). */
@@ -27069,6 +28106,84 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
 }
 ```
 
+### `src/shared/ui/Spot.module.css`
+
+```css
+/*
+ * Illustration slot: a large icon on a soft accent disc with a faint outer ring. Stands in for artwork L3 doesn't have
+ * yet (lemon mascot, PAN card, bank, coin …) — swap the whole <Spot> for the illustration when it exists.
+ */
+.spot {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--l3-radius-full);
+  background: var(--spot-surface);
+  color: var(--spot-content);
+}
+
+.spot[data-size='md'] {
+  width: var(--l3-size-64);
+  height: var(--l3-size-64);
+}
+
+.spot[data-size='lg'] {
+  width: var(--l3-size-96);
+  height: var(--l3-size-96);
+}
+
+/* The halo: one hairline ring 12 outside the disc, in the same accent (lg only — the hero moments). */
+.spot[data-size='lg']::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--l3-spacing-12));
+  border: 1px solid var(--spot-surface);
+  border-radius: var(--l3-radius-full);
+}
+
+.glyph {
+  width: var(--l3-size-32);
+  height: var(--l3-size-32);
+}
+
+.spot[data-size='lg'] .glyph {
+  width: var(--l3-size-48);
+  height: var(--l3-size-48);
+}
+
+.spot[data-tone='brand'] { --spot-surface: var(--l3-surface-accent-brand-light); --spot-content: var(--l3-content-primary); }
+.spot[data-tone='discover'] { --spot-surface: var(--l3-surface-accent-discover-light); --spot-content: var(--l3-content-accent-discover-default); }
+.spot[data-tone='success'] { --spot-surface: var(--l3-surface-accent-success-light); --spot-content: var(--l3-content-accent-success-default); }
+.spot[data-tone='warning'] { --spot-surface: var(--l3-surface-accent-warning-light); --spot-content: var(--l3-content-accent-warning-default); }
+.spot[data-tone='error'] { --spot-surface: var(--l3-surface-accent-error-light); --spot-content: var(--l3-content-accent-error-default); }
+.spot[data-tone='plain'] { --spot-surface: var(--l3-surface-default); --spot-content: var(--l3-content-primary); }
+.spot[data-tone='neutral'] { --spot-surface: var(--l3-surface-secondary); --spot-content: var(--l3-content-primary); }
+```
+
+### `src/shared/ui/Spot.tsx`
+
+```tsx
+import { Icon } from '@l3/components/Icon'
+import styles from './Spot.module.css'
+
+export type SpotTone = 'brand' | 'discover' | 'success' | 'warning' | 'error' | 'neutral' | 'plain'
+
+/**
+ * ILLUSTRATION SLOT — a large icon on a soft accent disc (md 64 / lg 96 with a halo). Used where the app has artwork
+ * (mascot, PAN card, bank, coin) until L3 has an illustration set; replace the <Spot> with the artwork 1:1.
+ * Tone by meaning: brand = welcome moments, plain = on a brand panel, discover = info / in progress, success / warning / error = outcomes.
+ */
+export function Spot({ icon, tone = 'brand', size = 'lg' }: { icon: string; tone?: SpotTone; size?: 'md' | 'lg' }) {
+  return (
+    <span className={styles.spot} data-tone={tone} data-size={size} aria-hidden="true" data-illustration-slot="">
+      <Icon icon={icon} className={styles.glyph} />
+    </span>
+  )
+}
+```
+
 ### `src/shared/ui/StockListCard.module.css`
 
 ```css
@@ -27090,8 +28205,8 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
   box-shadow: inset 0 0 0 1px var(--l3-border-light), var(--l3-shadow-elevation-soft); /* 1px: Figma stroke weight has no variable */
 }
 
-/* look="list": an edge-to-edge row with a hairline under it, from the symbol's start (16 + the 40 logo + 16) to the
-   price's end (16 in). FLAG: L3 gap — ListCell has no divider option (its USAGE.md, open question). */
+/* look="list": an edge-to-edge row; its hairline runs from the logo's start to the price's end (the row's 16 padding on
+   both sides — 18 Nov, was edge to edge). FLAG: L3 gap — ListCell has no divider option (its USAGE.md, open question). */
 .listRow {
   position: relative;
 }
@@ -27099,7 +28214,7 @@ export function SheetHost({ container, children }: { container: HTMLElement | nu
 .listRow::after {
   content: '';
   position: absolute;
-  inset: auto var(--l3-spacing-16) 0 calc(var(--l3-spacing-16) * 2 + var(--l3-size-40));
+  inset: auto var(--l3-spacing-16) 0;
   border-bottom: 1px solid var(--l3-border-light); /* 1px hairline */
   pointer-events: none;
 }
@@ -27177,7 +28292,7 @@ export function StockListCard({ symbol, name, logoUrl, initials, logo, tag, pric
       {...look}
       as={onOpen ? 'button' : undefined}
       className={className}
-      iconLeft={logo ?? <Avatar initials={initials ?? symbol.slice(0, 2)} src={logoUrl} size={logoSize} label={name} />}
+      iconLeft={logo ?? <Avatar initials={initials ?? symbol.slice(0, 1)} src={logoUrl} size={logoSize} label={name} />}
       labelSuffix={tag || undefined}
       labelSuffixTone="neutral"
       labelSize="14"
@@ -27193,6 +28308,224 @@ export function StockListCard({ symbol, name, logoUrl, initials, logo, tag, pric
       aria-label={rest['aria-label']}
     />
   )
+}
+```
+
+### `src/shared/ui/TextKeyboard.module.css`
+
+```css
+/* OS text keyboard mock (Figma "L3: System keyboard", 260 tall at 360): 5 rows of 40 tall keys on a grey tray. */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--l3-spacing-08);
+  padding: var(--l3-spacing-12) var(--l3-spacing-06) var(--l3-spacing-16);
+  /* On a real phone, clear the home indicator (like the L3 button dock does). */
+  padding-bottom: calc(var(--l3-spacing-16) + env(safe-area-inset-bottom, var(--l3-spacing-00)));
+  background: var(--l3-surface-secondary);
+}
+
+.row {
+  display: flex;
+  gap: var(--l3-spacing-04);
+}
+
+/* The A–L row is inset by about half a key, like a phone keyboard. */
+.row[data-row='2'] {
+  padding-inline: var(--l3-spacing-16);
+}
+
+.key {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: var(--l3-size-40);
+  padding: 0;
+  border: 0;
+  border-radius: var(--l3-radius-08);
+  background: var(--l3-surface-primary);
+  color: var(--l3-content-primary);
+  font: var(--l3-text-description-18);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.key[data-wide] {
+  flex-grow: 1.5;
+}
+
+.key[data-kind='space'] {
+  flex-grow: 5;
+  font: var(--l3-text-label-12);
+}
+
+.key[data-kind='fn'] {
+  background: var(--l3-surface-tertiary);
+  font: var(--l3-text-label-14);
+}
+
+/* The keyboard's action key (Search) — the phone's own accent, not an app colour. */
+.key[data-kind='go'] {
+  background: var(--l3-surface-accent-discover-default);
+  color: var(--l3-content-inverted);
+}
+
+.key :is(svg, span):not(.popup) {
+  width: var(--l3-icon-size-20);
+  height: var(--l3-icon-size-20);
+}
+
+/* Function keys (Shift, Delete, ?123, Space, Enter): pressed, they darken and give a little. */
+.key:not([data-kind='letter'])[data-held] {
+  background-image: linear-gradient(var(--l3-state-layer-dark-pressed), var(--l3-state-layer-dark-pressed));
+  transform: scale(var(--l3-motion-scale-press-default));
+}
+
+/*
+ * Letter keys: while held, a magnified bubble of the key pops up above it (Gboard / iPhone): the key's width plus a
+ * little, two keys tall, the character large near its top; it grows out of the key (120 ms). The key itself dims under
+ * it. Keys at a row's ends keep the bubble inside the keyboard's edge.
+ */
+.key {
+  position: relative;
+}
+
+.key[data-kind='letter'][data-held] {
+  background: var(--l3-surface-tertiary);
+}
+
+.popup {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  width: calc(100% + var(--l3-spacing-12));
+  height: calc(var(--l3-size-40) * 2 + var(--l3-spacing-08));
+  padding-top: var(--l3-spacing-06);
+  border-radius: var(--l3-radius-12);
+  background: var(--l3-surface-primary);
+  box-shadow: var(--l3-shadow-elevation-high);
+  color: var(--l3-content-primary);
+  font: var(--l3-text-heading-28);
+  pointer-events: none;
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  animation: key-pop var(--l3-motion-duration-short) var(--l3-motion-easing-decelerate) both;
+}
+
+.key[data-edge='start'] .popup {
+  left: 0;
+  transform: none;
+  transform-origin: 0 100%;
+}
+
+.key[data-edge='end'] .popup {
+  right: 0;
+  left: auto;
+  transform: none;
+  transform-origin: 100% 100%;
+}
+
+@keyframes key-pop {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .key:not([data-kind='letter'])[data-held] {
+    transform: none;
+  }
+
+  .popup {
+    animation: none;
+  }
+}
+```
+
+### `src/shared/ui/TextKeyboard.tsx`
+
+```tsx
+import { useState, type PointerEvent } from 'react'
+import { Icon } from '@l3/components/Icon'
+import { msArrowUpward, msBackspace, msKeyboardTab } from '@l3/icons/material'
+import styles from './TextKeyboard.module.css'
+
+type Key = { key: string; label?: string; kind?: 'letter' | 'fn' | 'space' | 'go'; wide?: boolean }
+
+const ROWS: Key[][] = [
+  '1234567890'.split('').map((k) => ({ key: k })),
+  'QWERTYUIOP'.split('').map((k) => ({ key: k })),
+  'ASDFGHJKL'.split('').map((k) => ({ key: k })),
+  [{ key: 'Shift', kind: 'fn', wide: true }, ...'ZXCVBNM'.split('').map((k) => ({ key: k })), { key: 'Backspace', kind: 'fn', wide: true }],
+  [{ key: '?123', kind: 'fn', wide: true }, { key: ',' }, { key: ' ', label: 'EN • LV', kind: 'space' }, { key: '.' }, { key: 'Enter', kind: 'go', wide: true }],
+]
+
+/**
+ * The phone's own text keyboard (OS chrome, NOT part of the app or L3 — Figma "L3: System keyboard", isNumeric =
+ * False). Drawn so search screens read like the phone; in the prototype the keys type into the screen. Real apps get the
+ * system keyboard by focusing the text field (search: `enterKeyHint="search"`). `data-surface` tells the OS navigation
+ * bar below it to take the keyboard's grey.
+ */
+export function TextKeyboard({ onKey }: { onKey?: (key: string) => void }) {
+  // The key being held: a letter / digit / punctuation key shows its pop-up (a magnified bubble above it, like Gboard and
+  // the iPhone keyboard) until the finger lifts; function keys just darken.
+  const [held, setHeld] = useState<string | null>(null)
+  const release = () => setHeld(null)
+  return (
+    <div className={styles.keyboard} role="group" aria-label="Keyboard" data-surface="secondary">
+      {ROWS.map((row, i) => (
+        <div key={i} className={styles.row} data-row={i}>
+          {row.map((k, j) => (
+            <button
+              key={k.key}
+              type="button"
+              className={styles.key}
+              data-kind={k.kind ?? 'letter'}
+              data-wide={k.wide || undefined}
+              data-held={held === k.key || undefined}
+              data-edge={j === 0 ? 'start' : j === row.length - 1 ? 'end' : undefined}
+              aria-label={label(k)}
+              onPointerDown={(e) => {
+                keepFocus(e)
+                setHeld(k.key)
+              }}
+              onPointerUp={release}
+              onPointerLeave={release}
+              onPointerCancel={release}
+              onClick={() => onKey?.(k.key)}
+            >
+              {k.key === 'Shift' ? <Icon icon={msArrowUpward} /> : k.key === 'Backspace' ? <Icon icon={msBackspace} /> : k.key === 'Enter' ? <Icon icon={msKeyboardTab} /> : (k.label ?? k.key)}
+              {(k.kind ?? 'letter') === 'letter' && held === k.key && (
+                <span className={styles.popup} aria-hidden="true">{k.label ?? k.key}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const label = (k: Key) =>
+  ({ Shift: 'Shift', Backspace: 'Delete', Enter: 'Search', ' ': 'Space', '?123': 'Numbers and symbols' } as Record<string, string>)[k.key]
+
+/** Like the OS keyboard, a key press doesn't take focus: the field being typed into keeps its Typing state. */
+const keepFocus = (e: PointerEvent) => e.preventDefault()
+
+/** Apply a keyboard key to a text value: letters, digits, space, comma, full stop and delete (Shift / ?123 do nothing here). */
+export const typeText = (value: string, key: string) => {
+  if (key === 'Backspace') return value.slice(0, -1)
+  if (key.length !== 1) return value
+  // Like a phone keyboard: the first letter is a capital, the rest lower case.
+  return value + (value === '' ? key.toUpperCase() : key.toLowerCase())
 }
 ```
 
@@ -27258,6 +28591,91 @@ export function SearchWalletActions({ searchLabel, walletLabel, onSearch, onWall
     </Stack>
   )
 }
+```
+
+### `src/shared/ui/assets/floating-nav/fno-selected.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Options Botton Nav Icon 3">
+<g id="Vector">
+<path d="M19.9999 7.09802C19.9999 7.65031 19.5522 8.09802 18.9999 8.09802L15.7095 8.09802C15.3453 8.09802 15.0098 8.29607 14.8339 8.615L9.83879 17.6699C9.66285 17.9888 9.32742 18.1869 8.96318 18.1869H4.99989C4.44761 18.1869 3.9999 17.7392 3.9999 17.1869V17.1049C3.9999 16.5526 4.44761 16.1049 4.9999 16.1049H7.84407C8.20829 16.1049 8.54372 15.9068 8.71966 15.5879L13.7147 6.53392C13.8906 6.215 14.2261 6.01697 14.5903 6.01697H18.9999C19.5522 6.01697 19.9999 6.46469 19.9999 7.01697V7.09802ZM19.9286 16.9867C19.9286 17.539 19.4809 17.9867 18.9286 17.9867L14.9999 17.9867C14.4476 17.9867 13.9999 17.539 13.9999 16.9867V16.9047C13.9999 16.3524 14.4476 15.9047 14.9999 15.9047L18.9286 15.9047C19.4809 15.9047 19.9286 16.3524 19.9286 16.9047V16.9867Z" fill="#000" />
+<path d="M3.9999 7.09882C3.9999 7.65116 4.44771 8.0989 5.00005 8.09882L9.00005 8.09818C9.55228 8.0981 9.9999 7.65041 9.9999 7.09818V7.01697C9.9999 6.46468 9.55218 6.01697 8.99989 6.01697L4.99989 6.01697C4.44761 6.01697 3.9999 6.46469 3.9999 7.01697V7.09882Z" fill="#000" />
+</g>
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/fno.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Options Botton Nav Icon 2">
+<g id="Vector">
+<path d="M19.9999 7.09802C19.9999 7.65031 19.5522 8.09802 18.9999 8.09802L15.7095 8.09802C15.3453 8.09802 15.0098 8.29607 14.8339 8.615L9.83879 17.6699C9.66285 17.9888 9.32742 18.1869 8.96318 18.1869H4.99989C4.44761 18.1869 3.9999 17.7392 3.9999 17.1869V17.1049C3.9999 16.5526 4.44761 16.1049 4.9999 16.1049H7.84407C8.20829 16.1049 8.54372 15.9068 8.71966 15.5879L13.7147 6.53392C13.8906 6.215 14.2261 6.01697 14.5903 6.01697H18.9999C19.5522 6.01697 19.9999 6.46469 19.9999 7.01697V7.09802ZM19.9286 16.9867C19.9286 17.539 19.4809 17.9867 18.9286 17.9867L14.9999 17.9867C14.4476 17.9867 13.9999 17.539 13.9999 16.9867V16.9047C13.9999 16.3524 14.4476 15.9047 14.9999 15.9047L18.9286 15.9047C19.4809 15.9047 19.9286 16.3524 19.9286 16.9047V16.9867Z" fill="#000" />
+<path d="M3.9999 7.09882C3.9999 7.65116 4.44771 8.0989 5.00005 8.09882L9.00005 8.09818C9.55228 8.0981 9.9999 7.65041 9.9999 7.09818V7.01697C9.9999 6.46468 9.55218 6.01697 8.99989 6.01697L4.99989 6.01697C4.44761 6.01697 3.9999 6.46469 3.9999 7.01697V7.09882Z" fill="#000" />
+</g>
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/market-selected.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 1000005189">
+<path id="Union" d="M7.43553 13.6133C7.98781 13.6133 8.43553 14.061 8.43553 14.6133V18.4463C8.43552 18.9986 7.98781 19.4463 7.43553 19.4463H5.12498C4.57271 19.4463 4.125 18.9986 4.12498 18.4463V14.6133C4.12498 14.061 4.5727 13.6133 5.12498 13.6133H7.43553ZM12.8027 5.74611C13.355 5.74611 13.8027 6.19383 13.8027 6.74611V18.4453C13.8027 18.9976 13.355 19.4453 12.8027 19.4453H10.4922C9.93989 19.4453 9.49217 18.9976 9.49217 18.4453V6.74611C9.49218 6.19384 9.9399 5.74612 10.4922 5.74611H12.8027ZM18.1621 11.3438C18.7144 11.3438 19.1621 11.7915 19.1621 12.3438V18.4434C19.1621 18.9956 18.7144 19.4434 18.1621 19.4434H15.8515C15.2993 19.4434 14.8516 18.9956 14.8515 18.4434V12.3438C14.8515 11.7915 15.2993 11.3438 15.8515 11.3438H18.1621Z" fill="#000" />
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/market.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 1000005188">
+<path id="Union" d="M7.43553 13.6133C7.98781 13.6133 8.43553 14.061 8.43553 14.6133V18.4463C8.43552 18.9986 7.98781 19.4463 7.43553 19.4463H5.12498C4.57271 19.4463 4.125 18.9986 4.12498 18.4463V14.6133C4.12498 14.061 4.5727 13.6133 5.12498 13.6133H7.43553ZM12.8027 5.74611C13.355 5.74611 13.8027 6.19383 13.8027 6.74611V18.4453C13.8027 18.9976 13.355 19.4453 12.8027 19.4453H10.4922C9.93989 19.4453 9.49217 18.9976 9.49217 18.4453V6.74611C9.49218 6.19384 9.9399 5.74612 10.4922 5.74611H12.8027ZM18.1621 11.3438C18.7144 11.3438 19.1621 11.7915 19.1621 12.3438V18.4434C19.1621 18.9956 18.7144 19.4434 18.1621 19.4434H15.8515C15.2993 19.4434 14.8516 18.9956 14.8515 18.4434V12.3438C14.8515 11.7915 15.2993 11.3438 15.8515 11.3438H18.1621Z" fill="#000" />
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/mutual-fund.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<path id="Vector" d="M5.03047 12.0001C5.03047 13.6284 5.51414 15.0754 6.48148 16.341C7.44881 17.6066 8.68217 18.4167 10.1815 18.7714C10.4073 18.8359 10.5967 18.9689 10.7499 19.1705C10.903 19.372 10.9796 19.6098 10.9796 19.8839C10.9796 20.2547 10.8224 20.557 10.508 20.7907C10.1936 21.0245 9.85103 21.085 9.48022 20.9721C7.46494 20.4078 5.83256 19.2994 4.58308 17.6469C3.3336 15.9944 2.70886 14.1121 2.70886 12.0001C2.70886 9.88805 3.3336 8.00577 4.58308 6.35324C5.83256 4.7007 7.46494 3.5923 9.48022 3.02802C9.85103 2.91516 10.1936 2.97562 10.508 3.20939C10.8224 3.44317 10.9796 3.74546 10.9796 4.11627C10.9796 4.39035 10.903 4.62815 10.7499 4.82968C10.5967 5.03121 10.4073 5.16422 10.1815 5.22871C8.68217 5.5834 7.44881 6.39354 6.48148 7.65914C5.51414 8.92474 5.03047 10.3717 5.03047 12.0001Z" fill="#000" />
+<path id="Vector_2" d="M16.7106 20.0773C17.3877 19.6581 18.0084 19.1664 18.5727 18.6021C19.137 18.0379 19.6327 17.4131 20.06 16.7279C20.4872 16.0427 20.7895 15.2971 20.9668 14.4909C21.0475 14.104 20.9789 13.7574 20.7613 13.4511C20.5436 13.1447 20.2494 12.9916 19.8786 12.9916C19.6045 12.9916 19.3667 13.0682 19.1652 13.2213C18.9637 13.3745 18.8306 13.5639 18.7662 13.7896C18.5888 14.4023 18.3389 14.9666 18.0165 15.4825C17.694 15.9984 17.3152 16.474 16.8798 16.9093C16.4445 17.3446 15.9689 17.7235 15.453 18.0459C14.9371 18.3684 14.3809 18.6102 13.7844 18.7714C13.5587 18.8359 13.3692 18.9689 13.2161 19.1704C13.0629 19.372 12.9863 19.6098 12.9863 19.8839C12.9863 20.2547 13.1395 20.5489 13.4458 20.7665C13.7521 20.9842 14.0988 21.0527 14.4857 20.9721C15.2918 20.7948 16.0334 20.4965 16.7106 20.0773Z" fill="#000" />
+<path id="Vector_3" d="M20.06 7.28433C19.6327 6.60719 19.137 5.98648 18.5727 5.4222C18.0084 4.85792 17.3877 4.36216 16.7106 3.93492C16.0334 3.50768 15.2918 3.20539 14.4857 3.02804C14.0988 2.94743 13.7521 3.01595 13.4458 3.2336C13.1395 3.45125 12.9863 3.74548 12.9863 4.1163C12.9863 4.39037 13.0629 4.62818 13.2161 4.82971C13.3692 5.03124 13.5587 5.16424 13.7844 5.22873C14.3809 5.38996 14.9371 5.63582 15.453 5.96633C15.9689 6.29684 16.4445 6.67974 16.8798 7.11504C17.3152 7.55034 17.694 8.02192 18.0165 8.52977C18.3389 9.03762 18.5888 9.59787 18.7662 10.2105C18.8306 10.4362 18.9637 10.6257 19.1652 10.7788C19.3667 10.932 19.6045 11.0086 19.8786 11.0086C20.2494 11.0086 20.5436 10.8554 20.7613 10.5491C20.9789 10.2428 21.0475 9.89614 20.9668 9.5092C20.7895 8.70309 20.4872 7.96146 20.06 7.28433Z" fill="#000" />
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/portfolio.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<path id="Vector" d="M5.60779 10.9673C5.56188 11.0128 5.51552 11.0607 5.46875 11.111C5.51405 11.0628 5.56041 11.0149 5.60779 10.9673ZM12.3465 13.6011C11.353 13.2585 9.61878 12.4654 8.38278 10.8345C6.56251 10.8016 5.46875 11.111 5.46875 11.111C5.46875 11.111 6.06624 12.0923 7.31265 13.1392C8.33795 13.0754 9.51084 13.0886 10.7004 13.2736C11.2795 13.3646 11.8295 13.4764 12.3465 13.6011Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" />
+<path id="Vector_2" d="M10.8387 17.76C9.90246 17.4565 8.29496 16.7642 7.02293 15.3313C5.48275 15.4306 4.22273 15.6775 3.78125 15.774C3.78125 15.774 4.5336 16.6893 5.6854 17.4895C6.67616 17.4064 8.06389 17.3997 9.8947 17.6143C10.2136 17.6526 10.5292 17.702 10.8387 17.76Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" />
+<path id="Vector_3" d="M5.32422 19.6546C6.12798 20.5749 6.90023 21.1117 8.22407 21.6179C9.76855 22.2161 11.5179 21.986 12.3216 21.7713C11.7761 21.6565 9.68606 21.1927 7.9994 19.5387C6.4495 19.4355 5.59141 19.5868 5.32422 19.6546Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" />
+<path id="Vector_4" d="M12.5281 1.99988L12.3547 2.32198C11.8031 3.33431 11.5982 4.45401 11.7085 5.51235C11.8977 7.29159 12.9693 8.94813 14.7029 9.85309L14.8763 9.53098C15.5855 8.2579 15.7116 6.83144 15.3806 5.52769C14.9866 4.08589 14.0095 2.76679 12.5281 1.99988Z" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_5" d="M20.2351 8.24279C19.715 9.17843 18.8798 9.83797 17.9184 10.1447C16.894 10.4822 15.7277 10.4055 14.7033 9.88398C15.2234 8.94834 16.0745 8.2888 17.0358 7.98204C18.0445 7.64459 19.2107 7.70595 20.2351 8.24279Z" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_6" d="M8.38279 10.8345C8.92603 10.8443 9.53398 10.8846 10.1968 10.9728C14.058 11.4943 14.5308 10.2672 14.5308 10.2672C14.5308 10.2672 12.75 8.70265 9.81863 8.9634C8.08764 9.1099 6.61531 9.95616 5.6078 10.9673C5.56041 11.0149 5.51406 11.0628 5.46875 11.111C5.46875 11.111 6.56252 10.8016 8.38279 10.8345Z" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_7" d="M10.6985 13.2735C9.50894 13.0885 8.33605 13.0753 7.31074 13.1391C5.70085 13.2393 4.45482 13.5292 4.07932 13.6416C4.06357 13.6416 4.04782 13.6569 4.03206 13.6723C4.0163 13.6876 4.00052 13.703 4.00052 13.7336C3.85868 14.2398 3.71807 15.053 3.78111 15.7739C4.22258 15.6775 5.4826 15.4305 7.02278 15.3313C8.17675 15.2569 9.48798 15.2654 10.73 15.4822C13.488 15.9577 15.9624 17.2001 16.7346 17.5989C16.7425 17.5989 16.7464 17.6027 16.7504 17.6066C16.7543 17.6104 16.7582 17.6142 16.7661 17.6142C16.7976 17.6142 16.8292 17.5989 16.8449 17.5529C17.0656 16.8933 17.1916 16.0804 17.2074 15.5436C17.2074 15.5282 17.2074 15.5129 17.1916 15.4975C17.1916 15.4822 17.1759 15.4669 17.1601 15.4669C16.7389 15.1978 14.9653 14.2333 12.3445 13.601C11.8275 13.4763 11.2776 13.3645 10.6985 13.2735Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" fill-opacity="0.667"/>
+<path id="Vector_8" d="M5.68528 17.4895C6.67603 17.4064 8.06377 17.3997 9.89458 17.6143C10.2134 17.6526 10.529 17.702 10.8386 17.76C13.1302 18.1888 15.0972 19.0845 15.6942 19.4089C15.7257 19.4242 15.7415 19.4395 15.7415 19.4549C15.7415 19.4702 15.7415 19.5009 15.7257 19.5316C15.4263 19.9304 14.7959 20.5132 14.197 20.8967C14.1497 20.9273 14.1025 20.9427 14.0394 20.9427C14.0079 20.9427 13.9764 20.9273 13.9449 20.912C13.4405 20.6666 11.9591 20.0837 9.9261 19.7616C9.19278 19.6447 8.55203 19.5755 7.99928 19.5387C6.44937 19.4354 5.59129 19.5867 5.3241 19.6545C4.7725 19.041 4.34705 18.1818 4.18945 17.8137C4.18945 17.783 4.18947 17.7523 4.20523 17.737C4.22098 17.7216 4.23674 17.7063 4.25249 17.7063C4.57357 17.6282 5.04706 17.543 5.68528 17.4895Z" fill-rule="evenodd" clip-rule="evenodd" fill="#000" fill-opacity="0.667"/>
+</g>
+</svg>
+```
+
+### `src/shared/ui/assets/floating-nav/stocks.svg`
+
+```tsx
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame">
+<path id="Vector" d="M10.45 12.62L11.82 13.99C11.9867 14.1633 12.1967 14.25 12.45 14.25C12.7033 14.25 12.9167 14.1633 13.09 13.99L16.26 10.83V12.03C16.26 12.2367 16.3333 12.41 16.48 12.55C16.6267 12.69 16.8 12.7567 17 12.75C17.2067 12.75 17.3833 12.6767 17.53 12.53C17.6767 12.3833 17.75 12.2067 17.75 12V9.15C17.75 8.89667 17.6633 8.68333 17.49 8.51C17.3167 8.33667 17.1033 8.25 16.85 8.25H13.98C13.7733 8.25 13.6 8.32333 13.46 8.47C13.32 8.61667 13.25 8.79333 13.25 9C13.25 9.21333 13.3233 9.39 13.47 9.53C13.6167 9.67 13.7933 9.74333 14 9.75H15.17L12.45 12.51L11.08 11.14C10.9067 10.96 10.6933 10.87 10.44 10.87C10.1867 10.87 9.98 10.96 9.82 11.14L6.87 14.07C6.72333 14.2167 6.65 14.3933 6.65 14.6C6.65 14.8067 6.72333 14.98 6.87 15.12C7.01667 15.2733 7.19333 15.35 7.4 15.35C7.60667 15.35 7.78 15.2733 7.92 15.12L10.44 12.61L10.45 12.62ZM5.31 20.5C4.80333 20.5 4.37667 20.3267 4.03 19.98C3.68333 19.6333 3.50667 19.2033 3.5 18.69V5.31C3.5 4.80333 3.67333 4.37667 4.02 4.03C4.36667 3.68333 4.79667 3.50667 5.31 3.5H18.69C19.1967 3.5 19.6233 3.67333 19.97 4.02C20.3167 4.36667 20.4933 4.79667 20.5 5.31V18.69C20.5 19.1967 20.3267 19.6233 19.98 19.97C19.6333 20.3167 19.2033 20.4933 18.69 20.5H5.31Z" fill="#000"/>
+</g>
+</svg>
 ```
 
 ### `src/shared/ui/useSwipeBetween.ts`
@@ -27485,7 +28903,7 @@ export function useSwipeBetween({ canGo, onSwitch, page, area, slides, fades }: 
 ```ts
 // Where the user is in the app — the prototype's app-level settings ("User status" in the preview panel, the phone's
 // settings sheet and a floating card beside the phone). Every screen that depends on it reads it here, so they all stay
-// in sync: pick "US Stocks: activated · money on the way" once and the Home's US tab, a US stock page and the wallet all
+// in sync: pick "User account state: Active · money on the way" once and the Home's US tab, a US stock page and the wallet all
 // show that state. Picking never moves on by itself; taps in the prototype don't change it.
 // In a real app these come from the user's account (KYC status, US Stocks activation, wallet, holdings).
 import type { FlowOption } from '../flows/types'
@@ -27511,51 +28929,62 @@ const BANK_SCREENS = ['deposit-01', 'deposit-06', 'deposit-07', 'deposit-08', 'd
 
 const STATUS_SCREENS = ['stocks-01', 'stocks-09', 'stocks-10', 'stocks-13', 'stocks-14', 'stocks-15', 'stocks-16', 'stocks-17', 'stocks-19', 'stocks-20', 'stocks-21', 'us-stocks-13', 'us-stocks-54']
 
-/** The settings, parent first: each one below only matters (and shows) while the one above has the listed values. */
+/** The app-level user status settings. */
 export const userStatusOptions: FlowOption[] = [
   {
-    // One list for the whole way in, in order, named by where US Stocks are: not active while the Lemonn KYC is pending
-    // (US Stocks can't be activated until it's done), not active, then the activation steps.
-    id: 'us',
+    // One list for the whole way in, in order — one row of states (18 Nov, the user's call; was three settings: US
+    // Stocks activation, then USD wallet and US holdings under "Active"): not active while the Lemonn KYC is pending
+    // (US Stocks can't be activated until it's done), not active, the activation steps, then active with $0, money on
+    // the way, money in the wallet, US holdings. The values are the UsJourney steps.
+    id: 'account',
     group: 'User status',
-    label: 'US Stocks',
+    label: 'User account state',
     picker: 'dropdown',
     values: [
       { value: 'kyc', label: 'Not active · KYC pending' },
-      { value: 'off', label: 'Not active' },
+      { value: 'activate', label: 'Not active' },
       { value: 'review', label: 'Under review' },
       { value: 'support', label: 'Under review · contact support' },
       { value: 'failed', label: 'Activation failed' },
-      { value: 'active', label: 'Active' },
+      { value: 'activated', label: 'Active · $0' },
+      { value: 'onTheWay', label: 'Active · money on the way' },
+      { value: 'ready', label: 'Active · has money' },
+      { value: 'holding', label: 'Active · US holdings' },
     ],
     // The prototype opens on a user who's all set: activated, money in the wallet, holding US stocks.
-    default: 'active',
+    default: 'holding',
     floatOn: STATUS_SCREENS,
   },
   {
-    id: 'usWallet',
+    // Money on the way, more than once: a US deposit takes 1–2 working days, so adding money again before the first one
+    // lands means two or three on the way (20 Nov). The wallet's bar and Home's card add them up; their sheet shows each one.
+    id: 'deposits',
     group: 'User status',
-    label: 'USD wallet',
-    values: [{ value: 'empty', label: '$0' }, { value: 'onTheWay', label: 'Money on the way' }, { value: 'funded', label: 'Has money' }],
-    default: 'funded',
-    showIf: { us: ['active'] },
-    floatOn: STATUS_SCREENS,
+    label: 'Deposits on the way',
+    showIf: { account: ['onTheWay'] },
+    values: [{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three' }],
+    default: 'one',
+    floatOn: [...STATUS_SCREENS, 'us-stocks-28', 'us-stocks-93'],
   },
   {
-    id: 'usHoldings',
+    // How the oldest deposit on the way is doing (20 Nov). Taking longer: past its day, still with the US bank — the
+    // sheet says it's taking longer than usual, the money is safe, and a failed one is refunded to the bank it came from.
+    // Failed: the US bank sent it back — where it stopped, the refund, Try again and Contact support. Home's card and the
+    // wallet's bar say so.
+    id: 'depositStatus',
     group: 'User status',
-    label: 'US holdings',
-    picker: 'toggle',
-    values: [{ value: 'none', label: 'None' }, { value: 'some', label: 'Holds NVDA' }],
-    default: 'some',
-    showIf: { usWallet: ['funded'] },
-    floatOn: STATUS_SCREENS,
+    label: 'Deposit status',
+    showIf: { account: ['onTheWay'] },
+    values: [{ value: 'onTime', label: 'On time' }, { value: 'delayed', label: 'Taking longer' }, { value: 'failed', label: 'Failed' }],
+    default: 'onTime',
+    floatOn: [...STATUS_SCREENS, 'us-stocks-28'],
   },
   {
     // Bank accounts linked to Lemonn (KYC adds the first). None = the add-money screens ask for one first.
     id: 'banks',
     group: 'User status',
     label: 'Bank accounts',
+    picker: 'dropdown', // a dropdown like User account state (18 Nov: five choices didn't fit a segmented row)
     // Three / SBI only: with an account at a bank US Stocks money can't go from (State Bank of India).
     values: [{ value: 'none', label: 'None' }, { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three (+ SBI)' }, { value: 'sbi', label: 'SBI only' }],
     default: 'three',
@@ -27570,13 +28999,17 @@ export type UserStatus = { kyc: KycStatus; us: UsActivation; usWallet: UsWallet;
 
 /** The user status as picked (settings under one that's off keep their last pick). KYC comes from the activation list. */
 export function useUserStatus(): UserStatus {
-  const us = useStatus('us') as UsActivation
+  return { ...statusOf(useStatus('account') as UsJourney), banks: useStatus('banks') as BankLinks }
+}
+
+/** One account state as the activation, wallet and holdings it means. */
+function statusOf(step: UsJourney): Omit<UserStatus, 'banks'> {
+  const us: UsActivation = step === 'activate' ? 'off' : ['kyc', 'review', 'support', 'failed'].includes(step) ? (step as UsActivation) : 'active'
   return {
     kyc: us === 'kyc' ? 'pending' : 'done',
     us,
-    usWallet: useStatus('usWallet') as UsWallet,
-    usHoldings: useStatus('usHoldings') as UsHoldings,
-    banks: useStatus('banks') as BankLinks,
+    usWallet: step === 'activated' ? 'empty' : step === 'onTheWay' ? 'onTheWay' : 'funded',
+    usHoldings: step === 'holding' ? 'some' : 'none',
   }
 }
 
@@ -27587,8 +29020,7 @@ export function useUserStatus(): UserStatus {
  */
 export function useLinkedBanks(): LinkedBank[] {
   const picked = useStatus('banks') as BankLinks
-  const us = useStatus('us') as UsActivation
-  const usWallet = useStatus('usWallet') as UsWallet
+  const { us, usWallet } = statusOf(useStatus('account') as UsJourney)
   const moneyMoved = us === 'active' && usWallet !== 'empty'
   const banks = picked === 'none' && moneyMoved ? 'one' : picked
   const linked = { none: [], one: linkedBanks.slice(0, 1), two: linkedBanks, three: [...linkedBanks, otherBank], sbi: [{ ...otherBank, primary: true }] }[banks]
@@ -27634,11 +29066,6 @@ export const useUsJourney = () => usJourney(useUserStatus())
 
 /** Sets the user status to one US Stocks step (a US tab screen showing its own state sets it on arrival). */
 export function setUsJourney(step: UsJourney) {
-  const us: UsActivation = step === 'activate' ? 'off' : ['kyc', 'review', 'support', 'failed'].includes(step) ? (step as UsActivation) : 'active'
-  const set = (id: string, value: string) => setFlowOption(USER_STATUS, id, option(id).default, value)
-  set('us', us)
-  if (us !== 'active') return
-  set('usWallet', step === 'activated' ? 'empty' : step === 'onTheWay' ? 'onTheWay' : 'funded')
-  if (step === 'ready' || step === 'holding') set('usHoldings', step === 'holding' ? 'some' : 'none')
+  setFlowOption(USER_STATUS, 'account', option('account').default, step)
 }
 ```
