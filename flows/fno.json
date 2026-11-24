@@ -481,6 +481,7 @@
     "src/flows/fno/assets/us-glow.svg",
     "src/flows/fno/assets/watchlist.svg",
     "src/flows/fno/assets/zing.svg",
+    "src/flows/fno/commodities/archive/CalendarWeekView.tsx",
     "src/flows/fno/commodities/archive/DayPickerByWeek.tsx",
     "src/flows/fno/commodities/archive/expiryPreviewSamples.ts",
     "src/flows/fno/commodities/assets/crude-oil.png",

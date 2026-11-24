@@ -352,7 +352,7 @@ sample signals in `data.ts` (`zingSignals`, `SignalFilter`, `matchesFilter`).
 
 #### Commodity calendar (fno-38)
 
-- **Layout (every version):** months, each with a sticky title (L3 SectionHeader at heading-20, 12 above and below it — also 12 above while stuck at the top), then its days 32 apart (no line between days). Each day is the grey date block on the left and **one card per contract or event** on the right, 8 apart (`CalendarDay` with `separate`). Between two months a 2 line (border/light) runs edge to edge, 24 above and 24 below to the next title. (The V4 week-section view of 24 Nov is archived: `commodities/archive/DayPickerByWeek.tsx`.)
+- **Layout (every version):** months, each with a sticky title (L3 SectionHeader at heading-20, 12 above and below it — also 12 above while stuck at the top), then its days 32 apart (no line between days). Each day is the grey date block on the left and **one card per contract or event** on the right, 8 apart (`CalendarDay` with `separate`). Between two months a 2 line (border/light) runs edge to edge, 32 above and 32 below to the next title. (Archived on 24 Nov: the V4 week-section view, `commodities/archive/DayPickerByWeek.tsx`, and the day / week view switch with each month as the V4 day picker — today dark only while picked — `commodities/archive/CalendarWeekView.tsx`.)
 - **Entry:** View all on Expiring This Week (fno-08). Back → Commodities home. Layout after the user's reference
   (an Expiry Calendar screenshot, 2026-11-17): only names and simple buttons, no prices.
 - **Tabs:** All · Options · Futures · Events — flat L3 Tabs (underline) with a 16 icon each (apps, candlestick chart,
@@ -567,6 +567,7 @@ The source uses old D2 controls alongside L3; their code equivalents are L3 comp
 - 23 Nov 2026 — F&O sub-nav (floating V2): the chosen F&O icon is black and white, like the main nav's.
 - 23 Nov 2026 — Home shortcuts (Trade Calls · Watchlist · Smart Invest · Referral) drawn as the Stocks Home's: 40 circles with a green-edged wash and green icons (lightbulb, bookmark, smart toy, redeem — Home's icons for these features), names in secondary text, via the new shared part src/shared/ui/ShortcutCircles. The old outlined tertiary buttons and their SVG art are no longer used (assets kept).
 
+- 2026-11-24 — Commodity calendar (fno-38): months 32 apart (32 above and below the 2 line). A day / week view switch (pill-group, week view = each month as the V4 day picker, today dark while picked) was tried and archived (`commodities/archive/CalendarWeekView.tsx`).
 - 2026-11-24 — Expiring This Week V4: the day count tag is removed; date cards 10 apart, 8 more before each week pill. V2: one card per contract or event (8 apart), days 16 apart.
 - 2026-11-24 — Commodity calendar (fno-38): the week-section view is archived; the page is the month and day list again, one card per contract or event (8 apart), days 32 apart, month titles at 20 (12 above and below, sticky), a 2 line edge to edge between months (24 above and below). Expiring This Week V4: the selected day's contracts and events are separate cards too.
 - 2026-11-24 — Expiring This Week Version 4 (now the default): a day picker over the next month (week pills “NEXT WEEK” / “7 DEC”, edge-to-edge row with fading ends, a count tag on each day) and the selected day's card. In V4 the calendar page (fno-38) shows week sections (“November 23 – 29”) each with its own day picker, a 2 line edge to edge between them.
@@ -2283,6 +2284,54 @@ F֥�bp��n�j(��~�-ව�~�-ව�~�-ව�~�-ව
 </svg>
 ```
 
+### `src/flows/fno/commodities/archive/CalendarWeekView.tsx`
+
+```tsx
+/**
+ * ARCHIVED 2026-11-24 — not in the app. The Commodity calendar page (fno-38) with a day / week view switch: on the right
+ * of every month title, an L3 pill-group Tabs (small, two icon-only pills — Day `msViewAgenda`, Week `msCalendarViewWeek`);
+ * the whole switch is one tap target that flips to the other view (one choice for the whole page, every tab and month).
+ * Week view: each month as the home's V4 day picker (weeks split by "NEXT WEEK" / "7 DEC" pills), each month picking its
+ * first day so its cards show; today (`markToday`) is dark only while it is the picked day. The page went back to the
+ * day list only.
+ * To bring it back, in ExpiryTimeline:
+ * - `const [view, setView] = useState<CalendarView>('day')` in ExpiryTimeline, passed to every CalendarBody with `onView`;
+ * - in the month head, `<Stack direction="horizontal" gap="08" align="center" justify="between">` holding the
+ *   SectionHeader and `<CalendarViewSwitch view={view} onView={onView} />`;
+ * - under it, `view === 'week' ? <CalendarWeekMonth days={m.days} … /> : <Stack gap="32">…day list…</Stack>`.
+ * The CSS (`.calendarViewSwitch`, `.dayPickerDay[data-today]`) and the copy (`expiryAll.view*`) are still in place.
+ */
+import { Icon } from '@l3/components/Icon'
+import { Stack } from '@l3/components/Stack'
+import { Tabs } from '@l3/components/Tabs'
+import { msCalendarViewWeek, msViewAgenda } from '@l3/icons/material'
+import { t } from '../../copy'
+import type { ExpiryDay } from '../data'
+import { DayPicker } from '../components/ExpiringDayPicker'
+import styles from '../components/Commodities.module.css'
+
+/** Day view: every day listed under its month. Week view: each month as the home's V4 day picker. */
+export type CalendarView = 'day' | 'week'
+
+/** The day / week switch on the right of a month title; a tap anywhere on it flips to the other view. */
+export function CalendarViewSwitch({ view, onView }: { view: CalendarView; onView: (view: CalendarView) => void }) {
+  return <div className={styles.calendarViewSwitch} onClick={() => onView(view === 'day' ? 'week' : 'day')}>
+    <Tabs appearance="pill-group" size="sm" aria-label={t('expiryAll.view')} value={view} onChange={() => {}}
+      items={[
+        { value: 'day', label: t('expiryAll.view.day'), hideLabel: true, iconLeft: <Icon icon={msViewAgenda} size={16} /> },
+        { value: 'week', label: t('expiryAll.view.week'), hideLabel: true, iconLeft: <Icon icon={msCalendarViewWeek} size={16} /> },
+      ]} />
+  </div>
+}
+
+/** One month in week view: its days as the V4 day picker, the picked day's cards under it. */
+export function CalendarWeekMonth({ days, showKind, onAsset, onOptionChain, onScalper }: { days: ExpiryDay[]; showKind: boolean; onAsset: () => void; onOptionChain: () => void; onScalper: () => void }) {
+  return <Stack gap="16">
+    <DayPicker days={days} markToday showKind={showKind} eventDetails onAsset={onAsset} onOptionChain={onOptionChain} onScalper={onScalper} />
+  </Stack>
+}
+```
+
 ### `src/flows/fno/commodities/archive/DayPickerByWeek.tsx`
 
 ```tsx
@@ -3063,11 +3112,12 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
 .calendarMonthHead { position: sticky; top: 0; z-index: 1; padding-block: var(--l3-spacing-12); background: var(--l3-surface-default); }
 /* The month title at 20 (heading-20, the user's call 24 Nov), 12 below it: L3 Section header's title is heading-14 with no size option — L3 gap. */
 .calendarMonthHead h2 { font: var(--l3-text-heading-20); }
+.calendarViewSwitch.calendarViewSwitch { flex: none; cursor: pointer; margin-block: calc(-1 * var(--l3-spacing-04)); } /* archived switch (archive/CalendarWeekView.tsx): keeps its size and doesn't make the header taller (32 button on a 26 title row); the SectionHeader (width 100%) gives way */
 .calendarMonth { display: flex; flex-direction: column; gap: var(--l3-spacing-08); }
-/* A 2 line between two months, edge to edge, 24 above (16 gap + 08) and 24 below to the title (12 + the header's 12). */
+/* A 2 line between two months, edge to edge, 32 above (16 gap + 16) and 32 below to the title (20 + the header's 12). */
 .calendarMonth + .calendarMonth {
-  margin: var(--l3-spacing-08) calc(-1 * var(--l3-spacing-16)) 0;
-  padding: var(--l3-spacing-12) var(--l3-spacing-16) 0;
+  margin: var(--l3-spacing-16) calc(-1 * var(--l3-spacing-16)) 0;
+  padding: var(--l3-spacing-20) var(--l3-spacing-16) 0;
   border-top: var(--app-week-divider) solid var(--l3-border-light);
 }
 .calendarDate {
@@ -3152,6 +3202,10 @@ function RowActions({ name, chain, onOptionChain, onScalper }: { name: string; c
 .dayPickerDay[aria-selected='true'] { border-color: var(--l3-border-dark); background: var(--l3-surface-secondary); } /* selected: dark border, grey fill */
 @media (hover: hover) { .dayPickerDay[aria-selected='false']:hover { background: var(--l3-surface-secondary); } }
 .dayPickerDay:focus-visible { outline: 2px solid var(--l3-border-dark); outline-offset: 2px; }
+/* Calendar page (fno-38) week view only (`markToday`): today, when selected, is inverted like the day list's date block —
+   dark fill, light text. Not selected, it looks like any other day. The home's picker keeps today like any day. */
+.dayPickerDay[data-today][aria-selected='true'] { border-color: var(--l3-surface-inverted); background: var(--l3-surface-inverted); }
+.dayPickerDay[data-today][aria-selected='true'] .calendarWeekday, .dayPickerDay[data-today][aria-selected='true'] .calendarDay { color: var(--l3-content-inverted); }
 .expiringViewAll.expiringViewAll { flex: none; } /* View all keeps its full label; the SectionHeader (width 100%) gives way */
 /* V4: the pill that opens each later week ("NEXT WEEK", "7 DEC"), after the reference's month pill: grey
    (surface-secondary), fully rounded, as tall as the date cards, the text turned 90° (bottom to top), 8 upper
@@ -3380,10 +3434,12 @@ function weekLabel(week: number) {
  * "NEXT WEEK", then the week's Monday ("7 DEC"). The selected day has a dark border on grey; the first day is selected
  * first (no count tag — removed 24 Nov). Under the row, that day's contracts and events, one card each (8 apart).
  */
-export function DayPicker({ days, weekPills = true, showKind, eventDetails, onAsset, onOptionChain, onScalper }: {
+export function DayPicker({ days, weekPills = true, markToday = false, showKind, eventDetails, onAsset, onOptionChain, onScalper }: {
   days: ExpiryDay[]
   /** The "NEXT WEEK" / "7 DEC" pills between weeks — off when the days are one week already (the calendar page's week sections). */
   weekPills?: boolean
+  /** Today's card, when selected, inverted (dark fill, light text), as on the calendar page's day list — the calendar page's week view, not the home. */
+  markToday?: boolean
   /** Tag each row with its kind (Options / Futures / Event) — when the days mix kinds. */
   showKind: boolean
   /** Events show their figures (previous / forecast / actual) — on the calendar page, not on the home. */
@@ -3415,7 +3471,7 @@ export function DayPicker({ days, weekPills = true, showKind, eventDetails, onAs
         {w.days.map((d) => {
           const date = dayFrom(d.inDays)
           const active = d.inDays === day?.inDays
-          return <button key={d.inDays} type="button" role="tab" aria-selected={active} className={styles.dayPickerDay}
+          return <button key={d.inDays} type="button" role="tab" aria-selected={active} className={styles.dayPickerDay} data-today={(markToday && d.inDays === 0) || undefined}
             aria-label={date.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}
             onClick={() => setSelected(d.inDays)}>
             <span className={styles.calendarWeekday}>{date.toLocaleDateString('en-IN', { weekday: 'short' })}</span>
@@ -4297,7 +4353,8 @@ function CalendarBody({ tab, onAsset, onOptionChain, onScalper }: { tab: Tab; on
   useLayoutEffect(() => { setHeadHeight(headRef.current?.offsetHeight ?? 0) }, [tab])
   return <div className={styles.calendar} style={{ '--calendar-head': `${headHeight}px` } as CSSProperties}>
     {months.map((m, mi) => <section key={m.month} className={styles.calendarMonth} aria-label={m.month}>
-      {/* Sticky: the month stays at the top until the next month's header pushes it out. */}
+      {/* Sticky: the month stays at the top until the next month's header pushes it out. (The day / week view switch
+          on its right is archived: commodities/archive/CalendarWeekView.tsx.) */}
       <div ref={mi === 0 ? headRef : undefined} className={styles.calendarMonthHead}><SectionHeader title={m.month} /></div>
       {/* 32 between two days (no line). */}
       <Stack gap="32">
@@ -7229,6 +7286,9 @@ function addMinutes(start: string, add: number) {
   "expiryAll.bearishFor": "Bearish for {name}",
   "expiryAll.scalper": "Open {name} in ScalpPro",
   "expiryAll.chain": "Open the {name} option chain",
+  "expiryAll.view": "Calendar view",
+  "expiryAll.view.day": "Day view",
+  "expiryAll.view.week": "Week view",
   "signals.title": "Zing signals",
   "signals.allTitle": "All Signals",
   "signals.strip.people": "{count} people",
