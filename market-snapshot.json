@@ -1,6 +1,6 @@
 {
  "source": "Yahoo Finance (public chart + search endpoints)",
- "fetchedAt": "2026-11-26T13:12:23.555Z",
+ "fetchedAt": "2026-11-26T13:43:15.003Z",
  "symbols": [
   "ADANIENT",
   "ADANIGREEN",
@@ -8769,8 +8769,8 @@
      "close": 410
     }
    ],
-   "sector": null,
-   "industry": null
+   "sector": "Financial Services",
+   "industry": "Insurance—Life"
   },
   "LT": {
    "price": 4132.1,
@@ -12201,8 +12201,8 @@
      "close": 57.59
     }
    ],
-   "sector": null,
-   "industry": null
+   "sector": "Financial Services",
+   "industry": "Banks—Regional"
   },
   "SUNPHARMA": {
    "price": 1915.7,
