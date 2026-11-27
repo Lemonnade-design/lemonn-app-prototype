@@ -1,6 +1,6 @@
 {
  "source": "Yahoo Finance (public chart + search endpoints)",
- "fetchedAt": "2026-11-27T13:09:14.722Z",
+ "fetchedAt": "2026-11-27T13:40:08.138Z",
  "symbols": [
   "ADANIENT",
   "ADANIGREEN",
@@ -13257,8 +13257,8 @@
      "close": 2572.5
     }
    ],
-   "sector": "Technology",
-   "industry": "Information Technology Services"
+   "sector": null,
+   "industry": null
   },
   "TITAN": {
    "price": 4675.3,
